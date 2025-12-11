@@ -39,20 +39,7 @@
           <div class="chart-section">
             <div class="chart-title">动作协调性</div>
             <div class="radar-container pentagon">
-              <!-- 使用SVG简单模拟五边形雷达图背景和数据层 -->
-              <svg viewBox="0 0 200 180">
-                <!-- 轴标签 -->
-                <text x="100" y="15" font-size="10" text-anchor="middle" fill="#666">动作协调性</text>
-                <text x="10" y="70" font-size="10" text-anchor="start" fill="#666">关节灵敏度</text>
-                <text x="190" y="70" font-size="10" text-anchor="end" fill="#666">力量平衡</text>
-                <text x="40" y="170" font-size="10" text-anchor="start" fill="#666">稳定性掌控</text>
-                <text x="160" y="170" font-size="10" text-anchor="end" fill="#666">双侧对称性</text>
-                
-                <!-- 背景网格 (简单模拟) -->
-                <path d="M100 30 L170 75 L145 150 L55 150 L30 75 Z" fill="#f2f3f5" stroke="#e5e6eb" />
-                <!-- 数据区域 (蓝色填充) -->
-                <path d="M100 30 L160 75 L135 150 L65 150 L40 75 Z" fill="rgba(22,93,255,0.2)" stroke="#165DFF" stroke-width="2" />
-              </svg>
+              <v-chart :option="coordinationOption" class="echarts-radar" />
             </div>
           </div>
 
@@ -60,17 +47,7 @@
           <div class="chart-section">
             <div class="chart-title">水平面稳定性</div>
             <div class="radar-container triangle">
-               <svg viewBox="0 0 200 150">
-                <!-- 轴标签 -->
-                <text x="100" y="15" font-size="10" text-anchor="middle" fill="#666">水平面稳定性</text>
-                <text x="20" y="140" font-size="10" text-anchor="start" fill="#666">矢状面稳定性</text>
-                <text x="180" y="140" font-size="10" text-anchor="end" fill="#666">冠状面稳定性</text>
-                
-                <!-- 背景网格 -->
-                <path d="M100 30 L170 130 L30 130 Z" fill="#f2f3f5" stroke="#e5e6eb" />
-                <!-- 数据区域 -->
-                <path d="M100 50 L150 130 L50 130 Z" fill="rgba(22,93,255,0.2)" stroke="#165DFF" stroke-width="2"/>
-              </svg>
+              <v-chart :option="stabilityOption" class="echarts-radar" />
             </div>
           </div>
         </div>
@@ -171,6 +148,22 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { IconFire, IconVideoCamera } from '@arco-design/web-vue/es/icon';
+import VChart from 'vue-echarts';
+// 引入ECharts核心模块和雷达图所需模块
+import * as echarts from 'echarts/core';
+import { RadarChart, RadarSeriesOption } from 'echarts/charts';
+import {
+  TooltipComponent
+} from 'echarts/components';
+import { CanvasRenderer } from 'echarts/renderers';
+
+// 手动注册所需模块（关键步骤，确保雷达图能正常渲染）
+echarts.use([
+  RadarChart,
+  TooltipComponent,
+  CanvasRenderer
+]);
+
 
 // --- 类型定义 ---
 interface AssessmentItem {
@@ -268,6 +261,115 @@ const analysisList = ref<AnalysisItem[]>([
   },
   // ... 可以继续添加更多项目
 ]);
+
+const coordinationOption = ref({
+  radar: {
+    shape: 'polygon', // 五边形
+    radius: '80%',
+    center: ['50%', '50%'],
+    indicator: [
+      { name: '动作协调性', max: 100 },
+      { name: '关节灵敏度', max: 100 },
+      { name: '力量平衡', max: 100 },
+      { name: '稳定性掌控', max: 100 },
+      { name: '双侧对称性', max: 100 },
+    ],
+    axisName: {
+      fontSize: 10,
+      color: '#666',
+      distance: 15,
+    },
+    splitLine: {
+      lineStyle: { color: '#e5e6eb' },
+    },
+    splitArea: {
+      areaStyle: { color: '#f2f3f5' },
+    },
+    axisLine: {
+      lineStyle: { color: '#e5e6eb' },
+    },
+  },
+  series: [
+    {
+      type: 'radar',
+      data: [
+        {
+          value: [100, 80, 70, 65, 85], // 对应各维度数据，根据原SVG比例调整
+          areaStyle: {
+            color: 'rgba(22,93,255,0.2)',
+          },
+          lineStyle: {
+            color: '#165DFF',
+            width: 2,
+          },
+          itemStyle: {
+            color: '#165DFF',
+          },
+        },
+      ],
+    },
+  ],
+  tooltip: {
+    show: false,
+  },
+  legend: {
+    show: false,
+  },
+});
+
+// 2. 水平面稳定性雷达图（三角形）
+const stabilityOption = ref({
+  radar: {
+    shape: 'polygon', // 三角形
+    radius: '80%',
+    center: ['50%', '50%'],
+    indicator: [
+      { name: '水平面稳定性', max: 100 },
+      { name: '矢状面稳定性', max: 100 },
+      { name: '冠状面稳定性', max: 100 },
+    ],
+    axisName: {
+      fontSize: 10,
+      color: '#666',
+      distance: 15,
+    },
+    splitLine: {
+      lineStyle: { color: '#e5e6eb' },
+    },
+    splitArea: {
+      areaStyle: { color: '#f2f3f5' },
+    },
+    axisLine: {
+      lineStyle: { color: '#e5e6eb' },
+    },
+  },
+  series: [
+    {
+      type: 'radar',
+      data: [
+        {
+          value: [60, 50, 55], // 对应各维度数据，根据原SVG比例调整
+          areaStyle: {
+            color: 'rgba(22,93,255,0.2)',
+          },
+          lineStyle: {
+            color: '#165DFF',
+            width: 2,
+          },
+          itemStyle: {
+            color: '#165DFF',
+          },
+        },
+      ],
+    },
+  ],
+  tooltip: {
+    show: false,
+  },
+  legend: {
+    show: false,
+  },
+});
 
 </script>
 
