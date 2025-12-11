@@ -32,7 +32,7 @@
           </div>
           <a-divider />
           <!-- 雷达图 1: 动作协调性（改为原生ECharts容器） -->
-          <div class="chart-section">
+          <div class="chart-section first-chart">
             <div class="radar-container pentagon" ref="coordinationChartRef"></div>
           </div>
           <!-- 雷达图 2: 水平/冠状面稳定性（改为原生ECharts容器） 删除后，刷新钩子？-->
@@ -399,7 +399,7 @@ onMounted(() => {
 .chart-section {
   margin-top: 24px;
   text-align: center;
-  border-bottom: 1px solid black;
+   border-bottom: 1px solid red;
   
   
   .chart-title {
@@ -415,6 +415,14 @@ onMounted(() => {
     margin: 0 auto;
   }
 }
+
+.chart-section:nth-child(2) {
+    border-bottom: 1px solid black;
+}
+
+//.first-chart {
+//    border-bottom: 1px solid black;
+//}
 
 // 右侧样式（完全保留原样式，无修改）
 .section-container {
