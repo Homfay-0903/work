@@ -33,12 +33,10 @@
           <a-divider />
           <!-- 雷达图 1: 动作协调性（改为原生ECharts容器） -->
           <div class="chart-section">
-            <div class="chart-title">动作协调性</div>
             <div class="radar-container pentagon" ref="coordinationChartRef"></div>
           </div>
-          <!-- 雷达图 2: 水平/冠状面稳定性（改为原生ECharts容器） -->
+          <!-- 雷达图 2: 水平/冠状面稳定性（改为原生ECharts容器） 删除后，刷新钩子？-->
           <div class="chart-section">
-            <div class="chart-title">水平面稳定性</div>
             <div class="radar-container triangle" ref="stabilityChartRef"></div>
           </div>
         </div>
@@ -240,8 +238,8 @@ let stabilityChart: echarts.ECharts | null = null;
 const coordinationOption = {
   radar: {
     shape: 'polygon', // 五边形
-    radius: '80%',
-    center: ['50%', '50%'],
+    radius: '70%',
+    center: ['50%', '55%'],
     indicator: [
       { name: '动作协调性', max: 100 },
       { name: '关节灵敏度', max: 100 },
@@ -249,7 +247,7 @@ const coordinationOption = {
       { name: '稳定性掌控', max: 100 },
       { name: '双侧对称性', max: 100 },
     ],
-    axisName: { fontSize: 10, color: '#666', distance: 15 },
+    axisName: { fontSize: 15, color: '#666', distance: 15 },
     splitLine: { lineStyle: { color: '#e5e6eb' } },
     splitArea: { areaStyle: { color: '#f2f3f5' } },
     axisLine: { lineStyle: { color: '#e5e6eb' } },
@@ -270,14 +268,14 @@ const coordinationOption = {
 const stabilityOption = {
   radar: {
     shape: 'polygon', // 三角形
-    radius: '80%',
-    center: ['50%', '50%'],
+    radius: '70%',
+    center: ['50%', '55%'],
     indicator: [
       { name: '水平面稳定性', max: 100 },
       { name: '矢状面稳定性', max: 100 },
       { name: '冠状面稳定性', max: 100 },
     ],
-    axisName: { fontSize: 10, color: '#666', distance: 15 },
+    axisName: { fontSize: 15, color: '#666', distance: 15 },
     splitLine: { lineStyle: { color: '#e5e6eb' } },
     splitArea: { areaStyle: { color: '#f2f3f5' } },
     axisLine: { lineStyle: { color: '#e5e6eb' } },
@@ -401,6 +399,8 @@ onMounted(() => {
 .chart-section {
   margin-top: 24px;
   text-align: center;
+  border-bottom: 1px solid black;
+  
   
   .chart-title {
     font-size: 12px;
