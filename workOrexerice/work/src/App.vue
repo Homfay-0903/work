@@ -7,7 +7,7 @@ import phy4 from './components/phy4.vue';
 </script>
 
 <template>
-  <phy4 />
+  <phy2 />
 </template>
 
 <style scoped></style>
