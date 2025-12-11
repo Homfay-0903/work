@@ -1,0 +1,473 @@
+<template>
+  <div class="fms-assessment-container">
+    <a-row :gutter="24">
+      <!-- 左侧：评分概览与雷达图 -->
+      <a-col :span="6">
+        <div class="left-panel">
+          <!-- 总分区域 -->
+          <div class="score-card">
+            <div class="score-main">
+              <span class="score-val">11</span>
+              <span class="score-total">分</span>
+            </div>
+            <div class="score-sub">(满分 21 分)</div>
+          </div>
+
+          <!-- 风险评级 -->
+          <div class="risk-card">
+            <div class="risk-header">
+              <span class="risk-label high">高风险</span>
+              <span class="risk-icons">
+                <!-- 模拟5个火苗图标，使用Arco内置图标或Emoji模拟 -->
+                <icon-fire style="color: #f53f3f" />
+                <icon-fire style="color: #f53f3f" />
+                <icon-fire style="color: #f53f3f" />
+                <icon-fire style="color: #f53f3f" />
+                <icon-fire style="color: #f53f3f" />
+              </span>
+            </div>
+            <div class="risk-desc">
+              <p>高风险：评估中存在 0 分项目，或总分低于 14 分</p>
+              <p>中风险：评估中存在 1 分项目，或总分等于 14 分</p>
+              <p>低风险：评估中无 2 分以下项目，且总分高于 14 分</p>
+            </div>
+          </div>
+
+          <a-divider />
+
+          <!-- 雷达图 1: 动作协调性 -->
+          <div class="chart-section">
+            <div class="chart-title">动作协调性</div>
+            <div class="radar-container pentagon">
+              <!-- 使用SVG简单模拟五边形雷达图背景和数据层 -->
+              <svg viewBox="0 0 200 180">
+                <!-- 轴标签 -->
+                <text x="100" y="15" font-size="10" text-anchor="middle" fill="#666">动作协调性</text>
+                <text x="10" y="70" font-size="10" text-anchor="start" fill="#666">关节灵敏度</text>
+                <text x="190" y="70" font-size="10" text-anchor="end" fill="#666">力量平衡</text>
+                <text x="40" y="170" font-size="10" text-anchor="start" fill="#666">稳定性掌控</text>
+                <text x="160" y="170" font-size="10" text-anchor="end" fill="#666">双侧对称性</text>
+                
+                <!-- 背景网格 (简单模拟) -->
+                <path d="M100 30 L170 75 L145 150 L55 150 L30 75 Z" fill="#f2f3f5" stroke="#e5e6eb" />
+                <!-- 数据区域 (蓝色填充) -->
+                <path d="M100 30 L160 75 L135 150 L65 150 L40 75 Z" fill="rgba(22,93,255,0.2)" stroke="#165DFF" stroke-width="2" />
+              </svg>
+            </div>
+          </div>
+
+          <!-- 雷达图 2: 水平/冠状面稳定性 -->
+          <div class="chart-section">
+            <div class="chart-title">水平面稳定性</div>
+            <div class="radar-container triangle">
+               <svg viewBox="0 0 200 150">
+                <!-- 轴标签 -->
+                <text x="100" y="15" font-size="10" text-anchor="middle" fill="#666">水平面稳定性</text>
+                <text x="20" y="140" font-size="10" text-anchor="start" fill="#666">矢状面稳定性</text>
+                <text x="180" y="140" font-size="10" text-anchor="end" fill="#666">冠状面稳定性</text>
+                
+                <!-- 背景网格 -->
+                <path d="M100 30 L170 130 L30 130 Z" fill="#f2f3f5" stroke="#e5e6eb" />
+                <!-- 数据区域 -->
+                <path d="M100 50 L150 130 L50 130 Z" fill="rgba(22,93,255,0.2)" stroke="#165DFF" stroke-width="2"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </a-col>
+
+      <!-- 右侧：详情数据 -->
+      <a-col :span="18">
+        <!-- 上部分：动作分值表格 -->
+        <div class="section-container">
+          <div class="section-header">
+            <span class="title">动作分值</span>
+            <a-link href="#" class="video-link">
+              <icon-video-camera style="margin-right: 4px" /> 查看动作视频
+            </a-link>
+          </div>
+          
+          <a-table 
+            :data="tableData" 
+            :pagination="false" 
+            :bordered="{ cell: true }"
+            column-resizable
+            class="score-table"
+          >
+            <template #columns>
+              <a-table-column title="项目名称" data-index="name" />
+              <a-table-column title="结果值（分）" data-index="result" align="center">
+                <template #cell="{ record }">
+                  <span class="primary-text">{{ record.result }}</span>
+                </template>
+              </a-table-column>
+              <a-table-column title="是否有疼痛" data-index="pain" align="center">
+                <template #cell="{ record }">
+                  <span class="primary-text">{{ record.pain }}</span>
+                </template>
+              </a-table-column>
+              <a-table-column title="最终得分（分）" data-index="finalScore" align="center">
+                <template #cell="{ record }">
+                  <span class="primary-text" :class="{ 'total-score': record.isTotal }">
+                    {{ record.finalScore }}
+                  </span>
+                </template>
+              </a-table-column>
+            </template>
+          </a-table>
+        </div>
+
+        <!-- 下部分：分析详情 -->
+        <div class="section-container" style="margin-top: 20px;">
+          <div class="section-header">
+            <span class="title">分析详情</span>
+          </div>
+          
+          <div class="analysis-list">
+            <div 
+              v-for="(item, index) in analysisList" 
+              :key="index" 
+              class="analysis-card"
+            >
+              <div class="card-header">
+                <span class="card-title">{{ item.title }}</span>
+              </div>
+              
+              <div class="card-status">
+                <a-tag :color="item.tagColor" size="small">{{ item.tagName }}</a-tag>
+                <div class="progress-wrapper">
+                  <a-progress 
+                    :percent="item.percent" 
+                    :color="item.progressColor" 
+                    :show-text="false" 
+                    size="small"
+                    class="custom-progress"
+                  />
+                </div>
+                <span class="score-text" :style="{ color: item.progressColor }">{{ item.score }}分</span>
+              </div>
+
+              <a-row :gutter="48" class="card-content">
+                <a-col :span="12">
+                  <div class="text-content">
+                    {{ item.description }}
+                  </div>
+                </a-col>
+                <a-col :span="12">
+                  <div class="text-content">
+                    <span class="label">运动建议：</span><br/>
+                    <div style="white-space: pre-wrap;">{{ item.suggestion }}</div>
+                  </div>
+                </a-col>
+              </a-row>
+            </div>
+          </div>
+        </div>
+      </a-col>
+    </a-row>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue';
+import { IconFire, IconVideoCamera } from '@arco-design/web-vue/es/icon';
+
+// --- 类型定义 ---
+interface AssessmentItem {
+  name: string;
+  result: string | number;
+  pain: string;
+  finalScore: number | string;
+  isTotal?: boolean;
+}
+
+interface AnalysisItem {
+  title: string;
+  tagName: string;
+  tagColor: string; // Arco color definition e.g., 'orangered', 'arcoblue', 'green'
+  percent: number;
+  progressColor: string;
+  score: number;
+  description: string;
+  suggestion: string;
+}
+
+// --- 模拟数据：表格数据 ---
+const tableData = ref<AssessmentItem[]>([
+  { name: '深蹲', result: 3, pain: '无', finalScore: 3 },
+  { name: '跨栏步', result: '3  |  3', pain: '无', finalScore: 3 },
+  { name: '直线弓步蹲', result: '3  |  3', pain: '有', finalScore: 0 },
+  { name: '肩部灵活性', result: '3  |  3', pain: '无', finalScore: 2 }, // 注：图里是2，可能是计算逻辑特殊
+  { name: '直腿主动上抬', result: '2  |  2', pain: '无', finalScore: 2 },
+  { name: '稳定性俯卧撑', result: 1, pain: '有', finalScore: 1 },
+  { name: '旋转稳定性', result: '1  |  2', pain: '无', finalScore: 0 },
+  { name: '合计', result: '', pain: '', finalScore: 11, isTotal: true },
+]);
+
+// --- 模拟数据：分析详情 ---
+const analysisList = ref<AnalysisItem[]>([
+  {
+    title: '躯干稳定性',
+    tagName: '功能性缺陷', // 对应图上橙色
+    tagColor: 'orange',
+    percent: 0.2, // 视觉长度
+    progressColor: '#ff7d00',
+    score: 2,
+    description: '您的躯干稳定性为xx级，几乎无法执行要求的稳定动作。您的核心肌群极度弱化，无法有效地支撑脊柱和骨盆，已严重影响日常活动和运动。',
+    suggestion: '1.着重进行基础核心稳定性训练，如：桥式、死虫等；\n2.躯干肌肉群加强训练，如：平板支撑、卷腹等。'
+  },
+  {
+    title: '髋膝踝关节灵活性',
+    tagName: '动力学限制',
+    tagColor: 'gold',
+    percent: 0.4,
+    progressColor: '#F7BA1E',
+    score: 4,
+    description: '您的髋膝踝关节的灵活性为xx级，虽能完成基础动作，但在复杂或高要求任务中表现受限，关节灵活性不足以支持高效运动。',
+    suggestion: '1.进行强化关节灵活性训练，如：弹力带辅助下的关节松动术、蝴蝶式伸展、青蛙趴、PNF伸展。\n2.增强肌肉控制能力训练，如：提踵训练、单脚站立、直腿靠墙钟摆等、弹力带屈髋训练等平衡训练、功能性训练。'
+  },
+  {
+    title: '髋与躯干的协调性',
+    tagName: '动力学限制',
+    tagColor: 'gold',
+    percent: 0.4,
+    progressColor: '#F7BA1E',
+    score: 4,
+    description: '您的髋与躯干的协调性为xx级，表明存在一定障碍，只能够完成基础动作。可能是由于肌肉力量不足、关节活动范围限制或神经肌肉控制不精确。',
+    suggestion: '1.提高髋关节和躯干的肌肉力量，如：深蹲、硬拉。\n2.改善关节活动范围和提升神经肌肉协调性，如：髋关节旋转伸展、平衡垫训练。'
+  },
+  {
+    title: '髋膝踝关节的稳定性',
+    tagName: '功能性适应', // 绿色
+    tagColor: 'green',
+    percent: 0.5,
+    progressColor: '#00b42a',
+    score: 5,
+    description: '您的髋膝踝关节的稳定性为xx级，可以支持基本运动模式和日常活动，但在执行高级运动技巧和面对高强度挑战时可能存在局限。',
+    suggestion: '1.提高髋关节和躯干的肌肉力量，如：深蹲、硬拉。\n2.改善关节活动范围和提升神经肌肉协调性，如：髋关节旋转伸展、平衡垫训练。'
+  },
+   {
+    title: '双侧对称性',
+    tagName: '功能性适应', // 绿色
+    tagColor: 'green',
+    percent: 0.6,
+    progressColor: '#00b42a',
+    score: 6,
+    description: '您的双侧对称性为xx级，有足够的双侧力量、灵活性和协调性，可以有效地完成日常活动和基础运动，但在高强度或高技巧性运动中可能仍存在轻微的双侧不对称。',
+    suggestion: '1. 建议增加多方向稳定性训练，如：多平面单腿运动。\n2. 增强关节本体感觉训练，如：使用不稳定设备进行的复杂运动。'
+  },
+  {
+    title: '下肢力量',
+    tagName: '高度协调', // 蓝色
+    tagColor: 'arcoblue',
+    percent: 0.8,
+    progressColor: '#165dff',
+    score: 8,
+    description: '您的下肢力量为xx级，与能在复杂和高负荷的运动中维持高效的动作执行和力量输出。有效提高运动效率和技能学习效率，同时降低受伤风险。',
+    suggestion: '1.定期进行高级力量和爆发力训练，如：高强度深蹲、箱子跳等训练。\n2.专业的运动技巧训练，以保持和提升下肢力量和运动表现。'
+  },
+  // ... 可以继续添加更多项目
+]);
+
+</script>
+
+<style lang="less" scoped>
+// 变量
+@gray-1: #f7f8fa;
+@gray-6: #86909c;
+@gray-10: #1d2129;
+@primary-color: #165dff;
+@border-color: #e5e6eb;
+
+.fms-assessment-container {
+  padding: 20px;
+  background-color: #fff;
+  color: @gray-10;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+// 左侧样式
+.left-panel {
+  border: 1px solid @border-color;
+  border-radius: 4px;
+  padding: 24px 16px;
+  background-color: #fff;
+  height: 100%;
+}
+
+.score-card {
+  text-align: center;
+  margin-bottom: 24px;
+  
+  .score-main {
+    .score-val {
+      font-size: 48px;
+      font-weight: 500;
+      line-height: 1;
+    }
+    .score-total {
+      font-size: 14px;
+      color: @gray-6;
+      margin-left: 4px;
+    }
+  }
+  .score-sub {
+    margin-top: 8px;
+    font-size: 12px;
+    color: @gray-6;
+  }
+}
+
+.risk-card {
+  margin-bottom: 24px;
+  
+  .risk-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    
+    .risk-label {
+      font-size: 16px;
+      font-weight: bold;
+      &.high {
+        color: #f53f3f;
+      }
+    }
+    .risk-icons {
+      display: flex;
+      font-size: 12px;
+    }
+  }
+  
+  .risk-desc {
+    p {
+      margin: 4px 0;
+      font-size: 12px;
+      color: @gray-6;
+      line-height: 1.5;
+    }
+  }
+}
+
+.chart-section {
+  margin-top: 24px;
+  text-align: center;
+  
+  .chart-title {
+    font-size: 12px;
+    color: @gray-6;
+    margin-bottom: 8px;
+  }
+  
+  .radar-container {
+    width: 100%;
+    height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    // 简单让SVG居中
+    svg {
+      width: 100%;
+      height: 100%;
+      max-width: 200px;
+    }
+  }
+}
+
+// 右侧样式
+.section-container {
+  // background-color: #fff; // 若需要卡片背景可打开
+  
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    
+    .title {
+      font-size: 16px;
+      font-weight: 500;
+      color: @gray-10;
+    }
+    
+    .video-link {
+      font-size: 14px;
+    }
+  }
+}
+
+// 表格自定义样式
+:deep(.arco-table-th) {
+  background-color: @gray-1;
+  font-weight: 500;
+}
+:deep(.arco-table-cell) {
+  color: @primary-color; // 默认主要是蓝色字
+}
+:deep(.arco-table-td) {
+  &:first-child .arco-table-cell {
+    color: @gray-10; // 第一列黑色
+  }
+}
+
+.primary-text {
+  color: @primary-color;
+  &.total-score {
+    font-weight: bold;
+    font-size: 16px;
+  }
+}
+
+// 分析列表样式
+.analysis-list {
+  background-color: #fff;
+}
+
+.analysis-card {
+  background-color: #f7f8fa; // 浅灰背景
+  padding: 20px;
+  margin-bottom: 16px;
+  border-radius: 2px;
+  
+  .card-header {
+    margin-bottom: 12px;
+    .card-title {
+      font-size: 15px;
+      font-weight: 500;
+    }
+  }
+  
+  .card-status {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    gap: 16px;
+    
+    :deep(.arco-tag) {
+      border-radius: 2px;
+    }
+
+    .progress-wrapper {
+      width: 150px;
+    }
+    
+    .score-text {
+      font-weight: bold;
+    }
+  }
+  
+  .card-content {
+    .text-content {
+      font-size: 13px;
+      line-height: 1.8;
+      color: #4e5969; // 次级文本色
+      
+      .label {
+        color: @gray-6;
+      }
+    }
+  }
+}
+</style>
