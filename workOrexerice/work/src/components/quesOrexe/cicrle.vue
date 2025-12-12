@@ -10,8 +10,15 @@
 </script>
 
 <style lang="less" scoped>
+    .box {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
     
-
     .legend-icon {
         width: 100px;
         height: 100px;

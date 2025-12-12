@@ -256,7 +256,8 @@ const updateChart = () => {
       radius: '65%',
       splitNumber: 4,
       axisName: { color: '#86909c', fontSize: 10 },
-      splitArea: { areaStyle: { color: ['#fff', '#f7f8fa', '#fff', '#f7f8fa'] } }
+      splitArea: { areaStyle: { color: ['#fff', '#f7f8fa', '#fff', '#f7f8fa'] } },
+      axisLine: { show: false },
     },
     series: [
       {

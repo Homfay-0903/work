@@ -255,7 +255,7 @@ const coordinationOption = {
     axisName: { fontSize: 15, color: '#666', distance: 15 },
     splitLine: { lineStyle: { color: '#e5e6eb' } },
     splitArea: { areaStyle: { color: '#f2f3f5' } },
-    axisLine: { lineStyle: { color: '#e5e6eb' } },
+    axisLine: { show: false },
   },
   series: [{
     type: 'radar',
@@ -282,9 +282,9 @@ const stabilityOption = {
       { name: '冠状面稳定性', max: 100 },
     ],
     axisName: { fontSize: 15, color: '#666', distance: 15 },
-    splitLine: { lineStyle: { color: '#e5e6eb' } },
+    splitLine: { lineStyle: { color: '#e5e6eb' }, show: false },
     splitArea: { areaStyle: { color: '#f2f3f5' } },
-    axisLine: { lineStyle: { color: '#e5e6eb' } },
+    axisLine: { show: false },
   },
   series: [{
     type: 'radar',
