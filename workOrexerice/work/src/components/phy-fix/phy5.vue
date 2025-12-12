@@ -50,10 +50,10 @@
       <!-- 1. 头部评分 -->
       <div class="score-header">
         <div class="score-num">
-          68<span class="unit">分</span>
+          {{ score }}<span class="unit">分</span>
         </div>
         <div class="score-desc">
-          你的运动能力一般，每周至少进行3天有氧、力量运动，每次坚持做30分钟以上，运动需要注意有序提升上肢能力、下肢能力、核心能力、平衡性和柔韧性。
+          {{ scoreDesc }}
         </div>
       </div>
 
@@ -223,6 +223,10 @@ interface HistoryData {
   date: string;
   values: number[];
 }
+
+
+const score = ref<number>(68);
+const scoreDesc = ref<string>('你的运动能力一般，每周至少进行3天有氧、力量运动，每次坚持做30分钟以上，运动需要注意有序提升上肢能力、下肢能力、核心能力、平衡性和柔韧性。');
 
 // --- 数据 ---
 // --- 1. 雷达图数据与逻辑 ---
