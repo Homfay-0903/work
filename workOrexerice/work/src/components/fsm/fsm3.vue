@@ -16,11 +16,7 @@
           <div class="risk-card">
             <div class="risk-header">
               <span class="risk-label high">高风险</span>
-              <span class="risk-icons">
-                <icon-fire style="color: #f53f3f" />
-                <icon-fire style="color: #f53f3f" />
-                <icon-fire style="color: #f53f3f" />
-                <icon-fire style="color: #f53f3f" />
+              <span class="risk-icons" v-for="risk in risks" :key="risk">
                 <icon-fire style="color: #f53f3f" />
               </span>
             </div>
@@ -150,6 +146,8 @@ interface AnalysisItem {
   description: string;
   suggestion: string;
 }
+
+const risks = ref<number>(5);
 
 // --- 模拟数据（完全保留原数据）---
 const tableData = ref<AssessmentItem[]>([
