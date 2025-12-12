@@ -83,13 +83,13 @@
                 <!-- 4段式进度条 -->
                 <div class="segment-bar">
                   <div class="segment"
-                    :class="{ 'filled': getSegmentLevel(item.grade) >= 1, [getSafeColorType(item)]: true }"></div>
+                    :class="{ 'filled': getSegmentLevel(item.grade) === 1, [getSafeColorType(item)]: true }"></div>
                   <div class="segment"
-                    :class="{ 'filled': getSegmentLevel(item.grade) >= 2, [getSafeColorType(item)]: true }"></div>
+                    :class="{ 'filled': getSegmentLevel(item.grade) === 2, [getSafeColorType(item)]: true }"></div>
                   <div class="segment"
-                    :class="{ 'filled': getSegmentLevel(item.grade) >= 3, [getSafeColorType(item)]: true }"></div>
+                    :class="{ 'filled': getSegmentLevel(item.grade) === 3, [getSafeColorType(item)]: true }"></div>
                   <div class="segment"
-                    :class="{ 'filled': getSegmentLevel(item.grade) >= 4, [getSafeColorType(item)]: true }"></div>
+                    :class="{ 'filled': getSegmentLevel(item.grade) === 4, [getSafeColorType(item)]: true }"></div>
                 </div>
               </div>
               <span class="m-grade" :class="item.colorType">{{ item.grade }}</span>
@@ -267,7 +267,7 @@ const updateChart = () => {
           {
             value: selectedHistory.value.values,
             name: 'History',
-            symbol: 'emptyCircle', // 空心圆
+            symbol: 'none', // 空心圆
             itemStyle: { color: '#165dff' }, // 蓝色点/线
             lineStyle: { width: 2 },
             areaStyle: { color: 'rgba(22, 93, 255, 0.1)' }
@@ -276,7 +276,7 @@ const updateChart = () => {
           {
             value: currentDataValues,
             name: 'Current',
-            symbol: 'emptyCircle', // 空心圆
+            symbol: 'none', // 空心圆
             itemStyle: { color: '#00b42a' }, // 绿色点/线
             lineStyle: { width: 2 },
             areaStyle: { color: 'rgba(0, 180, 42, 0.1)' }

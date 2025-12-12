@@ -31,11 +31,12 @@
             </div>
           </div>
           <a-divider />
-          <!-- 雷达图 1: 动作协调性（改为原生ECharts容器） -->
+          <!-- 雷达图 1: 动作协调性 -->
           <div class="chart-section first-chart">
             <div class="radar-container pentagon" ref="coordinationChartRef"></div>
           </div>
-          <!-- 雷达图 2: 水平/冠状面稳定性（改为原生ECharts容器） 删除后，刷新钩子？-->
+          <a-divider />
+          <!-- 雷达图 2: 水平/冠状面稳定性 删除后，刷新钩子？-->
           <div class="chart-section">
             <div class="radar-container triangle" ref="stabilityChartRef"></div>
           </div>
@@ -254,6 +255,7 @@ const coordinationOption = {
   },
   series: [{
     type: 'radar',
+    symbol: 'none',
     data: [{
       value: [100, 80, 70, 65, 85],
       areaStyle: { color: 'rgba(22,93,255,0.2)' },
@@ -282,6 +284,7 @@ const stabilityOption = {
   },
   series: [{
     type: 'radar',
+    symbol: 'none',
     data: [{
       value: [60, 50, 55],
       areaStyle: { color: 'rgba(22,93,255,0.2)' },
@@ -399,7 +402,6 @@ onMounted(() => {
 .chart-section {
   margin-top: 24px;
   text-align: center;
-   border-bottom: 1px solid red;
   
   
   .chart-title {
@@ -416,10 +418,10 @@ onMounted(() => {
   }
 }
 
-.chart-section:nth-child(2) {
-    border-bottom: 1px solid black;
-}
-
+//.chart-section:nth-child(2) {
+//    border-bottom: 1px solid black;
+//}
+//
 //.first-chart {
 //    border-bottom: 1px solid black;
 //}
