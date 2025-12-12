@@ -7,7 +7,7 @@
           <!-- 总分区域 -->
           <div class="score-card">
             <div class="score-main">
-              <span class="score-val">11</span>
+              <span class="score-val">{{score}}</span>
               <span class="score-total">分</span>
             </div>
             <div class="score-sub">(满分 21 分)</div>
@@ -147,6 +147,7 @@ interface AnalysisItem {
   suggestion: string;
 }
 
+const score = ref<number>(11);
 const risks = ref<number>(5);
 
 // --- 模拟数据（完全保留原数据）---
