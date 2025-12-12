@@ -231,6 +231,10 @@ const analysisList = ref<AnalysisItem[]>([
 const coordinationChartRef = ref<HTMLElement | null>(null);
 const stabilityChartRef = ref<HTMLElement | null>(null);
 
+//雷达图数据
+const coordinationDataValues = [100, 80, 70, 65, 85];
+const stabilityDataValues = [60, 50, 55];
+
 // 2. 图表实例变量
 let coordinationChart: echarts.ECharts | null = null;
 let stabilityChart: echarts.ECharts | null = null;
@@ -257,7 +261,7 @@ const coordinationOption = {
     type: 'radar',
     symbol: 'none',
     data: [{
-      value: [100, 80, 70, 65, 85],
+      value: coordinationDataValues,
       areaStyle: { color: 'rgba(22,93,255,0.2)' },
       lineStyle: { color: '#165DFF', width: 2 },
       itemStyle: { color: '#165DFF' },
@@ -286,7 +290,7 @@ const stabilityOption = {
     type: 'radar',
     symbol: 'none',
     data: [{
-      value: [60, 50, 55],
+      value: stabilityDataValues,
       areaStyle: { color: 'rgba(22,93,255,0.2)' },
       lineStyle: { color: '#165DFF', width: 2 },
       itemStyle: { color: '#165DFF' },
