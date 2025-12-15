@@ -7,7 +7,7 @@ import cicrle from './components/quesOrexe/cicrle.vue';
 </script>
 
 <template>
-    <phy5 />
+    <cicrle />
 </template>
 
 <style scoped>
