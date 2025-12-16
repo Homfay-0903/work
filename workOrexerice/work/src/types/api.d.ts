@@ -15,7 +15,7 @@
  * - API 请求参数类型约束
  * - API 响应数据类型定义
  * - 接口文档类型同步
- *
+
  * ## 注意事项
  *
  * - 在 .vue 文件使用需要在 eslint.config.mjs 中配置 globals: { Api: 'readonly' }
