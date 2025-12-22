@@ -22,7 +22,6 @@
                 :data="data"
                 :columns="columns"
                 :pagination="pagination"
-                :pagination-options="{ pageSizes: [10, 20, 30, 50, 100] }"
                 :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
                 :default-expand-all="false"
                 rowKey="id"

@@ -433,4 +433,112 @@ declare namespace Api {
         /** 器械更新参数 */
         type EquipmentUpdateBody = Pick<EquipmentListItem, 'id'> & Partial<EquipmentCreateBody>
     }
+
+    namespace Ai {
+        /** 动作列表项 */
+        interface AiListItem {
+            /** 主键ID */
+            id: number
+            /** 动作名称 */
+            name: string
+            /** 动作介绍 */
+            introduction?: string
+            /**版本号 */
+            version: string
+        }
+
+        /** 动作搜索参数 */
+        type AiSearchParams = Partial<Pick<AiListItem, 'name' | 'id'> & Api.Common.CommonSearchParams>
+        /** 动作创建参数 */
+        type AiCreateBody = Omit<AiListItem, 'id' | 'introduction' | 'version'>
+
+        /** 动作更新参数 */
+        type AiUpdateBody = Pick<AiListItem, 'id'> & Partial<AiCreateBody>
+    }
+
+    namespace Character {
+        /** 角色列表 */
+        type CharacterList = Api.Common.PaginatedResponse<CharacterListItem>
+
+        /** 角色列表项 */
+        interface CharacterListItem {
+            /** 主键ID */
+            id: number
+            /** 角色名称 */
+            name: string
+            /** 角色描述 */
+            description?: string
+            /** 创建人 */
+            creator: string
+            /** 角色状态 (1:启用, 2:禁用) */
+            status: number
+            /** 操作人 */
+            operator?: string
+            /** 创建时间 */
+            createdAt?: string
+            /** 更新时间 */
+            updatedAt?: string
+            /** 删除时间 */
+            deletedAt?: string
+        }
+
+        /** 角色搜索参数 */
+        type CharacterSearchParams = Partial<Pick<CharacterListItem, 'name'> & Api.Common.CommonSearchParams>
+
+        /** 角色创建参数 */
+        type CharacterCreateBody = Omit<CharacterListItem, 'id' | 'createdAt' | 'updatedAt' | 'deletedAt'>
+
+        /** 角色更新参数 */
+        type CharacterUpdateBody = Pick<CharacterListItem, 'id'> & Partial<CharacterCreateBody>
+    }
+
+    namespace Account {
+        /** 账号列表 */
+        type AccountList = Api.Common.PaginatedResponse<AccountListItem>
+
+        /** 账号列表项 */
+        interface AccountListItem {
+            /** 主键ID */
+            id: number
+            /** 账号名称 */
+            name: string
+            /** 角色 */
+            character: string
+            /** 账号状态 (1:启用, 2:禁用) */
+            status: number
+            /**最近登录时间 */
+            lastLoginAt?: string
+        }
+
+        /** 账号搜索参数 */
+        type AccountSearchParams = Partial<Pick<AccountListItem, 'name'> & Api.Common.CommonSearchParams>
+
+        /** 账号创建参数 */
+        type AccountCreateBody = Omit<AccountListItem, 'id' | 'lastLoginAt'>
+
+        /** 账号更新参数 */
+        type AccountUpdateBody = Pick<AccountListItem, 'id'> & Partial<AccountCreateBody>
+    }
+
+    namespace Opration {
+        /** 操作日志列表 */
+        type OprationList = Api.Common.PaginatedResponse<OprationListItem>
+
+        /** 操作日志列表项 */
+        interface OprationListItem {
+            /** 主键ID */
+            id: number
+            /** 账号名称 */
+            name: string
+            /** 角色 */
+            character: string
+            /** 账号状态 (1:启用, 2:禁用) */
+            status: number
+            /**最近登录时间 */
+            lastLoginAt?: string
+        }
+
+        /** 操作日志搜索参数 */
+        type OprationSearchParams = Partial<Pick<OprationListItem, 'name'> & Api.Common.CommonSearchParams>
+    }
 }
