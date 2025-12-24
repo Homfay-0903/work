@@ -31,7 +31,8 @@
                             list-type="picture"
                             :disabled="dialogType === 'view'"
                         >
-                            <ElButton type="primary" :disabled="dialogType === 'view'">选择图片</ElButton>
+                            <img v-if="imageUrl" :src="imageUrl" class="coverImage" />
+                            <el-icon v-else class="uploader-icon"><Plus /></el-icon>
                             <template #tip>
                                 <div class="el-upload__tip">*建议上传10MB以内的JPG、PNG、JPEG格式</div>
                             </template>
@@ -201,10 +202,9 @@
                         />
                     </ElFormItem>
 
-                    <ElFormItem label="动作介绍" prop="introduction">
+                    <ElFormItem label="动作介绍" prop="introduction" style="width: 100%">
                         <div v-if="dialogType === 'view'" class="view-content" v-html="formData.introduction"></div>
                         <div v-else>
-                            <!-- TODO: 集成富文本编辑器 -->
                             <ElInput
                                 v-model="formData.introduction"
                                 type="textarea"
@@ -218,15 +218,13 @@
 
                     <ElFormItem v-if="formData.type !== 'non_video'" label="其他" prop="other">
                         <div v-if="dialogType === 'view'" class="view-content" v-html="formData.other"></div>
-                        <div v-else>
-                            <!-- TODO: 集成富文本编辑器 -->
-                            <ElInput
-                                v-model="formData.other"
-                                type="textarea"
-                                :rows="6"
-                                placeholder="(需包含安装示意、错误要点、呼吸建议等) 不建议上传带文字的图片类型"
-                            />
-                        </div>
+                        <ArtWangEditor
+                            v-else
+                            v-model="formData.other"
+                            :height="'300px'"
+                            :toolbarKeys="toolbarKeys"
+                            :placeholder="'(需包含安装示意、错误要点、呼吸建议等) 不建议上传带文字的图片类型'"
+                        />
                     </ElFormItem>
 
                     <ElFormItem label="备注" prop="remarks">
@@ -257,6 +255,41 @@
     import { ref, reactive, computed, watch, nextTick } from 'vue'
     import { ElMessage, ElMessageBox } from 'element-plus'
     import type { FormInstance, FormRules, UploadFile, UploadFiles } from 'element-plus'
+    import ArtWangEditor from '@/components/core/forms/art-wang-editor/index.vue'
+    import { Plus } from '@element-plus/icons-vue'
+
+    import type { UploadProps } from 'element-plus'
+
+    const imageUrl = ref('')
+
+    const toolbarKeys = ref([
+        'bold',
+        'clearStyle',
+        'color',
+        'bgColor',
+        '|',
+        // 菜单组，包含多个菜单
+        {
+            key: 'group-image', // 必填，要以 group 开头
+            title: '图片', // 必填
+            iconSvg: '',
+            menuKeys: ['uploadImage', 'insertImage', 'deleteImage', 'editImage', 'viewImageLink'],
+        },
+        {
+            key: 'group-video',
+            title: '视频',
+            iconSvg: '',
+            menuKeys: ['insertVideo', 'uploadVideo'],
+        },
+        'divider',
+        'fontSize',
+        'emotion',
+        'blockquote',
+        'headerSelect',
+        'redo',
+        'undo',
+        'fullScreen',
+    ])
 
     interface Props {
         visible: boolean
@@ -571,5 +604,34 @@
         color: var(--el-text-color-regular);
         font-size: 12px;
         margin-top: 4px;
+    }
+
+    .upload-demo .coverImage {
+        width: 150px;
+        height: 150px;
+        display: block;
+    }
+</style>
+
+<style>
+    .upload-demo .el-upload {
+        border: 1px dashed var(--el-border-color);
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: var(--el-transition-duration-fast);
+    }
+
+    .upload-demo .el-upload:hover {
+        border-color: var(--el-color-primary);
+    }
+
+    .el-icon.uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 150px;
+        height: 150px;
+        text-align: center;
     }
 </style>

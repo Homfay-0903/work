@@ -3,7 +3,7 @@
         <!-- 型号tab栏 -->
         <ElCard class="model-tabs-card" shadow="never">
             <div class="model-tabs-wrapper">
-                <div class="model-tabs-label">全部型号</div>
+                <div class="model-tabs-label">型号选择</div>
                 <ElTabs v-model="activeModel" @tab-change="handleModelChange">
                     <ElTabPane v-for="model in modelList" :key="model.value" :label="model.label" :name="model.value" />
                 </ElTabs>
