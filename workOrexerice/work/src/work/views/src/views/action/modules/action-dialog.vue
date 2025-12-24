@@ -242,6 +242,15 @@
             </ElRow>
         </ElForm>
 
+        <!-- 器械/AI动作 关联选择弹窗 -->
+        <ActionRelation
+            v-model:visible="relationDialogVisible"
+            :type="relationDialogType"
+            :selected-equipment-ids="formData.equipment"
+            :selected-ai-id="formData.aiAction"
+            @confirm="handleRelationConfirm"
+        />
+
         <template #footer>
             <div class="dialog-footer" v-if="dialogType !== 'view'">
                 <ElButton @click="handleCancel">取消</ElButton>
@@ -257,6 +266,8 @@
     import type { FormInstance, FormRules, UploadFile, UploadFiles } from 'element-plus'
     import ArtWangEditor from '@/components/core/forms/art-wang-editor/index.vue'
     import { Plus } from '@element-plus/icons-vue'
+
+    import ActionRelation from './action-relation.vue'
 
     import type { UploadProps } from 'element-plus'
 
@@ -322,6 +333,10 @@
     // 选中的器械和AI动作
     const selectedEquipment = ref<Array<{ id: number; name: string }>>([])
     const selectedAiAction = ref<{ id: number; name: string } | null>(null)
+
+    // 关联选择对话框
+    const relationDialogVisible = ref(false)
+    const relationDialogType = ref<'equipment' | 'ai'>('equipment')
 
     // 训练部位列表
     const partList = [
@@ -538,16 +553,33 @@
      * 显示器械选择对话框
      */
     const showEquipmentDialog = () => {
-        // TODO: 实现器械选择对话框
-        ElMessage.info('器械选择功能开发中...')
+        relationDialogType.value = 'equipment'
+        relationDialogVisible.value = true
     }
 
     /**
      * 显示AI动作选择对话框
      */
     const showAiActionDialog = () => {
-        // TODO: 实现AI动作选择对话框
-        ElMessage.info('AI动作选择功能开发中...')
+        relationDialogType.value = 'ai'
+        relationDialogVisible.value = true
+    }
+
+    /**
+     * 处理关联选择确认
+     */
+    const handleRelationConfirm = (payload: {
+        type: 'equipment' | 'ai'
+        selections: Array<{ id: number; name: string }>
+    }) => {
+        if (payload.type === 'equipment') {
+            selectedEquipment.value = payload.selections
+            formData.equipment = payload.selections.map(item => item.id)
+        } else {
+            const first = payload.selections[0]
+            selectedAiAction.value = first || null
+            formData.aiAction = first ? first.id : null
+        }
     }
 
     /**
