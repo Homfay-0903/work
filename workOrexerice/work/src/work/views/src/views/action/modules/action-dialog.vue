@@ -23,7 +23,7 @@
                     <ElFormItem label="动作封面" prop="coverImage">
                         <ElUpload
                             class="upload-demo"
-                            :action="uploadAction"
+                            :http-request="customUploadCover"
                             :before-upload="beforeUploadCover"
                             :on-success="handleCoverSuccess"
                             :on-remove="handleCoverRemove"
@@ -42,7 +42,7 @@
                     <ElFormItem label="动作视频" prop="video">
                         <ElUpload
                             class="upload-demo"
-                            :action="uploadAction"
+                            :http-request="customUploadVideo"
                             :before-upload="beforeUploadVideo"
                             :on-success="handleVideoSuccess"
                             :on-remove="handleVideoRemove"
@@ -121,99 +121,113 @@
 
                 <!-- 右列 -->
                 <ElCol :span="12">
-                    <ElFormItem label="适用型号" prop="model">
-                        <ElSelect
-                            v-model="formData.model"
-                            placeholder="请选择适用型号"
-                            multiple
-                            :disabled="dialogType === 'view'"
-                        >
-                            <ElOption
-                                v-for="model in modelList"
-                                :key="model.value"
-                                :label="model.label"
-                                :value="model.value"
-                            />
-                        </ElSelect>
-                    </ElFormItem>
+                    <ElRow :gutter="24">
+                        <ElCol :span="12">
+                            <ElFormItem label="适用型号" prop="model">
+                                <ElSelect
+                                    v-model="formData.model"
+                                    placeholder="请选择适用型号"
+                                    multiple
+                                    :disabled="dialogType === 'view'"
+                                >
+                                    <ElOption
+                                        v-for="model in modelList"
+                                        :key="model.value"
+                                        :label="model.label"
+                                        :value="model.value"
+                                    />
+                                </ElSelect>
+                            </ElFormItem>
+                        </ElCol>
+                        <ElCol :span="12">
+                            <ElFormItem label="适用场景" prop="scene">
+                                <ElSelect
+                                    v-model="formData.scene"
+                                    placeholder="请选择适用场景"
+                                    :disabled="dialogType === 'view'"
+                                >
+                                    <ElOption label="力量训练" value="strength" />
+                                    <ElOption label="普拉提" value="pilates" />
+                                    <ElOption label="有氧减脂" value="aerobic" />
+                                    <ElOption label="拉伸康复" value="stretch" />
+                                    <ElOption label="评估筛查" value="assessment" />
+                                </ElSelect>
+                            </ElFormItem>
+                        </ElCol>
+                    </ElRow>
 
-                    <ElFormItem label="适用场景" prop="scene">
-                        <ElSelect
-                            v-model="formData.scene"
-                            placeholder="请选择适用场景"
-                            :disabled="dialogType === 'view'"
-                        >
-                            <ElOption label="力量训练" value="strength" />
-                            <ElOption label="普拉提" value="pilates" />
-                            <ElOption label="有氧减脂" value="aerobic" />
-                            <ElOption label="拉伸康复" value="stretch" />
-                            <ElOption label="评估筛查" value="assessment" />
-                        </ElSelect>
-                    </ElFormItem>
+                    <ElRow :gutter="24">
+                        <ElCol :span="12">
+                            <ElFormItem label="难度" prop="difficulty">
+                                <ElSelect
+                                    v-model="formData.difficulty"
+                                    placeholder="请选择难度"
+                                    :disabled="dialogType === 'view'"
+                                >
+                                    <ElOption label="初级" value="1" />
+                                    <ElOption label="中级" value="2" />
+                                    <ElOption label="高级" value="3" />
+                                </ElSelect>
+                            </ElFormItem>
+                        </ElCol>
+                        <ElCol :span="12">
+                            <ElFormItem label="动作属性" prop="attribute">
+                                <ElSelect
+                                    v-model="formData.attribute"
+                                    placeholder="请选择动作属性"
+                                    @change="handleAttributeChange"
+                                    :disabled="dialogType === 'view'"
+                                >
+                                    <ElOption label="按次数计算" value="count" />
+                                    <ElOption label="按时长计算" value="duration" />
+                                    <ElOption label="按角度计算" value="angle" />
+                                    <ElOption label="按长度计算" value="length" />
+                                    <ElOption label="按评估数值" value="assessment" />
+                                    <ElOption label="其他" value="other" />
+                                </ElSelect>
+                            </ElFormItem>
+                        </ElCol>
+                    </ElRow>
 
-                    <ElFormItem label="难度" prop="difficulty">
-                        <ElSelect
-                            v-model="formData.difficulty"
-                            placeholder="请选择难度"
-                            :disabled="dialogType === 'view'"
-                        >
-                            <ElOption label="初级" value="1" />
-                            <ElOption label="中级" value="2" />
-                            <ElOption label="高级" value="3" />
-                        </ElSelect>
-                    </ElFormItem>
-
-                    <ElFormItem label="动作属性" prop="attribute">
-                        <ElSelect
-                            v-model="formData.attribute"
-                            placeholder="请选择动作属性"
-                            @change="handleAttributeChange"
-                            :disabled="dialogType === 'view'"
-                        >
-                            <ElOption label="按次数计算" value="count" />
-                            <ElOption label="按时长计算" value="duration" />
-                            <ElOption label="按角度计算" value="angle" />
-                            <ElOption label="按长度计算" value="length" />
-                            <ElOption label="按评估数值" value="assessment" />
-                            <ElOption label="其他" value="other" />
-                        </ElSelect>
-                    </ElFormItem>
-
-                    <ElFormItem label="动作类型" prop="type">
-                        <ElSelect
-                            v-model="formData.type"
-                            placeholder="请选择动作类型"
-                            @change="handleTypeChange"
-                            :disabled="dialogType === 'view'"
-                        >
-                            <ElOption label="视频动作" value="video" />
-                            <ElOption label="非视频动作" value="non_video" />
-                            <ElOption label="片头" value="intro" />
-                            <ElOption label="片尾" value="outro" />
-                        </ElSelect>
-                    </ElFormItem>
-
-                    <ElFormItem v-if="formData.attribute === 'duration'" label="卡路里" prop="calories">
-                        <ElInputNumber
-                            v-model="formData.calories"
-                            :min="0"
-                            :max="9999"
-                            :disabled="dialogType === 'view'"
-                        />
-                    </ElFormItem>
+                    <ElRow :gutter="24">
+                        <ElCol :span="12">
+                            <ElFormItem label="动作类型" prop="type">
+                                <ElSelect
+                                    v-model="formData.type"
+                                    placeholder="请选择动作类型"
+                                    @change="handleTypeChange"
+                                    :disabled="dialogType === 'view'"
+                                >
+                                    <ElOption label="视频动作" value="video" />
+                                    <ElOption label="非视频动作" value="non_video" />
+                                    <ElOption label="片头" value="intro" />
+                                    <ElOption label="片尾" value="outro" />
+                                </ElSelect>
+                            </ElFormItem>
+                        </ElCol>
+                        <ElCol :span="12" v-if="formData.attribute === 'duration'">
+                            <ElFormItem label="卡路里" prop="calories">
+                                <ElInputNumber
+                                    v-model="formData.calories"
+                                    :min="0"
+                                    :max="9999"
+                                    :disabled="dialogType === 'view'"
+                                />
+                            </ElFormItem>
+                        </ElCol>
+                    </ElRow>
 
                     <ElFormItem label="动作介绍" prop="introduction" style="width: 100%">
                         <div v-if="dialogType === 'view'" class="view-content" v-html="formData.introduction"></div>
-                        <div v-else>
-                            <ElInput
-                                v-model="formData.introduction"
-                                type="textarea"
-                                :rows="4"
-                                :maxlength="1000"
-                                :show-word-limit="true"
-                                placeholder="请输入动作介绍"
-                            />
-                        </div>
+                        <ElInput
+                            v-else
+                            v-model="formData.introduction"
+                            type="textarea"
+                            :rows="4"
+                            :maxlength="1000"
+                            :show-word-limit="true"
+                            placeholder="请输入动作介绍"
+                        />
                     </ElFormItem>
 
                     <ElFormItem v-if="formData.type !== 'non_video'" label="其他" prop="other">
@@ -221,7 +235,7 @@
                         <ArtWangEditor
                             v-else
                             v-model="formData.other"
-                            :height="'300px'"
+                            :height="'100px'"
                             :toolbarKeys="toolbarKeys"
                             :placeholder="'(需包含安装示意、错误要点、呼吸建议等) 不建议上传带文字的图片类型'"
                         />
@@ -263,13 +277,14 @@
 <script setup lang="ts">
     import { ref, reactive, computed, watch, nextTick } from 'vue'
     import { ElMessage, ElMessageBox } from 'element-plus'
-    import type { FormInstance, FormRules, UploadFile, UploadFiles } from 'element-plus'
+    import type { FormInstance, FormRules, UploadFile, UploadFiles, UploadProps } from 'element-plus'
     import ArtWangEditor from '@/components/core/forms/art-wang-editor/index.vue'
     import { Plus } from '@element-plus/icons-vue'
+    import { fetchCreateAction } from '@/api/action'
+    import { fetchUploadImage } from '@/api/upload'
+    import { fetchUploadVideo } from '@/api/upload'
 
     import ActionRelation from './action-relation.vue'
-
-    import type { UploadProps } from 'element-plus'
 
     const imageUrl = ref('')
 
@@ -324,7 +339,7 @@
     const dialogType = computed(() => props.type)
 
     const formRef = ref<FormInstance>()
-    const uploadAction = ref('') // TODO: 配置实际上传地址
+    // const uploadAction = ref('') // 已注释，使用自定义上传方法替代
 
     // 文件列表
     const coverFileList = ref<UploadFiles>([])
@@ -412,8 +427,8 @@
         type: [{ required: true, message: '请选择动作类型', trigger: 'change' }],
         difficulty: [{ required: true, message: '请选择难度', trigger: 'change' }],
         attribute: [{ required: true, message: '请选择动作属性', trigger: 'change' }],
-        coverImage: [{ required: true, message: '请上传动作封面', trigger: 'change' }],
-        video: [{ required: true, message: '请上传动作视频', trigger: 'change' }],
+        //coverImage: [{ required: true, message: '请上传动作封面', trigger: 'change' }],
+        //video: [{ required: true, message: '请上传动作视频', trigger: 'change' }],
         introduction: [{ required: true, message: '请填写动作介绍', trigger: 'blur' }],
         equipment: [{ required: true, message: '请选择器械', trigger: 'change' }],
         calories: [
@@ -438,9 +453,12 @@
         const isEdit = props.type === 'edit' && props.actionData
         const row = props.actionData || {}
 
+        // 处理封面图片：优先使用 picture 字段（API 返回的字段名）
+        const coverImageUrl = (row as any).picture || row.coverImage || ''
+
         Object.assign(formData, {
             name: row.name || '',
-            coverImage: row.coverImage || '',
+            coverImage: coverImageUrl,
             video: row.video || '',
             equipment: row.equipment ? (Array.isArray(row.equipment) ? row.equipment : []) : [],
             trainer: row.trainer || '',
@@ -458,12 +476,18 @@
             remarks: row.remarks || '',
         })
 
-        // 初始化文件列表
-        if (row.coverImage) {
-            coverFileList.value = [{ name: 'cover', url: row.coverImage }]
+        // 初始化文件列表和图片预览
+        if (coverImageUrl) {
+            coverFileList.value = [{ name: 'cover', url: coverImageUrl }]
+            imageUrl.value = coverImageUrl
+        } else {
+            coverFileList.value = []
+            imageUrl.value = ''
         }
         if (row.video) {
             videoFileList.value = [{ name: 'video', url: row.video }]
+        } else {
+            videoFileList.value = []
         }
     }
 
@@ -506,8 +530,12 @@
     /**
      * 封面上传成功
      */
-    const handleCoverSuccess = (response: any, file: UploadFile) => {
-        formData.coverImage = response.url || file.url || ''
+    const handleCoverSuccess = (response: Api.Common.UploadFileResponse, file: UploadFile) => {
+        // 接口返回的 data 字段包含 { filename, path, url }
+        formData.coverImage = response?.url || file.url || ''
+        if (response?.url) {
+            imageUrl.value = response.url
+        }
     }
 
     /**
@@ -515,13 +543,16 @@
      */
     const handleCoverRemove = () => {
         formData.coverImage = ''
+        imageUrl.value = ''
+        coverFileList.value = []
     }
 
     /**
      * 视频上传成功
      */
-    const handleVideoSuccess = (response: any, file: UploadFile) => {
-        formData.video = response.url || file.url || ''
+    const handleVideoSuccess = (response: Api.Common.UploadFileResponse, file: UploadFile) => {
+        // 接口返回的 data 字段包含 { filename, path, url }
+        formData.video = response?.url || file.url || ''
     }
 
     /**
@@ -529,6 +560,35 @@
      */
     const handleVideoRemove = () => {
         formData.video = ''
+        videoFileList.value = []
+    }
+
+    // 自定义上传方法，使用我们实现的上传接口
+    const customUploadCover: UploadProps['httpRequest'] = ({ file, onSuccess, onError, onProgress }) => {
+        fetchUploadImage({
+            file,
+            onUploadProgress: onProgress,
+        })
+            .then(response => {
+                onSuccess(response, file)
+            })
+            .catch(error => {
+                onError(error, file)
+            })
+    }
+
+    // 自定义视频上传方法
+    const customUploadVideo: UploadProps['httpRequest'] = ({ file, onSuccess, onError, onProgress }) => {
+        fetchUploadVideo({
+            file,
+            onUploadProgress: onProgress,
+        })
+            .then(response => {
+                onSuccess(response, file)
+            })
+            .catch(error => {
+                onError(error, file)
+            })
     }
 
     /**
@@ -590,17 +650,77 @@
     }
 
     /**
-     * 保存
+     * 保存动作
      */
     const handleSave = async () => {
         if (!formRef.value) return
 
-        await formRef.value.validate(valid => {
-            if (valid) {
-                const payload = { ...formData }
-                emit('submit', payload)
-            }
-        })
+        try {
+            await formRef.value.validate(async valid => {
+                if (valid) {
+                    // 转换表单数据为API请求格式
+                    const actionData: Api.Action.ActionCreateBody = {
+                        name: formData.name,
+                        picture: formData.coverImage,
+                        video: formData.video,
+                        instrumentIds: formData.equipment,
+                        coachId: Number(formData.trainer) || 0,
+                        muscleLegionIds:
+                            formData.muscleGroup.length > 0 ? formData.muscleGroup.map(m => Number(m)) : [],
+                        musclIds: [],
+                        tagIds: [],
+                        relatedActionId: formData.aiAction || 0,
+                        type:
+                            formData.type === 'video'
+                                ? 1
+                                : formData.type === 'non_video'
+                                  ? 2
+                                  : formData.type === 'intro'
+                                    ? 3
+                                    : 4,
+                        scene:
+                            formData.scene === 'strength'
+                                ? 1
+                                : formData.scene === 'pilates'
+                                  ? 2
+                                  : formData.scene === 'aerobic'
+                                    ? 3
+                                    : formData.scene === 'stretch'
+                                      ? 4
+                                      : formData.scene === 'assessment'
+                                        ? 5
+                                        : 1,
+                        introduction: formData.introduction,
+                        other: formData.other,
+                        remark: formData.remarks,
+                        difficulty: formData.difficulty,
+                        attribute:
+                            formData.attribute === 'count'
+                                ? 1
+                                : formData.attribute === 'duration'
+                                  ? 2
+                                  : formData.attribute === 'angle'
+                                    ? 3
+                                    : formData.attribute === 'length'
+                                      ? 4
+                                      : formData.attribute === 'assessment'
+                                        ? 5
+                                        : 6,
+                        calories: formData.calories || 0,
+                    }
+
+                    // 调用创建动作接口
+                    await fetchCreateAction(actionData)
+
+                    ElMessage.success('创建动作成功')
+                    emit('submit', formData)
+                    dialogVisible.value = false
+                }
+            })
+        } catch (error) {
+            console.error('创建动作失败:', error)
+            ElMessage.error('创建动作失败，请稍后重试')
+        }
     }
 
     // 监听对话框状态

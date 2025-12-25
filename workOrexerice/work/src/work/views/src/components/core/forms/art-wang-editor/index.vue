@@ -18,7 +18,7 @@
     import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
     import { useUserStore } from '@/store/modules/user'
     import EmojiText from '@/utils/ui/emojo'
-    import { IDomEditor, IToolbarConfig, IEditorConfig, DomEditor } from '@wangeditor/editor'
+    import { IDomEditor, IToolbarConfig, IEditorConfig } from '@wangeditor/editor'
 
     defineOptions({ name: 'ArtWangEditor' })
 
@@ -130,12 +130,6 @@
         editor.on('fullScreen', () => {
             console.log('编辑器进入全屏模式')
         })
-
-        // 使用DomEditor获取工具栏配置
-        const toolbar = DomEditor.getToolbar(editor)
-        const curToolbarConfig = toolbar.getConfig()
-        console.log('当前菜单排序和分组:', curToolbarConfig.toolbarKeys) // 当前菜单排序和分组
-        console.log('完整工具栏配置:', curToolbarConfig)
 
         // 确保在编辑器创建后应用自定义图标
         applyCustomIcons()

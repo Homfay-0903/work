@@ -6,14 +6,19 @@
 <template>
     <div class="user-page art-full-height">
         <!-- 搜索栏 -->
-        <UserSearch v-model="searchForm" @search="handleSearch" @reset="resetSearchParams"></UserSearch>
+        <UserSearch
+            v-if="hasAuth('query')"
+            v-model="searchForm"
+            @search="handleSearch"
+            @reset="resetSearchParams"
+        ></UserSearch>
 
         <ElCard class="art-table-card" shadow="never">
             <!-- 表格头部 -->
             <ArtTableHeader v-model:columns="columnChecks" :loading="loading" @refresh="refreshData">
                 <template #left>
                     <ElSpace wrap>
-                        <ElButton @click="showDialog('add')" v-ripple>新增用户</ElButton>
+                        <ElButton v-if="hasAuth('add')" @click="showDialog('add')" v-ripple>新增用户</ElButton>
                     </ElSpace>
                 </template>
             </ArtTableHeader>
@@ -50,6 +55,7 @@
     import UserDialog from './modules/user-dialog.vue'
     import { ElTag, ElMessageBox, ElImage, ElMessage } from 'element-plus'
     import { DialogType } from '@/types'
+    import { useAuth } from '@/hooks/core/useAuth'
 
     defineOptions({ name: 'User' })
 
@@ -62,6 +68,14 @@
 
     // 选中行
     const selectedRows = ref<UserListItem[]>([])
+
+    // 权限控制
+    const { hasAuth } = useAuth()
+
+    // 计算是否有任何操作权限
+    const hasAnyOperationPermission = computed(() => {
+        return hasAuth('edit') || hasAuth('delete')
+    })
 
     // 搜索表单
     const searchForm = ref({
@@ -107,6 +121,7 @@
         refreshCreate,
         refreshUpdate,
         refreshRemove,
+        toggleColumn,
     } = useTable({
         // 核心配置
         core: {
@@ -187,17 +202,29 @@
                     label: '操作',
                     width: 120,
                     fixed: 'right', // 固定列
-                    formatter: row =>
-                        h('div', [
-                            h(ArtButtonTable, {
-                                type: 'edit',
-                                onClick: () => showDialog('edit', row),
-                            }),
-                            h(ArtButtonTable, {
-                                type: 'delete',
-                                onClick: () => deleteUser(row),
-                            }),
-                        ]),
+                    formatter: row => {
+                        const buttons = []
+                        // 只有拥有编辑权限时才显示编辑按钮
+                        if (hasAuth('edit')) {
+                            buttons.push(
+                                h(ArtButtonTable, {
+                                    type: 'edit',
+                                    onClick: () => showDialog('edit', row),
+                                }),
+                            )
+                        }
+                        // 只有拥有删除权限时才显示删除按钮
+                        if (hasAuth('delete')) {
+                            buttons.push(
+                                h(ArtButtonTable, {
+                                    type: 'delete',
+                                    onClick: () => deleteUser(row),
+                                }),
+                            )
+                        }
+                        // 如果没有任何操作按钮，返回空内容
+                        return buttons.length > 0 ? h('div', buttons) : null
+                    },
                 },
             ],
         },
@@ -221,6 +248,15 @@
             },
         },
     })
+
+    // 监听权限变化，动态控制操作列的显示/隐藏
+    watch(
+        hasAnyOperationPermission,
+        hasPermission => {
+            toggleColumn?.('operation', hasPermission)
+        },
+        { immediate: true },
+    )
 
     /**
      * 搜索处理

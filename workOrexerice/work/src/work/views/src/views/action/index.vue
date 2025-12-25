@@ -67,7 +67,7 @@
             id: 1,
             model: 'MotionS',
             name: '站立飞鸟',
-            type: 'video',
+            type: 1,
             scene: 'strength',
             difficulty: '1',
             equipment: '双头绳',
@@ -83,7 +83,7 @@
                     id: 11,
                     model: 'MotionS',
                     name: '站立飞鸟-准备动作',
-                    type: 'video',
+                    type: 1,
                     scene: 'strength',
                     difficulty: '1',
                     equipment: '双头绳',
@@ -98,7 +98,7 @@
                     id: 12,
                     model: 'MotionS',
                     name: '站立飞鸟-正式动作',
-                    type: 'video',
+                    type: 1,
                     scene: 'strength',
                     difficulty: '1',
                     equipment: '双头绳',
@@ -115,7 +115,7 @@
             id: 2,
             model: 'MotionS',
             name: '站立飞鸟',
-            type: 'video',
+            type: 1,
             scene: 'strength',
             difficulty: '1',
             equipment: '双头绳',
@@ -130,7 +130,7 @@
             id: 3,
             model: 'MotionS',
             name: '站立飞鸟',
-            type: 'video',
+            type: 1,
             scene: 'strength',
             difficulty: '1',
             equipment: '双头绳',
@@ -145,7 +145,7 @@
             id: 4,
             model: 'MotionS',
             name: '大象式',
-            type: 'video',
+            type: 1,
             scene: 'pilates',
             difficulty: '1',
             equipment: '-',
@@ -207,10 +207,10 @@
 
     // 动作类型配置
     const TYPE_CONFIG = {
-        video: '视频动作',
-        non_video: '非视频动作',
-        intro: '片头',
-        outro: '片尾',
+        1: '视频动作',
+        2: '非视频动作',
+        3: '片头',
+        4: '片尾',
     } as const
 
     /**
@@ -487,7 +487,7 @@
 
                         return h(
                             'div',
-                            { style: 'display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;' },
+                            { style: 'display: flex; gap: 5px; flex-wrap: wrap; justify-content: center;' },
                             buttons,
                         )
                     },

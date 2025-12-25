@@ -3,7 +3,7 @@ import request from '@/utils/http'
 // 获取动作列表
 export function fetchGetActionList(params: Api.Action.ActionSearchParams) {
     return request.get<Api.Action.ActionList>({
-        url: '/api/v1/action',
+        url: '/api/v1/actions',
         params,
     })
 }
@@ -11,7 +11,7 @@ export function fetchGetActionList(params: Api.Action.ActionSearchParams) {
 // 创建动作
 export function fetchCreateAction(body: Api.Action.ActionCreateBody) {
     return request.post<void>({
-        url: '/api/v1/action',
+        url: '/api/v1/actions',
         data: body,
     })
 }

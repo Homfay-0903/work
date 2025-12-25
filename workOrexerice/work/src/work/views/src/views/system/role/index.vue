@@ -1,12 +1,8 @@
 <!-- 角色管理页面 -->
 <template>
     <div class="art-full-height">
-        <RoleSearch
-            v-show="showSearchBar"
-            v-model="searchForm"
-            @search="handleSearch"
-            @reset="resetSearchParams"
-        ></RoleSearch>
+        <RoleSearch v-show="showSearchBar" v-model="searchForm" @search="handleSearch" @reset="resetSearchParams">
+        </RoleSearch>
 
         <ElCard class="art-table-card" shadow="never" :style="{ 'margin-top': showSearchBar ? '12px' : '0' }">
             <ArtTableHeader
@@ -17,7 +13,7 @@
             >
                 <template #left>
                     <ElSpace wrap>
-                        <ElButton @click="showDialog('add')" v-ripple>新增角色</ElButton>
+                        <ElButton v-if="hasAuth('add')" @click="showDialog('add')" v-ripple>新增角色</ElButton>
                     </ElSpace>
                 </template>
             </ArtTableHeader>
@@ -56,6 +52,8 @@
     import RoleEditDialog from './modules/role-edit-dialog.vue'
     import RolePermissionDialog from './modules/role-permission-dialog.vue'
     import { ElMessageBox, ElMessage } from 'element-plus'
+    import { useAuth } from '@/hooks/core/useAuth'
+    import { h, ref } from 'vue'
 
     defineOptions({ name: 'Role' })
 
@@ -73,6 +71,9 @@
     const dialogVisible = ref(false)
     const permissionDialog = ref(false)
     const currentRoleData = ref<RoleListItem | undefined>(undefined)
+
+    // 权限控制
+    const { hasAuth } = useAuth()
 
     const {
         columns,
@@ -141,19 +142,20 @@
                                         key: 'permission',
                                         label: '菜单权限',
                                         icon: 'ri:user-3-line',
+                                        disabled: !hasAuth('permission'), // 根据 updateFlag 决定是否禁用
                                     },
                                     {
                                         key: 'edit',
                                         label: '编辑角色',
                                         icon: 'ri:edit-2-line',
-                                        disabled: !row.updateFlag, // 根据 updateFlag 决定是否禁用
+                                        disabled: !hasAuth('edit'), // 根据 updateFlag 决定是否禁用
                                     },
                                     {
                                         key: 'delete',
                                         label: '删除角色',
                                         icon: 'ri:delete-bin-4-line',
                                         color: '#f56c6c',
-                                        disabled: row.defaultFlag, // 根据 defaultFlag 决定是否禁用
+                                        disabled: !hasAuth('delete'), // 根据 defaultFlag 决定是否禁用
                                     },
                                 ],
                                 onClick: (item: ButtonMoreItem) => buttonMoreClick(item, row),

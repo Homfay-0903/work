@@ -58,6 +58,36 @@ declare namespace Api {
 
         /** 启用状态 */
         type EnableStatus = '1' | '2'
+
+        /** 上传文件参数 */
+        interface UploadFileParams {
+            /** 文件数据 */
+            file: File
+            /** 上传进度回调函数 */
+            onUploadProgress?: (progressEvent: any) => void
+        }
+
+        /** 上传文件响应 */
+        interface UploadFileResponse {
+            /** 文件名称 */
+            filename: string
+            /** 文件路径 */
+            path: string
+            /** 文件URL */
+            url: string
+        }
+
+        /** 上传文件到S3响应 */
+        interface UploadFileToS3Response {
+            /** 访问密钥 */
+            accessKey: string
+            /** 密钥 */
+            secretKey: string
+            /** 会话令牌 */
+            sessionToken: string
+            /** 文件URL */
+            url: string
+        }
     }
 
     /** 认证类型 */
@@ -285,36 +315,60 @@ declare namespace Api {
         interface ActionListItem {
             /** 主键ID */
             id: number
-            /** 适用型号 */
-            model: string
             /** 动作名称 */
             name: string
-            /** 动作类型 (1:类型1, 2:类型2, 3:类型3) */
-            type: string
-            /** 适用场景 (1:场景1, 2:场景2, 3:场景3) */
+            /** 动作封面 */
+            picture?: string
+            /** 动作视频 */
+            video?: string
+            /** 器械名称 */
+            equipment?: string
+            /** 器械ID列表 */
+            instrumentIds?: number[]
+            /** 教练ID */
+            coachId: number
+            /** 肌群ID列表 */
+            muscleLegionIds?: number[]
+            /** 肌肉ID列表 */
+            musclIds?: number[]
+            /** 标签ID列表 */
+            tagIds?: number[]
+            /** 相关动作ID */
+            relatedActionId: number
+            /** 动作类型 */
+            type: number
+            /** 适用场景 */
             scene: string
-            /** 难度 (1:简单, 2:中等, 3:困难) */
+            /** 动作介绍 */
+            introduction: string
+            /** 备注 */
+            remark: string
+            /** 难度 */
             difficulty: string
-            /** 器械 */
-            equipment: string
-            /** 教练 */
-            trainer: string
-            /** 训练部位 */
-            part: string
-            /** 语言 */
-            language: string
-            /** 状态 (draft:草稿, on_shelf:上架中, off_shelf:已下架) */
-            status: string
-            /** AI支持 */
-            aiSupport: boolean
-            /** 操作人 */
-            operator: string
+            /** 属性 */
+            attribute: number
+            /** 卡路里 */
+            calories: number
+            /** 状态 */
+            status?: string
             /** 创建时间 */
             createdAt?: string
             /** 更新时间 */
             updatedAt?: string
             /** 删除时间 */
             deletedAt?: string
+            /** 适用型号 */
+            model?: string
+            /** 教练名称 */
+            trainer?: string
+            /** 训练部位 */
+            part?: string
+            /** 语言 */
+            language?: string
+            /** AI支持 */
+            aiSupport?: boolean
+            /** 操作人 */
+            operator?: string
             /** 是否有子动作 */
             hasChildren?: boolean
             /** 子动作列表 */
@@ -325,19 +379,54 @@ declare namespace Api {
         type ActionSearchParams = Partial<
             Pick<
                 ActionListItem,
-                'scene' | 'difficulty' | 'equipment' | 'part' | 'type' | 'status' | 'aiSupport' | 'trainer' | 'name'
+                'scene' | 'difficulty' | 'name' | 'status' | 'aiSupport' | 'trainer' | 'part' | 'model'
             > &
-                Api.Common.CommonSearchParams & {
-                    /** 型号 */
-                    model?: string
-                }
+                Api.Common.CommonSearchParams
         >
 
         /** 动作创建参数 */
-        type ActionCreateBody = Omit<ActionListItem, 'id' | 'createdAt' | 'updatedAt' | 'deletedAt'>
+        interface ActionCreateBody {
+            /** 动作名称 */
+            name: string
+            /** 动作封面 */
+            picture?: string
+            /** 动作视频 */
+            video?: string
+            /** 器械ID列表 */
+            instrumentIds?: number[]
+            /** 教练ID */
+            coachId: number
+            /** 肌群ID列表 */
+            muscleLegionIds?: number[]
+            /** 肌肉ID列表 */
+            musclIds?: number[]
+            /** 标签ID列表 */
+            tagIds?: number[]
+            /** 相关动作ID */
+            relatedActionId: number
+            /** 动作类型 */
+            type: number
+            /** 适用场景 */
+            scene: number
+            /** 动作介绍 */
+            introduction: string
+            /** 其他 */
+            other?: string
+            /** 备注 */
+            remark: string
+            /** 难度 */
+            difficulty: string
+            /** 属性 */
+            attribute: number
+            /** 卡路里 */
+            calories: number
+        }
 
         /** 动作更新参数 */
-        type ActionUpdateBody = Pick<ActionListItem, 'id'> & Partial<ActionCreateBody>
+        interface ActionUpdateBody extends Partial<ActionCreateBody> {
+            /** 动作ID */
+            id: number
+        }
     }
 
     namespace Coach {
