@@ -27,8 +27,7 @@
                             :before-upload="beforeUploadCover"
                             :on-success="handleCoverSuccess"
                             :on-remove="handleCoverRemove"
-                            :file-list="coverFileList"
-                            list-type="picture"
+                            :show-file-list="false"
                             :disabled="dialogType === 'view'"
                         >
                             <img v-if="imageUrl" :src="imageUrl" class="coverImage" />
@@ -46,10 +45,11 @@
                             :before-upload="beforeUploadVideo"
                             :on-success="handleVideoSuccess"
                             :on-remove="handleVideoRemove"
-                            :file-list="videoFileList"
+                            :show-file-list="false"
                             :disabled="dialogType === 'view'"
                         >
-                            <ElButton type="primary" :disabled="dialogType === 'view'">选择视频</ElButton>
+                            <img v-if="videoUrl" :src="videoUrl" class="coverImage" />
+                            <el-icon v-else class="uploader-icon"><Plus /></el-icon>
                             <template #tip>
                                 <div class="el-upload__tip">*建议上传2GB以内的MP4格式</div>
                             </template>
@@ -276,7 +276,7 @@
 
 <script setup lang="ts">
     import { ref, reactive, computed, watch, nextTick } from 'vue'
-    import { ElMessage, ElMessageBox } from 'element-plus'
+    import { ElMessage } from 'element-plus'
     import type { FormInstance, FormRules, UploadFile, UploadFiles, UploadProps } from 'element-plus'
     import ArtWangEditor from '@/components/core/forms/art-wang-editor/index.vue'
     import { Plus } from '@element-plus/icons-vue'
@@ -287,6 +287,7 @@
     import ActionRelation from './action-relation.vue'
 
     const imageUrl = ref('')
+    const videoUrl = ref('')
 
     const toolbarKeys = ref([
         'bold',
