@@ -338,19 +338,19 @@ declare namespace Api {
             /** 动作类型 */
             type: number
             /** 适用场景 */
-            scene: string
+            scene: number
             /** 动作介绍 */
             introduction: string
             /** 备注 */
             remark: string
             /** 难度 */
-            difficulty: string
+            difficulty: number
             /** 属性 */
             attribute: number
             /** 卡路里 */
             calories: number
             /** 状态 */
-            status?: string
+            status?: number
             /** 创建时间 */
             createdAt?: string
             /** 更新时间 */
@@ -376,13 +376,38 @@ declare namespace Api {
         }
 
         /** 动作搜索参数 */
-        type ActionSearchParams = Partial<
-            Pick<
-                ActionListItem,
-                'scene' | 'difficulty' | 'name' | 'status' | 'aiSupport' | 'trainer' | 'part' | 'model'
-            > &
-                Api.Common.CommonSearchParams
-        >
+        interface ActionSearchParams extends Api.Common.CommonSearchParams {
+            /** 动作ID列表 */
+            ids?: number[]
+            /** 适用场景 (1:力量训练, 2:普拉提, 3:有氧减脂, 4:拉伸康复) */
+            scene?: number
+            /** 动作难度 (1:初级, 2:中级, 3:高级) */
+            difficulty?: number
+            /** 器械ID列表 */
+            instrumentIds?: number[]
+            /** 锻炼部位ID列表 (肌肉区域) */
+            muscleRegionIds?: number[]
+            /** 锻炼肌肉ID列表 */
+            muscleIds?: number[]
+            /** 标签ID列表 */
+            tagIds?: number[]
+            /** 动作类型 (1:视频动作, 2:非视频动作, 3:片头, 4:片尾) */
+            type?: number
+            /** 上下架状态 (1:上架中, 2:已下架, 3:草稿) */
+            status?: number
+            /** 教练ID */
+            coachId?: number
+            /** 名称关键字 (模糊搜索) */
+            name?: string
+            /** 语言编码 */
+            langCode?: string
+            /** 多语言启用状态 (0:禁用, 1:启用) */
+            langStatus?: number
+            /** 翻译状态 (0:未翻译, 1:翻译中, 2:已翻译) */
+            translateStatus?: number
+            /** 适用型号 */
+            model?: string
+        }
 
         /** 动作创建参数 */
         interface ActionCreateBody {
@@ -415,11 +440,17 @@ declare namespace Api {
             /** 备注 */
             remark: string
             /** 难度 */
-            difficulty: string
+            difficulty: number
             /** 属性 */
             attribute: number
             /** 卡路里 */
             calories: number
+        }
+
+        /** 上下架状态更新 (1:上架中, 2:已下架, 3:草稿) */
+        interface ActionStatus {
+            id: number
+            status: number
         }
 
         /** 动作更新参数 */

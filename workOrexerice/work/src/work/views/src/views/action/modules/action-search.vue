@@ -36,32 +36,35 @@
     // 动作类型选项
     const typeOptions = [
         { label: '全部', value: '' },
-        { label: '类型1', value: '1' },
-        { label: '类型2', value: '2' },
-        { label: '类型3', value: '3' },
+        { label: '视频动作', value: '1' },
+        { label: '非视频动作', value: '2' },
+        { label: '片头', value: '3' },
+        { label: '片尾', value: '4' },
     ]
 
     // 适用场景选项
     const sceneOptions = [
         { label: '全部', value: '' },
-        { label: '场景1', value: '1' },
-        { label: '场景2', value: '2' },
-        { label: '场景3', value: '3' },
+        { label: '力量训练', value: '1' },
+        { label: '普拉提', value: '2' },
+        { label: '有氧减脂', value: '3' },
+        { label: '拉伸康复', value: '4' },
     ]
 
     // 难度选项
     const difficultyOptions = [
         { label: '全部', value: '' },
-        { label: '简单', value: '1' },
-        { label: '中等', value: '2' },
-        { label: '困难', value: '3' },
+        { label: '初级', value: '1' },
+        { label: '中级', value: '2' },
+        { label: '高级', value: '3' },
     ]
 
     // 状态选项
     const statusOptions = [
         { label: '全部', value: '' },
-        { label: '启用', value: '1' },
-        { label: '禁用', value: '0' },
+        { label: '草稿', value: '1' },
+        { label: '上架', value: '2' },
+        { label: '下架', value: '3' },
     ]
 
     // AI支持选项

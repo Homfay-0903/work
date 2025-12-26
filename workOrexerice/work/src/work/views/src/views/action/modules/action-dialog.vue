@@ -48,7 +48,9 @@
                             :show-file-list="false"
                             :disabled="dialogType === 'view'"
                         >
-                            <img v-if="videoUrl" :src="videoUrl" class="coverImage" />
+                            <div v-if="videoUrl" class="video-preview">
+                                <video :src="videoUrl" class="coverImage" controls preload="metadata" />
+                            </div>
                             <el-icon v-else class="uploader-icon"><Plus /></el-icon>
                             <template #tip>
                                 <div class="el-upload__tip">*建议上传2GB以内的MP4格式</div>
@@ -241,9 +243,9 @@
                         />
                     </ElFormItem>
 
-                    <ElFormItem label="备注" prop="remarks">
+                    <ElFormItem label="备注" prop="remark">
                         <ElInput
-                            v-model="formData.remarks"
+                            v-model="formData.remark"
                             type="textarea"
                             :rows="3"
                             :maxlength="1000"
@@ -280,11 +282,36 @@
     import type { FormInstance, FormRules, UploadFile, UploadFiles, UploadProps } from 'element-plus'
     import ArtWangEditor from '@/components/core/forms/art-wang-editor/index.vue'
     import { Plus } from '@element-plus/icons-vue'
-    import { fetchCreateAction } from '@/api/action'
+    import { fetchCreateAction, fetchUpdateAction } from '@/api/action'
     import { fetchUploadImage } from '@/api/upload'
     import { fetchUploadVideo } from '@/api/upload'
 
     import ActionRelation from './action-relation.vue'
+
+    // 场景映射
+    const sceneMap = {
+        1: '力量训练',
+        2: '普拉提',
+        3: '有氧减脂',
+        4: '拉伸康复',
+    }
+
+    // 难度映射
+    const difficultyMap = {
+        1: '初级',
+        2: '中级',
+        3: '高级',
+    }
+
+    // 属性映射
+    const attributeMap = {
+        0: '其他',
+        1: '按次数计算',
+        2: '按时长计算',
+        3: '按角度计算',
+        4: '按长度计算',
+        5: '按评估数值',
+    }
 
     const imageUrl = ref('')
     const videoUrl = ref('')
@@ -295,10 +322,9 @@
         'color',
         'bgColor',
         '|',
-        // 菜单组，包含多个菜单
         {
-            key: 'group-image', // 必填，要以 group 开头
-            title: '图片', // 必填
+            key: 'group-image',
+            title: '图片',
             iconSvg: '',
             menuKeys: ['uploadImage', 'insertImage', 'deleteImage', 'editImage', 'viewImageLink'],
         },
@@ -417,7 +443,7 @@
         calories: 0,
         introduction: '',
         other: '',
-        remarks: '',
+        remark: '',
     })
 
     // 表单验证规则
@@ -428,8 +454,8 @@
         type: [{ required: true, message: '请选择动作类型', trigger: 'change' }],
         difficulty: [{ required: true, message: '请选择难度', trigger: 'change' }],
         attribute: [{ required: true, message: '请选择动作属性', trigger: 'change' }],
-        //coverImage: [{ required: true, message: '请上传动作封面', trigger: 'change' }],
-        //video: [{ required: true, message: '请上传动作视频', trigger: 'change' }],
+        // coverImage: [{ required: true, message: '请上传动作封面', trigger: 'change' }],
+        // video: [{ required: true, message: '请上传动作视频', trigger: 'change' }],
         introduction: [{ required: true, message: '请填写动作介绍', trigger: 'blur' }],
         equipment: [{ required: true, message: '请选择器械', trigger: 'change' }],
         calories: [
@@ -467,14 +493,14 @@
             muscleGroup: row.muscleGroup ? (Array.isArray(row.muscleGroup) ? row.muscleGroup : []) : [],
             aiAction: row.aiAction || null,
             model: row.model ? (Array.isArray(row.model) ? row.model : [row.model]) : [],
-            scene: row.scene || '',
-            difficulty: row.difficulty || '',
-            attribute: row.attribute || '',
+            scene: sceneMap[row.scene as keyof typeof sceneMap] || '',
+            difficulty: difficultyMap[row.difficulty as keyof typeof difficultyMap] || '',
+            attribute: attributeMap[row.attribute as keyof typeof attributeMap] || '',
             type: row.type || '',
             calories: row.calories || 0,
             introduction: row.introduction || '',
             other: row.other || '',
-            remarks: row.remarks || '',
+            remark: row.remark || '',
         })
 
         // 初始化文件列表和图片预览
@@ -487,8 +513,10 @@
         }
         if (row.video) {
             videoFileList.value = [{ name: 'video', url: row.video }]
+            videoUrl.value = row.video
         } else {
             videoFileList.value = []
+            videoUrl.value = ''
         }
     }
 
@@ -554,6 +582,9 @@
     const handleVideoSuccess = (response: Api.Common.UploadFileResponse, file: UploadFile) => {
         // 接口返回的 data 字段包含 { filename, path, url }
         formData.video = response?.url || file.url || ''
+        if (response?.url) {
+            videoUrl.value = response.url
+        }
     }
 
     /**
@@ -561,6 +592,7 @@
      */
     const handleVideoRemove = () => {
         formData.video = ''
+        videoUrl.value = ''
         videoFileList.value = []
     }
 
@@ -660,7 +692,7 @@
             await formRef.value.validate(async valid => {
                 if (valid) {
                     // 转换表单数据为API请求格式
-                    const actionData: Api.Action.ActionCreateBody = {
+                    const actionDataBase = {
                         name: formData.name,
                         picture: formData.coverImage,
                         video: formData.video,
@@ -693,7 +725,7 @@
                                         : 1,
                         introduction: formData.introduction,
                         other: formData.other,
-                        remark: formData.remarks,
+                        remark: formData.remark,
                         difficulty: formData.difficulty,
                         attribute:
                             formData.attribute === 'count'
@@ -710,17 +742,29 @@
                         calories: formData.calories || 0,
                     }
 
-                    // 调用创建动作接口
-                    await fetchCreateAction(actionData)
+                    // 根据对话框类型决定调用创建或更新接口
+                    if (dialogType.value === 'edit' && props.actionData?.id) {
+                        // 更新动作
+                        const updateData: Api.Action.ActionUpdateBody = {
+                            ...actionDataBase,
+                            id: props.actionData.id,
+                        }
+                        await fetchUpdateAction(updateData)
+                        ElMessage.success('更新动作成功')
+                    } else {
+                        // 创建动作
+                        const createData: Api.Action.ActionCreateBody = actionDataBase
+                        await fetchCreateAction(createData)
+                        ElMessage.success('创建动作成功')
+                    }
 
-                    ElMessage.success('创建动作成功')
                     emit('submit', formData)
                     dialogVisible.value = false
                 }
             })
         } catch (error) {
-            console.error('创建动作失败:', error)
-            ElMessage.error('创建动作失败，请稍后重试')
+            console.error(dialogType.value === 'edit' ? '更新动作失败:' : '创建动作失败:', error)
+            ElMessage.error(dialogType.value === 'edit' ? '更新动作失败，请稍后重试' : '创建动作失败，请稍后重试')
         }
     }
 
@@ -763,6 +807,25 @@
         width: 150px;
         height: 150px;
         display: block;
+        object-fit: cover;
+    }
+
+    .video-preview {
+        position: relative;
+        width: 150px;
+        height: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #000;
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    .video-preview video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 </style>
 

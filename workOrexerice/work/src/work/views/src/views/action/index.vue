@@ -52,7 +52,13 @@
 <script setup lang="ts">
     import { ref, nextTick, h } from 'vue'
     import { useTable } from '@/hooks/core/useTable'
-    import { fetchCreateAction, fetchUpdateAction, fetchDeleteAction } from '@/api/action'
+    import {
+        fetchGetActionList,
+        fetchCreateAction,
+        fetchUpdateAction,
+        fetchDeleteAction,
+        fetchUpdateActionStatus,
+    } from '@/api/action'
     import ActionSearch from './modules/action-search.vue'
     import ActionDialog from './modules/action-dialog.vue'
     import { ElTag, ElMessageBox, ElMessage, ElTabs, ElTabPane, ElButton } from 'element-plus'
@@ -60,103 +66,6 @@
     defineOptions({ name: 'Action' })
 
     type ActionListItem = Api.Action.ActionListItem
-
-    // 假数据
-    const mockData: ActionListItem[] = [
-        {
-            id: 1,
-            model: 'MotionS',
-            name: '站立飞鸟',
-            type: 1,
-            scene: 'strength',
-            difficulty: '1',
-            equipment: '双头绳',
-            trainer: 'Andy',
-            part: '胸部',
-            language: '',
-            status: 'draft',
-            aiSupport: false,
-            operator: 'hanliang@suanier.com',
-            hasChildren: true,
-            children: [
-                {
-                    id: 11,
-                    model: 'MotionS',
-                    name: '站立飞鸟-准备动作',
-                    type: 1,
-                    scene: 'strength',
-                    difficulty: '1',
-                    equipment: '双头绳',
-                    trainer: 'Andy',
-                    part: '胸部',
-                    language: '',
-                    status: 'draft',
-                    aiSupport: false,
-                    operator: 'hanliang@suanier.com',
-                },
-                {
-                    id: 12,
-                    model: 'MotionS',
-                    name: '站立飞鸟-正式动作',
-                    type: 1,
-                    scene: 'strength',
-                    difficulty: '1',
-                    equipment: '双头绳',
-                    trainer: 'Andy',
-                    part: '胸部',
-                    language: '',
-                    status: 'draft',
-                    aiSupport: false,
-                    operator: 'hanliang@suanier.com',
-                },
-            ],
-        },
-        {
-            id: 2,
-            model: 'MotionS',
-            name: '站立飞鸟',
-            type: 1,
-            scene: 'strength',
-            difficulty: '1',
-            equipment: '双头绳',
-            trainer: 'Andy',
-            part: '胸部',
-            language: '中文',
-            status: 'draft',
-            aiSupport: false,
-            operator: 'hanliang@suanier.com',
-        },
-        {
-            id: 3,
-            model: 'MotionS',
-            name: '站立飞鸟',
-            type: 1,
-            scene: 'strength',
-            difficulty: '1',
-            equipment: '双头绳',
-            trainer: 'Andy',
-            part: '胸部',
-            language: '',
-            status: 'draft',
-            aiSupport: false,
-            operator: 'hanliang@suanier.com',
-        },
-        {
-            id: 4,
-            model: 'MotionS',
-            name: '大象式',
-            type: 1,
-            scene: 'pilates',
-            difficulty: '1',
-            equipment: '-',
-            trainer: 'Joy',
-            part: '全身',
-            language: '',
-            status: 'on_shelf',
-            aiSupport: false,
-            operator: 'hanliang@suanier.com',
-        },
-    ]
 
     // 弹窗相关
     const dialogType = ref<'add' | 'edit' | 'view'>('add')
@@ -226,39 +135,47 @@
     /**
      * 获取动作类型文本
      */
-    const getTypeText = (type: string) => {
-        return TYPE_CONFIG[type as keyof typeof TYPE_CONFIG] || '其他'
+    const getTypeText = (type: number | string) => {
+        const typeKey = typeof type === 'number' ? type : parseInt(type, 10)
+        return TYPE_CONFIG[typeKey as keyof typeof TYPE_CONFIG] || '其他'
     }
 
     // 适用场景配置
     const SCENE_CONFIG = {
-        strength: '力量训练',
-        pilates: '普拉提',
-        aerobic: '有氧减脂',
-        stretch: '拉伸康复',
-        assessment: '评估筛查',
+        1: '力量训练',
+        2: '普拉提',
+        3: '有氧减脂',
+        4: '拉伸康复',
     } as const
 
     /**
      * 获取适用场景文本
      */
-    const getSceneText = (scene: string) => {
-        return SCENE_CONFIG[scene as keyof typeof SCENE_CONFIG] || '其他'
+    const getSceneText = (scene: number | string) => {
+        const sceneKey = typeof scene === 'number' ? scene : parseInt(scene, 10)
+        return SCENE_CONFIG[sceneKey as keyof typeof SCENE_CONFIG] || '其他'
     }
 
     // 状态配置
     const STATUS_CONFIG = {
-        draft: { type: 'info' as const, text: '草稿' },
-        on_shelf: { type: 'success' as const, text: '上架中' },
-        off_shelf: { type: 'warning' as const, text: '已下架' },
+        1: { type: 'info' as const, text: '草稿' },
+        2: { type: 'success' as const, text: '上架中' },
+        3: { type: 'warning' as const, text: '已下架' },
     } as const
 
     /**
      * 获取状态配置
      */
-    const getStatusConfig = (status: string) => {
+    const getStatusConfig = (status?: string | number) => {
+        if (status === undefined) {
+            return {
+                type: 'info' as const,
+                text: '未知',
+            }
+        }
+        const statusKey = typeof status === 'number' ? status : Number(status)
         return (
-            STATUS_CONFIG[status as keyof typeof STATUS_CONFIG] || {
+            STATUS_CONFIG[statusKey as keyof typeof STATUS_CONFIG] || {
                 type: 'info' as const,
                 text: '未知',
             }
@@ -275,9 +192,16 @@
     /**
      * 获取难度配置
      */
-    const getDifficultyConfig = (difficulty: string) => {
+    const getDifficultyConfig = (difficulty?: string | number) => {
+        if (difficulty === undefined) {
+            return {
+                type: 'info' as const,
+                text: '未知',
+            }
+        }
+        const difficultyKey = typeof difficulty === 'number' ? String(difficulty) : difficulty
         return (
-            DIFFICULTY_CONFIG[difficulty as keyof typeof DIFFICULTY_CONFIG] || {
+            DIFFICULTY_CONFIG[difficultyKey as keyof typeof DIFFICULTY_CONFIG] || {
                 type: 'info' as const,
                 text: '未知',
             }
@@ -287,7 +211,7 @@
     /**
      * 获取AI支持状态
      */
-    const getAiSupportStatus = (aiSupport: boolean) => {
+    const getAiSupportStatus = (aiSupport?: boolean) => {
         return aiSupport ? { type: 'success' as const, text: '支持' } : { type: 'info' as const, text: '不支持' }
     }
 
@@ -309,22 +233,11 @@
     } = useTable({
         // 核心配置
         core: {
-            // 暂时使用假数据
-            apiFn: async () => {
-                return new Promise(resolve => {
-                    setTimeout(() => {
-                        resolve({
-                            list: mockData,
-                            total: 96,
-                            page: 1,
-                            size: 10,
-                        })
-                    }, 300)
-                })
-            },
+            // 使用真实 API
+            apiFn: fetchGetActionList,
             apiParams: {
                 page: 1,
-                size: 10,
+                size: 20,
                 model: activeModel.value === '' ? undefined : activeModel.value,
                 ...searchForm.value,
             },
@@ -405,7 +318,7 @@
                         const buttons: any[] = []
 
                         // 上架：草稿或已下架状态时显示
-                        if (row.status === 'draft' || row.status === 'off_shelf') {
+                        if (row.status === 1 || row.status === 3) {
                             buttons.push(
                                 h(
                                     ElButton,
@@ -420,7 +333,7 @@
                         }
 
                         // 下架：已上架状态时显示
-                        if (row.status === 'on_shelf') {
+                        if (row.status === 2) {
                             buttons.push(
                                 h(
                                     ElButton,
@@ -585,7 +498,7 @@
             const dataToSubmit = payload || { ...currentActionData.value }
 
             if (dialogType.value === 'add') {
-                await fetchCreateAction(dataToSubmit as Api.Action.ActionCreateBody)
+                await fetchCreateAction(dataToSubmit as unknown as Api.Action.ActionCreateBody)
                 ElMessage.success('创建成功')
                 await refreshCreate()
             } else if (dialogType.value === 'edit') {
@@ -593,7 +506,7 @@
                     ElMessage.error('缺少动作ID')
                     return
                 }
-                await fetchUpdateAction(dataToSubmit as Api.Action.ActionUpdateBody)
+                await fetchUpdateAction(dataToSubmit as unknown as Api.Action.ActionUpdateBody)
                 ElMessage.success('更新成功')
                 await refreshUpdate()
             }
@@ -612,10 +525,13 @@
     const handleShelve = (row: ActionListItem): void => {
         ;(async () => {
             try {
-                // TODO: 调用上架API
+                await fetchUpdateActionStatus({
+                    id: row.id,
+                    status: 2,
+                })
                 const index = (data.value as ActionListItem[]).findIndex(item => item.id === row.id)
                 if (index !== -1) {
-                    ;(data.value[index] as ActionListItem).status = 'on_shelf'
+                    ;(data.value[index] as ActionListItem).status = 1
                 }
                 ElMessage.success('上架成功')
                 await refreshData()
@@ -632,10 +548,13 @@
     const handleUnshelve = (row: ActionListItem): void => {
         ;(async () => {
             try {
-                // TODO: 调用下架API
+                await fetchUpdateActionStatus({
+                    id: row.id,
+                    status: 3,
+                })
                 const index = (data.value as ActionListItem[]).findIndex(item => item.id === row.id)
                 if (index !== -1) {
-                    ;(data.value[index] as ActionListItem).status = 'off_shelf'
+                    ;(data.value[index] as ActionListItem).status = 2
                 }
                 ElMessage.success('下架成功')
                 await refreshData()
