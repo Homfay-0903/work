@@ -4,7 +4,7 @@
         <ElCard class="model-tabs-card" shadow="never">
             <div class="model-tabs-wrapper">
                 <div class="model-tabs-label">型号选择</div>
-                <ElTabs v-model="activeModel" @tab-change="handleModelChange">
+                <ElTabs v-model="activeModelValue" @tab-click="handleModelChange">
                     <ElTabPane v-for="model in modelList" :key="model.value" :label="model.label" :name="model.value" />
                 </ElTabs>
             </div>
@@ -36,6 +36,10 @@
                 @pagination:size-change="handleSizeChange"
                 @pagination:current-change="handleCurrentChange"
             >
+                <!-- 自定义适用型号列 -->
+                <template #tag="{ row }">
+                    <div style="min-height: 32px; line-height: 20px; padding: 4px 0" v-html="getTagText(row)"></div>
+                </template>
             </ArtTable>
 
             <!-- 动作弹窗 -->
@@ -50,18 +54,14 @@
 </template>
 
 <script setup lang="ts">
-    import { ref, nextTick, h } from 'vue'
+    import { ref, nextTick, h, onMounted } from 'vue'
     import { useTable } from '@/hooks/core/useTable'
-    import {
-        fetchGetActionList,
-        fetchCreateAction,
-        fetchUpdateAction,
-        fetchDeleteAction,
-        fetchUpdateActionStatus,
-    } from '@/api/action'
+    import { fetchGetActionList, fetchDeleteAction, fetchUpdateActionStatus } from '@/api/action'
+    import { fetchGetTagList } from '@/api/tag'
     import ActionSearch from './modules/action-search.vue'
     import ActionDialog from './modules/action-dialog.vue'
     import { ElTag, ElMessageBox, ElMessage, ElTabs, ElTabPane, ElButton } from 'element-plus'
+    import type { TabsPaneContext } from 'element-plus'
 
     defineOptions({ name: 'Action' })
 
@@ -76,25 +76,74 @@
     const selectedRows = ref<ActionListItem[]>([])
 
     // 型号tab相关
-    const activeModel = ref<string>('') // 空字符串表示"全部型号"
-    const modelList = ref<Array<{ label: string; value: string }>>([
-        { label: '全部型号', value: '' },
-        { label: 'T5X', value: 'T5X' },
-        { label: 'Motionstation', value: 'Motionstation' },
-        // TODO: 从API获取型号列表
-    ])
+    const activeModel = ref<string>('全部型号') // 空字符串表示"全部型号"
+    const activeModelValue = ref<number>(0)
+    const modelList = ref<Array<{ label: string; value: number }>>([{ label: '全部型号', value: 0 }])
+
+    /**
+     * 获取型号列表（从标签API获取）
+     */
+    const fetchModelList = async () => {
+        try {
+            const response = await fetchGetTagList({
+                page: 1,
+                size: 1000, // 获取所有标签
+            })
+            // 将标签列表转换为型号列表格式，添加到"全部型号"之后
+            const tagModels = response.list.map(tag => ({
+                label: tag.name,
+                value: tag.id,
+            }))
+            modelList.value = [{ label: '全部型号', value: 0 }, ...tagModels]
+        } catch (error) {
+            console.error('获取型号列表失败:', error)
+            // 如果获取失败，使用默认值
+            modelList.value = [
+                { label: '全部型号', value: 0 },
+                { label: 'T5X', value: 1 },
+                { label: 'Motionstation', value: 2 },
+            ]
+        }
+    }
+
+    // 组件挂载时获取型号列表
+    onMounted(() => {
+        fetchModelList()
+    })
 
     /**
      * 处理型号切换
      */
-    const handleModelChange = (modelValue: string | number) => {
-        console.log('切换型号:', modelValue)
-        const model = String(modelValue)
-        // 切换型号后重置搜索并刷新数据
-        activeModel.value = model
-        // 更新搜索参数中的型号
-        ;(searchParams as any).model = model === '' ? undefined : model
-        getData()
+    const handleModelChange = async (tab: TabsPaneContext) => {
+        console.log('切换型号:', tab.props)
+        // 切换型号后更新activeModel
+        activeModel.value = tab.props.label
+
+        // 前端过滤逻辑，不再调用后端API
+        const selectedModelId = Number(tab.props.name)
+
+        if (selectedModelId === 0) {
+            // 如果选择"全部型号"，显示所有数据
+            // 重新获取完整数据
+            await getData()
+        } else {
+            // 前端过滤：筛选包含选中型号标签的数据
+            // 先获取完整数据，然后在前端过滤
+            await getData()
+
+            // 过滤数据，只显示包含对应型号标签的动作
+            const filteredData = (data.value || []).filter((row: ActionListItem) => {
+                // 检查动作是否包含对应的型号标签
+                if (!row.tags || row.tags.length === 0) {
+                    return false
+                }
+                return row.tags.some(tag => Number(tag.id) === selectedModelId)
+            })
+
+            console.log('前端过滤后的数据:', filteredData)
+            // 直接修改表格数据
+            data.value = filteredData
+        }
     }
 
     // 搜索表单（默认值，重置时会恢复到这里）
@@ -130,6 +179,16 @@
             return `${row.id} (${row.children.length})`
         }
         return `${row.id}`
+    }
+
+    /**
+     * 获取标签文本
+     */
+    const getTagText = (row: ActionListItem) => {
+        if (!row.tags || row.tags.length === 0) {
+            return '无'
+        }
+        return row.tags.map(tag => tag.name || '未知').join('<br>')
     }
 
     /**
@@ -251,7 +310,14 @@
                     'align': 'left',
                     'formatter': (row: ActionListItem) => getIndexText(row),
                 },
-                { 'prop': 'model', 'label': '适用型号', 'width': 120, 'header-align': 'center', 'align': 'center' },
+                {
+                    'prop': 'tag',
+                    'label': '适用型号',
+                    'width': 120,
+                    'header-align': 'center',
+                    'align': 'center',
+                    'useSlot': true,
+                },
                 { 'prop': 'name', 'label': '动作名称', 'width': 150, 'header-align': 'center', 'align': 'center' },
                 {
                     'prop': 'type',
@@ -372,7 +438,7 @@
                         )
 
                         // 翻译：中文动作内容创建后出现
-                        if (row.language === '' || row.language === '中文') {
+                        if (row.langCode === 'zh-CN' || row.langName === '中文') {
                             buttons.push(
                                 h(
                                     ElButton,
@@ -416,7 +482,8 @@
                     console.warn('数据转换器: 期望数组类型，实际收到:', typeof records)
                     return []
                 }
-                return records
+                // 对数据进行排序，按ID升序排列
+                return records.sort((a, b) => (a as ActionListItem).id - (b as ActionListItem).id)
             },
         },
     })
@@ -429,8 +496,6 @@
         console.log('筛选参数:', params)
         // 搜索参数赋值
         Object.assign(searchParams, params)
-        // 添加当前选中的型号到搜索参数
-        ;(searchParams as any).model = activeModel.value === '' ? undefined : activeModel.value
         // 等待数据加载完成后打印，确保表格数据已更新
         await getData()
         console.log('表格数据：', data.value)
@@ -493,20 +558,12 @@
     /**
      * 处理弹窗提交事件
      */
-    const handleDialogSubmit = async (payload?: Partial<ActionListItem>) => {
+    const handleDialogSubmit = async () => {
         try {
-            const dataToSubmit = payload || { ...currentActionData.value }
-
             if (dialogType.value === 'add') {
-                await fetchCreateAction(dataToSubmit as unknown as Api.Action.ActionCreateBody)
                 ElMessage.success('创建成功')
                 await refreshCreate()
             } else if (dialogType.value === 'edit') {
-                if (!dataToSubmit.id) {
-                    ElMessage.error('缺少动作ID')
-                    return
-                }
-                await fetchUpdateAction(dataToSubmit as unknown as Api.Action.ActionUpdateBody)
                 ElMessage.success('更新成功')
                 await refreshUpdate()
             }

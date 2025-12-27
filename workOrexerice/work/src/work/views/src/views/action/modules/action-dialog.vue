@@ -148,11 +148,10 @@
                                     placeholder="请选择适用场景"
                                     :disabled="dialogType === 'view'"
                                 >
-                                    <ElOption label="力量训练" value="strength" />
-                                    <ElOption label="普拉提" value="pilates" />
-                                    <ElOption label="有氧减脂" value="aerobic" />
-                                    <ElOption label="拉伸康复" value="stretch" />
-                                    <ElOption label="评估筛查" value="assessment" />
+                                    <ElOption label="力量训练" :value="1" />
+                                    <ElOption label="普拉提" :value="2" />
+                                    <ElOption label="有氧减脂" :value="3" />
+                                    <ElOption label="拉伸康复" :value="4" />
                                 </ElSelect>
                             </ElFormItem>
                         </ElCol>
@@ -166,9 +165,9 @@
                                     placeholder="请选择难度"
                                     :disabled="dialogType === 'view'"
                                 >
-                                    <ElOption label="初级" value="1" />
-                                    <ElOption label="中级" value="2" />
-                                    <ElOption label="高级" value="3" />
+                                    <ElOption label="初级" :value="1" />
+                                    <ElOption label="中级" :value="2" />
+                                    <ElOption label="高级" :value="3" />
                                 </ElSelect>
                             </ElFormItem>
                         </ElCol>
@@ -180,12 +179,12 @@
                                     @change="handleAttributeChange"
                                     :disabled="dialogType === 'view'"
                                 >
-                                    <ElOption label="按次数计算" value="count" />
-                                    <ElOption label="按时长计算" value="duration" />
-                                    <ElOption label="按角度计算" value="angle" />
-                                    <ElOption label="按长度计算" value="length" />
-                                    <ElOption label="按评估数值" value="assessment" />
-                                    <ElOption label="其他" value="other" />
+                                    <ElOption label="按次数计算" :value="1" />
+                                    <ElOption label="按时长计算" :value="2" />
+                                    <ElOption label="按角度计算" :value="3" />
+                                    <ElOption label="按长度计算" :value="4" />
+                                    <ElOption label="按评估数值" :value="5" />
+                                    <ElOption label="其他" :value="0" />
                                 </ElSelect>
                             </ElFormItem>
                         </ElCol>
@@ -200,14 +199,14 @@
                                     @change="handleTypeChange"
                                     :disabled="dialogType === 'view'"
                                 >
-                                    <ElOption label="视频动作" value="video" />
-                                    <ElOption label="非视频动作" value="non_video" />
-                                    <ElOption label="片头" value="intro" />
-                                    <ElOption label="片尾" value="outro" />
+                                    <ElOption label="视频动作" :value="1" />
+                                    <ElOption label="非视频动作" :value="2" />
+                                    <ElOption label="片头" :value="3" />
+                                    <ElOption label="片尾" :value="4" />
                                 </ElSelect>
                             </ElFormItem>
                         </ElCol>
-                        <ElCol :span="12" v-if="formData.attribute === 'duration'">
+                        <ElCol :span="12" v-if="formData.attribute === 2">
                             <ElFormItem label="卡路里" prop="calories">
                                 <ElInputNumber
                                     v-model="formData.calories"
@@ -220,7 +219,12 @@
                     </ElRow>
 
                     <ElFormItem label="动作介绍" prop="introduction" style="width: 100%">
-                        <div v-if="dialogType === 'view'" class="view-content" v-html="formData.introduction"></div>
+                        <div
+                            style="width: 100%"
+                            v-if="dialogType === 'view'"
+                            class="view-content"
+                            v-html="formData.introduction"
+                        ></div>
                         <ElInput
                             v-else
                             v-model="formData.introduction"
@@ -232,9 +236,15 @@
                         />
                     </ElFormItem>
 
-                    <ElFormItem v-if="formData.type !== 'non_video'" label="其他" prop="other">
-                        <div v-if="dialogType === 'view'" class="view-content" v-html="formData.other"></div>
+                    <ElFormItem v-if="formData.type !== 4" label="其他" prop="other">
+                        <div
+                            style="width: 100%"
+                            v-if="dialogType === 'view'"
+                            class="view-content"
+                            v-html="formData.other"
+                        ></div>
                         <ArtWangEditor
+                            ref="otherEditorRef"
                             v-else
                             v-model="formData.other"
                             :height="'100px'"
@@ -277,7 +287,7 @@
 </template>
 
 <script setup lang="ts">
-    import { ref, reactive, computed, watch, nextTick } from 'vue'
+    import { ref, reactive, computed, watch, nextTick, onMounted } from 'vue'
     import { ElMessage } from 'element-plus'
     import type { FormInstance, FormRules, UploadFile, UploadFiles, UploadProps } from 'element-plus'
     import ArtWangEditor from '@/components/core/forms/art-wang-editor/index.vue'
@@ -285,36 +295,15 @@
     import { fetchCreateAction, fetchUpdateAction } from '@/api/action'
     import { fetchUploadImage } from '@/api/upload'
     import { fetchUploadVideo } from '@/api/upload'
+    import { fetchGetTagList } from '@/api/tag'
 
     import ActionRelation from './action-relation.vue'
 
-    // 场景映射
-    const sceneMap = {
-        1: '力量训练',
-        2: '普拉提',
-        3: '有氧减脂',
-        4: '拉伸康复',
-    }
-
-    // 难度映射
-    const difficultyMap = {
-        1: '初级',
-        2: '中级',
-        3: '高级',
-    }
-
-    // 属性映射
-    const attributeMap = {
-        0: '其他',
-        1: '按次数计算',
-        2: '按时长计算',
-        3: '按角度计算',
-        4: '按长度计算',
-        5: '按评估数值',
-    }
-
     const imageUrl = ref('')
     const videoUrl = ref('')
+
+    // 富文本编辑器引用
+    const otherEditorRef = ref<InstanceType<typeof ArtWangEditor>>()
 
     const toolbarKeys = ref([
         'bold',
@@ -414,10 +403,36 @@
     ]
 
     // 型号列表
-    const modelList = [
-        { label: 'T5X', value: 'T5X' },
-        { label: 'Motionstation', value: 'Motionstation' },
-    ]
+    const modelList = ref<Array<{ label: string; value: number }>>([])
+
+    /**
+     * 获取型号列表（从标签API获取）
+     */
+    const fetchModelList = async () => {
+        try {
+            const response = await fetchGetTagList({
+                page: 1,
+                size: 20, // 获取所有标签
+            })
+            // 将标签列表转换为型号列表格式
+            modelList.value = response.list.map(tag => ({
+                label: tag.name,
+                value: tag.id,
+            }))
+        } catch (error) {
+            console.error('获取型号列表失败:', error)
+            // 如果获取失败，使用默认值
+            modelList.value = [
+                { label: 'T5X', value: 1 },
+                { label: 'Motionstation', value: 2 },
+            ]
+        }
+    }
+
+    // 组件挂载时获取型号列表
+    onMounted(() => {
+        fetchModelList()
+    })
 
     // 教练列表（示例）
     const trainerList = ref<Array<{ id: number; name: string }>>([
@@ -425,8 +440,9 @@
         { id: 2, name: 'Joy' },
     ])
 
-    // 表单数据
-    const formData = reactive({
+    // 表单初始数据
+    const defaultFormData = {
+        id: null as number | null, // 添加ID字段
         name: '',
         coverImage: '',
         video: '',
@@ -435,16 +451,20 @@
         part: [] as string[],
         muscleGroup: [] as string[],
         aiAction: null as number | null,
+        tagIds: [] as number[],
         model: [] as string[],
-        scene: '',
-        difficulty: '',
-        attribute: '',
-        type: '',
+        scene: null as number | null,
+        difficulty: null as number | null,
+        attribute: null as number | null,
+        type: null as number | null,
         calories: 0,
         introduction: '',
         other: '',
         remark: '',
-    })
+    }
+
+    // 表单数据
+    const formData = reactive({ ...defaultFormData })
 
     // 表单验证规则
     const rules: FormRules = {
@@ -462,7 +482,7 @@
             {
                 required: false,
                 validator: (rule, value, callback) => {
-                    if (formData.attribute === 'duration' && (!value || value === 0)) {
+                    if (formData.attribute === 2 && (!value || value === 0)) {
                         callback(new Error('按时长计算时需要填写卡路里'))
                     } else {
                         callback()
@@ -477,6 +497,25 @@
      * 初始化表单数据
      */
     const initFormData = () => {
+        // 如果是添加动作，完全重置表单数据
+        if (props.type === 'add') {
+            // 重置formData到默认值
+            Object.assign(formData, { ...defaultFormData })
+
+            // 重置图片和视频预览
+            imageUrl.value = ''
+            videoUrl.value = ''
+
+            // 重置选中的器械和AI动作
+            selectedEquipment.value = []
+            selectedAiAction.value = null
+
+            // 清空富文本编辑器内容
+            otherEditorRef.value?.clear()
+
+            return
+        }
+
         const isEdit = props.type === 'edit' && props.actionData
         const row = props.actionData || {}
 
@@ -484,39 +523,48 @@
         const coverImageUrl = (row as any).picture || row.coverImage || ''
 
         Object.assign(formData, {
+            id: row.id || null, // 添加ID字段
             name: row.name || '',
             coverImage: coverImageUrl,
             video: row.video || '',
-            equipment: row.equipment ? (Array.isArray(row.equipment) ? row.equipment : []) : [],
+            equipment:
+                (row as any).instruments || row.equipmentList || row.equipment
+                    ? Array.isArray(row.equipment)
+                        ? row.equipment
+                        : ((row as any).instruments || row.equipmentList || []).map((eq: any) => eq.id)
+                    : [],
             trainer: row.trainer || '',
             part: row.part ? (Array.isArray(row.part) ? row.part : [row.part]) : [],
             muscleGroup: row.muscleGroup ? (Array.isArray(row.muscleGroup) ? row.muscleGroup : []) : [],
             aiAction: row.aiAction || null,
-            model: row.model ? (Array.isArray(row.model) ? row.model : [row.model]) : [],
-            scene: sceneMap[row.scene as keyof typeof sceneMap] || '',
-            difficulty: difficultyMap[row.difficulty as keyof typeof difficultyMap] || '',
-            attribute: attributeMap[row.attribute as keyof typeof attributeMap] || '',
-            type: row.type || '',
+            tagIds: row.tagIds ? (Array.isArray(row.tagIds) ? row.tagIds : []) : [],
+            model: row.tags?.map(tag => tag.name || '未知'),
+            scene: row.scene || 1,
+            difficulty: row.difficulty || 1,
+            attribute: row.attribute || 0,
+            type: row.type || 1,
             calories: row.calories || 0,
             introduction: row.introduction || '',
             other: row.other || '',
             remark: row.remark || '',
         })
 
-        // 初始化文件列表和图片预览
-        if (coverImageUrl) {
-            coverFileList.value = [{ name: 'cover', url: coverImageUrl }]
-            imageUrl.value = coverImageUrl
+        // 设置封面和视频预览URL
+        imageUrl.value = coverImageUrl
+        videoUrl.value = row.video || ''
+
+        // 设置选中的器械和AI动作
+        selectedEquipment.value = ((row as any).instruments || row.equipmentList || []).map((eq: any) => ({
+            id: eq.id,
+            name: eq.name,
+        }))
+        if (row.aiActionInfo) {
+            selectedAiAction.value = {
+                id: row.aiActionInfo.id,
+                name: row.aiActionInfo.name,
+            }
         } else {
-            coverFileList.value = []
-            imageUrl.value = ''
-        }
-        if (row.video) {
-            videoFileList.value = [{ name: 'video', url: row.video }]
-            videoUrl.value = row.video
-        } else {
-            videoFileList.value = []
-            videoUrl.value = ''
+            selectedAiAction.value = null
         }
     }
 
@@ -628,7 +676,7 @@
      * 动作属性变化
      */
     const handleAttributeChange = () => {
-        if (formData.attribute !== 'duration') {
+        if (formData.attribute !== 2) {
             formData.calories = 0
         }
     }
@@ -637,7 +685,7 @@
      * 动作类型变化
      */
     const handleTypeChange = () => {
-        if (formData.type === 'non_video') {
+        if (formData.type === 2) {
             formData.other = ''
         }
     }
@@ -687,84 +735,55 @@
      */
     const handleSave = async () => {
         if (!formRef.value) return
+        await formRef.value.validate()
+
+        // 将型号选择值同步到tagIds
+        formData.tagIds = Array.isArray(formData.model) ? formData.model.map(id => Number(id)) : []
+
+        // 构建提交数据对象
+        const actionDataBase: Api.Action.ActionUpdateBody | Api.Action.ActionCreateBody = {
+            id: Number(formData.id), // 添加ID字段
+            name: formData.name,
+            picture: formData.coverImage,
+            video: formData.video,
+            instrumentIds: Array.isArray(formData.equipment) ? formData.equipment.map(id => Number(id)) : [],
+            coachId: formData.trainer ? Number(formData.trainer) : 0,
+            part: formData.part,
+            muscleLegionIds: formData.muscleGroup,
+            relatedActionId: formData.aiAction ? Number(formData.aiAction) : 0,
+            model: formData.model,
+            tagIds: formData.tagIds,
+            scene: Number(formData.scene), // 转换为数字或null
+            difficulty: Number(formData.difficulty), // 转换为数字或null
+            attribute: Number(formData.attribute), // 转换为数字或null
+            type: Number(formData.type), // 转换为数字
+            calories: formData.calories,
+            introduction: formData.introduction,
+            other: formData.other,
+            remark: formData.remark,
+        }
 
         try {
-            await formRef.value.validate(async valid => {
-                if (valid) {
-                    // 转换表单数据为API请求格式
-                    const actionDataBase = {
-                        name: formData.name,
-                        picture: formData.coverImage,
-                        video: formData.video,
-                        instrumentIds: formData.equipment,
-                        coachId: Number(formData.trainer) || 0,
-                        muscleLegionIds:
-                            formData.muscleGroup.length > 0 ? formData.muscleGroup.map(m => Number(m)) : [],
-                        musclIds: [],
-                        tagIds: [],
-                        relatedActionId: formData.aiAction || 0,
-                        type:
-                            formData.type === 'video'
-                                ? 1
-                                : formData.type === 'non_video'
-                                  ? 2
-                                  : formData.type === 'intro'
-                                    ? 3
-                                    : 4,
-                        scene:
-                            formData.scene === 'strength'
-                                ? 1
-                                : formData.scene === 'pilates'
-                                  ? 2
-                                  : formData.scene === 'aerobic'
-                                    ? 3
-                                    : formData.scene === 'stretch'
-                                      ? 4
-                                      : formData.scene === 'assessment'
-                                        ? 5
-                                        : 1,
-                        introduction: formData.introduction,
-                        other: formData.other,
-                        remark: formData.remark,
-                        difficulty: formData.difficulty,
-                        attribute:
-                            formData.attribute === 'count'
-                                ? 1
-                                : formData.attribute === 'duration'
-                                  ? 2
-                                  : formData.attribute === 'angle'
-                                    ? 3
-                                    : formData.attribute === 'length'
-                                      ? 4
-                                      : formData.attribute === 'assessment'
-                                        ? 5
-                                        : 6,
-                        calories: formData.calories || 0,
-                    }
+            // 确保instrumentIds是有效的数字数组
+            if (!Array.isArray(actionDataBase.instrumentIds) || actionDataBase.instrumentIds.length === 0) {
+                actionDataBase.instrumentIds = []
+            }
+            // 确保tagIds是有效的数字数组
+            if (!Array.isArray(actionDataBase.tagIds) || actionDataBase.tagIds.length === 0) {
+                actionDataBase.tagIds = []
+            }
 
-                    // 根据对话框类型决定调用创建或更新接口
-                    if (dialogType.value === 'edit' && props.actionData?.id) {
-                        // 更新动作
-                        const updateData: Api.Action.ActionUpdateBody = {
-                            ...actionDataBase,
-                            id: props.actionData.id,
-                        }
-                        await fetchUpdateAction(updateData)
-                        ElMessage.success('更新动作成功')
-                    } else {
-                        // 创建动作
-                        const createData: Api.Action.ActionCreateBody = actionDataBase
-                        await fetchCreateAction(createData)
-                        ElMessage.success('创建动作成功')
-                    }
-
-                    emit('submit', formData)
-                    dialogVisible.value = false
-                }
-            })
+            if (dialogType.value === 'add') {
+                await fetchCreateAction(actionDataBase as Api.Action.ActionCreateBody)
+                emit('submit') // 新增时传递创建的数据
+            } else {
+                await fetchUpdateAction(actionDataBase as Api.Action.ActionUpdateBody)
+                emit('submit') // 编辑时传递更新的数据
+            }
+            dialogVisible.value = false
         } catch (error) {
-            console.error(dialogType.value === 'edit' ? '更新动作失败:' : '创建动作失败:', error)
-            ElMessage.error(dialogType.value === 'edit' ? '更新动作失败，请稍后重试' : '创建动作失败，请稍后重试')
+            console.error('保存失败:', error)
+            ElMessage.error(dialogType.value === 'add' ? '创建失败' : '更新失败')
         }
     }
 

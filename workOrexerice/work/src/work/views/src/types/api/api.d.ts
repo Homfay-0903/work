@@ -306,6 +306,30 @@ declare namespace Api {
         }
     }
 
+    namespace Tag {
+        /** 标签列表 */
+        type TagList = Api.Common.PaginatedResponse<TagListItem>
+
+        /** 标签列表项 */
+        interface TagListItem {
+            /** 主键ID */
+            id: number
+            /** 标签名称 */
+            name: string
+            /** 创建时间 */
+            createdAt?: string
+            /** 更新时间 */
+            updatedAt?: string
+            /** 删除时间 */
+            deletedAt?: string
+        }
+
+        interface TagSearchParams extends Api.Common.CommonSearchParams {
+            /** 标签名称 */
+            name?: string
+        }
+    }
+
     /** 动作管理类型 */
     namespace Action {
         /** 动作列表 */
@@ -333,6 +357,8 @@ declare namespace Api {
             musclIds?: number[]
             /** 标签ID列表 */
             tagIds?: number[]
+            /** 标签列表 */
+            tags?: tagItem[]
             /** 相关动作ID */
             relatedActionId: number
             /** 动作类型 */
@@ -364,7 +390,9 @@ declare namespace Api {
             /** 训练部位 */
             part?: string
             /** 语言 */
-            language?: string
+            langName?: string
+            /** 语言编码 */
+            langCode?: string
             /** AI支持 */
             aiSupport?: boolean
             /** 操作人 */
@@ -373,6 +401,11 @@ declare namespace Api {
             hasChildren?: boolean
             /** 子动作列表 */
             children?: ActionListItem[]
+        }
+
+        interface tagItem {
+            id: number
+            name: string
         }
 
         /** 动作搜索参数 */
@@ -542,7 +575,16 @@ declare namespace Api {
         }
 
         /** 器械搜索参数 */
-        type EquipmentSearchParams = Partial<Pick<EquipmentListItem, 'name'> & Api.Common.CommonSearchParams>
+        interface EquipmentSearchParams extends Api.Common.CommonSearchParams {
+            /** 主键ID */
+            id?: number
+            /** 器械名称 */
+            name?: string
+            /** 器械状态 */
+            status?: number
+            /** 翻译状态 */
+            translateStatus?: number
+        }
 
         /** 器械创建参数 */
         type EquipmentCreateBody = Omit<

@@ -2,9 +2,13 @@ import request from '@/utils/http'
 
 // 获取器械列表
 export function fetchGetEquipmentList(params: Api.Equipment.EquipmentSearchParams) {
+    const { name, ...restParams } = params
+    const trimmedName = name?.trim()
+    const apiParams = trimmedName ? { ...restParams, keyword: trimmedName } : restParams
+
     return request.get<Api.Equipment.EquipmentList>({
-        url: '/api/v1/equipment',
-        params,
+        url: '/api/v1/instruments',
+        params: apiParams,
     })
 }
 

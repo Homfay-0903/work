@@ -29,6 +29,7 @@
 
             <!-- 列表 -->
             <ArtTable
+                ref="artTableRef"
                 :loading="loading"
                 :data="data"
                 :columns="columns"
@@ -51,8 +52,10 @@
 </template>
 
 <script setup lang="ts">
-    import { computed, ref } from 'vue'
+    import { computed, ref, watch } from 'vue'
     import { useTable } from '@/hooks/core/useTable'
+    import { fetchGetEquipmentList } from '@/api/equipment'
+    import ArtTable from '@/components/core/tables/art-table/index.vue'
 
     interface EquipmentItem {
         id: number
@@ -84,6 +87,8 @@
     const props = defineProps<Props>()
     const emit = defineEmits<Emits>()
 
+    const artTableRef = ref<InstanceType<typeof ArtTable> | null>(null)
+
     const innerVisible = computed({
         get: () => props.visible,
         set: value => emit('update:visible', value),
@@ -96,25 +101,14 @@
     const searchLabelId = computed(() => (props.type === 'equipment' ? '器械ID' : 'ID'))
     const searchLabelName = computed(() => (props.type === 'equipment' ? '器械名称' : '动作名称'))
 
-    const searchForm = ref<{ id?: string; name?: string }>({
-        id: '',
+    const searchForm = ref<{ id?: number; name?: string }>({
+        id: undefined,
         name: '',
     })
 
-    // 假数据 - 实际使用时可替换为接口
-    const equipmentMockData: EquipmentItem[] = [
-        { id: 1, name: '拉力计' },
-        { id: 2, name: '脉冲震荡测试仪' },
-    ]
-
-    const aiMockData: AiActionItem[] = [
-        { id: 1, name: '俯卧撑' },
-        { id: 2, name: '平板支撑' },
-    ]
-
-    const getCurrentList = () => {
-        return props.type === 'equipment' ? equipmentMockData : aiMockData
-    }
+    //const getCurrentList = () => {
+    //    return props.type === 'equipment' ? equipmentMockData : aiMockData
+    //}
 
     const {
         columns,
@@ -130,33 +124,10 @@
         refreshData,
     } = useTable({
         core: {
-            apiFn: async (): Promise<{
-                list: Array<EquipmentItem | AiActionItem>
-                total: number
-                page: number
-                size: number
-            }> => {
-                // 这里简单用本地数据模拟
-                const currentList = getCurrentList()
-                const list = currentList.filter(item => {
-                    const matchId = (searchParams as any).id
-                        ? String(item.id).includes(String((searchParams as any).id))
-                        : true
-                    const matchName = (searchParams as any).name
-                        ? item.name.includes(String((searchParams as any).name))
-                        : true
-                    return matchId && matchName
-                })
-                return {
-                    list,
-                    total: list.length,
-                    page: 1,
-                    size: 10,
-                }
-            },
+            apiFn: fetchGetEquipmentList,
             apiParams: {
                 page: 1,
-                size: 10,
+                size: 20,
                 ...searchForm.value,
             },
             columnsFactory: () => {
@@ -195,6 +166,7 @@
             selectedRows.value = [selection[selection.length - 1]]
         } else {
             selectedRows.value = selection
+            console.log('handleSelectionChange', selectedRows.value)
         }
     }
 
@@ -204,13 +176,18 @@
     }
 
     const handleResetSearch = async () => {
-        searchForm.value = { id: '', name: '' }
+        searchForm.value = { id: undefined, name: '' }
         resetSearchParams()
         await getData()
     }
 
     const handleCancel = () => {
         emit('cancel')
+        // 取消时清空选择
+        selectedRows.value = []
+        // 调用ElTable的clearSelection方法清空表格选择状态
+        artTableRef.value?.elTableRef?.clearSelection()
+        console.log('handleCancel', selectedRows.value)
         innerVisible.value = false
     }
 
@@ -225,7 +202,24 @@
     const handleClose = () => {
         // 关闭时清空选择
         selectedRows.value = []
+        // 调用ElTable的clearSelection方法清空表格选择状态
+        artTableRef.value?.elTableRef?.clearSelection()
+        console.log('handleClose', selectedRows.value)
     }
+
+    // 监听对话框显示状态，在打开时清空选择
+    watch(
+        () => props.visible,
+        newVal => {
+            if (newVal) {
+                selectedRows.value = []
+                // 确保表格渲染完成后再清空选择状态
+                setTimeout(() => {
+                    artTableRef.value?.elTableRef?.clearSelection()
+                }, 0)
+            }
+        },
+    )
 </script>
 
 <style scoped lang="scss">
