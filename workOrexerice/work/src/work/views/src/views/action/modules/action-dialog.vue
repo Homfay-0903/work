@@ -88,6 +88,7 @@
                             multiple
                             clearable
                             :disabled="dialogType === 'view'"
+                            @change="handlePartChange"
                         >
                             <ElOption
                                 v-for="part in partList"
@@ -297,6 +298,7 @@
     import { fetchUploadImage } from '@/api/upload'
     import { fetchUploadVideo } from '@/api/upload'
     import { fetchGetTagList } from '@/api/tag'
+    import { fetchGetMuscleList } from '@/api/muscle'
 
     import ActionRelation from './action-relation.vue'
 
@@ -312,18 +314,13 @@
         'color',
         'bgColor',
         '|',
-        {
-            key: 'group-image',
-            title: '图片',
-            iconSvg: '',
-            menuKeys: ['uploadImage', 'insertImage', 'deleteImage', 'editImage', 'viewImageLink'],
-        },
-        {
-            key: 'group-video',
-            title: '视频',
-            iconSvg: '',
-            menuKeys: ['insertVideo', 'uploadVideo'],
-        },
+        'uploadImage',
+        'insertImage',
+        'deleteImage',
+        'editImage',
+        'viewImageLink',
+        'insertVideo',
+        'uploadVideo',
         'divider',
         'fontSize',
         'emotion',
@@ -370,41 +367,139 @@
     const relationDialogVisible = ref(false)
     const relationDialogType = ref<'equipment' | 'ai'>('equipment')
 
-    // 训练部位列表
-    const partList = [
-        { label: '全身', value: 'whole_body' },
-        { label: '胸部', value: 'chest' },
-        { label: '肩部', value: 'shoulder' },
-        { label: '背部', value: 'back' },
-        { label: '臀部', value: 'glutes' },
-        { label: '腿部', value: 'legs' },
-        { label: '手臂', value: 'arms' },
-        { label: '腹部', value: 'abdomen' },
-    ]
+    // 训练部位列表 - 改为响应式引用
+    const partList = ref([
+        { label: '全身', value: 1 },
+        { label: '胸部', value: 2 },
+        { label: '肩部', value: 3 },
+        { label: '背部', value: 4 },
+        { label: '臀部', value: 5 },
+        { label: '腿部', value: 6 },
+        { label: '手臂', value: 7 },
+        { label: '腹部', value: 8 },
+    ])
 
-    // 训练肌群列表（简化版，实际应该根据训练部位动态加载）
-    const muscleGroupList = [
-        { label: '全身', value: 'whole_body' },
-        { label: '胸大肌', value: 'pectoralis_major' },
-        { label: '三角肌前束', value: 'anterior_deltoid' },
-        { label: '三角肌中束', value: 'medial_deltoid' },
-        { label: '三角肌后束', value: 'posterior_deltoid' },
-        { label: '背阔肌', value: 'latissimus_dorsi' },
-        { label: '斜方肌', value: 'trapezius' },
-        { label: '竖脊肌', value: 'erector_spinae' },
-        { label: '臀大肌', value: 'gluteus_maximus' },
-        { label: '股四头肌', value: 'quadriceps' },
-        { label: '腘绳肌', value: 'hamstrings' },
-        { label: '小腿三头肌', value: 'triceps_surae' },
-        { label: '大腿内收肌', value: 'adductor' },
-        { label: '肱二头肌', value: 'biceps' },
-        { label: '肱三头肌', value: 'triceps' },
-        { label: '前臂肌群', value: 'forearm' },
-        { label: '腹肌', value: 'abdominal' },
-    ]
+    // 肌肉列表
+    const muscleGroupList = ref<Array<{ label: string; value: number }>>([])
+
+    // 记录每个训练部位对应的肌肉群ID，用于取消选择时只清空相关的肌肉群
+    const partMuscleMap = ref(new Map<number, number[]>())
+
+    // 存储之前选中的训练部位，用于比较找出取消选择的部位
+    const previousPart = ref<number[]>([])
 
     // 型号列表
     const modelList = ref<Array<{ label: string; value: number }>>([])
+
+    /**
+     * 获取训练部位对应的肌肉列表数据
+     */
+    const fetchMuscleGroupData = async (regionIds: number[]) => {
+        try {
+            if (!regionIds || regionIds.length === 0 || !Array.isArray(regionIds)) {
+                console.warn('训练部位ID列表为空或格式错误，使用默认值')
+                regionIds = [1]
+            }
+
+            const allMuscles: any[] = []
+            const currentPartMuscleMap = new Map<number, number[]>()
+
+            for (const regionId of regionIds) {
+                console.log('regionId:', regionId)
+                const response = await fetchGetMuscleList({ regionId })
+                if (response && Array.isArray(response) && response.length > 0) {
+                    allMuscles.push(...response)
+
+                    // 记录当前训练部位对应的肌肉群ID
+                    const muscleIds = response.filter(item => item && item.id !== undefined).map(item => item.id)
+                    currentPartMuscleMap.set(regionId, muscleIds)
+                }
+            }
+
+            console.log('所有肌肉分组数据:', allMuscles)
+            console.log('当前训练部位肌肉映射:', currentPartMuscleMap)
+
+            if (allMuscles.length === 0) {
+                console.warn('肌肉分组数据为空，使用默认值')
+                muscleGroupList.value = []
+                partMuscleMap.value = new Map()
+                return
+            }
+
+            const uniqueMusclesMap = new Map()
+            for (const muscle of allMuscles) {
+                if (muscle && muscle.name && muscle.id !== undefined) {
+                    uniqueMusclesMap.set(muscle.id, muscle)
+                }
+            }
+
+            const formattedData = Array.from(uniqueMusclesMap.values()).map(group => ({
+                label: group.name,
+                value: group.id,
+            }))
+
+            if (formattedData.length > 0) {
+                muscleGroupList.value = formattedData
+
+                // 更新训练部位肌肉映射，只保留当前选中部位的映射
+                const newPartMuscleMap = new Map()
+                for (const regionId of regionIds) {
+                    if (currentPartMuscleMap.has(regionId)) {
+                        newPartMuscleMap.set(regionId, currentPartMuscleMap.get(regionId)!)
+                    }
+                }
+                partMuscleMap.value = newPartMuscleMap
+
+                console.log('更新肌肉列表:', formattedData)
+                console.log('更新训练部位肌肉映射:', partMuscleMap.value)
+            } else {
+                console.warn('转换后的肌肉分组数据无效，使用默认值')
+                muscleGroupList.value = []
+                partMuscleMap.value = new Map()
+            }
+        } catch (error) {
+            console.error('获取肌肉分组数据失败:', error)
+            // 保留默认值，确保组件正常工作
+            ElMessage.warning('获取训练肌群数据失败，使用默认值')
+            muscleGroupList.value = []
+            partMuscleMap.value = new Map()
+        }
+    }
+
+    /**
+     * 获取肌肉列表数据
+     */
+    //const fetchMuscleListData = async () => {
+    //    try {
+    //        const response = await fetchGetMuscleList({})
+    //        console.log('肌肉列表数据:', response)
+    //
+    //        // 增强的数据验证和错误处理
+    //        if (!response || !response.list || !Array.isArray(response.list) || response.list.length === 0) {
+    //            console.warn('肌肉列表数据为空或格式不正确，使用默认值')
+    //            return // 保留默认值
+    //        }
+    //
+    //        // 将肌肉列表数据转换为所需格式，并确保数据完整性
+    //        const formattedData = response.list
+    //            .filter(item => item && item.name && item.id !== undefined)
+    //            .map(muscle => ({
+    //                label: muscle.name,
+    //                value: String(muscle.id), // 确保value是字符串格式
+    //            }))
+    //
+    //        // 如果转换后的数据有效，才更新muscleGroupList
+    //        if (formattedData.length > 0) {
+    //            muscleGroupList.value = formattedData
+    //        } else {
+    //            console.warn('转换后的肌肉列表数据无效，使用默认值')
+    //        }
+    //    } catch (error) {
+    //        console.error('获取肌肉列表数据失败:', error)
+    //        // 保留默认值，确保组件正常工作
+    //        ElMessage.warning('获取训练肌群数据失败，使用默认值')
+    //    }
+    //}
 
     /**
      * 获取型号列表（从标签API获取）
@@ -458,7 +553,62 @@
     onMounted(() => {
         fetchModelList()
         fetchCoachList()
+        // 调用获取肌肉分组数据方法，传递默认训练部位ID数组
+        fetchMuscleGroupData([1])
+
+        // 初始化之前选中的训练部位
+        previousPart.value = [...formData.part]
     })
+
+    //// 监听训练部位变化，更新对应的肌肉列表
+    //watch(
+    //    () => formData.part,
+    //    newPart => {
+    //        console.log('训练部位变化:', newPart)
+    //        handlePartChange(newPart)
+    //    },
+    //    { immediate: true, deep: true },
+    //)
+
+    // 处理训练部位选择变化
+    const handlePartChange = (newPart: number[]) => {
+        console.log('当前选择的训练部位:', newPart)
+        console.log('之前选择的训练部位:', previousPart.value)
+
+        // 找出取消选择的训练部位
+        const removedParts = previousPart.value.filter(part => !newPart.includes(part))
+        console.log('取消选择的训练部位:', removedParts)
+
+        if (removedParts.length > 0) {
+            // 找出取消选择的部位对应的肌肉群ID
+            const removedMuscleIds = new Set<number>()
+            for (const partId of removedParts) {
+                const muscleIds = partMuscleMap.value.get(partId)
+                if (muscleIds) {
+                    muscleIds.forEach(id => removedMuscleIds.add(id))
+                }
+            }
+            console.log('需要移除的肌肉群ID:', removedMuscleIds)
+
+            // 只清空与取消选择的部位相关的肌肉群
+            formData.muscleGroup = formData.muscleGroup.filter(muscleId => !removedMuscleIds.has(muscleId))
+            console.log('更新后的选中肌肉群:', formData.muscleGroup)
+        }
+
+        if (newPart && newPart.length > 0) {
+            // 传递所有选中的部位ID获取新的肌肉列表
+            fetchMuscleGroupData(newPart)
+        } else {
+            // 如果没有选择训练部位，清空肌肉列表和肌肉群映射
+            muscleGroupList.value = []
+            partMuscleMap.value = new Map()
+            formData.muscleGroup = []
+            console.log('没有选择训练部位，清空肌肉列表和肌肉群映射')
+        }
+
+        // 更新之前选中的训练部位记录
+        previousPart.value = [...newPart]
+    }
 
     // 表单初始数据
     const defaultFormData = {
@@ -469,8 +619,9 @@
         equipment: [] as number[],
         coach: '',
         coachId: null as number | null,
-        part: [] as string[],
-        muscleGroup: [] as string[],
+        part: [] as number[],
+        muscleIds: [] as number[],
+        muscleGroup: [] as number[],
         aiAction: null as number | null,
         tagIds: [] as number[],
         scene: null as number | null,
@@ -536,32 +687,24 @@
             return
         }
 
-        const isEdit = props.type === 'edit' && props.actionData
+        //const isEdit = props.type === 'edit' && props.actionData
         const row = props.actionData || {}
 
         // 处理封面图片：优先使用 picture 字段（API 返回的字段名）
-        const coverImageUrl = (row as any).picture || row.coverImage || ''
+        const coverImageUrl = row.picture || ''
 
         Object.assign(formData, {
             id: row.id || null, // 添加ID字段
             name: row.name || '',
             coverImage: coverImageUrl,
             video: row.video || '',
-            equipment:
-                (row as any).instruments || row.equipmentList || row.equipment
-                    ? Array.isArray(row.equipment)
-                        ? row.equipment
-                        : ((row as any).instruments || row.equipmentList || []).map((eq: any) => eq.id)
-                    : [],
+            equipment: row.instruments?.map(instrument => instrument.id) || [],
             coachId: row.coachId || null,
-            part: row.part ? (Array.isArray(row.part) ? row.part : [row.part]) : [],
-            muscleGroup: row.muscleGroup ? (Array.isArray(row.muscleGroup) ? row.muscleGroup : []) : [],
+            part: row.muscleRegions?.map(region => region.id) || [],
+            //muscleRegionIds: row.muscleRegions?.map(region => region.id) || [],
+            muscleGroup: row.exerciseMuscles?.map(muscle => muscle.id) || [],
             aiAction: row.aiAction || null,
-            tagIds: row.tagIds
-                ? Array.isArray(row.tagIds)
-                    ? row.tagIds
-                    : row.tags?.map(tag => tag.id) || []
-                : row.tags?.map(tag => tag.id) || [],
+            tagIds: row.tags?.map(tag => tag.id) || [],
             scene: row.scene || 1,
             difficulty: row.difficulty || 1,
             attribute: row.attribute || 0,
@@ -577,10 +720,11 @@
         videoUrl.value = row.video || ''
 
         // 设置选中的器械和AI动作
-        selectedEquipment.value = ((row as any).instruments || row.equipmentList || []).map((eq: any) => ({
+        selectedEquipment.value = (row.instruments || []).map((eq: any) => ({
             id: eq.id,
             name: eq.name,
         }))
+
         if (row.aiActionInfo) {
             selectedAiAction.value = {
                 id: row.aiActionInfo.id,
@@ -588,6 +732,14 @@
             }
         } else {
             selectedAiAction.value = null
+        }
+
+        // 根据训练部位获取肌肉群列表
+        if (formData.part && formData.part.length > 0) {
+            fetchMuscleGroupData(formData.part)
+        } else {
+            muscleGroupList.value = []
+            partMuscleMap.value = new Map()
         }
     }
 
@@ -635,6 +787,7 @@
         formData.coverImage = response?.url || file.url || ''
         if (response?.url) {
             imageUrl.value = response.url
+            console.log('封面上传成功:', imageUrl.value)
         }
     }
 
@@ -771,8 +924,8 @@
             video: formData.video,
             instrumentIds: Array.isArray(formData.equipment) ? formData.equipment.map(id => Number(id)) : [],
             coachId: Number(formData.coachId),
-            part: formData.part,
-            muscleLegionIds: formData.muscleGroup,
+            muscleRegionIds: formData.part,
+            muscleIds: formData.muscleGroup,
             relatedActionId: formData.aiAction ? Number(formData.aiAction) : 0,
             tagIds: formData.tagIds,
             scene: Number(formData.scene), // 转换为数字或null

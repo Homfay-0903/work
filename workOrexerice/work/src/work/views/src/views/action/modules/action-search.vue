@@ -14,6 +14,7 @@
 <script setup lang="ts">
     import { fetchGetCoachList } from '@/api/coach'
     import { fetchGetEquipmentList } from '@/api/equipment'
+    import { fetchGetTrainingAreaList } from '@/api/muscle'
 
     import { ref, computed, onMounted } from 'vue'
 
@@ -106,7 +107,7 @@
             (formData.value.scene !== undefined && formData.value.scene !== '') ||
             (formData.value.difficulty !== undefined && formData.value.difficulty !== '') ||
             (formData.value.instrumentIds !== undefined && formData.value.instrumentIds.length > 0) ||
-            (formData.value.part !== undefined && formData.value.part !== '') ||
+            (formData.value.muscleRegionIds !== undefined && formData.value.muscleRegionIds.length > 0) ||
             (formData.value.type !== undefined && formData.value.type !== '') ||
             (formData.value.status !== undefined && formData.value.status !== '') ||
             (formData.value.aiSupport !== undefined && formData.value.aiSupport !== '') ||
@@ -153,11 +154,12 @@
         },
         {
             label: '训练部位',
-            key: 'part',
+            key: 'muscleRegionIds',
             type: 'select',
             props: {
                 placeholder: '请选择训练部位',
                 clearable: true,
+                multiple: true,
                 options: partOptions.value,
             },
         },
@@ -263,6 +265,26 @@
             }
         } catch (error) {
             console.error('获取器械列表失败:', error)
+        }
+    })
+
+    // 获取训练部位列表
+    onMounted(async () => {
+        try {
+            const res = await fetchGetTrainingAreaList() // 获取全部训练部位
+            console.log('获取训练部位列表成功:', res)
+            if (res) {
+                // 将训练部位数据转换为选项格式，并在前面添加'全部'选项
+                partOptions.value = [
+                    { label: '全部', value: 0 },
+                    ...(Array.isArray(res) ? res : []).map((region: any) => ({
+                        label: region.name || '未知训练部位',
+                        value: region.id,
+                    })),
+                ]
+            }
+        } catch (error) {
+            console.error('获取训练部位列表失败:', error)
         }
     })
 </script>

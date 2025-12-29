@@ -34,6 +34,14 @@ export function fetchUpdateAction(body: Api.Action.ActionUpdateBody) {
     })
 }
 
+//翻译动作
+export function fetchTranslateAction(body: Api.Action.ActionTranslateBody) {
+    return request.post<void>({
+        url: `/api/v1/actions/translate`,
+        data: body,
+    })
+}
+
 // 删除动作
 export function fetchDeleteAction(id: number) {
     return request.del<void>({

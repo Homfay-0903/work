@@ -25,6 +25,7 @@
 
             <!-- 表格 -->
             <ArtTable
+                ref="tableRef"
                 :loading="loading"
                 :data="data"
                 :columns="columns"
@@ -46,6 +47,9 @@
                         v-html="getEquipmentText(row)"
                     ></div>
                 </template>
+                <template #part="{ row }">
+                    <div style="min-height: 32px; line-height: 20px; padding: 4px 0" v-html="getPartText(row)"></div>
+                </template>
             </ArtTable>
 
             <!-- 动作弹窗 -->
@@ -62,7 +66,7 @@
 <script setup lang="ts">
     import { ref, nextTick, h, onMounted } from 'vue'
     import { useTable } from '@/hooks/core/useTable'
-    import { fetchGetActionList, fetchDeleteAction, fetchUpdateActionStatus } from '@/api/action'
+    import { fetchGetActionList, fetchDeleteAction, fetchUpdateActionStatus, fetchTranslateAction } from '@/api/action'
     import { fetchGetTagList } from '@/api/tag'
     import ActionSearch from './modules/action-search.vue'
     import ActionDialog from './modules/action-dialog.vue'
@@ -80,6 +84,9 @@
 
     // 选中行
     const selectedRows = ref<ActionListItem[]>([])
+
+    // 表格引用（用于控制展开/收起）
+    const tableRef = ref<any>(null)
 
     // 型号tab相关
     const activeModel = ref<string>('全部型号') // 空字符串表示"全部型号"
@@ -232,10 +239,27 @@
     }
 
     /**
+     * 获取训练部位文本
+     */
+    const getPartText = (row: ActionListItem) => {
+        if (!row.muscleRegions || row.muscleRegions.length === 0) {
+            return '无'
+        }
+        return row.muscleRegions.map(part => part.name || '未知').join('<br>')
+    }
+
+    /**
      * 获取教练文本
      */
     const getCoachText = (row: ActionListItem) => {
         return row.coach?.name || '无'
+    }
+
+    /**
+     * 获取语言文本
+     */
+    const getLanguageText = (row: ActionListItem) => {
+        return row.langName || '无'
     }
 
     // 状态配置
@@ -385,8 +409,22 @@
                     'align': 'center',
                     'formatter': (row: ActionListItem) => getCoachText(row),
                 },
-                { 'prop': 'part', 'label': '训练部位', 'width': 120, 'header-align': 'center', 'align': 'center' },
-                { 'prop': 'language', 'label': '语言', 'width': 120, 'header-align': 'center', 'align': 'center' },
+                {
+                    'prop': 'part',
+                    'label': '训练部位',
+                    'width': 120,
+                    'header-align': 'center',
+                    'align': 'center',
+                    'useSlot': true,
+                },
+                {
+                    'prop': 'language',
+                    'label': '语言',
+                    'width': 120,
+                    'header-align': 'center',
+                    'align': 'center',
+                    'formatter': (row: ActionListItem) => getLanguageText(row),
+                },
                 {
                     'prop': 'status',
                     'label': '状态',
@@ -512,15 +550,75 @@
         },
         // 数据处理
         transform: {
-            // 数据转换器
             dataTransformer: records => {
                 // 类型守卫检查
                 if (!Array.isArray(records)) {
                     console.warn('数据转换器: 期望数组类型，实际收到:', typeof records)
                     return []
                 }
-                // 对数据进行排序，按ID升序排列
-                return records.sort((a, b) => (a as ActionListItem).id - (b as ActionListItem).id)
+
+                type ActionItemWithTree = ActionListItem & {
+                    rootId?: number | string | null
+                    children?: ActionListItem[]
+                    hasChildren?: boolean
+                }
+
+                // 按rootId分组（使用数字作为key便于比较）
+                const groupMap = new Map<number, ActionItemWithTree[]>()
+
+                records.forEach(item => {
+                    // 确保rootId为数字类型（用于分组key）
+                    const numericRootId = item.rootId ? Number(item.rootId) : Number(item.id)
+
+                    if (!groupMap.has(numericRootId)) {
+                        groupMap.set(numericRootId, [])
+                    }
+
+                    // 存储记录，保持rootId的原始类型（string）
+                    const itemWithTree: ActionItemWithTree = {
+                        ...item,
+                        // rootId保持原样（可能是string），用于后续比较
+                    }
+                    groupMap.get(numericRootId)!.push(itemWithTree)
+                })
+
+                // 存储最终的根节点
+                const rootRecords: ActionItemWithTree[] = []
+
+                // 处理每个分组
+                groupMap.forEach(group => {
+                    if (!group || group.length === 0) return
+
+                    // 1. 优先选择「id === rootId」的那条作为根节点（符合你说的：中文动作 rootId 与 id 相同）
+                    let rootNode =
+                        group.find(
+                            item =>
+                                item.rootId !== undefined &&
+                                item.rootId !== null &&
+                                Number(item.id) === Number(item.rootId),
+                        ) ||
+                        // 2. 其次尝试按语言判断中文动作
+                        group.find(item => item.langCode === 'zh-CN' || item.langName === '中文') ||
+                        // 3. 兜底：选择 id 最小的记录作为根节点
+                        group.reduce((min, current) => {
+                            return Number(current.id) < Number(min.id) ? current : min
+                        })
+
+                    // 过滤出子节点（除了根节点以外的所有记录）
+                    const children = group.filter(item => Number(item.id) !== Number(rootNode.id))
+
+                    // 设置子节点和hasChildren属性
+                    if (children.length > 0) {
+                        rootNode.children = children
+                        rootNode.hasChildren = true
+                    }
+
+                    // 将根节点添加到结果数组
+                    rootRecords.push(rootNode)
+                })
+
+                // 按ID升序排序根节点
+                return rootRecords.sort((a, b) => Number(a.id) - Number(b.id))
             },
         },
     })
@@ -534,9 +632,48 @@
         // 搜索参数赋值
         Object.assign(searchParams, params)
         delete (searchParams as any).model
+        // 保存器械ID参数用于前端过滤
+        const instrumentIds = (params as any).instrumentIds || []
+        // 保存训练部位ID参数用于前端过滤
+        const muscleRegionIds = (params as any).muscleRegionIds || []
         // 等待数据加载完成后打印，确保表格数据已更新
         await getData()
         console.log('表格数据：', data.value)
+
+        // 添加前端器械过滤逻辑
+        if (instrumentIds && instrumentIds.length > 0) {
+            const filteredData = (data.value || []).filter((row: ActionListItem) => {
+                // 如果行没有instruments属性，或者instruments数组为空，则不匹配
+                if (!row.instruments || !Array.isArray(row.instruments) || row.instruments.length === 0) {
+                    return false
+                }
+                // 检查行的instruments中是否包含任意一个搜索的instrumentIds
+                return instrumentIds.some(
+                    (id: number) => row.instruments && row.instruments.some(instrument => instrument.id === Number(id)),
+                )
+            })
+            console.log('前端器械过滤后的数据:', filteredData)
+            // 更新表格数据为过滤后的数据
+            data.value = filteredData
+        }
+
+        //添加前端训练部位过滤逻辑
+        if (muscleRegionIds && muscleRegionIds.length > 0) {
+            const filteredData = (data.value || []).filter((row: ActionListItem) => {
+                // 如果行没有muscleRegions属性，或者muscleRegions数组为空，则不匹配
+                if (!row.muscleRegions || !Array.isArray(row.muscleRegions) || row.muscleRegions.length === 0) {
+                    return false
+                }
+                // 检查行的muscleRegions中是否包含任意一个搜索的muscleRegionIds
+                return muscleRegionIds.some(
+                    (id: number) =>
+                        row.muscleRegions && row.muscleRegions.some(region => Number(region.id) === Number(id)),
+                )
+            })
+            console.log('前端训练部位过滤后的数据:', filteredData)
+            // 更新表格数据为过滤后的数据
+            data.value = filteredData
+        }
     }
 
     /**
@@ -566,6 +703,7 @@
         console.log('打开弹窗:', { type, row })
         dialogType.value = type
         currentActionData.value = row || {}
+        console.log('currentActionData.value:', currentActionData.value)
         nextTick(() => {
             dialogVisible.value = true
         })
@@ -668,8 +806,54 @@
         ;(async () => {
             try {
                 console.log('翻译动作:', row)
-                ElMessage.info('翻译功能开发中...')
-                // TODO: 调用翻译API
+                // 保存当前动作的rootId（用于翻译后定位并展开）
+                // 根据约定：中文动作的rootId等于id，翻译后的动作rootId与中文动作一致
+                const rootId =
+                    (row as any).rootId !== undefined && (row as any).rootId !== null
+                        ? Number((row as any).rootId)
+                        : Number(row.id)
+
+                // 调用翻译API
+                await fetchTranslateAction({
+                    rootId,
+                })
+                ElMessage.success('翻译成功')
+
+                // 刷新数据以显示翻译后的子动作
+                await refreshData()
+
+                // 等待DOM更新后，找到对应的根节点并展开
+                await nextTick()
+
+                // 在刷新后的数据中找到对应的根节点（id最小的那个）
+                if (tableRef.value?.elTableRef && data.value) {
+                    const findRootNode = (nodes: ActionListItem[]): ActionListItem | null => {
+                        for (const node of nodes) {
+                            // 检查当前节点的rootId是否匹配
+                            const nodeRootId =
+                                (node as any).rootId !== undefined && (node as any).rootId !== null
+                                    ? Number((node as any).rootId)
+                                    : Number(node.id)
+
+                            if (nodeRootId === rootId) {
+                                return node
+                            }
+
+                            // 递归查找子节点
+                            if (node.children && node.children.length > 0) {
+                                const found = findRootNode(node.children)
+                                if (found) return found
+                            }
+                        }
+                        return null
+                    }
+
+                    const rootNode = findRootNode(data.value as ActionListItem[])
+                    if (rootNode) {
+                        // 展开该行
+                        tableRef.value.elTableRef.toggleRowExpansion(rootNode, true)
+                    }
+                }
             } catch (error) {
                 console.log(error)
                 ElMessage.error('翻译失败')

@@ -347,6 +347,8 @@ declare namespace Api {
             video?: string
             /** 器械名称 */
             equipment?: string
+            /** 根动作ID */
+            rootId?: string
             /** 器械ID列表 */
             instrumentIds?: number[]
             /** 器械列表 */
@@ -356,9 +358,9 @@ declare namespace Api {
             /** 教练ID */
             coachId: number
             /** 肌群ID列表 */
-            muscleLegionIds?: number[]
+            muscleRegionIds?: number[]
             /** 肌肉ID列表 */
-            musclIds?: number[]
+            muscleIds?: number[]
             /** 标签ID列表 */
             tagIds?: number[]
             /** 标签列表 */
@@ -389,7 +391,10 @@ declare namespace Api {
             deletedAt?: string
             /** 适用型号 */
             model?: string
-
+            /** 训练部位 */
+            muscleRegions?: MuscleRegionListItem[]
+            /** 锻炼肌肉列表 */
+            exerciseMuscles?: MuscleListItem[]
             /** 训练部位 */
             part?: string
             /** 语言 */
@@ -400,10 +405,16 @@ declare namespace Api {
             aiSupport?: boolean
             /** 操作人 */
             operator?: string
+            /** 其他信息 */
+            other?: string
             /** 是否有子动作 */
             hasChildren?: boolean
             /** 子动作列表 */
             children?: ActionListItem[]
+        }
+
+        interface ActionTranslateBody {
+            rootId: number
         }
 
         interface tagItem {
@@ -417,6 +428,18 @@ declare namespace Api {
         }
 
         interface InstrumentListItem {
+            id: number
+            name: string
+        }
+
+        /** 训练部位列表项 */
+        interface MuscleRegionListItem {
+            id: number
+            name: string
+        }
+
+        /** 锻炼肌肉列表项 */
+        interface MuscleListItem {
             id: number
             name: string
         }
@@ -468,9 +491,9 @@ declare namespace Api {
             /** 教练ID */
             coachId: number
             /** 肌群ID列表 */
-            muscleLegionIds?: number[]
+            muscleRegionIds?: number[]
             /** 肌肉ID列表 */
-            musclIds?: number[]
+            muscleIds?: number[]
             /** 标签ID列表 */
             tagIds?: number[]
             /** 相关动作ID */
@@ -504,6 +527,48 @@ declare namespace Api {
             /** 动作ID */
             id: number
         }
+    }
+
+    namespace Muscle {
+        /** 肌群列表 */
+        type MuscleList = Api.Common.PaginatedResponse<MuscleListItem>
+
+        /** 训练部位列表项 */
+        interface TrainingAreaListItem {
+            /** 主键ID */
+            id: number
+            /** 训练部位 */
+            name: string
+        }
+
+        /** 训练肌肉列表项 */
+        interface MuscleListItem {
+            /** 主键ID */
+            id: number
+            /** 训练肌肉 */
+            name: string
+            /** 创建时间 */
+            createdAt?: string
+            /** 更新时间 */
+            updatedAt?: string
+            /** 删除时间 */
+            deletedAt?: string
+        }
+
+        /** 训练部位对应肌肉 */
+        interface TrainingAreaMuscleListItem {
+            /** 训练肌肉ID */
+            muscleId: number
+            /** 训练部位ID */
+            regionId: number
+        }
+
+        interface SearchMucleByRegionId {
+            /** 训练部位ID */
+            regionId: number
+        }
+
+        type MuscleSearchParams = Pick<Api.Common.CommonSearchParams, 'name' | 'muscle_region_id'>
     }
 
     namespace Coach {
