@@ -186,8 +186,38 @@
 
     /**
      * 获取序号文本
+     * 根节点：显示基于分页的序号（如：1, 2, 3...）
+     * 子节点：显示父序号-子序号（如：1-1, 1-2, 1-3...）
+     * 注意：子节点不占用分页序号，只显示为父序号-子序号
      */
-    const getIndexText = (row: ActionListItem) => {
+    const getIndexText = (row: ActionListItem): string => {
+        // 如果是子节点（有父节点），显示自定义序号
+        if ((row as any)._isChild) {
+            const parentRowIndex = (row as any)._parentRowIndex
+            const childIndex = (row as any)._childIndex
+            if (parentRowIndex !== undefined && childIndex !== undefined) {
+                // 计算父节点的显示序号
+                const pageOffset = (pagination.page - 1) * pagination.size
+                const parentDisplayIndex = pageOffset + parentRowIndex + 1
+                return `${parentDisplayIndex}-${childIndex}`
+            }
+            // 兜底
+            return `${(row as any)._childIndex || ''}`
+        }
+
+        // 根节点：显示基于分页的序号
+        // 使用 _rowIndex 属性（在数据转换时设置）
+        if ((row as any)._rowIndex !== undefined) {
+            const pageOffset = (pagination.page - 1) * pagination.size
+            const displayIndex = pageOffset + (row as any)._rowIndex + 1
+            // 如果有子节点，显示子节点数量
+            if (row.hasChildren && row.children && row.children.length > 0) {
+                return `${displayIndex} (${row.children.length})`
+            }
+            return `${displayIndex}`
+        }
+
+        // 兜底：如果没有_rowIndex，使用id
         if (row.hasChildren && row.children && row.children.length > 0) {
             return `${row.id} (${row.children.length})`
         }
@@ -343,7 +373,7 @@
             apiFn: fetchGetActionList,
             apiParams: {
                 page: 1,
-                size: 20,
+                size: 30,
                 model: activeModel.value === '' ? undefined : activeModel.value,
                 ...searchForm.value,
             },
@@ -561,6 +591,10 @@
                     rootId?: number | string | null
                     children?: ActionListItem[]
                     hasChildren?: boolean
+                    _isChild?: boolean
+                    _parentIndex?: number
+                    _childIndex?: number
+                    _rowIndex?: number
                 }
 
                 // 按rootId分组（使用数字作为key便于比较）
@@ -607,9 +641,14 @@
                     // 过滤出子节点（除了根节点以外的所有记录）
                     const children = group.filter(item => Number(item.id) !== Number(rootNode.id))
 
-                    // 设置子节点和hasChildren属性
+                    // 设置子节点和hasChildren属性，并为子节点添加序号标记
                     if (children.length > 0) {
-                        rootNode.children = children
+                        // 为子节点添加标记和序号信息
+                        rootNode.children = children.map((child, index) => ({
+                            ...child,
+                            _isChild: true,
+                            _childIndex: index + 1, // 子节点序号从1开始
+                        }))
                         rootNode.hasChildren = true
                     }
 
@@ -617,13 +656,23 @@
                     rootRecords.push(rootNode)
                 })
 
-                // 按ID升序排序根节点
-                return rootRecords.sort((a, b) => Number(a.id) - Number(b.id))
+                // 按ID升序排序根节点，并为每个根节点设置_rowIndex（用于序号显示）
+                const sortedRootRecords = rootRecords.sort((a, b) => Number(a.id) - Number(b.id))
+                sortedRootRecords.forEach((rootNode, index) => {
+                    rootNode._rowIndex = index
+                    // 为子节点设置父序号（在getIndexText中会基于pagination动态计算）
+                    if (rootNode.children && rootNode.children.length > 0) {
+                        rootNode.children.forEach((child, childIndex) => {
+                            ;(child as any)._parentRowIndex = index // 保存父节点的行索引，用于后续计算
+                            ;(child as any)._childIndex = childIndex + 1
+                        })
+                    }
+                })
+
+                return sortedRootRecords
             },
         },
     })
-
-    //????
 
     /**
      * 搜索处理

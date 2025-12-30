@@ -45,7 +45,7 @@ export function fetchTranslateAction(body: Api.Action.ActionTranslateBody) {
 // 删除动作
 export function fetchDeleteAction(id: number) {
     return request.del<void>({
-        url: `/api/v1/action/${id}`,
+        url: `/api/v1/actions/${id}`,
     })
 }
 
