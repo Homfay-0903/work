@@ -590,7 +590,9 @@ declare namespace Api {
             /** 教练介绍 */
             introduction?: string
             /** 语言 */
-            language?: string
+            langName?: string
+            /** 语言编码 */
+            langCode?: string
             /** 教练状态 (1:正常, 2:禁用) */
             status: number
             /** 操作人 */
