@@ -81,7 +81,7 @@ export function fetchUploadFileToAws(params: Api.Common.UploadFileParams) {
  * @returns {Promise<Api.Common.UploadFileResponse>} 上传文件响应
  */
 export function fetchUploadImage(params: Api.Common.UploadFileParams) {
-    return fetchUploadFile(params)
+    return fetchUploadFileToAws(params)
 }
 
 /**
@@ -92,7 +92,7 @@ export function fetchUploadImage(params: Api.Common.UploadFileParams) {
  * @returns {Promise<Api.Common.UploadFileResponse>} 上传文件响应
  */
 export function fetchUploadVideo(params: Api.Common.UploadFileParams) {
-    return fetchUploadFile(params)
+    return fetchUploadFileToAws(params)
 }
 
 /**

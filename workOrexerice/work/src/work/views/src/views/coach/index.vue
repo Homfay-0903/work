@@ -46,6 +46,7 @@
     import { ref, nextTick, h } from 'vue'
     import { useTable } from '@/hooks/core/useTable'
     import {
+        fetchGetCoachList,
         fetchCreateCoach,
         fetchUpdateCoach,
         fetchDeleteCoach,
@@ -62,23 +63,6 @@
 
     // 翻译状态
     const translatingIds = ref<Set<number>>(new Set())
-
-    // 假数据
-    const mockData: CoachListItem[] = [
-        {
-            id: 1,
-            avatar: 'https://picsum.photos/id/1054/800/600',
-            name: '张三',
-            phone: '13800000000',
-            email: 'zhangsan@example.com',
-            introduction: '专业教练，擅长T5X型号',
-            language: '中文',
-            status: 1,
-            operator: 'admin@suanier.com',
-            createdAt: '2023-01-01T00:00:00.000Z',
-            updatedAt: '2023-01-01T00:00:00.000Z',
-        },
-    ]
 
     // 弹窗相关
     const dialogType = ref<'add' | 'edit' | 'view'>('add')
@@ -100,15 +84,7 @@
     // 教练状态配置
     const COACH_STATUS_CONFIG = {
         1: { type: 'success' as const, text: '启用' },
-        2: { type: 'danger' as const, text: '禁用' },
-    } as const
-
-    // 语言配置
-    const LANGUAGE_CONFIG = {
-        中文: { type: 'success' as const, text: '中文' },
-        English: { type: 'info' as const, text: '英文' },
-        Japanese: { type: 'warning' as const, text: '日文' },
-        Korean: { type: 'primary' as const, text: '韩文' },
+        0: { type: 'danger' as const, text: '禁用' },
     } as const
 
     /**
@@ -137,8 +113,8 @@
     /**
      * 获取教练名称
      */
-    const getNameText = (name: string) => {
-        return name || '未知'
+    const getNameText = (row: CoachListItem) => {
+        return row.name || '未知'
     }
 
     /**
@@ -164,12 +140,7 @@
      * 获取语言配置
      */
     const getLanguageConfig = (language: string) => {
-        return (
-            LANGUAGE_CONFIG[language as keyof typeof LANGUAGE_CONFIG] || {
-                type: 'info' as const,
-                text: language || '未知',
-            }
-        )
+        return language || '未知'
     }
 
     const {
@@ -190,22 +161,10 @@
     } = useTable({
         // 核心配置
         core: {
-            // 暂时使用假数据
-            apiFn: async () => {
-                return new Promise(resolve => {
-                    setTimeout(() => {
-                        resolve({
-                            list: mockData,
-                            total: 96,
-                            page: 1,
-                            size: 10,
-                        })
-                    }, 300)
-                })
-            },
+            apiFn: fetchGetCoachList,
             apiParams: {
                 page: 1,
-                size: 10,
+                size: 30,
                 ...searchForm.value,
             },
             columnsFactory: () => [
@@ -232,7 +191,7 @@
                     'width': 200,
                     'header-align': 'center',
                     'align': 'center',
-                    'formatter': (row: CoachListItem) => getNameText(row.name),
+                    'formatter': (row: CoachListItem) => getNameText(row),
                 },
                 {
                     'prop': 'introduction',
@@ -248,10 +207,7 @@
                     'width': 200,
                     'header-align': 'center',
                     'align': 'center',
-                    'formatter': (row: CoachListItem) => {
-                        const languageConfig = getLanguageConfig(row.language || '')
-                        return h(ElTag, { type: languageConfig.type }, () => languageConfig.text)
-                    },
+                    'formatter': (row: CoachListItem) => getLanguageConfig(row.langName || ''),
                 },
                 {
                     'prop': 'status',
@@ -320,7 +276,7 @@
                         )
 
                         // 全部翻译（只有主数据才显示）
-                        if (!row.hasChildren && (row.language === '中文' || !row.language)) {
+                        if (!row.hasChildren && (row.langName === '简体中文' || row.langCode === 'zh-CN')) {
                             buttons.push(
                                 h(
                                     ElButton,

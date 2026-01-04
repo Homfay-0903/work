@@ -38,24 +38,50 @@
                         </ElUpload>
                     </ElFormItem>
 
-                    <ElFormItem label="动作视频" prop="video">
-                        <ElUpload
-                            class="upload-demo"
-                            :http-request="customUploadVideo"
-                            :before-upload="beforeUploadVideo"
-                            :on-success="handleVideoSuccess"
-                            :on-remove="handleVideoRemove"
-                            :show-file-list="false"
-                            :disabled="dialogType === 'view'"
-                        >
-                            <div v-if="videoUrl" class="video-preview">
-                                <video :src="videoUrl" class="coverImage" controls preload="metadata" />
+                    <ElFormItem label="动作视频" prop="videos">
+                        <div class="video-upload-container">
+                            <div v-if="videoUrls.length > 0" class="video-list">
+                                <div v-for="(video, index) in videoUrls" :key="index" class="video-item">
+                                    <div class="video-preview">
+                                        <video :src="video.url" class="coverImage" controls preload="metadata" />
+                                    </div>
+                                    <div class="video-actions">
+                                        <span class="video-index">视频 {{ index + 1 }}</span>
+                                        <div class="action-buttons">
+                                            <ElButton
+                                                v-if="dialogType !== 'view'"
+                                                type="primary"
+                                                size="small"
+                                                @click="handleReplaceVideo(index)"
+                                            >
+                                                替换
+                                            </ElButton>
+                                            <ElButton
+                                                v-if="dialogType !== 'view'"
+                                                type="danger"
+                                                size="small"
+                                                @click="handleDeleteVideo(index)"
+                                            >
+                                                删除
+                                            </ElButton>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <el-icon v-else class="uploader-icon"><Plus /></el-icon>
-                            <template #tip>
-                                <div class="el-upload__tip">*建议上传2GB以内的MP4格式</div>
-                            </template>
-                        </ElUpload>
+                            <ElUpload
+                                v-if="videoUrls.length < 4 && dialogType !== 'view'"
+                                class="upload-demo video-upload"
+                                :http-request="customUploadVideo"
+                                :before-upload="beforeUploadVideo"
+                                :on-success="handleVideoSuccess"
+                                :show-file-list="false"
+                            >
+                                <el-icon class="uploader-icon"><Plus /></el-icon>
+                                <template #tip>
+                                    <div class="el-upload__tip">上传2GB以内的MP4格式，最多上传4个视频，至少需要1个</div>
+                                </template>
+                            </ElUpload>
+                        </div>
                     </ElFormItem>
 
                     <ElFormItem label="器械" prop="equipment">
@@ -118,7 +144,7 @@
 
                     <ElFormItem label="关联AI动作" prop="aiAction">
                         <ElButton @click="showAiActionDialog" :disabled="dialogType === 'view'">请选择</ElButton>
-                        <span v-if="selectedAiAction" class="selected-items">{{ selectedAiAction.name }}</span>
+                        <span v-if="selectedAiAction" class="selected-items">{{ selectedAiAction.actionName }}</span>
                     </ElFormItem>
                 </ElCol>
 
@@ -269,13 +295,18 @@
             </ElRow>
         </ElForm>
 
-        <!-- 器械/AI动作 关联选择弹窗 -->
-        <ActionRelation
-            v-model:visible="relationDialogVisible"
-            :type="relationDialogType"
+        <!-- 器械关联选择弹窗 -->
+        <InstrumentRelation
+            v-model:visible="equipmentDialogVisible"
             :selected-equipment-ids="formData.equipment"
+            @confirm="handleEquipmentConfirm"
+        />
+
+        <!-- AI动作关联选择弹窗 -->
+        <ActionRelation
+            v-model:visible="aiActionDialogVisible"
             :selected-ai-id="formData.aiAction"
-            @confirm="handleRelationConfirm"
+            @confirm="handleAiActionConfirm"
         />
 
         <template #footer>
@@ -299,11 +330,14 @@
     import { fetchUploadVideo } from '@/api/upload'
     import { fetchGetTagList } from '@/api/tag'
     import { fetchGetMuscleList } from '@/api/muscle'
+    import { fetchGetAiActionList } from '@/api/aiaction'
 
+    import InstrumentRelation from './instrument-relation.vue'
     import ActionRelation from './action-relation.vue'
 
     const imageUrl = ref('')
-    const videoUrl = ref('')
+    const videoUrls = ref<Array<{ url: string; storageUrl?: string; file?: File }>>([])
+    const replaceIndex = ref<number | null>(null)
 
     // 富文本编辑器引用
     const otherEditorRef = ref<InstanceType<typeof ArtWangEditor>>()
@@ -355,17 +389,15 @@
     const formRef = ref<FormInstance>()
     // const uploadAction = ref('') // 已注释，使用自定义上传方法替代
 
-    // 文件列表
     const coverFileList = ref<UploadFiles>([])
-    const videoFileList = ref<UploadFiles>([])
 
     // 选中的器械和AI动作
     const selectedEquipment = ref<Array<{ id: number; name: string }>>([])
-    const selectedAiAction = ref<{ id: number; name: string } | null>(null)
+    const selectedAiAction = ref<{ actionId: number; actionName: string } | null>(null)
 
     // 关联选择对话框
-    const relationDialogVisible = ref(false)
-    const relationDialogType = ref<'equipment' | 'ai'>('equipment')
+    const equipmentDialogVisible = ref(false)
+    const aiActionDialogVisible = ref(false)
 
     // 训练部位列表 - 改为响应式引用
     const partList = ref([
@@ -612,10 +644,10 @@
 
     // 表单初始数据
     const defaultFormData = {
-        id: null as number | null, // 添加ID字段
+        id: null as number | null,
         name: '',
         coverImage: '',
-        video: '',
+        videos: [] as string[],
         equipment: [] as number[],
         coach: '',
         coachId: null as number | null,
@@ -646,7 +678,21 @@
         difficulty: [{ required: true, message: '请选择难度', trigger: 'change' }],
         attribute: [{ required: true, message: '请选择动作属性', trigger: 'change' }],
         // coverImage: [{ required: true, message: '请上传动作封面', trigger: 'change' }],
-        // video: [{ required: true, message: '请上传动作视频', trigger: 'change' }],
+        videos: [
+            {
+                required: true,
+                validator: (rule, value, callback) => {
+                    if (videoUrls.value.length === 0) {
+                        callback(new Error('请至少上传1个视频'))
+                    } else if (videoUrls.value.length > 4) {
+                        callback(new Error('最多只能上传4个视频'))
+                    } else {
+                        callback()
+                    }
+                },
+                trigger: 'change',
+            },
+        ],
         introduction: [{ required: true, message: '请填写动作介绍', trigger: 'blur' }],
         equipment: [{ required: true, message: '请选择器械', trigger: 'change' }],
         calories: [
@@ -667,43 +713,29 @@
     /**
      * 初始化表单数据
      */
-    const initFormData = () => {
-        // 如果是添加动作，完全重置表单数据
+    const initFormData = async () => {
         if (props.type === 'add') {
-            // 重置formData到默认值
             Object.assign(formData, { ...defaultFormData })
-
-            // 重置图片和视频预览
             imageUrl.value = ''
-            videoUrl.value = ''
-
-            // 重置选中的器械和AI动作
+            videoUrls.value = []
             selectedEquipment.value = []
             selectedAiAction.value = null
-
-            // 清空富文本编辑器内容
             otherEditorRef.value?.clear()
-
             return
         }
 
-        //const isEdit = props.type === 'edit' && props.actionData
         const row = props.actionData || {}
 
-        // 处理封面图片：优先使用 picture 字段（API 返回的字段名）
-        const coverImageUrl = row.picture || ''
-
         Object.assign(formData, {
-            id: row.id || null, // 添加ID字段
+            id: row.id || null,
             name: row.name || '',
-            coverImage: coverImageUrl,
-            video: row.video || '',
+            coverImage: row.picture || '',
+            video: row.video || [],
             equipment: row.instruments?.map(instrument => instrument.id) || [],
             coachId: row.coachId || null,
             part: row.muscleRegions?.map(region => region.id) || [],
-            //muscleRegionIds: row.muscleRegions?.map(region => region.id) || [],
             muscleGroup: row.exerciseMuscles?.map(muscle => muscle.id) || [],
-            aiAction: row.aiAction || null,
+            aiAction: row.relatedActionId || null,
             tagIds: row.tags?.map(tag => tag.id) || [],
             scene: row.scene || 1,
             difficulty: row.difficulty || 1,
@@ -715,31 +747,53 @@
             remark: row.remark || '',
         })
 
-        // 设置封面和视频预览URL
-        imageUrl.value = coverImageUrl
-        videoUrl.value = row.video || ''
+        imageUrl.value = (row as any)._picture || row.picture || ''
 
-        // 设置选中的器械和AI动作
+        const videoData = (row as any)._video || row.video
+        if (videoData && Array.isArray(videoData)) {
+            videoUrls.value = videoData.map((url: string) => ({ url }))
+        } else if (videoData) {
+            videoUrls.value = [{ url: videoData }]
+        } else {
+            videoUrls.value = []
+        }
+
         selectedEquipment.value = (row.instruments || []).map((eq: any) => ({
             id: eq.id,
             name: eq.name,
         }))
 
-        if (row.aiActionInfo) {
+        if (row.relatedActionId) {
             selectedAiAction.value = {
-                id: row.aiActionInfo.id,
-                name: row.aiActionInfo.name,
+                actionId: row.relatedActionId,
+                actionName: await getAiActionNameById(row.relatedActionId),
             }
         } else {
             selectedAiAction.value = null
         }
 
-        // 根据训练部位获取肌肉群列表
         if (formData.part && formData.part.length > 0) {
             fetchMuscleGroupData(formData.part)
         } else {
             muscleGroupList.value = []
             partMuscleMap.value = new Map()
+        }
+    }
+
+    /**
+     * 根据 AI 动作 ID 获取 AI 动作名称
+     */
+    const getAiActionNameById = async (actionId: number) => {
+        try {
+            const response = await fetchGetAiActionList({ actionId })
+            if (response) {
+                return response.list[0].actionName || ''
+            } else {
+                return ''
+            }
+        } catch (error) {
+            console.error('获取 AI 动作信息失败:', error)
+            return ''
         }
     }
 
@@ -783,11 +837,13 @@
      * 封面上传成功
      */
     const handleCoverSuccess = (response: Api.Common.UploadFileResponse, file: UploadFile) => {
-        // 接口返回的 data 字段包含 { filename, path, url }
-        formData.coverImage = response?.url || file.url || ''
-        if (response?.url) {
-            imageUrl.value = response.url
-            console.log('封面上传成功:', imageUrl.value)
+        const displayUrl = response?._url || response?.tmpUrl || ''
+        const storageUrl = response?.url || file.url || ''
+
+        formData.coverImage = storageUrl
+
+        if (displayUrl) {
+            imageUrl.value = displayUrl
         }
     }
 
@@ -804,47 +860,62 @@
      * 视频上传成功
      */
     const handleVideoSuccess = (response: Api.Common.UploadFileResponse, file: UploadFile) => {
-        // 接口返回的 data 字段包含 { filename, path, url }
-        formData.video = response?.url || file.url || ''
-        if (response?.url) {
-            videoUrl.value = response.url
+        const displayUrl = response?._url || response?.tmpUrl || ''
+        const storageUrl = response?.url || file.url || ''
+
+        if (displayUrl) {
+            if (replaceIndex.value !== null) {
+                videoUrls.value[replaceIndex.value] = { url: displayUrl, storageUrl }
+                replaceIndex.value = null
+            } else {
+                videoUrls.value.push({ url: displayUrl, storageUrl })
+            }
         }
     }
 
     /**
      * 删除视频
      */
-    const handleVideoRemove = () => {
-        formData.video = ''
-        videoUrl.value = ''
-        videoFileList.value = []
+    const handleDeleteVideo = (index: number) => {
+        videoUrls.value.splice(index, 1)
+    }
+
+    /**
+     * 替换视频
+     */
+    const handleReplaceVideo = (index: number) => {
+        replaceIndex.value = index
     }
 
     // 自定义上传方法，使用我们实现的上传接口
     const customUploadCover: UploadProps['httpRequest'] = ({ file, onSuccess, onError, onProgress }) => {
-        fetchUploadImage({
+        return fetchUploadImage({
             file,
             onUploadProgress: onProgress,
         })
             .then(response => {
-                onSuccess(response, file)
+                onSuccess(response)
+                return response
             })
             .catch(error => {
-                onError(error, file)
+                onError(error)
+                throw error
             })
     }
 
     // 自定义视频上传方法
     const customUploadVideo: UploadProps['httpRequest'] = ({ file, onSuccess, onError, onProgress }) => {
-        fetchUploadVideo({
+        return fetchUploadVideo({
             file,
             onUploadProgress: onProgress,
         })
             .then(response => {
-                onSuccess(response, file)
+                onSuccess(response)
+                //return response
             })
             .catch(error => {
-                onError(error, file)
+                onError(error)
+                //throw error
             })
     }
 
@@ -870,33 +941,31 @@
      * 显示器械选择对话框
      */
     const showEquipmentDialog = () => {
-        relationDialogType.value = 'equipment'
-        relationDialogVisible.value = true
+        equipmentDialogVisible.value = true
     }
 
     /**
      * 显示AI动作选择对话框
      */
     const showAiActionDialog = () => {
-        relationDialogType.value = 'ai'
-        relationDialogVisible.value = true
+        aiActionDialogVisible.value = true
     }
 
     /**
-     * 处理关联选择确认
+     * 处理器械选择确认
      */
-    const handleRelationConfirm = (payload: {
-        type: 'equipment' | 'ai'
-        selections: Array<{ id: number; name: string }>
-    }) => {
-        if (payload.type === 'equipment') {
-            selectedEquipment.value = payload.selections
-            formData.equipment = payload.selections.map(item => item.id)
-        } else {
-            const first = payload.selections[0]
-            selectedAiAction.value = first || null
-            formData.aiAction = first ? first.id : null
-        }
+    const handleEquipmentConfirm = (selections: Array<{ id: number; name: string }>) => {
+        selectedEquipment.value = selections
+        formData.equipment = selections.map(item => item.id)
+    }
+
+    /**
+     * 处理AI动作选择确认
+     */
+    const handleAiActionConfirm = (selection: { actionId: number; actionName: string }) => {
+        selectedAiAction.value = selection || null
+        selectedAiAction.value.actionName = selection.actionName || ''
+        formData.aiAction = selection ? selection.actionId : null
     }
 
     /**
@@ -918,20 +987,20 @@
 
         // 构建提交数据对象
         const actionDataBase: Api.Action.ActionUpdateBody | Api.Action.ActionCreateBody = {
-            id: Number(formData.id), // 添加ID字段
+            id: Number(formData.id),
             name: formData.name,
             picture: formData.coverImage,
-            video: formData.video,
+            video: videoUrls.value.map(v => v.storageUrl || v.url),
             instrumentIds: Array.isArray(formData.equipment) ? formData.equipment.map(id => Number(id)) : [],
             coachId: Number(formData.coachId),
             muscleRegionIds: formData.part,
             muscleIds: formData.muscleGroup,
             relatedActionId: formData.aiAction ? Number(formData.aiAction) : 0,
             tagIds: formData.tagIds,
-            scene: Number(formData.scene), // 转换为数字或null
-            difficulty: Number(formData.difficulty), // 转换为数字或null
-            attribute: Number(formData.attribute), // 转换为数字或null
-            type: Number(formData.type), // 转换为数字
+            scene: Number(formData.scene),
+            difficulty: Number(formData.difficulty),
+            attribute: Number(formData.attribute),
+            type: Number(formData.type),
             calories: formData.calories,
             introduction: formData.introduction,
             other: formData.other,
@@ -954,6 +1023,7 @@
             } else {
                 await fetchUpdateAction(actionDataBase as Api.Action.ActionUpdateBody)
                 emit('submit') // 编辑时传递更新的数据
+                console.log('更新成功:', actionDataBase.picture)
             }
             dialogVisible.value = false
         } catch (error) {
@@ -965,9 +1035,9 @@
     // 监听对话框状态
     watch(
         () => [props.visible, props.type, props.actionData],
-        ([visible]) => {
+        async ([visible]) => {
             if (visible) {
-                initFormData()
+                await initFormData()
                 nextTick(() => {
                     formRef.value?.clearValidate()
                 })
@@ -1020,6 +1090,53 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+    }
+
+    .video-upload-container {
+        width: 100%;
+    }
+
+    .video-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-bottom: 16px;
+    }
+
+    .video-item {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .video-actions {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .video-index {
+        font-size: 12px;
+        color: var(--el-text-color-regular);
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 8px;
+    }
+
+    .video-upload .el-upload {
+        border: 1px dashed var(--el-border-color);
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: var(--el-transition-duration-fast);
+    }
+
+    .video-upload .el-upload:hover {
+        border-color: var(--el-color-primary);
     }
 </style>
 

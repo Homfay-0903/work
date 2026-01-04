@@ -25,6 +25,7 @@
 
             <!-- 表格 -->
             <ArtTable
+                tableLayout="fixed"
                 ref="tableRef"
                 :loading="loading"
                 :data="data"

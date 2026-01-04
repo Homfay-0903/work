@@ -1,7 +1,7 @@
 <template>
     <ElDialog
         v-model="innerVisible"
-        title="AI动作列表"
+        title="器械列表"
         width="60%"
         align-center
         :close-on-click-modal="false"
@@ -11,11 +11,11 @@
             <!-- 搜索区域 -->
             <div class="relation-search">
                 <ElForm :inline="true" :model="searchForm" label-width="80px">
-                    <ElFormItem label="ID">
-                        <ElInput v-model="searchForm.id" placeholder="请输入ID" />
+                    <ElFormItem label="器械ID">
+                        <ElInput v-model="searchForm.id" placeholder="请输入器械ID" />
                     </ElFormItem>
-                    <ElFormItem label="动作名称">
-                        <ElInput v-model="searchForm.name" placeholder="请输入动作名称" />
+                    <ElFormItem label="器械名称">
+                        <ElInput v-model="searchForm.name" placeholder="请输入器械名称" />
                     </ElFormItem>
                     <ElFormItem>
                         <ElButton type="primary" @click="handleSearch">搜索</ElButton>
@@ -35,9 +35,8 @@
                 :data="data"
                 :columns="columns"
                 :pagination="pagination"
-                rowKey="actionId"
+                rowKey="id"
                 @selection-change="handleSelectionChange"
-                @select="handleSelect"
                 @pagination:size-change="handleSizeChange"
                 @pagination:current-change="handleCurrentChange"
             >
@@ -47,7 +46,7 @@
         <template #footer>
             <div class="dialog-footer">
                 <ElButton @click="handleCancel">取消</ElButton>
-                <ElButton type="primary" @click="handleConfirm" :disabled="!selectedRow?.actionId">确认</ElButton>
+                <ElButton type="primary" @click="handleConfirm" :disabled="!selectedRows.length">确认</ElButton>
             </div>
         </template>
     </ElDialog>
@@ -56,20 +55,23 @@
 <script setup lang="ts">
     import { ref, watch, computed } from 'vue'
     import { useTable } from '@/hooks/core/useTable'
-    import { fetchGetAiActionList } from '@/api/aiaction'
+    import { fetchGetEquipmentList } from '@/api/equipment'
     import ArtTable from '@/components/core/tables/art-table/index.vue'
 
-    type AiActionItem = Api.Ai.AiListItem
+    interface EquipmentItem {
+        id: number
+        name: string
+    }
 
     interface Props {
         visible: boolean
-        /** 选中的AI动作ID（单选） */
-        selectedAiId?: number | null
+        /** 选中的器械ID列表 */
+        selectedEquipmentIds?: number[]
     }
 
     interface Emits {
         (e: 'update:visible', value: boolean): void
-        (e: 'confirm', selection: AiActionItem): void
+        (e: 'confirm', selections: Array<EquipmentItem>): void
         (e: 'cancel'): void
     }
 
@@ -88,14 +90,6 @@
         name: '',
     })
 
-    const getIndexText = (id: number) => {
-        return id.toString() || '-'
-    }
-
-    const getNameText = (name: string) => {
-        return name || '-'
-    }
-
     const {
         columns,
         columnChecks,
@@ -110,36 +104,28 @@
         refreshData,
     } = useTable({
         core: {
-            apiFn: fetchGetAiActionList,
+            apiFn: fetchGetEquipmentList,
             apiParams: {
                 page: 1,
-                size: 10,
+                size: 20,
                 ...searchForm.value,
             },
-            columnsFactory: () => {
-                const baseColumns: any[] = [
-                    {
-                        type: 'selection',
-                        width: 60,
-                    },
-                    {
-                        'prop': 'id',
-                        'label': 'ID',
-                        'width': 120,
-                        'header-align': 'center',
-                        'align': 'center',
-                        'formatter': (row: AiActionItem) => getIndexText(row.actionId),
-                    },
-                    {
-                        'prop': 'name',
-                        'label': '动作名称',
-                        'header-align': 'center',
-                        'align': 'center',
-                        'formatter': (row: AiActionItem) => getNameText(row.actionName),
-                    },
-                ]
-                return baseColumns
-            },
+            columnsFactory: () => [
+                { type: 'selection', width: 60 },
+                {
+                    'prop': 'id',
+                    'label': '器械ID',
+                    'width': 120,
+                    'header-align': 'center',
+                    'align': 'center',
+                },
+                {
+                    'prop': 'name',
+                    'label': '器械名称',
+                    'header-align': 'center',
+                    'align': 'center',
+                },
+            ],
         },
         transform: {
             dataTransformer: records => {
@@ -149,28 +135,11 @@
         },
     })
 
-    const selectedRow = ref<AiActionItem | null>(null)
+    const selectedRows = ref<EquipmentItem[]>([])
 
-    const handleSelect = (selection: AiActionItem[], row: AiActionItem) => {
-        // 当用户点击某一行时，清空其他选择，只保留当前选择的行
-        artTableRef.value?.elTableRef?.clearSelection()
-        // 选择当前行
-        artTableRef.value?.elTableRef?.toggleRowSelection(row, true)
-        // 更新选中行状态
-        selectedRow.value = row
-        console.log('handleSelect', selectedRow.value)
-    }
-
-    const handleSelectionChange = (selection: AiActionItem[]) => {
-        // 由于我们在 handleSelect 中已经处理了单选逻辑，这里只需要确保状态同步
-        if (selection.length > 0) {
-            // 选择当前行（应该是唯一的选中行）
-            selectedRow.value = selection[selection.length - 1]
-        } else {
-            // 如果没有选择任何行（例如，取消选择当前行）
-            selectedRow.value = null
-        }
-        console.log('handleSelectionChange', selectedRow.value)
+    const handleSelectionChange = (selection: EquipmentItem[]) => {
+        selectedRows.value = selection
+        console.log('handleSelectionChange', selectedRows.value)
     }
 
     const handleSearch = async () => {
@@ -186,32 +155,28 @@
 
     const handleCancel = () => {
         emit('cancel')
-        selectedRow.value = null
+        selectedRows.value = []
         artTableRef.value?.elTableRef?.clearSelection()
-        console.log('handleCancel', selectedRow.value)
+        console.log('handleCancel', selectedRows.value)
         innerVisible.value = false
     }
 
     const handleConfirm = () => {
-        if (selectedRow.value) {
-            emit('confirm', selectedRow.value)
-        }
-        console.log('handleConfirm', selectedRow.value)
+        emit('confirm', selectedRows.value)
         innerVisible.value = false
     }
 
     const handleClose = () => {
-        selectedRow.value = null
+        selectedRows.value = []
         artTableRef.value?.elTableRef?.clearSelection()
-        console.log('handleClose', selectedRow.value)
+        console.log('handleClose', selectedRows.value)
     }
 
-    // 监听对话框显示状态，在打开时清空选择
     watch(
         () => props.visible,
         newVal => {
             if (newVal) {
-                selectedRow.value = null
+                selectedRows.value = []
                 setTimeout(() => {
                     artTableRef.value?.elTableRef?.clearSelection()
                 }, 0)

@@ -75,6 +75,10 @@ declare namespace Api {
             path: string
             /** 文件URL */
             url: string
+            /** 临时URL */
+            tmpUrl: string
+            /** 原始URL */
+            _url: string
         }
 
         /** 上传文件到S3响应 */
@@ -343,8 +347,8 @@ declare namespace Api {
             name: string
             /** 动作封面 */
             picture?: string
-            /** 动作视频 */
-            video?: string
+            /** 动作视频列表 */
+            video?: string[]
             /** 器械名称 */
             equipment?: string
             /** 根动作ID */
@@ -484,8 +488,8 @@ declare namespace Api {
             name: string
             /** 动作封面 */
             picture?: string
-            /** 动作视频 */
-            video?: string
+            /** 动作视频列表 */
+            video?: string[]
             /** 器械ID列表 */
             instrumentIds?: number[]
             /** 教练ID */
@@ -686,22 +690,23 @@ declare namespace Api {
         /** 动作列表项 */
         interface AiListItem {
             /** 主键ID */
-            id: number
+            actionId: number
             /** 动作名称 */
-            name: string
-            /** 动作介绍 */
-            introduction?: string
-            /**版本号 */
-            version: string
+            actionName: string
+            /** 动作计算类型 */
+            calculationType?: number
+            /**so库ID */
+            so_lib_id: number
+            list: AiListItem[]
         }
 
         /** 动作搜索参数 */
-        type AiSearchParams = Partial<Pick<AiListItem, 'name' | 'id'> & Api.Common.CommonSearchParams>
+        type AiSearchParams = Partial<Pick<AiListItem, 'actionName' | 'actionId'> & Api.Common.CommonSearchParams>
         /** 动作创建参数 */
-        type AiCreateBody = Omit<AiListItem, 'id' | 'introduction' | 'version'>
+        type AiCreateBody = Omit<AiListItem, 'actionId' | 'introduction' | 'version'>
 
         /** 动作更新参数 */
-        type AiUpdateBody = Pick<AiListItem, 'id'> & Partial<AiCreateBody>
+        type AiUpdateBody = Pick<AiListItem, 'actionId'> & Partial<AiCreateBody>
     }
 
     namespace Character {
