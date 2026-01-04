@@ -353,6 +353,8 @@ declare namespace Api {
             equipment?: string
             /** 根动作ID */
             rootId?: string
+            /** 动作翻译列表 */
+            translations?: ActionListItem[]
             /** 器械ID列表 */
             instrumentIds?: number[]
             /** 器械列表 */

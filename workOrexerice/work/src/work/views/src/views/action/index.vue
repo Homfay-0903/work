@@ -598,63 +598,28 @@
                     _rowIndex?: number
                 }
 
-                // 按rootId分组（使用数字作为key便于比较）
-                const groupMap = new Map<number, ActionItemWithTree[]>()
-
-                records.forEach(item => {
-                    // 确保rootId为数字类型（用于分组key）
-                    const numericRootId = item.rootId ? Number(item.rootId) : Number(item.id)
-
-                    if (!groupMap.has(numericRootId)) {
-                        groupMap.set(numericRootId, [])
-                    }
-
-                    // 存储记录，保持rootId的原始类型（string）
-                    const itemWithTree: ActionItemWithTree = {
-                        ...item,
-                        // rootId保持原样（可能是string），用于后续比较
-                    }
-                    groupMap.get(numericRootId)!.push(itemWithTree)
-                })
-
                 // 存储最终的根节点
                 const rootRecords: ActionItemWithTree[] = []
 
-                // 处理每个分组
-                groupMap.forEach(group => {
-                    if (!group || group.length === 0) return
+                // 处理每条记录（新的数据结构：translations 作为子数组返回）
+                records.forEach(item => {
+                    const itemWithTree: ActionItemWithTree = {
+                        ...item,
+                    }
 
-                    // 1. 优先选择「id === rootId」的那条作为根节点（符合你说的：中文动作 rootId 与 id 相同）
-                    let rootNode =
-                        group.find(
-                            item =>
-                                item.rootId !== undefined &&
-                                item.rootId !== null &&
-                                Number(item.id) === Number(item.rootId),
-                        ) ||
-                        // 2. 其次尝试按语言判断中文动作
-                        group.find(item => item.langCode === 'zh-CN' || item.langName === '中文') ||
-                        // 3. 兜底：选择 id 最小的记录作为根节点
-                        group.reduce((min, current) => {
-                            return Number(current.id) < Number(min.id) ? current : min
-                        })
-
-                    // 过滤出子节点（除了根节点以外的所有记录）
-                    const children = group.filter(item => Number(item.id) !== Number(rootNode.id))
-
-                    // 设置子节点和hasChildren属性，并为子节点添加序号标记
-                    if (children.length > 0) {
+                    // 检查是否有 translations 字段（翻译后的子动作）
+                    if (item.translations && Array.isArray(item.translations) && item.translations.length > 0) {
                         // 为子节点添加标记和序号信息
-                        rootNode.children = children.map((child, index) => ({
+                        itemWithTree.children = item.translations.map((child, index) => ({
                             ...child,
                             _isChild: true,
                             _childIndex: index + 1, // 子节点序号从1开始
                         }))
-                        rootNode.hasChildren = true
+                        itemWithTree.hasChildren = true
                     }
 
                     // 将根节点添加到结果数组
-                    rootRecords.push(rootNode)
+                    rootRecords.push(itemWithTree)
                 })
 
                 // 按ID升序排序根节点，并为每个根节点设置_rowIndex（用于序号显示）
@@ -858,16 +823,12 @@
         ;(async () => {
             try {
                 console.log('翻译动作:', row)
-                // 保存当前动作的rootId（用于翻译后定位并展开）
-                // 根据约定：中文动作的rootId等于id，翻译后的动作rootId与中文动作一致
-                const rootId =
-                    (row as any).rootId !== undefined && (row as any).rootId !== null
-                        ? Number((row as any).rootId)
-                        : Number(row.id)
+                // 保存当前动作的id（用于翻译后定位并展开）
+                const actionId = Number(row.id)
 
                 // 调用翻译API
                 await fetchTranslateAction({
-                    rootId,
+                    rootId: actionId,
                 })
                 ElMessage.success('翻译成功')
 
@@ -877,30 +838,9 @@
                 // 等待DOM更新后，找到对应的根节点并展开
                 await nextTick()
 
-                // 在刷新后的数据中找到对应的根节点（id最小的那个）
+                // 在刷新后的数据中找到对应的根节点（通过id）
                 if (tableRef.value?.elTableRef && data.value) {
-                    const findRootNode = (nodes: ActionListItem[]): ActionListItem | null => {
-                        for (const node of nodes) {
-                            // 检查当前节点的rootId是否匹配
-                            const nodeRootId =
-                                (node as any).rootId !== undefined && (node as any).rootId !== null
-                                    ? Number((node as any).rootId)
-                                    : Number(node.id)
-
-                            if (nodeRootId === rootId) {
-                                return node
-                            }
-
-                            // 递归查找子节点
-                            if (node.children && node.children.length > 0) {
-                                const found = findRootNode(node.children)
-                                if (found) return found
-                            }
-                        }
-                        return null
-                    }
-
-                    const rootNode = findRootNode(data.value as ActionListItem[])
+                    const rootNode = (data.value as ActionListItem[]).find(node => Number(node.id) === actionId)
                     if (rootNode) {
                         // 展开该行
                         tableRef.value.elTableRef.toggleRowExpansion(rootNode, true)
