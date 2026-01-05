@@ -28,9 +28,13 @@
                             :on-success="handleCoverSuccess"
                             :on-remove="handleCoverRemove"
                             :show-file-list="false"
-                            :disabled="dialogType === 'view'"
+                            :disabled="dialogType === 'view' || coverUploading"
                         >
-                            <img v-if="imageUrl" :src="imageUrl" class="coverImage" />
+                            <div v-if="coverUploading" class="upload-loading">
+                                <el-icon class="is-loading"><Loading /></el-icon>
+                                <span>上传中...</span>
+                            </div>
+                            <img v-else-if="imageUrl" :src="imageUrl" class="coverImage" />
                             <el-icon v-else class="uploader-icon"><Plus /></el-icon>
                             <template #tip>
                                 <div class="el-upload__tip">*建议上传10MB以内的JPG、PNG、JPEG格式</div>
@@ -75,8 +79,13 @@
                                 :before-upload="beforeUploadVideo"
                                 :on-success="handleVideoSuccess"
                                 :show-file-list="false"
+                                :disabled="videoUploading"
                             >
-                                <el-icon class="uploader-icon"><Plus /></el-icon>
+                                <div v-if="videoUploading" class="upload-loading">
+                                    <el-icon class="is-loading"><Loading /></el-icon>
+                                    <span>上传中...</span>
+                                </div>
+                                <el-icon v-else class="uploader-icon"><Plus /></el-icon>
                                 <template #tip>
                                     <div class="el-upload__tip">上传2GB以内的MP4格式，最多上传4个视频，至少需要1个</div>
                                 </template>
@@ -263,7 +272,8 @@
                         />
                     </ElFormItem>
 
-                    <ElFormItem v-if="formData.type !== 4" label="其他" prop="other">
+                    <!--v-if="formData.type !== 4"-->
+                    <ElFormItem label="其他" prop="other">
                         <div
                             style="width: 100%"
                             v-if="dialogType === 'view'"
@@ -323,7 +333,7 @@
     import { ElMessage } from 'element-plus'
     import type { FormInstance, FormRules, UploadFile, UploadFiles, UploadProps } from 'element-plus'
     import ArtWangEditor from '@/components/core/forms/art-wang-editor/index.vue'
-    import { Plus } from '@element-plus/icons-vue'
+    import { Plus, Loading } from '@element-plus/icons-vue'
     import { fetchCreateAction, fetchUpdateAction } from '@/api/action'
     import { fetchGetCoachList } from '@/api/coach'
     import { fetchUploadImage } from '@/api/upload'
@@ -338,6 +348,9 @@
     const imageUrl = ref('')
     const videoUrls = ref<Array<{ url: string; storageUrl?: string; file?: File }>>([])
     const replaceIndex = ref<number | null>(null)
+
+    const coverUploading = ref(false)
+    const videoUploading = ref(false)
 
     // 富文本编辑器引用
     const otherEditorRef = ref<InstanceType<typeof ArtWangEditor>>()
@@ -499,41 +512,6 @@
     }
 
     /**
-     * 获取肌肉列表数据
-     */
-    //const fetchMuscleListData = async () => {
-    //    try {
-    //        const response = await fetchGetMuscleList({})
-    //        console.log('肌肉列表数据:', response)
-    //
-    //        // 增强的数据验证和错误处理
-    //        if (!response || !response.list || !Array.isArray(response.list) || response.list.length === 0) {
-    //            console.warn('肌肉列表数据为空或格式不正确，使用默认值')
-    //            return // 保留默认值
-    //        }
-    //
-    //        // 将肌肉列表数据转换为所需格式，并确保数据完整性
-    //        const formattedData = response.list
-    //            .filter(item => item && item.name && item.id !== undefined)
-    //            .map(muscle => ({
-    //                label: muscle.name,
-    //                value: String(muscle.id), // 确保value是字符串格式
-    //            }))
-    //
-    //        // 如果转换后的数据有效，才更新muscleGroupList
-    //        if (formattedData.length > 0) {
-    //            muscleGroupList.value = formattedData
-    //        } else {
-    //            console.warn('转换后的肌肉列表数据无效，使用默认值')
-    //        }
-    //    } catch (error) {
-    //        console.error('获取肌肉列表数据失败:', error)
-    //        // 保留默认值，确保组件正常工作
-    //        ElMessage.warning('获取训练肌群数据失败，使用默认值')
-    //    }
-    //}
-
-    /**
      * 获取型号列表（从标签API获取）
      */
     const fetchModelList = async () => {
@@ -592,24 +570,14 @@
         previousPart.value = [...formData.part]
     })
 
-    //// 监听训练部位变化，更新对应的肌肉列表
-    //watch(
-    //    () => formData.part,
-    //    newPart => {
-    //        console.log('训练部位变化:', newPart)
-    //        handlePartChange(newPart)
-    //    },
-    //    { immediate: true, deep: true },
-    //)
-
     // 处理训练部位选择变化
     const handlePartChange = (newPart: number[]) => {
-        console.log('当前选择的训练部位:', newPart)
-        console.log('之前选择的训练部位:', previousPart.value)
+        //console.log('当前选择的训练部位:', newPart)
+        //console.log('之前选择的训练部位:', previousPart.value)
 
         // 找出取消选择的训练部位
         const removedParts = previousPart.value.filter(part => !newPart.includes(part))
-        console.log('取消选择的训练部位:', removedParts)
+        //console.log('取消选择的训练部位:', removedParts)
 
         if (removedParts.length > 0) {
             // 找出取消选择的部位对应的肌肉群ID
@@ -620,11 +588,11 @@
                     muscleIds.forEach(id => removedMuscleIds.add(id))
                 }
             }
-            console.log('需要移除的肌肉群ID:', removedMuscleIds)
+            //console.log('需要移除的肌肉群ID:', removedMuscleIds)
 
             // 只清空与取消选择的部位相关的肌肉群
             formData.muscleGroup = formData.muscleGroup.filter(muscleId => !removedMuscleIds.has(muscleId))
-            console.log('更新后的选中肌肉群:', formData.muscleGroup)
+            //console.log('更新后的选中肌肉群:', formData.muscleGroup)
         }
 
         if (newPart && newPart.length > 0) {
@@ -635,7 +603,7 @@
             muscleGroupList.value = []
             partMuscleMap.value = new Map()
             formData.muscleGroup = []
-            console.log('没有选择训练部位，清空肌肉列表和肌肉群映射')
+            //console.log('没有选择训练部位，清空肌肉列表和肌肉群映射')
         }
 
         // 更新之前选中的训练部位记录
@@ -889,6 +857,7 @@
 
     // 自定义上传方法，使用我们实现的上传接口
     const customUploadCover: UploadProps['httpRequest'] = ({ file, onSuccess, onError, onProgress }) => {
+        coverUploading.value = true
         return fetchUploadImage({
             file,
             onUploadProgress: onProgress,
@@ -901,10 +870,14 @@
                 onError(error)
                 throw error
             })
+            .finally(() => {
+                coverUploading.value = false
+            })
     }
 
     // 自定义视频上传方法
     const customUploadVideo: UploadProps['httpRequest'] = ({ file, onSuccess, onError, onProgress }) => {
+        videoUploading.value = true
         return fetchUploadVideo({
             file,
             onUploadProgress: onProgress,
@@ -916,6 +889,9 @@
             .catch(error => {
                 onError(error)
                 //throw error
+            })
+            .finally(() => {
+                videoUploading.value = false
             })
     }
 
@@ -1160,5 +1136,24 @@
         width: 150px;
         height: 150px;
         text-align: center;
+    }
+
+    .upload-loading {
+        width: 150px;
+        height: 150px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        color: var(--el-color-primary);
+    }
+
+    .upload-loading .el-icon {
+        font-size: 32px;
+    }
+
+    .upload-loading span {
+        font-size: 14px;
     }
 </style>

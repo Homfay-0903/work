@@ -71,7 +71,7 @@
     import { fetchGetTagList } from '@/api/tag'
     import ActionSearch from './modules/action-search.vue'
     import ActionDialog from './modules/action-dialog.vue'
-    import { ElTag, ElMessageBox, ElMessage, ElTabs, ElTabPane, ElButton } from 'element-plus'
+    import { ElTag, ElMessageBox, ElMessage, ElTabs, ElTabPane, ElButton, ElLoading } from 'element-plus'
     import type { TabsPaneContext } from 'element-plus'
 
     defineOptions({ name: 'Action' })
@@ -821,6 +821,11 @@
      */
     const handleTranslate = (row: ActionListItem): void => {
         ;(async () => {
+            const loadingInstance = ElLoading.service({
+                lock: true,
+                text: '正在翻译...',
+                background: 'rgba(0, 0, 0, 0.7)',
+            })
             try {
                 console.log('翻译动作:', row)
                 // 保存当前动作的id（用于翻译后定位并展开）
@@ -849,6 +854,8 @@
             } catch (error) {
                 console.log(error)
                 ElMessage.error('翻译失败')
+            } finally {
+                loadingInstance.close()
             }
         })()
     }
