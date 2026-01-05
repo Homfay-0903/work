@@ -14,8 +14,9 @@
 
 <script setup lang="ts">
     import '@wangeditor/editor/dist/css/style.css'
-    import { onBeforeUnmount, onMounted, shallowRef, computed } from 'vue'
+    import { onBeforeUnmount, onMounted, shallowRef, computed, ref } from 'vue'
     import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+    import { ElMessage, ElLoading } from 'element-plus'
     import { fetchUploadImage } from '@/api/upload'
     import EmojiText from '@/utils/ui/emojo'
     import { IDomEditor, IToolbarConfig, IEditorConfig } from '@wangeditor/editor'
@@ -55,6 +56,9 @@
 
     // 编辑器实例
     const editorRef = shallowRef<IDomEditor>()
+
+    // 临时 URL 到永久 URL 的映射
+    const urlMapping = ref<Map<string, string>>(new Map())
 
     // 常量配置
     const DEFAULT_UPLOAD_CONFIG = {
@@ -105,13 +109,24 @@
                     const formData = new FormData()
                     formData.append('file', file)
 
+                    const loadingInstance = ElLoading.service({
+                        lock: true,
+                        text: '正在上传图片...',
+                        background: 'rgba(0, 0, 0, 0.7)',
+                    })
+
                     fetchUploadImage({
                         file,
                     })
                         .then((response: any) => {
-                            const url = response?._url || response?.tmpUrl || response?.url || ''
-                            if (url) {
-                                insertFn(url, file.name, url)
+                            const displayUrl = response?._url || response?.tmpUrl || ''
+                            const storageUrl = response?.url || ''
+
+                            if (displayUrl && storageUrl) {
+                                // 保存临时 URL 到永久 URL 的映射
+                                urlMapping.value.set(displayUrl, storageUrl)
+                                // 使用临时 URL 显示图片
+                                insertFn(displayUrl, file.name, displayUrl)
                                 ElMessage.success(`图片上传成功 ${EmojiText[200]}`)
                             } else {
                                 throw new Error('上传响应中没有返回图片URL')
@@ -120,6 +135,9 @@
                         .catch((error: any) => {
                             console.error('图片上传失败:', error)
                             ElMessage.error(`图片上传失败 ${EmojiText[500]}`)
+                        })
+                        .finally(() => {
+                            loadingInstance.close()
                         })
                 },
             },
@@ -197,7 +215,29 @@
         clear: () => editorRef.value?.clear(),
         /** 聚焦编辑器 */
         focus: () => editorRef.value?.focus(),
+        /** 获取转换后的 HTML（将临时 URL 替换为永久 URL） */
+        getTransformedHtml: () => {
+            const html = editorRef.value?.getHtml() || ''
+            let transformedHtml = html
+
+            // 将所有临时 URL 替换为永久 URL
+            urlMapping.value.forEach((storageUrl, displayUrl) => {
+                const regex = new RegExp(escapeRegExp(displayUrl), 'g')
+                transformedHtml = transformedHtml.replace(regex, storageUrl)
+            })
+
+            return transformedHtml
+        },
+        /** 清空 URL 映射 */
+        clearUrlMapping: () => {
+            urlMapping.value.clear()
+        },
     })
+
+    // 转义正则表达式特殊字符
+    function escapeRegExp(string: string) {
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    }
 
     // 生命周期
     onMounted(() => {

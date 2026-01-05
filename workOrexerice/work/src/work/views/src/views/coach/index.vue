@@ -18,6 +18,7 @@
 
             <!-- 表格 -->
             <ArtTable
+                tableLayout="fixed"
                 :loading="loading"
                 :data="data"
                 :columns="columns"

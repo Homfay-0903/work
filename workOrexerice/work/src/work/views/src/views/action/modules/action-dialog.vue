@@ -91,6 +91,13 @@
                                 </template>
                             </ElUpload>
                         </div>
+                        <input
+                            ref="replaceVideoInputRef"
+                            type="file"
+                            accept="video/mp4"
+                            style="display: none"
+                            @change="handleReplaceVideoChange"
+                        />
                     </ElFormItem>
 
                     <ElFormItem label="器械" prop="equipment">
@@ -348,6 +355,7 @@
     const imageUrl = ref('')
     const videoUrls = ref<Array<{ url: string; storageUrl?: string; file?: File }>>([])
     const replaceIndex = ref<number | null>(null)
+    const replaceVideoInputRef = ref<HTMLInputElement | null>(null)
 
     const coverUploading = ref(false)
     const videoUploading = ref(false)
@@ -442,7 +450,7 @@
     const fetchMuscleGroupData = async (regionIds: number[]) => {
         try {
             if (!regionIds || regionIds.length === 0 || !Array.isArray(regionIds)) {
-                console.warn('训练部位ID列表为空或格式错误，使用默认值')
+                //console.warn('训练部位ID列表为空或格式错误，使用默认值')
                 regionIds = [1]
             }
 
@@ -450,7 +458,7 @@
             const currentPartMuscleMap = new Map<number, number[]>()
 
             for (const regionId of regionIds) {
-                console.log('regionId:', regionId)
+                //console.log('regionId:', regionId)
                 const response = await fetchGetMuscleList({ regionId })
                 if (response && Array.isArray(response) && response.length > 0) {
                     allMuscles.push(...response)
@@ -461,11 +469,11 @@
                 }
             }
 
-            console.log('所有肌肉分组数据:', allMuscles)
-            console.log('当前训练部位肌肉映射:', currentPartMuscleMap)
+            //console.log('所有肌肉分组数据:', allMuscles)
+            //console.log('当前训练部位肌肉映射:', currentPartMuscleMap)
 
             if (allMuscles.length === 0) {
-                console.warn('肌肉分组数据为空，使用默认值')
+                //console.warn('肌肉分组数据为空，使用默认值')
                 muscleGroupList.value = []
                 partMuscleMap.value = new Map()
                 return
@@ -495,10 +503,10 @@
                 }
                 partMuscleMap.value = newPartMuscleMap
 
-                console.log('更新肌肉列表:', formattedData)
-                console.log('更新训练部位肌肉映射:', partMuscleMap.value)
+                //console.log('更新肌肉列表:', formattedData)
+                //console.log('更新训练部位肌肉映射:', partMuscleMap.value)
             } else {
-                console.warn('转换后的肌肉分组数据无效，使用默认值')
+                //console.warn('转换后的肌肉分组数据无效，使用默认值')
                 muscleGroupList.value = []
                 partMuscleMap.value = new Map()
             }
@@ -689,10 +697,14 @@
             selectedEquipment.value = []
             selectedAiAction.value = null
             otherEditorRef.value?.clear()
+            otherEditorRef.value?.clearUrlMapping()
             return
         }
 
         const row = props.actionData || {}
+
+        // 清空 URL 映射
+        otherEditorRef.value?.clearUrlMapping()
 
         Object.assign(formData, {
             id: row.id || null,
@@ -711,7 +723,7 @@
             type: row.type || 1,
             calories: row.calories || 0,
             introduction: row.introduction || '',
-            other: row.other || '',
+            other: (row as any)._other || row.other || '',
             remark: row.remark || '',
         })
 
@@ -853,6 +865,48 @@
      */
     const handleReplaceVideo = (index: number) => {
         replaceIndex.value = index
+        replaceVideoInputRef.value?.click()
+    }
+
+    /**
+     * 替换视频文件选择后处理
+     */
+    const handleReplaceVideoChange = async (event: Event) => {
+        const target = event.target as HTMLInputElement
+        const file = target.files?.[0]
+
+        if (!file) {
+            replaceIndex.value = null
+            return
+        }
+
+        if (replaceIndex.value === null) {
+            replaceIndex.value = null
+            return
+        }
+
+        videoUploading.value = true
+
+        try {
+            const response = await fetchUploadVideo({
+                file,
+            })
+
+            const displayUrl = response?._url || response?.tmpUrl || ''
+            const storageUrl = response?.url || ''
+
+            if (displayUrl) {
+                videoUrls.value[replaceIndex.value] = { url: displayUrl, storageUrl }
+                ElMessage.success('视频替换成功')
+            }
+        } catch (error) {
+            ElMessage.error('视频替换失败')
+            console.error('替换视频失败:', error)
+        } finally {
+            videoUploading.value = false
+            replaceIndex.value = null
+            target.value = ''
+        }
     }
 
     // 自定义上传方法，使用我们实现的上传接口
@@ -961,6 +1015,9 @@
         // 将型号选择值同步到tagIds
         // formData.tagIds = Array.isArray(formData.model) ? formData.model.map(id => Number(id)) : []
 
+        // 获取转换后的富文本内容（将临时 URL 替换为永久 URL）
+        const transformedOther = otherEditorRef.value?.getTransformedHtml() || formData.other
+
         // 构建提交数据对象
         const actionDataBase: Api.Action.ActionUpdateBody | Api.Action.ActionCreateBody = {
             id: Number(formData.id),
@@ -979,7 +1036,7 @@
             type: Number(formData.type),
             calories: formData.calories,
             introduction: formData.introduction,
-            other: formData.other,
+            other: transformedOther,
             remark: formData.remark,
         }
 

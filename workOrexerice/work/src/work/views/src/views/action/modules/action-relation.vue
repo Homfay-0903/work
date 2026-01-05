@@ -12,10 +12,10 @@
             <div class="relation-search">
                 <ElForm :inline="true" :model="searchForm" label-width="80px">
                     <ElFormItem label="ID">
-                        <ElInput v-model="searchForm.id" placeholder="请输入ID" />
+                        <ElInput v-model="searchForm.actionId" placeholder="请输入ID" />
                     </ElFormItem>
                     <ElFormItem label="动作名称">
-                        <ElInput v-model="searchForm.name" placeholder="请输入动作名称" />
+                        <ElInput v-model="searchForm.actionName" placeholder="请输入动作名称" />
                     </ElFormItem>
                     <ElFormItem>
                         <ElButton type="primary" @click="handleSearch">搜索</ElButton>
@@ -83,9 +83,9 @@
         set: value => emit('update:visible', value),
     })
 
-    const searchForm = ref<{ id?: number; name?: string }>({
-        id: undefined,
-        name: '',
+    const searchForm = ref<{ actionId?: number; actionName?: string }>({
+        actionId: undefined,
+        actionName: '',
     })
 
     const getIndexText = (id: number) => {
@@ -158,7 +158,7 @@
         artTableRef.value?.elTableRef?.toggleRowSelection(row, true)
         // 更新选中行状态
         selectedRow.value = row
-        console.log('handleSelect', selectedRow.value)
+        //console.log('handleSelect', selectedRow.value)
     }
 
     const handleSelectionChange = (selection: AiActionItem[]) => {
@@ -170,7 +170,7 @@
             // 如果没有选择任何行（例如，取消选择当前行）
             selectedRow.value = null
         }
-        console.log('handleSelectionChange', selectedRow.value)
+        //console.log('handleSelectionChange', selectedRow.value)
     }
 
     const handleSearch = async () => {
@@ -179,7 +179,7 @@
     }
 
     const handleResetSearch = async () => {
-        searchForm.value = { id: undefined, name: '' }
+        searchForm.value = { actionId: undefined, actionName: '' }
         resetSearchParams()
         await getData()
     }
@@ -188,7 +188,7 @@
         emit('cancel')
         selectedRow.value = null
         artTableRef.value?.elTableRef?.clearSelection()
-        console.log('handleCancel', selectedRow.value)
+        //console.log('handleCancel', selectedRow.value)
         innerVisible.value = false
     }
 
@@ -196,14 +196,14 @@
         if (selectedRow.value) {
             emit('confirm', selectedRow.value)
         }
-        console.log('handleConfirm', selectedRow.value)
+        //console.log('handleConfirm', selectedRow.value)
         innerVisible.value = false
     }
 
     const handleClose = () => {
         selectedRow.value = null
         artTableRef.value?.elTableRef?.clearSelection()
-        console.log('handleClose', selectedRow.value)
+        //console.log('handleClose', selectedRow.value)
     }
 
     // 监听对话框显示状态，在打开时清空选择
