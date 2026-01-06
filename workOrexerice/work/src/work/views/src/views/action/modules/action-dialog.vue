@@ -107,7 +107,7 @@
                         </span>
                     </ElFormItem>
 
-                    <ElFormItem label="选择教练" prop="trainer">
+                    <ElFormItem label="选择教练" prop="coach">
                         <ElSelect
                             v-model="formData.coachId"
                             placeholder="请选择教练"
@@ -370,12 +370,12 @@
         'bgColor',
         '|',
         'uploadImage',
-        'insertImage',
-        'deleteImage',
-        'editImage',
-        'viewImageLink',
-        'insertVideo',
-        'uploadVideo',
+        //'insertImage',
+        //'deleteImage',
+        //'editImage',
+        //'viewImageLink',
+        //'insertVideo',
+        //'uploadVideo',
         'divider',
         'fontSize',
         'emotion',
@@ -554,6 +554,7 @@
             const response = await fetchGetCoachList({
                 page: 1,
                 size: 20, // 获取所有教练
+                status: 1, // 仅获取已启用教练
             })
             // 将教练列表转换为教练列表格式
             coachList.value = response.list.map(coach => ({
@@ -726,6 +727,11 @@
             other: (row as any)._other || row.other || '',
             remark: row.remark || '',
         })
+
+        // 检查教练是否已被删除，如果教练不在列表中则清空 coachId
+        if (formData.coachId && !coachList.value.find(coach => coach.id === formData.coachId)) {
+            formData.coachId = null
+        }
 
         console.log('[action-dialog] initFormData - row.relatedActionId:', row.relatedActionId)
         console.log('[action-dialog] initFormData - formData.aiAction:', formData.aiAction)
@@ -1059,7 +1065,7 @@
             } else {
                 await fetchUpdateAction(actionDataBase as Api.Action.ActionUpdateBody)
                 emit('submit') // 编辑时传递更新的数据
-                console.log('更新成功:', actionDataBase.picture)
+                //console.log('更新成功:', actionDataBase.picture)
             }
             dialogVisible.value = false
         } catch (error) {
@@ -1073,6 +1079,9 @@
         () => [props.visible, props.type, props.actionData],
         async ([visible]) => {
             if (visible) {
+                // 先获取最新的教练列表
+                await fetchCoachList()
+                // 然后初始化表单数据
                 await initFormData()
                 nextTick(() => {
                     formRef.value?.clearValidate()

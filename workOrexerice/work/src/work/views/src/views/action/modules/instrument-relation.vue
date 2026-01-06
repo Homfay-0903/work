@@ -108,6 +108,7 @@
             apiParams: {
                 page: 1,
                 size: 20,
+                status: '1',
                 ...searchForm.value,
             },
             columnsFactory: () => [

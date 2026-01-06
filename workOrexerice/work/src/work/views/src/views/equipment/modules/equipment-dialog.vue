@@ -20,22 +20,23 @@
             <ElFormItem label="器械图标" prop="icon">
                 <ElUpload
                     class="upload-demo"
-                    :action="uploadAction"
+                    :http-request="customUploadIcon"
                     :before-upload="beforeUploadIcon"
                     :on-success="handleIconSuccess"
                     :on-remove="handleIconRemove"
-                    :file-list="iconFileList"
-                    list-type="picture"
-                    :disabled="dialogType === 'view'"
+                    :show-file-list="false"
+                    :disabled="dialogType === 'view' || iconUploading"
                 >
-                    <ElButton type="primary" :disabled="dialogType === 'view'">选择图片</ElButton>
+                    <div v-if="iconUploading" class="upload-loading">
+                        <el-icon class="is-loading"><Loading /></el-icon>
+                        <span>上传中...</span>
+                    </div>
+                    <img v-else-if="imageUrl" :src="imageUrl" class="coverImage" />
+                    <el-icon v-else class="uploader-icon"><Plus /></el-icon>
                     <template #tip>
-                        <div class="el-upload__tip">建议尺寸:90x90像素</div>
+                        <div class="el-upload__tip">*建议上传10MB以内的JPG、PNG、JPEG格式</div>
                     </template>
                 </ElUpload>
-                <div v-if="formData.icon" class="icon-preview">
-                    <ElImage :src="formData.icon" style="width: 90px; height: 90px" fit="cover" />
-                </div>
             </ElFormItem>
         </ElForm>
 
@@ -50,8 +51,10 @@
 
 <script setup lang="ts">
     import { ref, reactive, computed, watch, nextTick } from 'vue'
-    import { ElMessage, ElImage } from 'element-plus'
-    import type { FormInstance, FormRules, UploadFile, UploadFiles } from 'element-plus'
+    import { ElMessage } from 'element-plus'
+    import type { FormInstance, FormRules, UploadFile, UploadProps } from 'element-plus'
+    import { Plus, Loading } from '@element-plus/icons-vue'
+    import { fetchUploadImage } from '@/api/upload'
 
     interface Props {
         visible: boolean
@@ -75,41 +78,36 @@
     const dialogType = computed(() => props.type)
 
     const formRef = ref<FormInstance>()
-    const uploadAction = ref('') // TODO: 配置实际上传地址
 
-    // 文件列表
-    const iconFileList = ref<UploadFiles>([])
+    const imageUrl = ref('')
+    const iconUploading = ref(false)
 
     // 表单数据
     const formData = reactive({
+        id: 0,
         name: '',
-        icon: '',
+        picture: '',
     })
 
     // 表单验证规则
     const rules: FormRules = {
         name: [{ required: true, message: '请输入器械名称', trigger: 'blur' }],
-        icon: [{ required: false, message: '请上传器械图标', trigger: 'change' }],
+        picture: [{ required: true, message: '请上传器械图标', trigger: 'change' }],
     }
 
     /**
      * 初始化表单数据
      */
     const initFormData = () => {
-        const isEdit = props.type === 'edit' && props.equipmentData
         const row = props.equipmentData || {}
 
         Object.assign(formData, {
+            id: row.id || 0,
             name: row.name || '',
-            icon: row.icon || '',
+            picture: row.picture || '',
         })
 
-        // 初始化文件列表
-        if (row.icon) {
-            iconFileList.value = [{ name: 'icon', url: row.icon }]
-        } else {
-            iconFileList.value = []
-        }
+        imageUrl.value = (row as any)._picture || row.picture || ''
     }
 
     /**
@@ -120,7 +118,7 @@
         const isLt10M = file.size / 1024 / 1024 < 10
 
         if (!isValidType) {
-            ElMessage.error('请上传JPG、PNG、JPEG格式图片')
+            ElMessage.error('请上传10MB以内JPG、PNG、JPEG格式图片')
             return false
         }
         if (!isLt10M) {
@@ -133,15 +131,45 @@
     /**
      * 图标上传成功
      */
-    const handleIconSuccess = (response: any, file: UploadFile) => {
-        formData.icon = response.url || file.url || ''
+    const handleIconSuccess = (response: Api.Common.UploadFileResponse, file: UploadFile) => {
+        const displayUrl = response?._url || response?.tmpUrl || ''
+        const storageUrl = response?.url || file.url || ''
+
+        formData.picture = storageUrl
+
+        if (displayUrl) {
+            imageUrl.value = displayUrl
+        }
     }
 
     /**
      * 删除图标
      */
     const handleIconRemove = () => {
-        formData.icon = ''
+        formData.picture = ''
+        imageUrl.value = ''
+    }
+
+    /**
+     * 自定义上传方法，使用我们实现的上传接口
+     */
+    const customUploadIcon: UploadProps['httpRequest'] = ({ file, onSuccess, onError, onProgress }) => {
+        iconUploading.value = true
+        return fetchUploadImage({
+            file,
+            onUploadProgress: onProgress,
+        })
+            .then(response => {
+                onSuccess(response)
+                return response
+            })
+            .catch(error => {
+                onError(error)
+                throw error
+            })
+            .finally(() => {
+                iconUploading.value = false
+            })
     }
 
     /**
@@ -187,7 +215,44 @@
         margin-top: 4px;
     }
 
-    .icon-preview {
-        margin-top: 8px;
+    .upload-demo .coverImage {
+        width: 150px;
+        height: 150px;
+        display: block;
+        object-fit: cover;
+    }
+
+    .upload-loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 150px;
+        height: 150px;
+        color: var(--el-color-primary);
+        font-size: 14px;
+    }
+</style>
+
+<style>
+    .upload-demo .el-upload {
+        border: 1px dashed var(--el-border-color);
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: var(--el-transition-duration-fast);
+    }
+
+    .upload-demo .el-upload:hover {
+        border-color: var(--el-color-primary);
+    }
+
+    .el-icon.uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 150px;
+        height: 150px;
+        text-align: center;
     }
 </style>

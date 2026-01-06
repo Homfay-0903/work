@@ -54,9 +54,10 @@
         fetchCreateCoach,
         fetchUpdateCoach,
         fetchDeleteCoach,
-        fetchCheckCoachInUse,
         fetchTranslateCoach,
+        fetchEnableCoach,
     } from '@/api/coach'
+    import { fetchGetActionList } from '@/api/action'
     import CoachSearch from './modules/coach-search.vue'
     import CoachDialog from './modules/coach-dialog.vue'
     import { ElTag, ElMessageBox, ElMessage, ElButton, ElImage, ElLoading } from 'element-plus'
@@ -89,6 +90,54 @@
     const COACH_STATUS_CONFIG = {
         1: { type: 'success' as const, text: '启用' },
         0: { type: 'danger' as const, text: '禁用' },
+    } as const
+
+    // 语言配置
+    const LANGUAGE_CONFIG = {
+        'zh-CN': '简体中文',
+        'zh-TW': '繁体中文',
+        'en': '英文',
+        'en-US': '英文',
+        'en-GB': '英文',
+        'ja': '日文',
+        'ja-JP': '日文',
+        'ko': '韩文',
+        'ko-KR': '韩文',
+        'es': '西班牙文',
+        'es-ES': '西班牙文',
+        'fr': '法文',
+        'fr-FR': '法文',
+        'de': '德文',
+        'de-DE': '德文',
+        'ru': '俄文',
+        'ru-RU': '俄文',
+        'pt': '葡萄牙文',
+        'pt-BR': '葡萄牙文',
+        'pt-PT': '葡萄牙文',
+        'ar': '阿拉伯文',
+        'ar-SA': '阿拉伯文',
+        'it': '意大利文',
+        'it-IT': '意大利文',
+        'nl': '荷兰文',
+        'nl-NL': '荷兰文',
+        'pl': '波兰文',
+        'pl-PL': '波兰文',
+        'tr': '土耳其文',
+        'tr-TR': '土耳其文',
+        'vi': '越南文',
+        'vi-VN': '越南文',
+        'th': '泰文',
+        'th-TH': '泰文',
+        'id': '印尼文',
+        'id-ID': '印尼文',
+        'ms': '马来文',
+        'ms-MY': '马来文',
+        'hi': '印地文',
+        'hi-IN': '印地文',
+        'bn': '孟加拉文',
+        'bn-IN': '孟加拉文',
+        'uk': '乌克兰文',
+        'uk-UA': '乌克兰文',
     } as const
 
     /**
@@ -177,8 +226,8 @@
     /**
      * 获取语言配置
      */
-    const getLanguageConfig = (language: string) => {
-        return language || '未知'
+    const getLanguageText = (language: string) => {
+        return LANGUAGE_CONFIG[language as keyof typeof LANGUAGE_CONFIG] || language || '未知'
     }
 
     const {
@@ -245,7 +294,7 @@
                     'width': 200,
                     'header-align': 'center',
                     'align': 'center',
-                    'formatter': (row: CoachListItem) => getLanguageConfig(row.langName || ''),
+                    'formatter': (row: CoachListItem) => getLanguageText(row.langCode || ''),
                 },
                 {
                     'prop': 'status',
@@ -284,7 +333,7 @@
                         )
 
                         // 编辑（翻译后的子数据且已启用时不允许编辑）
-                        const canEdit = !row.hasChildren || (row.hasChildren && row.status === 2)
+                        const canEdit = !(row as any)._isChild || ((row as any)._isChild && row.status === 0)
                         if (canEdit) {
                             buttons.push(
                                 h(
@@ -330,8 +379,8 @@
                         }
 
                         // 启用/禁用（仅翻译后的子数据显示）
-                        if (row.hasChildren) {
-                            if (row.status === 2) {
+                        if ((row as any)._isChild) {
+                            if (row.status === 0) {
                                 buttons.push(
                                     h(
                                         ElButton,
@@ -482,10 +531,15 @@
                     type: 'error',
                 })
 
-                // 检查教练是否被使用（绑定了上架中的动作）
+                // 检查教练是否绑定了上架中的动作
                 try {
-                    const checkResult = await fetchCheckCoachInUse(row.id)
-                    if (checkResult.inUse) {
+                    const actionListResult = await fetchGetActionList({
+                        coachId: row.id,
+                        status: 2,
+                        page: 1,
+                        size: 1,
+                    })
+                    if (actionListResult.list && actionListResult.list.length > 0) {
                         await ElMessageBox.alert('当前教练正在被使用，不允许删除', '提示', {
                             confirmButtonText: '确认',
                             type: 'warning',
@@ -544,7 +598,10 @@
     const handleEnable = (row: CoachListItem): void => {
         ;(async () => {
             try {
-                // TODO: 调用启用API
+                await fetchEnableCoach({
+                    id: row.id,
+                    status: 1,
+                })
                 const index = (data.value as CoachListItem[]).findIndex(item => item.id === row.id)
                 if (index !== -1) {
                     ;(data.value[index] as CoachListItem).status = 1
@@ -564,10 +621,13 @@
     const handleDisable = (row: CoachListItem): void => {
         ;(async () => {
             try {
-                // TODO: 调用禁用API
+                await fetchEnableCoach({
+                    id: row.id,
+                    status: 0,
+                })
                 const index = (data.value as CoachListItem[]).findIndex(item => item.id === row.id)
                 if (index !== -1) {
-                    ;(data.value[index] as CoachListItem).status = 2
+                    ;(data.value[index] as CoachListItem).status = 0
                 }
                 ElMessage.success('禁用成功')
                 await refreshData()

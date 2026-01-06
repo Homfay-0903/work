@@ -17,23 +17,31 @@ export function fetchGetEquipmentList(params: Api.Equipment.EquipmentSearchParam
 // 创建器械
 export function fetchCreateEquipment(body: Api.Equipment.EquipmentCreateBody) {
     return request.post<void>({
-        url: '/api/v1/equipment',
+        url: '/api/v1/instruments',
         data: body,
     })
 }
 
 // 编辑器械
-export function fetchUpdateEquipment(body: Api.Equipment.EquipmentUpdateBody) {
-    return request.put<void>({
-        url: '/api/v1/equipment',
+export function fetchUpdateEquipment(id: number, body: Api.Equipment.EquipmentUpdateBody) {
+    return request.post<void>({
+        url: `/api/v1/instruments/${id}`,
         data: body,
+    })
+}
+
+// 启用/禁用器械
+export function fetchEnableEquipment(params: Api.Equipment.EquipmentEnableBody) {
+    const { id, status } = params
+    return request.post<void>({
+        url: `/api/v1/instruments/${id}/status/${status}`,
     })
 }
 
 // 删除器械
 export function fetchDeleteEquipment(id: number) {
     return request.del<void>({
-        url: `/api/v1/equipment/${id}`,
+        url: `/api/v1/instruments/${id}`,
     })
 }
 
@@ -45,9 +53,10 @@ export function fetchCheckEquipmentInUse(id: number) {
 }
 
 // 翻译器械
-export function fetchTranslateEquipment(id: number) {
+export function fetchTranslateEquipment(body: Api.Equipment.EquipmentTranslateBody) {
     return request.post<void>({
-        url: `/api/v1/equipment/${id}/translate`,
+        url: `/api/v1/instruments/translate`,
+        data: body,
     })
 }
 

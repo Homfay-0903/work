@@ -80,23 +80,16 @@
         { label: '不支持', value: '2' },
     ]
 
-    // 器械选项（示例，后续可以从API获取）
+    // 器械选项
     const instrumentOptions = ref<{ label: string; value: number[]; disabled?: boolean }[]>([
         { label: '全部', value: [] },
-        // TODO: 从API获取器械列表
     ])
 
-    // 训练部位选项（示例，后续可以从API获取）
-    const partOptions = ref<{ label: string; value: string; disabled?: boolean }[]>([
-        { label: '全部', value: '' },
-        // TODO: 从API获取训练部位列表
-    ])
+    // 训练部位选项
+    const partOptions = ref<{ label: string; value: string; disabled?: boolean }[]>([{ label: '全部', value: '' }])
 
-    // 教练选项（示例，后续可以从API获取）
-    const coachOptions = ref<{ label: string; value: number; disabled?: boolean }[]>([
-        { label: '全部', value: 0 },
-        // TODO: 从API获取教练列表
-    ])
+    // 教练选项
+    const coachOptions = ref<{ label: string; value: number; disabled?: boolean }[]>([{ label: '全部', value: 0 }])
 
     /**
      * 判断筛选按钮是否应该禁用
@@ -231,7 +224,7 @@
     // 获取教练列表
     onMounted(async () => {
         try {
-            const res = await fetchGetCoachList({ page: 1, size: 20 }) // 获取全部教练
+            const res = await fetchGetCoachList({ page: 1, size: 20, status: 1 }) // 获取启用教练
             console.log('获取教练列表成功:', res.list)
             if (res?.list) {
                 // 将教练数据转换为选项格式，并在前面添加'全部'选项
@@ -251,7 +244,7 @@
     // 获取器械列表
     onMounted(async () => {
         try {
-            const res = await fetchGetEquipmentList({ page: 1, size: 20 }) // 获取全部器械
+            const res = await fetchGetEquipmentList({ page: 1, size: 20, status: '1' }) // 获取全部器械
             console.log('获取器械列表成功:', res.list)
             if (res?.list) {
                 // 将器械数据转换为选项格式，并在前面添加'全部'选项

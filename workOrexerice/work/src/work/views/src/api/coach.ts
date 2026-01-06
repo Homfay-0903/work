@@ -29,6 +29,14 @@ export function fetchUpdateCoach(id: number, body: Api.Coach.CoachUpdateBody) {
     })
 }
 
+// 启用教练
+export function fetchEnableCoach(params: Api.Coach.CoachEnableBody) {
+    const { id, status } = params
+    return request.post<void>({
+        url: `/api/v1/coaches/${id}/status/${status}`,
+    })
+}
+
 // 删除教练
 export function fetchDeleteCoach(id: number) {
     return request.del<void>({

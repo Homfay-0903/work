@@ -160,6 +160,54 @@
         }
     }
 
+    // 语言配置
+    const LANGUAGE_CONFIG = {
+        'zh-CN': '简体中文',
+        'zh-TW': '繁体中文',
+        'en': '英文',
+        'en-US': '英文',
+        'en-GB': '英文',
+        'ja': '日文',
+        'ja-JP': '日文',
+        'ko': '韩文',
+        'ko-KR': '韩文',
+        'es': '西班牙文',
+        'es-ES': '西班牙文',
+        'fr': '法文',
+        'fr-FR': '法文',
+        'de': '德文',
+        'de-DE': '德文',
+        'ru': '俄文',
+        'ru-RU': '俄文',
+        'pt': '葡萄牙文',
+        'pt-BR': '葡萄牙文',
+        'pt-PT': '葡萄牙文',
+        'ar': '阿拉伯文',
+        'ar-SA': '阿拉伯文',
+        'it': '意大利文',
+        'it-IT': '意大利文',
+        'nl': '荷兰文',
+        'nl-NL': '荷兰文',
+        'pl': '波兰文',
+        'pl-PL': '波兰文',
+        'tr': '土耳其文',
+        'tr-TR': '土耳其文',
+        'vi': '越南文',
+        'vi-VN': '越南文',
+        'th': '泰文',
+        'th-TH': '泰文',
+        'id': '印尼文',
+        'id-ID': '印尼文',
+        'ms': '马来文',
+        'ms-MY': '马来文',
+        'hi': '印地文',
+        'hi-IN': '印地文',
+        'bn': '孟加拉文',
+        'bn-IN': '孟加拉文',
+        'uk': '乌克兰文',
+        'uk-UA': '乌克兰文',
+    } as const
+
     // 搜索表单（默认值，重置时会恢复到这里）
     const defaultSearchForm = {
         scene: undefined,
@@ -289,8 +337,8 @@
     /**
      * 获取语言文本
      */
-    const getLanguageText = (row: ActionListItem) => {
-        return row.langName || '无'
+    const getLanguageText = (langCode: string) => {
+        return LANGUAGE_CONFIG[langCode as keyof typeof LANGUAGE_CONFIG] || '未知'
     }
 
     // 状态配置
@@ -456,7 +504,7 @@
                     'width': 120,
                     'header-align': 'center',
                     'align': 'center',
-                    'formatter': (row: ActionListItem) => getLanguageText(row),
+                    'formatter': (row: ActionListItem) => getLanguageText(row.langCode || ''),
                 },
                 {
                     'prop': 'status',

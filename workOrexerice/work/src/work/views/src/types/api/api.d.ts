@@ -495,7 +495,7 @@ declare namespace Api {
             /** 器械ID列表 */
             instrumentIds?: number[]
             /** 教练ID */
-            coachId: number
+            coachId?: number
             /** 肌群ID列表 */
             muscleRegionIds?: number[]
             /** 肌肉ID列表 */
@@ -633,6 +633,13 @@ declare namespace Api {
             id: number
         }
 
+        interface CoachEnableBody {
+            /** 教练ID */
+            id: number
+            /** 教练状态 */
+            status: number
+        }
+
         /** 教练创建参数 */
         type CoachCreateBody = Omit<CoachListItem, 'id' | 'createdAt' | 'updatedAt' | 'deletedAt'>
 
@@ -650,17 +657,21 @@ declare namespace Api {
             /** 主键ID */
             id: number
             /** 器械图标 */
-            icon?: string
+            picture?: string
             /** 器械名称 */
             name: string
             /** 语言 */
-            language?: string
+            langName?: string
+            /** 语言编码 */
+            langCode?: string
             /** 器械状态 (1:启用, 2:禁用) */
             status: number
             /** 操作人 */
             operator?: string
             /** 排序 */
             sort?: number
+            /** 翻译子数据 */
+            translations?: EquipmentListItem[]
             /** 是否有子数据（翻译后的子数据） */
             hasChildren?: boolean
             /** 子数据列表（翻译后的子数据） */
@@ -680,16 +691,28 @@ declare namespace Api {
             /** 器械名称 */
             name?: string
             /** 器械状态 */
-            status?: number
+            status?: string
             /** 翻译状态 */
             translateStatus?: number
         }
 
         /** 器械创建参数 */
-        type EquipmentCreateBody = Omit<
-            EquipmentListItem,
-            'id' | 'createdAt' | 'updatedAt' | 'deletedAt' | 'hasChildren' | 'children'
-        >
+        interface EquipmentCreateBody {
+            name: string
+            picture?: string
+        }
+
+        interface EquipmentTranslateBody {
+            /** 器械ID */
+            id: number
+        }
+
+        interface EquipmentEnableBody {
+            /** 器械ID */
+            id: number
+            /** 器械状态 */
+            status: number
+        }
 
         /** 器械更新参数 */
         type EquipmentUpdateBody = Pick<EquipmentListItem, 'id'> & Partial<EquipmentCreateBody>
