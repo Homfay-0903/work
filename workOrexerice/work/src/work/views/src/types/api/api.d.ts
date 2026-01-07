@@ -372,7 +372,7 @@ declare namespace Api {
             /** 标签列表 */
             tags?: tagItem[]
             /** 相关动作ID */
-            relatedActionId: number
+            relatedActionId: number | null
             /** 动作类型 */
             type: number
             /** 适用场景 */
@@ -503,7 +503,7 @@ declare namespace Api {
             /** 标签ID列表 */
             tagIds?: number[]
             /** 相关动作ID */
-            relatedActionId: number
+            relatedActionId: number | null
             /** 动作类型 */
             type: number
             /** 适用场景 */
@@ -729,13 +729,59 @@ declare namespace Api {
             calculationType?: number
             /**so库ID */
             so_lib_id: number
+            /** 动作数据列表 */
             list: AiListItem[]
+            /*so库远程CDN地址*/
+            soPath?: string
+            /** 动作备注 */
+            remark?: string
+            /** 动作信息JSON文件 */
+            file?: string
+            /** 动作版本 */
+            version?: string
+        }
+
+        /** 动作版本列表项 */
+        interface AiVersionListItem {
+            /** 主键ID */
+            id: number
+            /** 动作版本 */
+            version: string
+            /** so库远程CDN地址 */
+            soPath?: string
+            /** so库远程CDN地址 */
+            _soPath?: string
+            /** 动作备注 */
+            remark?: string
+            /** 创建时间 */
+            createdAt?: string
+            /** 更新时间 */
+            updatedAt?: string
+            /** 删除时间 */
+            deletedAt?: string
         }
 
         /** 动作搜索参数 */
-        type AiSearchParams = Partial<Pick<AiListItem, 'actionName' | 'actionId'> & Api.Common.CommonSearchParams>
+        interface AiSearchParams extends Api.Common.CommonSearchParams {
+            /** 主键ID */
+            actionId?: number
+            /** 动作名称 */
+            actionName?: string
+        }
+
+        /** 动作版本搜索参数 */
+        interface AiVersionSearchParams extends Api.Common.CommonSearchParams {
+            /** 关键字（版本/备注/路径模糊查询） */
+            keyword?: string
+        }
+
         /** 动作创建参数 */
-        type AiCreateBody = Omit<AiListItem, 'actionId' | 'introduction' | 'version'>
+        interface AiCreateBody {
+            soPath: string
+            file: string
+            version?: string
+            remark?: string
+        }
 
         /** 动作更新参数 */
         type AiUpdateBody = Pick<AiListItem, 'actionId'> & Partial<AiCreateBody>

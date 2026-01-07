@@ -1,19 +1,24 @@
 <template>
     <div class="action-page art-full-height">
+        <!-- 搜索栏 -->
+        <AiSearch v-model="searchForm" @search="handleSearch" @reset="handleResetSearch"></AiSearch>
+
         <ElCard class="art-table-card" shadow="never">
             <!-- 表格头部 -->
             <ArtTableHeader v-model:columns="columnChecks" :loading="loading" @refresh="refreshData">
                 <template #left>
                     <ElSpace>
-                        <ElButton @click="showDialog('add')" v-ripple>添加动作</ElButton>
-                        <!-- 搜索栏 -->
-                        <AiSearch v-model="searchForm" @search="handleSearch" @reset="handleResetSearch"></AiSearch>
+                        <ElButton @click="showDialog('update')" v-ripple>更新</ElButton>
                     </ElSpace>
+                    <div>
+                        <p>当前so库版本：{{ soLibVersion }}</p>
+                    </div>
                 </template>
             </ArtTableHeader>
 
             <!-- 表格 -->
             <ArtTable
+                tableLayout="fixed"
                 :loading="loading"
                 :data="data"
                 :columns="columns"
@@ -39,73 +44,42 @@
 </template>
 
 <script setup lang="ts">
-    import { ref, nextTick } from 'vue'
+    import { ref, nextTick, onMounted } from 'vue'
     import { useTable } from '@/hooks/core/useTable'
-    import { fetchCreateAction, fetchUpdateAction, fetchDeleteAction } from '@/api/action'
-    //import ActionSearch from './modules/action-search.vue'
-    //import ActionDialog from './modules/action-dialog.vue'
+    import { fetchGetAiActionList, fetchAddSoLibVersion, fetchGetSoLibVersionList } from '@/api/aiaction'
     import AiDialog from './modules/ai-dialog.vue'
     import AiSearch from './modules/ai-search.vue'
-    import { ElTag, ElMessageBox, ElMessage, ElTabs, ElTabPane, ElButton } from 'element-plus'
+    import { ElMessage, ElButton } from 'element-plus'
 
     defineOptions({ name: 'Action' })
 
     type AiListItem = Api.Ai.AiListItem
 
-    // 假数据
-    const mockData: AiListItem[] = [
-        {
-            id: 1,
-            name: '站立飞鸟',
-            version: '1.0.0',
-        },
-    ]
-
-    // 弹窗相关
-    const dialogType = ref<'add' | 'edit' | 'view'>('add')
+    const dialogType = ref<'add' | 'update' | 'view'>('add')
     const dialogVisible = ref(false)
     const currentActionData = ref<Partial<AiListItem>>({})
+    const soLibVersion = ref<string>('')
 
-    // 选中行
     const selectedRows = ref<AiListItem[]>([])
 
-    // 搜索表单（默认值，重置时会恢复到这里）
     const defaultSearchForm = {
-        scene: undefined,
-        difficulty: undefined,
-        equipment: undefined,
-        part: undefined,
-        type: undefined,
-        status: undefined,
-        aiSupport: undefined,
-        trainer: undefined,
-        name: undefined,
+        actionId: undefined,
+        actionName: undefined,
     }
 
-    const searchForm = ref<Partial<Api.Action.ActionSearchParams>>({
+    const searchForm = ref<Partial<Api.Ai.AiSearchParams>>({
+        //...(defaultSearchForm as Partial<Api.Ai.AiSearchParams>),
         ...defaultSearchForm,
     })
 
-    /**
-     * 获取序号文本
-     */
     const getIndexText = (row: AiListItem) => {
-        //if (row.hasChildren && row.children && row.children.length > 0) {
-        //    return `${row.id} (${row.children.length})`
-        //}
-        return `${row.id}`
+        return `${row.actionId}`
     }
 
-    /**
-     * 获取动作名称文本
-     */
     const getNameText = (name: string) => {
         return name || '未知'
     }
 
-    /**
-     * 获取动作介绍文本
-     */
     const getIntroductionText = (introduction: string) => {
         return introduction || '暂无备注'
     }
@@ -123,35 +97,21 @@
         handleCurrentChange,
         refreshData,
         refreshCreate,
-        refreshUpdate,
-        refreshRemove,
+        //refreshUpdate,
+        //refreshRemove,
     } = useTable({
-        // 核心配置
         core: {
-            // 暂时使用假数据
-            apiFn: async () => {
-                return new Promise(resolve => {
-                    setTimeout(() => {
-                        resolve({
-                            list: mockData,
-                            total: 96,
-                            page: 1,
-                            size: 10,
-                        })
-                    }, 300)
-                })
-            },
+            apiFn: fetchGetAiActionList,
             apiParams: {
                 page: 1,
                 size: 10,
                 ...searchForm.value,
             },
             columnsFactory: () => [
-                //{ type: 'selection' }, // 勾选列
                 {
                     'prop': 'id',
                     'label': ' ID',
-                    'width': 500,
+                    'width': 530,
                     'header-align': 'center',
                     'align': 'center',
                     'formatter': (row: AiListItem) => getIndexText(row),
@@ -159,26 +119,23 @@
                 {
                     'prop': 'name',
                     'label': '动作名称',
-                    'width': 500,
+                    'width': 530,
                     'header-align': 'center',
                     'align': 'center',
-                    'formatter': (row: AiListItem) => getNameText(row.name),
+                    'formatter': (row: AiListItem) => getNameText(row.actionName),
                 },
                 {
-                    'prop': 'introduction',
+                    'prop': 'remark',
                     'label': '备注',
-                    'width': 500,
+                    'width': 530,
                     'header-align': 'center',
                     'align': 'center',
-                    'formatter': (row: AiListItem) => getIntroductionText(row.introduction || ''),
+                    'formatter': (row: AiListItem) => getIntroductionText(row.remark || ''),
                 },
             ],
         },
-        // 数据处理
         transform: {
-            // 数据转换器
             dataTransformer: records => {
-                // 类型守卫检查
                 if (!Array.isArray(records)) {
                     console.warn('数据转换器: 期望数组类型，实际收到:', typeof records)
                     return []
@@ -217,7 +174,7 @@
     /**
      * 显示动作弹窗
      */
-    const showDialog = (type: 'add' | 'edit' | 'view', row?: AiListItem): void => {
+    const showDialog = (type: 'add' | 'update' | 'view', row?: AiListItem): void => {
         console.log('打开弹窗:', { type, row })
         dialogType.value = type
         currentActionData.value = row || {}
@@ -227,25 +184,39 @@
     }
 
     /**
+     * 获取so库版本号
+     */
+    const fetchSoLibVersion = async () => {
+        const response = await fetchGetSoLibVersionList({
+            page: 1,
+            size: 20,
+        })
+        if (response) {
+            soLibVersion.value = (response as any).list?.[0]?.version || ''
+        }
+    }
+
+    /**
      * 处理弹窗提交事件
      */
     const handleDialogSubmit = async (payload?: Partial<AiListItem>) => {
         try {
             const dataToSubmit = payload || { ...currentActionData.value }
 
-            if (dialogType.value === 'add') {
-                await fetchCreateAction(dataToSubmit as Api.Action.ActionCreateBody)
-                ElMessage.success('创建成功')
-                await refreshCreate()
-            } else if (dialogType.value === 'edit') {
-                if (!dataToSubmit.id) {
-                    ElMessage.error('缺少动作ID')
-                    return
-                }
-                await fetchUpdateAction(dataToSubmit as Api.Action.ActionUpdateBody)
-                ElMessage.success('更新成功')
-                await refreshUpdate()
-            }
+            //if (dialogType.value === 'add') {
+            await fetchAddSoLibVersion(dataToSubmit as Api.Ai.AiCreateBody & { file?: File | undefined })
+            ElMessage.success('创建成功')
+            await refreshCreate()
+            await fetchSoLibVersion()
+            //} else if (dialogType.value === 'edit') {
+            //    if (!dataToSubmit.id) {
+            //        ElMessage.error('缺少动作ID')
+            //        return
+            //    }
+            //    await fetchUpdateAction(dataToSubmit as Api.Action.ActionUpdateBody)
+            //    ElMessage.success('更新成功')
+            //    await refreshUpdate()
+            //}
 
             dialogVisible.value = false
             currentActionData.value = {}
@@ -262,6 +233,11 @@
         selectedRows.value = selection
         console.log('选中行数据:', selectedRows.value)
     }
+
+    onMounted(async () => {
+        await fetchSoLibVersion()
+        refreshCreate()
+    })
 </script>
 
 <style lang="scss" scoped>

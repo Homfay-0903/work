@@ -1,26 +1,33 @@
 <template>
     <ElDialog
         v-model="dialogVisible"
-        :title="dialogType === 'add' ? '新建教练' : dialogType === 'view' ? '查看教练' : '编辑教练'"
+        :title="dialogType === 'add' ? '新建动作' : dialogType === 'view' ? '查看动作' : '更新动作'"
         width="500px"
         align-center
         :close-on-click-modal="false"
     >
         <ElForm ref="formRef" :model="formData" :rules="rules" label-width="100px">
-            <ElFormItem label="AI动作so库" prop="avatar">
+            <ElFormItem label="AI动作so库" prop="soFile">
                 <ElUpload
                     class="upload-demo"
-                    :action="uploadAction"
-                    :before-upload="beforeUploadAvatar"
-                    :on-success="handleAvatarSuccess"
-                    :on-remove="handleAvatarRemove"
-                    :file-list="avatarFileList"
-                    list-type="text"
-                    :disabled="dialogType === 'view'"
+                    :http-request="customUploadSoFile"
+                    :before-upload="beforeUploadSoFile"
+                    :on-success="handleSoFileSuccess"
+                    :on-remove="handleSoFileRemove"
+                    :show-file-list="false"
+                    :disabled="dialogType === 'view' || soFileUploading"
                 >
-                    <ElButton type="primary" :disabled="dialogType === 'view'">选择文件</ElButton>
+                    <div v-if="soFileUploading" class="upload-loading">
+                        <el-icon class="is-loading"><Loading /></el-icon>
+                        <span>上传中...</span>
+                    </div>
+                    <div v-else-if="soFileUrl" class="file-info">
+                        <el-icon class="file-icon"><Document /></el-icon>
+                        <span class="file-name">{{ soFileName }}</span>
+                    </div>
+                    <el-icon v-else class="uploader-icon"><Plus /></el-icon>
                     <template #tip>
-                        <div class="el-upload__tip">*请上传so格式的文件</div>
+                        <div class="el-upload__tip">*请上传10MB以内.so格式文件</div>
                     </template>
                 </ElUpload>
             </ElFormItem>
@@ -36,7 +43,7 @@
             </ElFormItem>
             <ElFormItem label="备注" prop="introduction">
                 <ElInput
-                    v-model="formData.introduction"
+                    v-model="formData.remark"
                     type="textarea"
                     :rows="4"
                     :maxlength="500"
@@ -44,6 +51,30 @@
                     placeholder="请输入备注"
                     :disabled="dialogType === 'view'"
                 />
+            </ElFormItem>
+            <ElFormItem label="上传动作数据" prop="actionData">
+                <ElUpload
+                    class="upload-demo"
+                    :http-request="customUploadActionData"
+                    :before-upload="beforeUploadActionData"
+                    :on-success="handleActionDataSuccess"
+                    :on-remove="handleActionDataRemove"
+                    :show-file-list="false"
+                    :disabled="dialogType === 'view' || actionDataUploading"
+                >
+                    <div v-if="actionDataUploading" class="upload-loading">
+                        <el-icon class="is-loading"><Loading /></el-icon>
+                        <span>上传中...</span>
+                    </div>
+                    <div v-else-if="actionDataUrl" class="file-info">
+                        <el-icon class="file-icon"><Document /></el-icon>
+                        <span class="file-name">{{ actionDataName }}</span>
+                    </div>
+                    <el-icon v-else class="uploader-icon"><Plus /></el-icon>
+                    <template #tip>
+                        <div class="el-upload__tip">*请上传10MB以内.json格式文件</div>
+                    </template>
+                </ElUpload>
             </ElFormItem>
         </ElForm>
 
@@ -59,12 +90,14 @@
 <script setup lang="ts">
     import { ref, reactive, computed, watch, nextTick } from 'vue'
     import { ElMessage } from 'element-plus'
-    import type { FormInstance, FormRules, UploadFile, UploadFiles } from 'element-plus'
+    import type { FormInstance, FormRules, UploadFile, UploadProps } from 'element-plus'
+    import { Plus, Loading, Document } from '@element-plus/icons-vue'
+    import { fetchUploadSoAndJson } from '@/api/upload'
 
     interface Props {
         visible: boolean
         type: string
-        coachData?: Partial<Api.Coach.CoachListItem>
+        actionData?: Partial<Api.Ai.AiListItem>
     }
 
     interface Emits {
@@ -83,51 +116,48 @@
     const dialogType = computed(() => props.type)
 
     const formRef = ref<FormInstance>()
-    const uploadAction = ref('') // TODO: 配置实际上传地址
 
-    // SO文件列表
-    const avatarFileList = ref<UploadFiles>([])
+    const soFileUrl = ref('')
+    const soFileName = ref('')
+    const soFileUploading = ref(false)
 
-    // 表单数据
+    const actionDataUrl = ref('')
+    const actionDataName = ref('')
+    const actionDataUploading = ref(false)
+    const actionDataFile = ref<File | null>(null)
+
     const formData = reactive({
         version: '',
-        avatar: '',
-        introduction: '',
+        soPath: '',
+        remark: '',
+        file: '',
     })
 
-    // 表单验证规则
     const rules: FormRules = {
         version: [{ required: true, message: '请输入版本号', trigger: 'blur' }],
-        avatar: [{ required: true, message: '请上传.so格式文件', trigger: 'change' }],
-        introduction: [{ required: false, message: '请输入备注', trigger: 'blur' }],
+        soPath: [{ required: true, message: '请上传.so格式文件', trigger: 'change' }],
+        remark: [{ required: false, message: '请输入备注', trigger: 'blur' }],
+        file: [{ required: false, message: '请上传.json格式文件', trigger: 'change' }],
     }
 
-    /**
-     * 初始化表单数据
-     */
     const initFormData = () => {
-        const isEdit = props.type === 'edit' && props.coachData
-        const row = props.coachData || {}
+        const row = props.actionData || {}
 
         Object.assign(formData, {
-            name: row.name || '',
-            avatar: row.avatar || '',
-            introduction: row.introduction || '',
+            version: row.version || '',
+            soPath: row.soPath || '',
+            file: row.file || '',
+            remark: row.remark || '',
         })
 
-        // 初始化文件列表
-        if (row.avatar) {
-            avatarFileList.value = [{ name: 'avatar', url: row.avatar }]
-        } else {
-            avatarFileList.value = []
-        }
+        soFileUrl.value = (row as any)._soPath || row.soPath || ''
+        soFileName.value = (row as any)._soPath || row.soPath?.split('/').pop() || ''
+
+        actionDataUrl.value = (row as any)._file || row.file || ''
+        actionDataName.value = (row as any)._file || row.file?.split('/').pop() || ''
     }
 
-    /**
-     * 上传SO文件前的验证
-     */
-    const beforeUploadAvatar = (file: File) => {
-        // 验证文件后缀是否为.so
+    const beforeUploadSoFile = (file: File) => {
         const isValidSuffix = file.name.endsWith('.so')
         const isLt10M = file.size / 1024 / 1024 < 10
 
@@ -142,44 +172,108 @@
         return true
     }
 
-    /**
-     * SO文件上传成功
-     */
-    const handleAvatarSuccess = (response: any, file: UploadFile) => {
-        formData.avatar = response.url || file.url || ''
+    const handleSoFileSuccess = (response: Api.Common.UploadFileResponse, file: UploadFile) => {
+        const displayUrl = response?._url || response?.tmpUrl || ''
+        const storageUrl = response?.url || file.url || ''
+
+        formData.soPath = storageUrl
+
+        if (displayUrl) {
+            soFileUrl.value = displayUrl
+        }
+        soFileName.value = file.name
     }
 
-    /**
-     * 删除SO文件
-     */
-    const handleAvatarRemove = () => {
-        formData.avatar = ''
+    const handleSoFileRemove = () => {
+        formData.soPath = ''
+        soFileUrl.value = ''
+        soFileName.value = ''
     }
 
-    /**
-     * 取消
-     */
+    const customUploadSoFile: UploadProps['httpRequest'] = ({ file, onSuccess, onError, onProgress }) => {
+        soFileUploading.value = true
+        return fetchUploadSoAndJson({
+            file,
+            onUploadProgress: onProgress,
+        })
+            .then(response => {
+                onSuccess(response)
+                return response
+            })
+            .catch(error => {
+                onError(error)
+                throw error
+            })
+            .finally(() => {
+                soFileUploading.value = false
+            })
+    }
+
+    const beforeUploadActionData = (file: File) => {
+        const isValidSuffix = file.name.endsWith('.json')
+        const isLt10M = file.size / 1024 / 1024 < 10
+
+        if (!isValidSuffix) {
+            ElMessage.error('请上传10MB以内.json格式文件')
+            return false
+        }
+        if (!isLt10M) {
+            ElMessage.error('文件大小不能超过10MB')
+            return false
+        }
+        return true
+    }
+
+    const handleActionDataSuccess = (response: Api.Common.UploadFileResponse, file: UploadFile) => {
+        actionDataFile.value = file.raw || null
+        actionDataUrl.value = file.name
+        actionDataName.value = file.name
+    }
+
+    const handleActionDataRemove = () => {
+        formData.file = ''
+        actionDataUrl.value = ''
+        actionDataName.value = ''
+        actionDataFile.value = null
+    }
+
+    const customUploadActionData: UploadProps['httpRequest'] = ({ file, onSuccess }) => {
+        return new Promise<void>(resolve => {
+            actionDataUploading.value = true
+            setTimeout(() => {
+                onSuccess({
+                    url: '',
+                    _url: '',
+                    tmpUrl: '',
+                    filename: (file as File).name,
+                    path: '',
+                } as Api.Common.UploadFileResponse)
+                actionDataUploading.value = false
+                resolve()
+            }, 500)
+        })
+    }
+
     const handleCancel = () => {
         dialogVisible.value = false
     }
 
-    /**
-     * 提交
-     */
     const handleSubmit = async () => {
         if (!formRef.value) return
 
         await formRef.value.validate(valid => {
             if (valid) {
-                const payload = { ...formData }
+                const payload = {
+                    ...formData,
+                    file: actionDataFile.value,
+                }
                 emit('submit', payload)
             }
         })
     }
 
-    // 监听对话框状态
     watch(
-        () => [props.visible, props.type, props.coachData],
+        () => [props.visible, props.type, props.actionData],
         ([visible]) => {
             if (visible) {
                 initFormData()
@@ -197,5 +291,66 @@
         color: var(--el-text-color-regular);
         font-size: 12px;
         margin-top: 4px;
+    }
+
+    .upload-demo .file-info {
+        width: 150px;
+        height: 150px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 8px;
+
+        .file-icon {
+            font-size: 32px;
+            color: var(--el-color-primary);
+        }
+
+        .file-name {
+            font-size: 12px;
+            color: var(--el-text-color-regular);
+            text-align: center;
+            word-break: break-all;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    }
+
+    .upload-loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 150px;
+        height: 150px;
+        color: var(--el-color-primary);
+        font-size: 14px;
+    }
+</style>
+
+<style>
+    .upload-demo .el-upload {
+        border: 1px dashed var(--el-border-color);
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: var(--el-transition-duration-fast);
+    }
+
+    .upload-demo .el-upload:hover {
+        border-color: var(--el-color-primary);
+    }
+
+    .el-icon.uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 150px;
+        height: 150px;
+        text-align: center;
     }
 </style>

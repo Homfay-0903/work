@@ -396,8 +396,8 @@
     /**
      * 获取AI支持状态
      */
-    const getAiSupportStatus = (relatedActionId?: number) => {
-        return Number(relatedActionId) > -2
+    const getAiSupportStatus = (relatedActionId?: number | null) => {
+        return relatedActionId != null
             ? { type: 'success' as const, text: '支持' }
             : { type: 'info' as const, text: '不支持' }
     }
@@ -546,7 +546,7 @@
                                     ElButton,
                                     {
                                         link: true,
-                                        type: 'primary',
+                                        type: 'success',
                                         onClick: () => handleShelve(row),
                                     },
                                     () => '上架',
@@ -561,7 +561,7 @@
                                     ElButton,
                                     {
                                         link: true,
-                                        type: 'primary',
+                                        type: 'warning',
                                         onClick: () => handleUnshelve(row),
                                     },
                                     () => '下架',
@@ -749,11 +749,11 @@
             const filteredData = (data.value || []).filter((row: ActionListItem) => {
                 const relatedActionId = row.relatedActionId
                 if (aiSupport === '1') {
-                    // 支持：relatedActionId > -2
-                    return relatedActionId !== undefined && relatedActionId > -2
+                    // 支持：relatedActionId 不为 null
+                    return relatedActionId != null
                 } else if (aiSupport === '2') {
-                    // 不支持：relatedActionId < -2
-                    return relatedActionId !== undefined && relatedActionId <= -2
+                    // 不支持：relatedActionId 为 null
+                    return relatedActionId == null
                 }
                 return true
             })

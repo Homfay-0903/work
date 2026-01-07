@@ -96,6 +96,17 @@ export function fetchUploadVideo(params: Api.Common.UploadFileParams) {
 }
 
 /**
+ * 上传.so文件
+ * 使用 AWS S3 上传接口
+ *
+ * @param {Api.Common.UploadFileParams} params - 上传文件参数
+ * @returns {Promise<Api.Common.UploadFileResponse>} 上传文件响应
+ */
+export function fetchUploadSoAndJson(params: Api.Common.UploadFileParams) {
+    return fetchUploadFileToAws(params)
+}
+
+/**
  * 获取S3上传临时凭证
  *
  * @returns {Promise<Api.Common.UploadFileToS3Response>} S3上传凭证响应

@@ -1,10 +1,8 @@
 <template>
     <div class="coach-page art-full-height">
-        <ElCard>
-            <div class="art-table-card-header">
-                <div class="art-table-card-header-title"> 教练管理 </div>
-            </div>
-        </ElCard>
+        <div class="art-table-card-header">
+            <div class="art-table-card-header-title"> 教练管理 </div>
+        </div>
 
         <!-- 搜索栏 -->
         <CoachSearch v-model="searchForm" @search="handleSearch" @reset="handleResetSearch"></CoachSearch>
@@ -379,35 +377,35 @@
                         }
 
                         // 启用/禁用（仅翻译后的子数据显示）
-                        if ((row as any)._isChild) {
-                            if (row.status === 0) {
-                                buttons.push(
-                                    h(
-                                        ElButton,
-                                        {
-                                            link: true,
-                                            type: 'success',
-                                            disabled: isTranslating,
-                                            onClick: () => handleEnable(row),
-                                        },
-                                        () => '启用',
-                                    ),
-                                )
-                            } else if (row.status === 1) {
-                                buttons.push(
-                                    h(
-                                        ElButton,
-                                        {
-                                            link: true,
-                                            type: 'warning',
-                                            disabled: isTranslating,
-                                            onClick: () => handleDisable(row),
-                                        },
-                                        () => '禁用',
-                                    ),
-                                )
-                            }
+                        //if ((row as any)._isChild) {
+                        if (row.status === 0) {
+                            buttons.push(
+                                h(
+                                    ElButton,
+                                    {
+                                        link: true,
+                                        type: 'success',
+                                        disabled: isTranslating,
+                                        onClick: () => handleEnable(row),
+                                    },
+                                    () => '启用',
+                                ),
+                            )
+                        } else if (row.status === 1) {
+                            buttons.push(
+                                h(
+                                    ElButton,
+                                    {
+                                        link: true,
+                                        type: 'warning',
+                                        disabled: isTranslating,
+                                        onClick: () => handleDisable(row),
+                                    },
+                                    () => '禁用',
+                                ),
+                            )
                         }
+                        //}
 
                         return h(
                             'div',

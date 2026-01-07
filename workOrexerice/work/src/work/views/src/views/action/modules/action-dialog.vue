@@ -322,7 +322,7 @@
         <!-- AI动作关联选择弹窗 -->
         <ActionRelation
             v-model:visible="aiActionDialogVisible"
-            :selected-ai-id="formData.aiAction && formData.aiAction !== -2 ? formData.aiAction : null"
+            :selected-ai-id="formData.aiAction"
             @confirm="handleAiActionConfirm"
         />
 
@@ -414,7 +414,7 @@
 
     // 选中的器械和AI动作
     const selectedEquipment = ref<Array<{ id: number; name: string }>>([])
-    const selectedAiAction = ref<{ actionId: number; actionName: string } | null>(null)
+    const selectedAiAction = ref<{ actionId: number | null; actionName: string } | null>(null)
 
     // 关联选择对话框
     const equipmentDialogVisible = ref(false)
@@ -774,7 +774,7 @@
      */
     const getAiActionNameById = async (actionId: number) => {
         try {
-            const response = await fetchGetAiActionList({ actionId })
+            const response = await fetchGetAiActionList({ actionId: actionId, page: 1, size: 20 })
             if (response) {
                 return response.list[0].actionName || ''
             } else {
@@ -1001,10 +1001,15 @@
     /**
      * 处理AI动作选择确认
      */
-    const handleAiActionConfirm = (selection: { actionId: number; actionName: string }) => {
-        selectedAiAction.value = selection || null
-        selectedAiAction.value.actionName = selection.actionName || ''
-        formData.aiAction = selection ? selection.actionId : null
+    const handleAiActionConfirm = (selection: { actionId: number | null; actionName: string }) => {
+        if (selection) {
+            selectedAiAction.value = selection
+            selectedAiAction.value.actionName = selection.actionName || ''
+            formData.aiAction = selection.actionId
+        } else {
+            selectedAiAction.value = null
+            formData.aiAction = null
+        }
     }
 
     /**
@@ -1037,7 +1042,7 @@
             coachId: Number(formData.coachId),
             muscleRegionIds: formData.part,
             muscleIds: formData.muscleGroup,
-            relatedActionId: formData.aiAction ? Number(formData.aiAction) : 0,
+            relatedActionId: formData.aiAction ? Number(formData.aiAction) : null,
             tagIds: formData.tagIds,
             scene: Number(formData.scene),
             difficulty: Number(formData.difficulty),

@@ -4,7 +4,6 @@
         v-model="formData"
         :items="formItems"
         :rules="rules"
-        :disabled-search="isSearchDisabled"
         @reset="handleReset"
         @search="handleSearch"
     >
@@ -12,6 +11,8 @@
 </template>
 
 <script setup lang="ts">
+    import { computed, ref } from 'vue'
+
     interface Props {
         modelValue: Record<string, any>
     }
@@ -30,31 +31,25 @@
         set: val => emit('update:modelValue', val),
     })
 
+    // 校验规则
     const rules = {}
 
-    // 搜索按钮不禁用（允许空搜索）
-    const isSearchDisabled = computed(() => false)
-
+    // 表单配置
     const formItems = computed(() => [
         {
-            label: 'ID',
-            key: 'actionId',
+            label: '角色名称',
+            key: 'name',
             type: 'input',
-            props: {
-                placeholder: '请输入ID',
-                clearable: true,
-            },
-        },
-        {
-            label: '动作名称',
-            key: 'actionName',
-            type: 'input',
-            props: {
-                placeholder: '请输入动作名称',
-                clearable: true,
-            },
+            placeholder: '请输入角色名称',
+            clearable: true,
         },
     ])
+
+    // 事件处理
+    function handleReset() {
+        console.log('重置表单')
+        emit('reset')
+    }
 
     async function handleSearch() {
         await searchBarRef.value.validate()
@@ -63,11 +58,4 @@
         emit('search', payload)
         console.log('表单数据', payload)
     }
-
-    function handleReset() {
-        formData.value = {}
-        emit('reset')
-    }
 </script>
-
-<style scoped></style>

@@ -1,10 +1,8 @@
 <template>
     <div class="equipment-page art-full-height">
-        <ElCard>
-            <div class="art-table-card-header">
-                <div class="art-table-card-header-title">器械管理</div>
-            </div>
-        </ElCard>
+        <div class="art-table-card-header">
+            <div class="art-table-card-header-title">器械管理</div>
+        </div>
 
         <EquipmentSearch v-model="searchForm" @search="handleSearch" @reset="handleResetSearch"></EquipmentSearch>
 
@@ -362,35 +360,35 @@
                             )
                         }
 
-                        if ((row as any)._isChild) {
-                            if (row.status === 0) {
-                                buttons.push(
-                                    h(
-                                        ElButton,
-                                        {
-                                            link: true,
-                                            type: 'success',
-                                            disabled: isTranslating,
-                                            onClick: () => handleEnable(row),
-                                        },
-                                        () => '启用',
-                                    ),
-                                )
-                            } else if (row.status === 1) {
-                                buttons.push(
-                                    h(
-                                        ElButton,
-                                        {
-                                            link: true,
-                                            type: 'warning',
-                                            disabled: isTranslating,
-                                            onClick: () => handleDisable(row),
-                                        },
-                                        () => '禁用',
-                                    ),
-                                )
-                            }
+                        //if ((row as any)._isChild) {
+                        if (row.status === 0) {
+                            buttons.push(
+                                h(
+                                    ElButton,
+                                    {
+                                        link: true,
+                                        type: 'success',
+                                        disabled: isTranslating,
+                                        onClick: () => handleEnable(row),
+                                    },
+                                    () => '启用',
+                                ),
+                            )
+                        } else if (row.status === 1) {
+                            buttons.push(
+                                h(
+                                    ElButton,
+                                    {
+                                        link: true,
+                                        type: 'warning',
+                                        disabled: isTranslating,
+                                        onClick: () => handleDisable(row),
+                                    },
+                                    () => '禁用',
+                                ),
+                            )
                         }
+                        //}
 
                         return h(
                             'div',
@@ -522,11 +520,17 @@
                         size: 1,
                     })
                     if (actionListResult.list && actionListResult.list.length > 0) {
-                        await ElMessageBox.alert('当前器械正在被使用，不允许删除', '提示', {
-                            confirmButtonText: '确认',
-                            type: 'warning',
-                        })
-                        return
+                        const isInUse = actionListResult.list.some(action =>
+                            action.instruments?.some(instrument => instrument.id === row.id),
+                        )
+                        if (isInUse) {
+                            console.log('当前器械正在被使用的动作:', actionListResult.list)
+                            await ElMessageBox.alert('当前器械正在被使用，不允许删除', '提示', {
+                                confirmButtonText: '确认',
+                                type: 'warning',
+                            })
+                            return
+                        }
                     }
                 } catch (error) {
                     console.error('检查器械使用状态失败:', error)

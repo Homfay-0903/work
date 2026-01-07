@@ -69,7 +69,7 @@
 
     interface Emits {
         (e: 'update:visible', value: boolean): void
-        (e: 'confirm', selection: AiActionItem): void
+        (e: 'confirm', selection: AiActionItem | { actionId: null; actionName: string }): void
         (e: 'cancel'): void
     }
 
@@ -202,7 +202,7 @@
         if (selectedRow.value) {
             emit('confirm', selectedRow.value)
         } else {
-            emit('confirm', { actionId: -2, actionName: '' } as AiActionItem)
+            emit('confirm', { actionId: null, actionName: '' } as unknown as AiActionItem)
         }
         innerVisible.value = false
     }
