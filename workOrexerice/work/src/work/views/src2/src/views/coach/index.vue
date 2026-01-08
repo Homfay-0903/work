@@ -5,14 +5,19 @@
         </div>
 
         <!-- 搜索栏 -->
-        <CoachSearch v-model="searchForm" @search="handleSearch" @reset="handleResetSearch"></CoachSearch>
+        <CoachSearch
+            v-if="hasAuth('query')"
+            v-model="searchForm"
+            @search="handleSearch"
+            @reset="handleResetSearch"
+        ></CoachSearch>
 
         <ElCard class="art-table-card" shadow="never">
             <!-- 表格头部 -->
             <ArtTableHeader v-model:columns="columnChecks" :loading="loading" @refresh="refreshData">
                 <template #left>
                     <ElSpace wrap>
-                        <ElButton @click="showDialog('add')" v-ripple>添加教练</ElButton>
+                        <ElButton v-if="hasAuth('add')" @click="showDialog('add')" v-ripple>添加教练</ElButton>
                     </ElSpace>
                 </template>
             </ArtTableHeader>
@@ -59,6 +64,7 @@
     import CoachSearch from './modules/coach-search.vue'
     import CoachDialog from './modules/coach-dialog.vue'
     import { ElTag, ElMessageBox, ElMessage, ElButton, ElImage, ElLoading } from 'element-plus'
+    import { useAuth } from '@/hooks/core/useAuth'
 
     defineOptions({ name: 'Coach' })
 
@@ -94,6 +100,13 @@
     const LANGUAGE_CONFIG = {
         'zh-CN': '简体中文',
         'zh-TW': '繁体中文',
+        'zh-HK': '香港中文',
+        'sv-SE': '瑞典文',
+        'hu-HU': '匈牙利文',
+        'fi-FI': '芬兰文',
+        'el-GR': '希腊文',
+        'cs-CZ': '捷克文',
+        'ar-AR': '阿拉伯文',
         'en': '英文',
         'en-US': '英文',
         'en-GB': '英文',
@@ -137,6 +150,9 @@
         'uk': '乌克兰文',
         'uk-UA': '乌克兰文',
     } as const
+
+    // 权限控制
+    const { hasAuth } = useAuth()
 
     /**
      * 获取序号文本
@@ -323,7 +339,7 @@
                                 ElButton,
                                 {
                                     link: true,
-                                    disabled: isTranslating,
+                                    disabled: isTranslating || !hasAuth('view'),
                                     onClick: () => showDialog('view', row),
                                 },
                                 () => '查看',
@@ -338,7 +354,7 @@
                                     ElButton,
                                     {
                                         link: true,
-                                        disabled: isTranslating,
+                                        disabled: isTranslating || !hasAuth('edit'),
                                         onClick: () => showDialog('edit', row),
                                     },
                                     () => '编辑',
@@ -353,7 +369,7 @@
                                 {
                                     link: true,
                                     type: 'danger',
-                                    disabled: isTranslating,
+                                    disabled: isTranslating || !hasAuth('delete'),
                                     onClick: () => handleDeleteCoach(row),
                                 },
                                 () => '删除',
@@ -368,7 +384,7 @@
                                     {
                                         link: true,
                                         type: 'primary',
-                                        disabled: isTranslating,
+                                        disabled: isTranslating || !hasAuth('translate'),
                                         onClick: () => handleTranslate(row),
                                     },
                                     () => '翻译',
@@ -385,7 +401,7 @@
                                     {
                                         link: true,
                                         type: 'success',
-                                        disabled: isTranslating,
+                                        disabled: isTranslating || !hasAuth('enable'),
                                         onClick: () => handleEnable(row),
                                     },
                                     () => '启用',
@@ -398,7 +414,7 @@
                                     {
                                         link: true,
                                         type: 'warning',
-                                        disabled: isTranslating,
+                                        disabled: isTranslating || !hasAuth('disable'),
                                         onClick: () => handleDisable(row),
                                     },
                                     () => '禁用',

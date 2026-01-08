@@ -175,8 +175,9 @@
 
     watch(
         () => props.visible,
-        newVal => {
+        async newVal => {
             if (newVal) {
+                await getData()
                 if (props.selectedEquipmentIds && props.selectedEquipmentIds.length > 0) {
                     setTimeout(() => {
                         data.value.forEach(row => {

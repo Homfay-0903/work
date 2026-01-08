@@ -15,8 +15,7 @@
     import { fetchGetCoachList } from '@/api/coach'
     import { fetchGetEquipmentList } from '@/api/equipment'
     import { fetchGetTrainingAreaList } from '@/api/muscle'
-
-    import { ref, computed, onMounted } from 'vue'
+    import { ref, computed, onMounted, onActivated } from 'vue'
 
     interface Props {
         modelValue: Record<string, any>
@@ -219,28 +218,8 @@
         console.log('表单数据', payload)
     }
 
-    // 获取教练列表
-    onMounted(async () => {
-        try {
-            const res = await fetchGetCoachList({ page: 1, size: 20, status: 1 }) // 获取启用教练
-            console.log('获取教练列表成功:', res.list)
-            if (res?.list) {
-                // 将教练数据转换为选项格式，并在前面添加'全部'选项
-                coachOptions.value = [
-                    { label: '全部', value: 0 },
-                    ...res.list.map((coach: any) => ({
-                        label: coach.name || '未知教练',
-                        value: coach.id,
-                    })),
-                ]
-            }
-        } catch (error) {
-            console.error('获取教练列表失败:', error)
-        }
-    })
-
     // 获取器械列表
-    onMounted(async () => {
+    const fetchInstrumentOptions = async () => {
         try {
             const res = await fetchGetEquipmentList({ page: 1, size: 20, status: '1' }) // 获取全部器械
             console.log('获取器械列表成功:', res.list)
@@ -257,6 +236,40 @@
         } catch (error) {
             console.error('获取器械列表失败:', error)
         }
+    }
+
+    //获取教练列表
+    const fetchCoachOptions = async () => {
+        try {
+            const res = await fetchGetCoachList({ page: 1, size: 20, status: 1 }) // 获取启用教练
+            console.log('获取教练列表成功:', res.list)
+            if (res?.list) {
+                // 将教练数据转换为选项格式，并在前面添加'全部'选项
+                coachOptions.value = [
+                    { label: '全部', value: 0 },
+                    ...res.list.map((coach: any) => ({
+                        label: coach.name || '未知教练',
+                        value: coach.id,
+                    })),
+                ]
+            }
+        } catch (error) {
+            console.error('获取教练列表失败:', error)
+        }
+    }
+
+    onMounted(async () => {
+        await fetchInstrumentOptions()
+        await fetchCoachOptions()
+    })
+
+    onActivated(async () => {
+        await fetchInstrumentOptions()
+        //await fetchCoachOptions()
+    })
+
+    defineExpose({
+        fetchInstrumentOptions,
     })
 
     // 获取训练部位列表

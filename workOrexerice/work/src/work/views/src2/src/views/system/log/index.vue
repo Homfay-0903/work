@@ -1,7 +1,12 @@
 <template>
     <div class="account-page art-full-height">
         <!-- 搜索栏 -->
-        <LogSearch v-model="searchForm" @search="handleSearch" @reset="handleResetSearch"></LogSearch>
+        <LogSearch
+            v-if="hasAuth('query')"
+            v-model="searchForm"
+            @search="handleSearch"
+            @reset="handleResetSearch"
+        ></LogSearch>
         <ElCard class="art-table-card" shadow="never">
             <!-- 表格 -->
             <ArtTable
@@ -24,12 +29,15 @@
     import { ref, h } from 'vue'
     import { useTable } from '@/hooks/core/useTable'
     import LogSearch from './modules/log-search.vue'
-    //import AccountDialog from './modules/account-dialog.vue'
     import { ElTag } from 'element-plus'
+    import { useAuth } from '@/hooks/core/useAuth'
 
     defineOptions({ name: 'Log' })
 
     type LogListItem = Api.Log.LogListItem
+
+    //权限
+    const { hasAuth } = useAuth()
 
     // 假数据
     const mockData: LogListItem[] = [
@@ -37,48 +45,52 @@
             id: 1,
             name: 'ApiTest438427',
             character: '接口测试',
-            status: 1,
-            lastLoginAt: '2025-07-18 23:18:19',
+            operationType: 1,
+            operationDesc: '创建动作',
+            createdAt: '2025-07-18 23:18:19',
         },
         {
             id: 2,
             name: 'ApiTest351066',
             character: '接口测试',
-            status: 1,
-            lastLoginAt: '2025-07-18 23:18:19',
+            operationType: 1,
+            operationDesc: '创建动作',
+            createdAt: '2025-07-18 23:18:19',
         },
         {
             id: 3,
             name: '测试角色A4',
             character: '接口测试',
-            status: 1,
-            lastLoginAt: '2025-05-21 10:30:00',
+            operationType: 1,
+            operationDesc: '创建动作',
+            createdAt: '2025-05-21 10:30:00',
         },
         {
             id: 4,
             name: 'ApiTest_0523',
             character: '接口测试',
-            status: 1,
-            lastLoginAt: '2025-05-23 14:20:00',
+            operationType: 1,
+            operationDesc: '创建动作',
+            createdAt: '2025-05-23 14:20:00',
         },
     ]
 
     // 选中行
-    const selectedRows = ref<OprationListItem[]>([])
+    const selectedRows = ref<LogListItem[]>([])
 
     // 搜索表单（默认值，重置时会恢复到这里）
     const defaultSearchForm = {
         name: undefined,
     }
 
-    const searchForm = ref<Partial<Api.Character.CharacterSearchParams>>({
+    const searchForm = ref<Partial<Api.Log.LogSearchParams>>({
         ...defaultSearchForm,
     })
 
-    // 角色状态配置
-    const CHARACTER_STATUS_CONFIG = {
-        1: { type: 'success' as const, text: '启用中' },
-        2: { type: 'danger' as const, text: '禁用' },
+    // 操作类型配置
+    const OPERATION_TYPE_CONFIG = {
+        1: { type: 'success' as const, text: '创建' },
+        2: { type: 'danger' as const, text: '删除' },
     } as const
 
     /**
@@ -107,7 +119,7 @@
      */
     const getStatusConfig = (status: number) => {
         return (
-            CHARACTER_STATUS_CONFIG[status as keyof typeof CHARACTER_STATUS_CONFIG] || {
+            OPERATION_TYPE_CONFIG[status as keyof typeof OPERATION_TYPE_CONFIG] || {
                 type: 'info' as const,
                 text: '未知',
             }
@@ -173,10 +185,8 @@
                     'width': 250,
                     'header-align': 'center',
                     'align': 'center',
-                    'formatter': (row: OprationListItem): string => {
-                        const index = (data.value as OprationListItem[]).findIndex(
-                            (item: OprationListItem) => item.id === row.id,
-                        )
+                    'formatter': (row: LogListItem): string => {
+                        const index = (data.value as LogListItem[]).findIndex((item: LogListItem) => item.id === row.id)
                         return getIndexText(index + 1 + (pagination.page - 1) * pagination.size)
                     },
                 },
@@ -186,7 +196,7 @@
                     'width': 250,
                     'header-align': 'center',
                     'align': 'center',
-                    'formatter': (row: OprationListItem) => getNameText(row.name),
+                    'formatter': (row: LogListItem) => getNameText(row.name),
                 },
                 {
                     'prop': 'character',
@@ -194,15 +204,15 @@
                     'width': 250,
                     'header-align': 'center',
                     'align': 'center',
-                    'formatter': (row: OprationListItem) => getDescriptionText(row.character),
+                    'formatter': (row: LogListItem) => getDescriptionText(row.character),
                 },
                 {
-                    'prop': 'lastLoginAt',
-                    'label': '最近登录时间',
+                    'prop': 'createdAt',
+                    'label': '创建时间',
                     'width': 250,
                     'header-align': 'center',
                     'align': 'center',
-                    'formatter': (row: OprationListItem) => formatTime(row.lastLoginAt),
+                    'formatter': (row: LogListItem) => formatTime(row.createdAt),
                 },
                 {
                     'prop': 'status',
@@ -210,8 +220,8 @@
                     'width': 250,
                     'header-align': 'center',
                     'align': 'center',
-                    'formatter': (row: OprationListItem) => {
-                        const statusConfig = getStatusConfig(row.status)
+                    'formatter': (row: LogListItem) => {
+                        const statusConfig = getStatusConfig(row.operationType)
                         return h(ElTag, { type: statusConfig.type }, () => statusConfig.text)
                     },
                 },
@@ -268,7 +278,7 @@
     /**
      * 处理表格行选择变化
      */
-    const handleSelectionChange = (selection: OprationListItem[]): void => {
+    const handleSelectionChange = (selection: LogListItem[]): void => {
         selectedRows.value = selection
         console.log('选中行数据:', selectedRows.value)
     }

@@ -11,14 +11,19 @@
         </ElCard>
 
         <!-- 搜索栏 -->
-        <ActionSearch v-model="searchForm" @search="handleSearch" @reset="handleResetSearch"></ActionSearch>
+        <ActionSearch
+            v-if="hasAuth('query')"
+            v-model="searchForm"
+            @search="handleSearch"
+            @reset="handleResetSearch"
+        ></ActionSearch>
 
         <ElCard class="art-table-card" shadow="never">
             <!-- 表格头部 -->
             <ArtTableHeader v-model:columns="columnChecks" :loading="loading" @refresh="refreshData">
                 <template #left>
                     <ElSpace wrap>
-                        <ElButton @click="showDialog('add')" v-ripple>添加动作</ElButton>
+                        <ElButton v-if="hasAuth('add')" @click="showDialog('add')" v-ripple>添加动作</ElButton>
                     </ElSpace>
                 </template>
             </ArtTableHeader>
@@ -72,6 +77,7 @@
     import ActionSearch from './modules/action-search.vue'
     import ActionDialog from './modules/action-dialog.vue'
     import { ElTag, ElMessageBox, ElMessage, ElTabs, ElTabPane, ElButton, ElLoading } from 'element-plus'
+    import { useAuth } from '@/hooks/core/useAuth'
     import type { TabsPaneContext } from 'element-plus'
 
     defineOptions({ name: 'Action' })
@@ -93,6 +99,9 @@
     const activeModel = ref<string>('全部型号') // 空字符串表示"全部型号"
     const activeModelValue = ref<number>(0)
     const modelList = ref<Array<{ label: string; value: number }>>([{ label: '全部型号', value: 0 }])
+
+    // 权限相关
+    const { hasAuth } = useAuth()
 
     /**
      * 获取型号列表（从标签API获取）
@@ -121,49 +130,44 @@
     }
 
     // 组件挂载时获取型号列表
-    onMounted(() => {
-        fetchModelList()
+    onMounted(async () => {
+        await fetchModelList()
     })
 
     /**
      * 处理型号切换
      */
     const handleModelChange = async (tab: TabsPaneContext) => {
-        console.log('切换型号:', tab.props)
+        //console.log('切换型号:', tab.props)
         // 切换型号后更新activeModel
         activeModel.value = tab.props.label
 
-        // 前端过滤逻辑，不再调用后端API
+        // 获取选中的型号ID
         const selectedModelId = Number(tab.props.name)
 
         if (selectedModelId === 0) {
-            // 如果选择"全部型号"，显示所有数据
-            // 重新获取完整数据
-            await getData()
+            // 如果选择"全部型号"，清空tagIds参数
+            delete (searchParams as any).tagIds
         } else {
-            // 前端过滤：筛选包含选中型号标签的数据
-            // 先获取完整数据，然后在前端过滤
-            await getData()
-
-            // 过滤数据，只显示包含对应型号标签的动作
-            const filteredData = (data.value || []).filter((row: ActionListItem) => {
-                // 检查动作是否包含对应的型号标签
-                if (!row.tags || row.tags.length === 0) {
-                    return false
-                }
-                return row.tags.some(tag => Number(tag.id) === selectedModelId)
-            })
-
-            console.log('前端过滤后的数据:', filteredData)
-            // 直接修改表格数据
-            data.value = filteredData
+            // 设置tagIds参数，传递给后端API
+            ;(searchParams as any).tagIds = [selectedModelId]
         }
+
+        // 调用API重新获取数据
+        await getData()
     }
 
     // 语言配置
     const LANGUAGE_CONFIG = {
         'zh-CN': '简体中文',
         'zh-TW': '繁体中文',
+        'zh-HK': '香港中文',
+        'sv-SE': '瑞典文',
+        'hu-HU': '匈牙利文',
+        'fi-FI': '芬兰文',
+        'el-GR': '希腊文',
+        'cs-CZ': '捷克文',
+        'ar-AR': '阿拉伯文',
         'en': '英文',
         'en-US': '英文',
         'en-GB': '英文',
@@ -219,6 +223,7 @@
         isAIAction: undefined,
         coachId: undefined,
         name: undefined,
+        tagIds: [],
     }
 
     const searchForm = ref<Partial<Api.Action.ActionSearchParams>>({
@@ -547,6 +552,7 @@
                                     {
                                         link: true,
                                         type: 'success',
+                                        disabled: !hasAuth('enable'),
                                         onClick: () => handleShelve(row),
                                     },
                                     () => '上架',
@@ -562,6 +568,7 @@
                                     {
                                         link: true,
                                         type: 'warning',
+                                        disabled: !hasAuth('disable'),
                                         onClick: () => handleUnshelve(row),
                                     },
                                     () => '下架',
@@ -575,6 +582,7 @@
                                 ElButton,
                                 {
                                     link: true,
+                                    disabled: !hasAuth('view'),
                                     onClick: () => showDialog('view', row),
                                 },
                                 () => '查看',
@@ -587,6 +595,7 @@
                                 ElButton,
                                 {
                                     link: true,
+                                    disabled: !hasAuth('edit'),
                                     onClick: () => showDialog('edit', row),
                                 },
                                 () => '编辑',
@@ -600,6 +609,7 @@
                                     ElButton,
                                     {
                                         link: true,
+                                        disabled: !hasAuth('translate'),
                                         onClick: () => handleTranslate(row),
                                     },
                                     () => '翻译',
@@ -614,6 +624,7 @@
                                 {
                                     link: true,
                                     type: 'danger',
+                                    disabled: !hasAuth('delete'),
                                     onClick: () => deleteAction(row),
                                 },
                                 () => '删除',
