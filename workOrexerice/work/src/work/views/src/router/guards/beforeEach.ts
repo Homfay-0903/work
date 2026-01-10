@@ -88,6 +88,10 @@ export function setupBeforeEachGuard(router: Router): void {
             await handleRouteGuard(to, from, next, router)
         } catch (error) {
             console.error('[RouteGuard] 路由守卫处理失败:', error)
+            // 确保关闭 loading 并重置登录状态
+            const userStore = useUserStore()
+            userStore.setLoginStatus(false)
+            userStore.setToken('', '')
             closeLoading()
             next({ name: 'Exception500' })
         }
@@ -160,6 +164,16 @@ function handleLoginStatus(
     userStore: ReturnType<typeof useUserStore>,
     next: NavigationGuardNext,
 ): boolean {
+    // 如果标记已登录但没有 token，则强制登出，避免反复请求用户信息导致卡在 loading
+    if (userStore.isLogin && !userStore.accessToken) {
+        // 重置登录状态，避免路由守卫再次触发
+        userStore.setLoginStatus(false)
+        userStore.logOut()
+        // 确保关闭可能存在的 loading
+        closeLoading()
+        return false
+    }
+
     // 已登录或访问登录页或静态路由，直接放行
     if (userStore.isLogin || to.path === RoutesAlias.Login || isStaticRoute(to.path)) {
         return true
@@ -167,6 +181,8 @@ function handleLoginStatus(
 
     // 未登录且访问需要权限的页面，跳转到登录页并携带 redirect 参数
     userStore.logOut()
+    // 确保关闭可能存在的 loading
+    closeLoading()
     next({
         name: 'Login',
         query: { redirect: to.fullPath },
@@ -271,6 +287,8 @@ async function handleDynamicRoutes(
 
         // 401 错误：axios 拦截器已处理退出登录，取消当前导航
         if (isUnauthorizedError(error)) {
+            // 保险起见，前端再执行一次登出，确保状态清理和路由重置
+            useUserStore().logOut()
             closeLoading()
             next(false)
             return
@@ -285,7 +303,12 @@ async function handleDynamicRoutes(
             return
         }
 
-        // 其他错误：跳转到 500 页面
+        // 其他错误：重置登录状态，关闭 loading，跳转到 500 页面
+        const userStore = useUserStore()
+        // 如果是因为获取用户信息或菜单失败，重置登录状态
+        userStore.setLoginStatus(false)
+        userStore.setToken('', '')
+        closeLoading()
         next({ name: 'Exception500' })
     }
 }

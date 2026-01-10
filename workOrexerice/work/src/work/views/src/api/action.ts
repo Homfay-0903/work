@@ -9,6 +9,27 @@ export function fetchGetActionList(params: Api.Action.ActionSearchParams) {
     return request.get<Api.Action.ActionList>({
         url: '/api/v1/actions',
         params: apiParams,
+        paramsSerializer: {
+            serialize: (params: any) => {
+                const parts: string[] = []
+                Object.keys(params).forEach(key => {
+                    const value = params[key]
+                    if (value === undefined || value === null || value === '') {
+                        return
+                    }
+                    if (Array.isArray(value)) {
+                        // 数组参数：将数组元素展开为多个同名的查询参数
+                        // 例如：instrumentIds=1&instrumentIds=2
+                        value.forEach(item => {
+                            parts.push(`${encodeURIComponent(key)}=${encodeURIComponent(item)}`)
+                        })
+                    } else {
+                        parts.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+                    }
+                })
+                return parts.join('&')
+            },
+        },
     })
 }
 

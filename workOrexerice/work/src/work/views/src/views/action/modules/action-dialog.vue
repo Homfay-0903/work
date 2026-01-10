@@ -37,7 +37,7 @@
                             <img v-else-if="imageUrl" :src="imageUrl" class="coverImage" />
                             <el-icon v-else class="uploader-icon"><Plus /></el-icon>
                             <template #tip>
-                                <div class="el-upload__tip">*建议上传10MB以内的JPG、PNG、JPEG格式</div>
+                                <div class="el-upload__tip">建议上传10MB以内的JPG、PNG、JPEG格式</div>
                             </template>
                         </ElUpload>
                     </ElFormItem>
@@ -654,7 +654,7 @@
         type: [{ required: true, message: '请选择动作类型', trigger: 'change' }],
         difficulty: [{ required: true, message: '请选择难度', trigger: 'change' }],
         attribute: [{ required: true, message: '请选择动作属性', trigger: 'change' }],
-        // coverImage: [{ required: true, message: '请上传动作封面', trigger: 'change' }],
+        coverImage: [{ required: true, message: '请上传动作封面', trigger: 'change' }],
         videos: [
             {
                 required: true,

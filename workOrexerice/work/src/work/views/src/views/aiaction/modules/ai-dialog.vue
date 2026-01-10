@@ -1,13 +1,13 @@
 <template>
     <ElDialog
         v-model="dialogVisible"
-        :title="dialogType === 'add' ? '新建动作' : dialogType === 'view' ? '查看动作' : '更新动作'"
+        :title="dialogType === 'add' ? '新建动作库' : dialogType === 'view' ? '查看动作库' : '更新动作库'"
         width="500px"
         align-center
         :close-on-click-modal="false"
     >
         <ElForm ref="formRef" :model="formData" :rules="rules" label-width="100px">
-            <ElFormItem label="AI动作so库" prop="soFile">
+            <ElFormItem label="AI动作so库" prop="soPath">
                 <ElUpload
                     class="upload-demo"
                     :http-request="customUploadSoFile"
@@ -27,7 +27,7 @@
                     </div>
                     <el-icon v-else class="uploader-icon"><Plus /></el-icon>
                     <template #tip>
-                        <div class="el-upload__tip">*请上传10MB以内.so格式文件</div>
+                        <div class="el-upload__tip">请上传10MB以内.so格式文件</div>
                     </template>
                 </ElUpload>
             </ElFormItem>
@@ -41,7 +41,7 @@
                     :disabled="dialogType === 'view'"
                 />
             </ElFormItem>
-            <ElFormItem label="备注" prop="introduction">
+            <ElFormItem label="备注" prop="remark">
                 <ElInput
                     v-model="formData.remark"
                     type="textarea"
@@ -52,7 +52,7 @@
                     :disabled="dialogType === 'view'"
                 />
             </ElFormItem>
-            <ElFormItem label="上传动作数据" prop="actionData">
+            <ElFormItem label="动作数据" prop="file">
                 <ElUpload
                     class="upload-demo"
                     :http-request="customUploadActionData"
@@ -72,7 +72,7 @@
                     </div>
                     <el-icon v-else class="uploader-icon"><Plus /></el-icon>
                     <template #tip>
-                        <div class="el-upload__tip">*请上传10MB以内.json格式文件</div>
+                        <div class="el-upload__tip">请上传10MB以内.json格式文件</div>
                     </template>
                 </ElUpload>
             </ElFormItem>
@@ -136,8 +136,8 @@
     const rules: FormRules = {
         version: [{ required: true, message: '请输入版本号', trigger: 'blur' }],
         soPath: [{ required: true, message: '请上传.so格式文件', trigger: 'change' }],
-        remark: [{ required: false, message: '请输入备注', trigger: 'blur' }],
-        file: [{ required: false, message: '请上传.json格式文件', trigger: 'change' }],
+        remark: [{ required: true, message: '请输入备注', trigger: 'blur' }],
+        file: [{ required: true, message: '请上传.json格式文件', trigger: 'change' }],
     }
 
     const initFormData = () => {

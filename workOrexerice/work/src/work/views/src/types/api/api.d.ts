@@ -116,6 +116,34 @@ declare namespace Api {
             refreshToken: string
         }
 
+        /** 其他登录参数 */
+        interface SocialOAuthParams {
+            provider: string
+        }
+
+        /** 其他登录回调参数 */
+        interface SocialOAuthCallbackParams {
+            provider: string
+            code: string
+            error?: string
+        }
+
+        /** 其他登录响应 */
+        interface SocialOAuthResponse {
+            authorizationUrl: string
+        }
+
+        /** 刷新令牌参数 */
+        interface RefreshTokenParams {
+            refreshToken: string
+        }
+
+        /** 刷新令牌响应 */
+        interface RefreshTokenResponse {
+            accessToken: string
+            refreshToken: string
+        }
+
         /** 用户信息 */
         interface UserInfo {
             buttons: string[]
@@ -123,6 +151,8 @@ declare namespace Api {
             id: number
             userId: number
             username: string
+            createdAt: string
+            updatedAt: string
             email: string
             avatar?: string
             nickname?: string
@@ -851,25 +881,34 @@ declare namespace Api {
         type AccountUpdateBody = Pick<AccountListItem, 'id'> & Partial<AccountCreateBody>
     }
 
-    namespace Opration {
+    namespace Log {
         /** 操作日志列表 */
-        type OprationList = Api.Common.PaginatedResponse<OprationListItem>
+        type LogList = Api.Common.PaginatedResponse<LogListItem>
 
         /** 操作日志列表项 */
-        interface OprationListItem {
+        interface LogListItem {
             /** 主键ID */
             id: number
             /** 账号名称 */
             name: string
             /** 角色 */
             character: string
-            /** 账号状态 (1:启用, 2:禁用) */
-            status: number
-            /**最近登录时间 */
-            lastLoginAt?: string
+            /** 操作类型 */
+            operationType: number
+            /** 操作描述 */
+            operationDesc: string
+            /** 创建时间 */
+            createdAt?: string
         }
 
         /** 操作日志搜索参数 */
-        type OprationSearchParams = Partial<Pick<OprationListItem, 'name'> & Api.Common.CommonSearchParams>
+        interface LogSearchParams extends Api.Common.CommonSearchParams {
+            /** 账号名称 */
+            name?: string
+            /** 角色 */
+            character?: string
+            /** 操作类型 */
+            operationType?: number
+        }
     }
 }

@@ -1,18 +1,21 @@
 <template>
     <div class="action-page art-full-height">
         <!-- 搜索栏 -->
-        <AiSearch v-model="searchForm" @search="handleSearch" @reset="handleResetSearch"></AiSearch>
+        <AiSearch
+            v-if="hasAuth('query')"
+            v-model="searchForm"
+            @search="handleSearch"
+            @reset="handleResetSearch"
+        ></AiSearch>
 
         <ElCard class="art-table-card" shadow="never">
             <!-- 表格头部 -->
             <ArtTableHeader v-model:columns="columnChecks" :loading="loading" @refresh="refreshData">
                 <template #left>
-                    <ElSpace>
-                        <ElButton @click="showDialog('update')" v-ripple>更新</ElButton>
-                    </ElSpace>
-                    <div>
+                    <ElSpace :size="40">
+                        <ElButton v-if="hasAuth('update')" @click="showDialog('update')" v-ripple>更新</ElButton>
                         <p>当前so库版本：{{ soLibVersion }}</p>
-                    </div>
+                    </ElSpace>
                 </template>
             </ArtTableHeader>
 
@@ -50,6 +53,7 @@
     import AiDialog from './modules/ai-dialog.vue'
     import AiSearch from './modules/ai-search.vue'
     import { ElMessage, ElButton } from 'element-plus'
+    import { useAuth } from '@/hooks/core/useAuth'
 
     defineOptions({ name: 'Action' })
 
@@ -62,6 +66,10 @@
 
     const selectedRows = ref<AiListItem[]>([])
 
+    //权限
+    const { hasAuth } = useAuth()
+
+    // 搜索表单（默认值，重置时会恢复到这里）
     const defaultSearchForm = {
         actionId: undefined,
         actionName: undefined,
@@ -81,7 +89,7 @@
     }
 
     const getIntroductionText = (introduction: string) => {
-        return introduction || '暂无备注'
+        return introduction || ''
     }
 
     const {
@@ -104,7 +112,7 @@
             apiFn: fetchGetAiActionList,
             apiParams: {
                 page: 1,
-                size: 10,
+                size: 30,
                 ...searchForm.value,
             },
             columnsFactory: () => [

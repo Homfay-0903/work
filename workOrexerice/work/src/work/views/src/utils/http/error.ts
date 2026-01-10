@@ -138,9 +138,25 @@ export function handleError(error: AxiosError<ErrorResponse>): never {
     }
 
     // 处理 HTTP 状态码错误
-    const message = statusCode ? getErrorMessage(statusCode) : errorMessage || $t('httpMsg.requestFailed')
+    // 优先使用后端返回的错误消息，如果没有则使用 HTTP 状态码对应的消息
+    const responseData = error.response.data
+    const businessCode = (responseData as any)?.code
+    const businessMessage = (responseData as any)?.message || errorMessage
+
+    // 如果有业务错误码，使用业务错误码和消息
+    //确保即使 HTTP 状态码是 401，也能正确显示业务错误消息（如"密码错误"）
+    if (businessCode !== undefined && businessCode !== 0) {
+        throw new HttpError(businessMessage || $t('httpMsg.requestFailed'), businessCode, {
+            data: responseData,
+            url: requestConfig?.url,
+            method: requestConfig?.method?.toUpperCase(),
+        })
+    }
+
+    // 否则使用 HTTP 状态码对应的消息
+    const message = businessMessage || (statusCode ? getErrorMessage(statusCode) : $t('httpMsg.requestFailed'))
     throw new HttpError(message, statusCode || ApiStatus.error, {
-        data: error.response.data,
+        data: responseData,
         url: requestConfig?.url,
         method: requestConfig?.method?.toUpperCase(),
     })

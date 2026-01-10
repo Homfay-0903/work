@@ -5,7 +5,7 @@
  * ## 主要功能
  *
  * - 请求/响应拦截器（自动添加 Token、统一错误处理）
- * - 401 未授权自动登出（带防抖机制）
+ * - 401 未授权自动刷新令牌（带并发请求队列处理）
  * - 请求失败自动重试（可配置）
  * - 统一的成功/错误消息提示
  * - 支持 GET/POST/PUT/DELETE 等常用方法
@@ -20,6 +20,7 @@ import { ApiStatus } from './status'
 import { HttpError, handleError, showError, showSuccess } from './error'
 import { $t } from '@/locales'
 import { BaseResponse } from '@/types'
+import { fetchRefreshToken } from '@/api/auth'
 
 /** 请求配置常量 */
 const REQUEST_TIMEOUT = 15000
@@ -31,6 +32,10 @@ const UNAUTHORIZED_DEBOUNCE_TIME = 3000
 /** 401防抖状态 */
 let isUnauthorizedErrorShown = false
 let unauthorizedTimer: NodeJS.Timeout | null = null
+
+/** 刷新令牌状态 */
+let isRefreshing = false
+let refreshSubscribers: ((token: string) => void)[] = []
 
 /** 扩展 AxiosRequestConfig */
 interface ExtendedAxiosRequestConfig extends AxiosRequestConfig {
@@ -83,15 +88,36 @@ axiosInstance.interceptors.request.use(
 /** 响应拦截器 */
 axiosInstance.interceptors.response.use(
     (response: AxiosResponse<BaseResponse>) => {
-        // TODO:处理 code
-        const status = response.status
-        const { message } = response.data
-        if (status === ApiStatus.success || status === ApiStatus.created) return response
-        if (status === ApiStatus.unauthorized) handleUnauthorizedError(message)
-        throw createHttpError(message || $t('httpMsg.requestFailed'), status)
+        const httpStatus = response.status
+        const { code: businessCode, message } = response.data
+
+        // 检查 HTTP 状态码
+        if (httpStatus !== ApiStatus.success && httpStatus !== ApiStatus.created) {
+            if (httpStatus === ApiStatus.unauthorized) handleUnauthorizedError(message)
+            throw createHttpError(message || $t('httpMsg.requestFailed'), httpStatus)
+        }
+
+        // 检查业务错误码（成功为 0）
+        if (businessCode !== 0) {
+            // 使用业务错误码和消息创建错误
+            throw createHttpError(message || $t('httpMsg.requestFailed'), businessCode)
+        }
+
+        return response
     },
-    error => {
-        if (error.response?.status === ApiStatus.unauthorized) handleUnauthorizedError()
+    async error => {
+        // 先检查是否有业务错误码，如果有则优先使用业务错误码和消息
+        // 这样可以避免将业务错误（如密码错误 1005）误判为 401 未授权
+        const responseData = error.response?.data
+        const businessCode = (responseData as any)?.code
+        if (businessCode !== undefined && businessCode !== 0) {
+            // 有业务错误码，直接交给 handleError 处理，不使用 401 的特殊处理
+            return Promise.reject(handleError(error))
+        }
+        // 没有业务错误码，按 HTTP 状态码处理
+        if (error.response?.status === ApiStatus.unauthorized) {
+            return handleTokenRefresh(error)
+        }
         return Promise.reject(handleError(error))
     },
 )
@@ -99,6 +125,62 @@ axiosInstance.interceptors.response.use(
 /** 统一创建HttpError */
 function createHttpError(message: string, code: number) {
     return new HttpError(message, code)
+}
+
+/** 处理令牌刷新 */
+async function handleTokenRefresh(error: any) {
+    const userStore = useUserStore()
+    const { refreshToken } = userStore
+
+    // 如果没有刷新令牌，直接登出
+    if (!refreshToken) {
+        return handleUnauthorizedError()
+    }
+
+    // 如果正在刷新，将请求加入队列
+    if (isRefreshing) {
+        return new Promise(resolve => {
+            subscribeTokenRefresh((token: string) => {
+                error.config.headers.Authorization = `Bearer ${token}`
+                resolve(axiosInstance.request(error.config))
+            })
+        })
+    }
+
+    // 开始刷新令牌
+    isRefreshing = true
+
+    try {
+        const response = await fetchRefreshToken({ refreshToken })
+        const { accessToken: newAccessToken, refreshToken: newRefreshToken } = response
+
+        // 更新 store 中的令牌
+        userStore.setToken(newAccessToken, newRefreshToken)
+
+        // 通知所有等待的请求
+        onTokenRefreshed(newAccessToken)
+
+        // 重试原请求
+        error.config.headers.Authorization = `Bearer ${newAccessToken}`
+        return axiosInstance.request(error.config)
+    } catch (refreshError) {
+        // 刷新失败，登出
+        handleUnauthorizedError()
+        return Promise.reject(refreshError)
+    } finally {
+        isRefreshing = false
+        refreshSubscribers = []
+    }
+}
+
+/** 订阅令牌刷新事件 */
+function subscribeTokenRefresh(callback: (token: string) => void) {
+    refreshSubscribers.push(callback)
+}
+
+/** 通知所有订阅者令牌已刷新 */
+function onTokenRefreshed(token: string) {
+    refreshSubscribers.forEach(callback => callback(token))
 }
 
 /** 处理401错误（带防抖） */

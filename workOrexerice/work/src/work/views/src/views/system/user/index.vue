@@ -25,6 +25,7 @@
 
             <!-- 表格 -->
             <ArtTable
+                tableLayout="fixed"
                 :loading="loading"
                 :data="data"
                 :columns="columns"
@@ -50,12 +51,14 @@
     import ArtButtonTable from '@/components/core/forms/art-button-table/index.vue'
     import { ACCOUNT_TABLE_DATA } from '@/mock/temp/formData'
     import { useTable } from '@/hooks/core/useTable'
-    import { fetchGetUserList, fetchCreateUser, fetchUpdateUser, fetchDeleteUser } from '@/api/system-manage'
+    import { fetchGetUserList, fetchCreateUser, fetchDeleteUser } from '@/api/system-manage'
+    import { fetchUpdateUserInfo, fetchGetUserInfo } from '@/api/auth'
     import UserSearch from './modules/user-search.vue'
     import UserDialog from './modules/user-dialog.vue'
     import { ElTag, ElMessageBox, ElImage, ElMessage } from 'element-plus'
     import { DialogType } from '@/types'
     import { useAuth } from '@/hooks/core/useAuth'
+    import { useUserStore } from '@/store/modules/user'
 
     defineOptions({ name: 'User' })
 
@@ -71,6 +74,10 @@
 
     // 权限控制
     const { hasAuth } = useAuth()
+
+    // 用户状态管理
+    const userStore = useUserStore()
+    const currentUserId = computed(() => userStore.getUserInfo?.userId || userStore.getUserInfo?.id)
 
     // 计算是否有任何操作权限
     const hasAnyOperationPermission = computed(() => {
@@ -345,9 +352,19 @@
                     return
                 }
 
-                await fetchUpdateUser(dataToSubmit)
+                await fetchUpdateUserInfo(dataToSubmit)
                 ElMessage.success('更新成功')
                 await refreshUpdate()
+
+                // 如果更新的是当前登录用户，重新获取用户信息并更新到 store
+                if (dataToSubmit.id === currentUserId.value) {
+                    try {
+                        const newUserInfo = await fetchGetUserInfo()
+                        userStore.setUserInfo(newUserInfo)
+                    } catch (error) {
+                        console.error('获取用户信息失败:', error)
+                    }
+                }
             }
 
             dialogVisible.value = false

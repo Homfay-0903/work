@@ -5,14 +5,19 @@
         </div>
 
         <!-- 搜索栏 -->
-        <CoachSearch v-model="searchForm" @search="handleSearch" @reset="handleResetSearch"></CoachSearch>
+        <CoachSearch
+            v-if="hasAuth('query')"
+            v-model="searchForm"
+            @search="handleSearch"
+            @reset="handleResetSearch"
+        ></CoachSearch>
 
         <ElCard class="art-table-card" shadow="never">
             <!-- 表格头部 -->
             <ArtTableHeader v-model:columns="columnChecks" :loading="loading" @refresh="refreshData">
                 <template #left>
                     <ElSpace wrap>
-                        <ElButton @click="showDialog('add')" v-ripple>添加教练</ElButton>
+                        <ElButton v-if="hasAuth('add')" @click="showDialog('add')" v-ripple>添加教练</ElButton>
                     </ElSpace>
                 </template>
             </ArtTableHeader>
@@ -59,6 +64,7 @@
     import CoachSearch from './modules/coach-search.vue'
     import CoachDialog from './modules/coach-dialog.vue'
     import { ElTag, ElMessageBox, ElMessage, ElButton, ElImage, ElLoading } from 'element-plus'
+    import { useAuth } from '@/hooks/core/useAuth'
 
     defineOptions({ name: 'Coach' })
 
@@ -94,6 +100,13 @@
     const LANGUAGE_CONFIG = {
         'zh-CN': '简体中文',
         'zh-TW': '繁体中文',
+        'zh-HK': '香港中文',
+        'sv-SE': '瑞典文',
+        'hu-HU': '匈牙利文',
+        'fi-FI': '芬兰文',
+        'el-GR': '希腊文',
+        'cs-CZ': '捷克文',
+        'ar-AR': '阿拉伯文',
         'en': '英文',
         'en-US': '英文',
         'en-GB': '英文',
@@ -137,6 +150,9 @@
         'uk': '乌克兰文',
         'uk-UA': '乌克兰文',
     } as const
+
+    // 权限控制
+    const { hasAuth } = useAuth()
 
     /**
      * 获取序号文本
@@ -317,22 +333,24 @@
                         const buttons: any[] = []
                         const isTranslating = translatingIds.value.has(row.id)
 
-                        // 查看
-                        buttons.push(
-                            h(
-                                ElButton,
-                                {
-                                    link: true,
-                                    disabled: isTranslating,
-                                    onClick: () => showDialog('view', row),
-                                },
-                                () => '查看',
-                            ),
-                        )
+                        // 查看（仅在有权限时显示）
+                        if (hasAuth('view')) {
+                            buttons.push(
+                                h(
+                                    ElButton,
+                                    {
+                                        link: true,
+                                        disabled: isTranslating,
+                                        onClick: () => showDialog('view', row),
+                                    },
+                                    () => '查看',
+                                ),
+                            )
+                        }
 
                         // 编辑（翻译后的子数据且已启用时不允许编辑）
                         const canEdit = !(row as any)._isChild || ((row as any)._isChild && row.status === 0)
-                        if (canEdit) {
+                        if (canEdit && hasAuth('edit')) {
                             buttons.push(
                                 h(
                                     ElButton,
@@ -346,22 +364,28 @@
                             )
                         }
 
-                        // 删除
-                        buttons.push(
-                            h(
-                                ElButton,
-                                {
-                                    link: true,
-                                    type: 'danger',
-                                    disabled: isTranslating,
-                                    onClick: () => handleDeleteCoach(row),
-                                },
-                                () => '删除',
-                            ),
-                        )
+                        // 删除（仅在有权限时显示）
+                        if (hasAuth('delete')) {
+                            buttons.push(
+                                h(
+                                    ElButton,
+                                    {
+                                        link: true,
+                                        type: 'danger',
+                                        disabled: isTranslating,
+                                        onClick: () => handleDeleteCoach(row),
+                                    },
+                                    () => '删除',
+                                ),
+                            )
+                        }
 
                         // 全部翻译（只有主数据才显示）
-                        if (!row.hasChildren && (row.langName === '简体中文' || row.langCode === 'zh-CN')) {
+                        if (
+                            hasAuth('translate') &&
+                            !row.hasChildren &&
+                            (row.langName === '简体中文' || row.langCode === 'zh-CN')
+                        ) {
                             buttons.push(
                                 h(
                                     ElButton,
@@ -376,9 +400,8 @@
                             )
                         }
 
-                        // 启用/禁用（仅翻译后的子数据显示）
-                        //if ((row as any)._isChild) {
-                        if (row.status === 0) {
+                        // 启用/禁用（仅翻译后的子数据显示，且有权限时显示）
+                        if (row.status === 0 && hasAuth('enable')) {
                             buttons.push(
                                 h(
                                     ElButton,
@@ -391,7 +414,7 @@
                                     () => '启用',
                                 ),
                             )
-                        } else if (row.status === 1) {
+                        } else if (row.status === 1 && hasAuth('disable')) {
                             buttons.push(
                                 h(
                                     ElButton,

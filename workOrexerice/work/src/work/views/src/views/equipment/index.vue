@@ -4,14 +4,19 @@
             <div class="art-table-card-header-title">器械管理</div>
         </div>
 
-        <EquipmentSearch v-model="searchForm" @search="handleSearch" @reset="handleResetSearch"></EquipmentSearch>
+        <EquipmentSearch
+            v-if="hasAuth('query')"
+            v-model="searchForm"
+            @search="handleSearch"
+            @reset="handleResetSearch"
+        ></EquipmentSearch>
 
         <ElCard class="art-table-card" shadow="never">
             <!-- 表格头部 -->
             <ArtTableHeader v-model:columns="columnChecks" :loading="loading" @refresh="refreshData">
                 <template #left>
                     <ElSpace wrap>
-                        <ElButton @click="showDialog('add')" v-ripple>添加器械</ElButton>
+                        <ElButton v-if="hasAuth('add')" @click="showDialog('add')" v-ripple>添加器械</ElButton>
                     </ElSpace>
                 </template>
             </ArtTableHeader>
@@ -57,6 +62,7 @@
     import { fetchGetActionList } from '@/api/action'
     import EquipmentSearch from './modules/equipment-search.vue'
     import EquipmentDialog from './modules/equipment-dialog.vue'
+    import { useAuth } from '@/hooks/core/useAuth'
     import { ElTag, ElMessageBox, ElMessage, ElButton, ElImage, ElLoading } from 'element-plus'
 
     defineOptions({ name: 'Equipment' })
@@ -70,6 +76,9 @@
     const dialogType = ref<'add' | 'edit' | 'view'>('add')
     const dialogVisible = ref(false)
     const currentEquipmentData = ref<Partial<EquipmentListItem>>({})
+
+    // 权限控制
+    const { hasAuth } = useAuth()
 
     // 选中行
     const selectedRows = ref<EquipmentListItem[]>([])
@@ -93,6 +102,13 @@
     const LANGUAGE_CONFIG = {
         'zh-CN': '简体中文',
         'zh-TW': '繁体中文',
+        'zh-HK': '香港中文',
+        'sv-SE': '瑞典文',
+        'hu-HU': '匈牙利文',
+        'fi-FI': '芬兰文',
+        'el-GR': '希腊文',
+        'cs-CZ': '捷克文',
+        'ar-AR': '阿拉伯文',
         'en': '英文',
         'en-US': '英文',
         'en-GB': '英文',
@@ -305,20 +321,22 @@
                         const buttons: any[] = []
                         const isTranslating = translatingIds.value.has(row.id)
 
-                        buttons.push(
-                            h(
-                                ElButton,
-                                {
-                                    link: true,
-                                    disabled: isTranslating,
-                                    onClick: () => showDialog('view', row),
-                                },
-                                () => '查看',
-                            ),
-                        )
+                        if (hasAuth('view')) {
+                            buttons.push(
+                                h(
+                                    ElButton,
+                                    {
+                                        link: true,
+                                        disabled: isTranslating,
+                                        onClick: () => showDialog('view', row),
+                                    },
+                                    () => '查看',
+                                ),
+                            )
+                        }
 
                         const canEdit = !(row as any)._isChild || ((row as any)._isChild && row.status === 0)
-                        if (canEdit) {
+                        if (canEdit && hasAuth('edit')) {
                             buttons.push(
                                 h(
                                     ElButton,
@@ -332,20 +350,22 @@
                             )
                         }
 
-                        buttons.push(
-                            h(
-                                ElButton,
-                                {
-                                    link: true,
-                                    type: 'danger',
-                                    disabled: isTranslating,
-                                    onClick: () => handleDeleteEquipment(row),
-                                },
-                                () => '删除',
-                            ),
-                        )
+                        if (hasAuth('delete')) {
+                            buttons.push(
+                                h(
+                                    ElButton,
+                                    {
+                                        link: true,
+                                        type: 'danger',
+                                        disabled: isTranslating,
+                                        onClick: () => handleDeleteEquipment(row),
+                                    },
+                                    () => '删除',
+                                ),
+                            )
+                        }
 
-                        if (row.langName === '简体中文' || row.langCode === 'zh-CN') {
+                        if (hasAuth('translate') && (row.langName === '简体中文' || row.langCode === 'zh-CN')) {
                             buttons.push(
                                 h(
                                     ElButton,
@@ -361,7 +381,7 @@
                         }
 
                         //if ((row as any)._isChild) {
-                        if (row.status === 0) {
+                        if (row.status === 0 && hasAuth('enable')) {
                             buttons.push(
                                 h(
                                     ElButton,
@@ -374,7 +394,7 @@
                                     () => '启用',
                                 ),
                             )
-                        } else if (row.status === 1) {
+                        } else if (row.status === 1 && hasAuth('disable')) {
                             buttons.push(
                                 h(
                                     ElButton,

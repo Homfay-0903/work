@@ -105,8 +105,8 @@
     // 表单验证规则
     const rules: FormRules = {
         name: [{ required: true, message: '请输入教练名称', trigger: 'blur' }],
-        avatar: [{ required: false, message: '请上传教练头像', trigger: 'change' }],
-        introduction: [{ required: false, message: '请输入教练介绍', trigger: 'blur' }],
+        avatar: [{ required: true, message: '请上传教练头像', trigger: 'change' }],
+        introduction: [{ required: true, message: '请输入教练介绍', trigger: 'blur' }],
     }
 
     /**

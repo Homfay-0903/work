@@ -18,12 +18,12 @@ export function fetchCreateUser(body: Api.SystemManage.UserCreateBody) {
 }
 
 // 编辑用户
-export function fetchUpdateUser(body: Api.SystemManage.UserUpdateBody) {
-    return request.put<void>({
-        url: '/api/v1/user',
-        data: body,
-    })
-}
+//export function fetchUpdateUser(body: Api.SystemManage.UserUpdateBody) {
+//    return request.put<void>({
+//        url: '/api/v1/user',
+//        data: body,
+//    })
+//}
 
 // 删除用户
 export function fetchDeleteUser(id: number) {
