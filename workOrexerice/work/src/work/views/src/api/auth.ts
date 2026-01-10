@@ -10,6 +10,7 @@ export function fetchLogin(params: Api.Auth.LoginParams) {
         url: '/api/v1/auth/login',
         params,
         showErrorMessage: false, // 禁用自动错误提示，由登录页面手动处理
+        skipAuth: true, // 登录接口不需要携带认证头
     })
 }
 
@@ -22,6 +23,7 @@ export function fetchRegister(params: Api.Auth.RegisterParams) {
     return request.post<Api.Auth.LoginResponse>({
         url: '/api/v1/auth/register',
         data: params,
+        skipAuth: true, // 注册接口不需要携带认证头
     })
 }
 
@@ -57,6 +59,7 @@ export function fetchChangePassword(params: Api.Auth.ChangePasswordParams) {
         url: '/api/v1/user/reset-password',
         data: params,
         showErrorMessage: false, // 禁用自动错误提示，由调用页面手动处理
+        skipAuth: true, // 修改密码接口不需要携带认证头
     })
 }
 
@@ -70,6 +73,7 @@ export function fetchRefreshToken(params: Api.Auth.RefreshTokenParams) {
         url: '/api/v1/auth/refresh-token',
         data: params,
         showErrorMessage: false, // 禁用自动错误提示，由调用页面手动处理
+        skipAuth: true, // 跳过自动添加认证头
     })
 }
 
@@ -83,6 +87,7 @@ export function fetchSocialOAuth(params: Api.Auth.SocialOAuthParams) {
         url: `/api/v1/oauth/${params.provider}`,
         data: params,
         showErrorMessage: false, // 禁用自动错误提示，由调用页面手动处理
+        skipAuth: true, // OAuth接口不需要携带认证头
     })
 }
 
@@ -96,5 +101,6 @@ export function fetchSocialOAuthCallback(params: Api.Auth.SocialOAuthCallbackPar
         url: `/api/v1/oauth/${params.provider}/callback`,
         data: params,
         showErrorMessage: false, // 禁用自动错误提示，由调用页面手动处理
+        skipAuth: true, // OAuth回调接口不需要携带认证头
     })
 }

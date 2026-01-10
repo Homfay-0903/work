@@ -41,6 +41,7 @@ let refreshSubscribers: ((token: string) => void)[] = []
 interface ExtendedAxiosRequestConfig extends AxiosRequestConfig {
     showErrorMessage?: boolean
     showSuccessMessage?: boolean
+    skipAuth?: boolean
 }
 
 const { VITE_API_URL, VITE_WITH_CREDENTIALS } = import.meta.env
@@ -70,7 +71,9 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
     (request: InternalAxiosRequestConfig) => {
         const { accessToken } = useUserStore()
-        if (accessToken) request.headers.set('Authorization', `Bearer ${accessToken}`)
+        if (accessToken && !(request as ExtendedAxiosRequestConfig).skipAuth) {
+            request.headers.set('Authorization', `Bearer ${accessToken}`)
+        }
 
         if (request.data && !(request.data instanceof FormData) && !request.headers['Content-Type']) {
             request.headers.set('Content-Type', 'application/json')
@@ -88,14 +91,7 @@ axiosInstance.interceptors.request.use(
 /** 响应拦截器 */
 axiosInstance.interceptors.response.use(
     (response: AxiosResponse<BaseResponse>) => {
-        const httpStatus = response.status
         const { code: businessCode, message } = response.data
-
-        // 检查 HTTP 状态码
-        if (httpStatus !== ApiStatus.success && httpStatus !== ApiStatus.created) {
-            if (httpStatus === ApiStatus.unauthorized) handleUnauthorizedError(message)
-            throw createHttpError(message || $t('httpMsg.requestFailed'), httpStatus)
-        }
 
         // 检查业务错误码（成功为 0）
         if (businessCode !== 0) {
@@ -106,18 +102,46 @@ axiosInstance.interceptors.response.use(
         return response
     },
     async error => {
-        // 先检查是否有业务错误码，如果有则优先使用业务错误码和消息
-        // 这样可以避免将业务错误（如密码错误 1005）误判为 401 未授权
+        const responseStatus = error.response?.status
         const responseData = error.response?.data
         const businessCode = (responseData as any)?.code
-        if (businessCode !== undefined && businessCode !== 0) {
-            // 有业务错误码，直接交给 handleError 处理，不使用 401 的特殊处理
-            return Promise.reject(handleError(error))
-        }
-        // 没有业务错误码，按 HTTP 状态码处理
-        if (error.response?.status === ApiStatus.unauthorized) {
+        const requestUrl = error.config?.url || ''
+        const requestConfig = error.config as ExtendedAxiosRequestConfig
+
+        // 处理 401 未授权错误
+        if (responseStatus === ApiStatus.unauthorized) {
+            // 1. 优先检查是否是刷新令牌请求本身失败（避免无限循环）
+            // 刷新令牌请求失败应该直接登出，而不是作为业务错误或再次尝试刷新
+            if (requestUrl.includes('/auth/refresh-token')) {
+                handleUnauthorizedError(responseData?.message)
+                return Promise.reject(handleError(error))
+            }
+
+            // 2. 检查是否是认证相关的接口（登录、注册、OAuth、修改密码等，但不包括刷新令牌）
+            // 这些接口的 401 错误应该作为业务错误处理，不尝试刷新令牌
+            // 例如：登录时密码错误，应该显示"密码错误"而不是尝试刷新令牌
+            const isAuthRelatedRequest = isAuthenticationRelatedRequest(requestUrl)
+
+            // 3. 检查是否跳过了认证（skipAuth），如果是，说明这是不需要认证的接口，401 应该作为业务错误
+            const isSkipAuth = requestConfig?.skipAuth === true
+
+            if (isAuthRelatedRequest || isSkipAuth) {
+                // 认证相关接口或跳过认证的接口返回 401，作为业务错误处理
+                // 优先使用业务错误码和消息（如密码错误：code 1005, message "密码错误"）
+                return Promise.reject(handleError(error))
+            }
+
+            // 4. 对于其他需要认证的接口，尝试刷新令牌
+            // 注意：只有当 refreshToken 存在时才会尝试刷新，否则会直接登出
             return handleTokenRefresh(error)
         }
+
+        // 非 401 错误：如果有业务错误码，使用业务错误码和消息
+        if (businessCode !== undefined && businessCode !== 0) {
+            return Promise.reject(handleError(error))
+        }
+
+        // 其他 HTTP 错误，按 HTTP 状态码处理
         return Promise.reject(handleError(error))
     },
 )
@@ -127,6 +151,16 @@ function createHttpError(message: string, code: number) {
     return new HttpError(message, code)
 }
 
+/** 判断是否是认证相关的请求（登录、注册、OAuth、修改密码等） */
+function isAuthenticationRelatedRequest(url: string): boolean {
+    if (!url) return false
+
+    // 认证相关的路径模式（不包括刷新令牌，因为它已经单独处理）
+    const authPatterns = ['/auth/login', '/auth/register', '/oauth/', '/user/reset-password']
+
+    return authPatterns.some(pattern => url.includes(pattern))
+}
+
 /** 处理令牌刷新 */
 async function handleTokenRefresh(error: any) {
     const userStore = useUserStore()
@@ -134,15 +168,22 @@ async function handleTokenRefresh(error: any) {
 
     // 如果没有刷新令牌，直接登出
     if (!refreshToken) {
-        return handleUnauthorizedError()
+        handleUnauthorizedError()
+        return Promise.reject(createHttpError($t('httpMsg.unauthorized'), ApiStatus.unauthorized))
     }
 
     // 如果正在刷新，将请求加入队列
     if (isRefreshing) {
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
             subscribeTokenRefresh((token: string) => {
-                error.config.headers.Authorization = `Bearer ${token}`
-                resolve(axiosInstance.request(error.config))
+                if (token) {
+                    // 刷新成功，使用新令牌重试请求
+                    error.config.headers.Authorization = `Bearer ${token}`
+                    resolve(axiosInstance.request(error.config))
+                } else {
+                    // 刷新失败，拒绝请求
+                    reject(createHttpError($t('httpMsg.unauthorized'), ApiStatus.unauthorized))
+                }
             })
         })
     }
@@ -154,6 +195,11 @@ async function handleTokenRefresh(error: any) {
         const response = await fetchRefreshToken({ refreshToken })
         const { accessToken: newAccessToken, refreshToken: newRefreshToken } = response
 
+        // 验证返回的令牌是否有效
+        if (!newAccessToken) {
+            throw new Error('刷新令牌返回的 accessToken 为空')
+        }
+
         // 更新 store 中的令牌
         userStore.setToken(newAccessToken, newRefreshToken)
 
@@ -163,9 +209,12 @@ async function handleTokenRefresh(error: any) {
         // 重试原请求
         error.config.headers.Authorization = `Bearer ${newAccessToken}`
         return axiosInstance.request(error.config)
-    } catch (refreshError) {
-        // 刷新失败，登出
-        handleUnauthorizedError()
+    } catch (refreshError: any) {
+        // 刷新失败，清空所有令牌并登出
+        userStore.setToken('', '')
+        handleUnauthorizedError(refreshError?.response?.data?.message || refreshError?.message)
+        // 通知所有等待的请求刷新失败
+        onTokenRefreshed('')
         return Promise.reject(refreshError)
     } finally {
         isRefreshing = false
@@ -180,7 +229,13 @@ function subscribeTokenRefresh(callback: (token: string) => void) {
 
 /** 通知所有订阅者令牌已刷新 */
 function onTokenRefreshed(token: string) {
-    refreshSubscribers.forEach(callback => callback(token))
+    refreshSubscribers.forEach(callback => {
+        try {
+            callback(token)
+        } catch (error) {
+            console.error('[TokenRefresh] 通知订阅者失败:', error)
+        }
+    })
 }
 
 /** 处理401错误（带防抖） */
