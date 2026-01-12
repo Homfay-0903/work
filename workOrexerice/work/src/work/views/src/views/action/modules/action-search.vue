@@ -355,22 +355,8 @@
         }
     }
 
-    onMounted(async () => {
-        await fetchInstrumentOptions()
-        await fetchCoachOptions()
-    })
-
-    onActivated(async () => {
-        await fetchInstrumentOptions()
-        //await fetchCoachOptions()
-    })
-
-    defineExpose({
-        fetchInstrumentOptions,
-    })
-
     // 获取训练部位列表
-    onMounted(async () => {
+    const fetchPartOptions = async () => {
         try {
             const res = await fetchGetTrainingAreaList() // 获取全部训练部位
             console.log('获取训练部位列表成功:', res)
@@ -387,5 +373,40 @@
         } catch (error) {
             console.error('获取训练部位列表失败:', error)
         }
+    }
+
+    onMounted(async () => {
+        await fetchInstrumentOptions()
+        await fetchCoachOptions()
+        await fetchPartOptions()
     })
+
+    onActivated(async () => {
+        await fetchInstrumentOptions()
+        await fetchCoachOptions()
+    })
+
+    defineExpose({
+        fetchInstrumentOptions,
+    })
+
+    // 获取训练部位列表
+    //onMounted(async () => {
+    //    try {
+    //        const res = await fetchGetTrainingAreaList() // 获取全部训练部位
+    //        console.log('获取训练部位列表成功:', res)
+    //        if (res) {
+    //            // 将训练部位数据转换为选项格式，并在前面添加'全部'选项
+    //            partOptions.value = [
+    //                { label: '全部', value: 0 },
+    //                ...(Array.isArray(res) ? res : []).map((region: any) => ({
+    //                    label: region.name || '未知训练部位',
+    //                    value: region.id,
+    //                })),
+    //            ]
+    //        }
+    //    } catch (error) {
+    //        console.error('获取训练部位列表失败:', error)
+    //    }
+    //})
 </script>
