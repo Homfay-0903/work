@@ -228,6 +228,7 @@
         actionDataFile.value = file.raw || null
         actionDataUrl.value = file.name
         actionDataName.value = file.name
+        formData.file = file.name
     }
 
     const handleActionDataRemove = () => {

@@ -16,8 +16,8 @@ export function fetchGetAiActionList(params: Api.Ai.AiSearchParams) {
 /**
  * 新增so库版本
  */
-export function fetchAddSoLibVersion(body: Api.Ai.AiCreateBody & { file?: File }) {
-    if ((body.file as any) instanceof File) {
+export function fetchAddSoLibVersion(body: Api.Ai.AiCreateBody) {
+    if (body.file instanceof File) {
         const formData = new FormData()
         formData.append('version', body.version || '')
         formData.append('soPath', body.soPath)

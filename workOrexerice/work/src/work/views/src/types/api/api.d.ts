@@ -808,7 +808,7 @@ declare namespace Api {
         /** 动作创建参数 */
         interface AiCreateBody {
             soPath: string
-            file: string
+            file?: string | File
             version?: string
             remark?: string
         }
