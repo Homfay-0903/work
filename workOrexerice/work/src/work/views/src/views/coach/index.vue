@@ -569,7 +569,6 @@
                     }
                 } catch (error) {
                     console.error('检查教练使用状态失败:', error)
-                    // 如果检查接口失败，继续执行删除（根据业务需求决定）
                 }
 
                 await fetchDeleteCoach(row.id)
