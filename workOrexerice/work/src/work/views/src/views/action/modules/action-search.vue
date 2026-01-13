@@ -247,7 +247,8 @@
 
             // 单选下拉：值为 ALL/空 等价于不筛选
             if (['scene', 'difficulty', 'type', 'status', 'isAIAction', 'coachId'].includes(key)) {
-                if (isAllTag(value)) return
+                // 添加更严格的检查，确保清除的字段不会被发送
+                if (isAllTag(value) || value === 0 || value === '0') return
                 payload[key] = value
                 return
             }

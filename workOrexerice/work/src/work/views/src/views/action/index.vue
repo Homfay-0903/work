@@ -713,9 +713,30 @@
      */
     const handleSearch = async (params: Partial<Api.Action.ActionSearchParams>) => {
         console.log('筛选参数:', params)
-        // 搜索参数赋值
+
+        // 需要清除的筛选字段列表（排除分页相关字段）
+        const filterKeys = [
+            'scene',
+            'difficulty',
+            'instrumentIds',
+            'muscleRegionIds',
+            'type',
+            'status',
+            'isAIAction',
+            'coachId',
+            'name',
+            'tagIds',
+        ]
+
+        // 清除旧的筛选参数，保留分页参数
+        filterKeys.forEach(key => {
+            delete (searchParams as any)[key]
+        })
+
+        // 赋值新的筛选参数
         Object.assign(searchParams, params)
         delete (searchParams as any).model
+
         // 等待数据加载完成后打印，确保表格数据已更新
         await getData()
         console.log('表格数据：', data.value)
