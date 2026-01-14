@@ -44,36 +44,11 @@
 
                     <ElFormItem label="动作视频" prop="videos">
                         <div class="video-upload-container">
-                            <div v-if="videoUrls.length > 0" class="video-list">
-                                <div v-for="(video, index) in videoUrls" :key="index" class="video-item">
-                                    <div class="video-preview">
-                                        <video :src="video.url" class="coverImage" controls preload="metadata" />
-                                    </div>
-                                    <div class="video-actions">
-                                        <span class="video-index">视频 {{ index + 1 }}</span>
-                                        <div class="action-buttons">
-                                            <ElButton
-                                                v-if="dialogType !== 'view'"
-                                                type="primary"
-                                                size="small"
-                                                @click="handleReplaceVideo(index)"
-                                            >
-                                                替换
-                                            </ElButton>
-                                            <ElButton
-                                                v-if="dialogType !== 'view'"
-                                                type="danger"
-                                                size="small"
-                                                @click="handleDeleteVideo(index)"
-                                            >
-                                                删除
-                                            </ElButton>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div v-if="videoUrl" class="video-preview">
+                                <video :src="videoUrl.url" class="coverImage" controls preload="metadata" />
                             </div>
                             <ElUpload
-                                v-if="videoUrls.length < 4 && dialogType !== 'view'"
+                                v-if="!videoUrl && dialogType !== 'view'"
                                 class="upload-demo video-upload"
                                 :http-request="customUploadVideo"
                                 :before-upload="beforeUploadVideo"
@@ -87,9 +62,13 @@
                                 </div>
                                 <el-icon v-else class="uploader-icon"><Plus /></el-icon>
                                 <template #tip>
-                                    <div class="el-upload__tip">上传2GB以内的MP4格式，最多上传4个视频，至少需要1个</div>
+                                    <div class="el-upload__tip">上传2GB以内的MP4格式视频</div>
                                 </template>
                             </ElUpload>
+                            <div v-if="videoUrl && dialogType !== 'view'" class="video-actions">
+                                <ElButton type="primary" size="small" @click="handleReplaceVideo">替换</ElButton>
+                                <ElButton type="danger" size="small" @click="handleDeleteVideo">删除</ElButton>
+                            </div>
                         </div>
                         <input
                             ref="replaceVideoInputRef"
@@ -353,8 +332,7 @@
     import ActionRelation from './action-relation.vue'
 
     const imageUrl = ref('')
-    const videoUrls = ref<Array<{ url: string; storageUrl?: string; file?: File }>>([])
-    const replaceIndex = ref<number | null>(null)
+    const videoUrl = ref<{ url: string; storageUrl?: string } | null>(null)
     const replaceVideoInputRef = ref<HTMLInputElement | null>(null)
 
     const coverUploading = ref(false)
@@ -624,7 +602,7 @@
         id: null as number | null,
         name: '',
         coverImage: '',
-        videos: [] as string[],
+        video: '',
         equipment: [] as number[],
         coach: '',
         coachId: null as number | null,
@@ -659,10 +637,8 @@
             {
                 required: true,
                 validator: (rule, value, callback) => {
-                    if (videoUrls.value.length === 0) {
-                        callback(new Error('请至少上传1个视频'))
-                    } else if (videoUrls.value.length > 4) {
-                        callback(new Error('最多只能上传4个视频'))
+                    if (!videoUrl.value) {
+                        callback(new Error('请上传视频'))
                     } else {
                         callback()
                     }
@@ -694,7 +670,7 @@
         if (props.type === 'add') {
             Object.assign(formData, { ...defaultFormData })
             imageUrl.value = ''
-            videoUrls.value = []
+            videoUrl.value = null
             selectedEquipment.value = []
             selectedAiAction.value = null
             otherEditorRef.value?.clear()
@@ -711,7 +687,7 @@
             id: row.id || null,
             name: row.name || '',
             coverImage: row.picture || '',
-            video: row.video || [],
+            video: row.video || '',
             equipment: row.instruments?.map(instrument => instrument.id) || [],
             coachId: row.coachId || null,
             part: row.muscleRegions?.map(region => region.id) || [],
@@ -739,12 +715,10 @@
         imageUrl.value = (row as any)._picture || row.picture || ''
 
         const videoData = (row as any)._video || row.video
-        if (videoData && Array.isArray(videoData)) {
-            videoUrls.value = videoData.map((url: string) => ({ url }))
-        } else if (videoData) {
-            videoUrls.value = [{ url: videoData }]
+        if (videoData) {
+            videoUrl.value = { url: videoData }
         } else {
-            videoUrls.value = []
+            videoUrl.value = null
         }
 
         selectedEquipment.value = (row.instruments || []).map((eq: any) => ({
@@ -853,44 +827,26 @@
         const storageUrl = response?.url || file.url || ''
 
         if (displayUrl) {
-            if (replaceIndex.value !== null) {
-                videoUrls.value[replaceIndex.value] = { url: displayUrl, storageUrl }
-                replaceIndex.value = null
-            } else {
-                videoUrls.value.push({ url: displayUrl, storageUrl })
-            }
+            videoUrl.value = { url: displayUrl, storageUrl }
         }
     }
 
     /**
      * 删除视频
      */
-    const handleDeleteVideo = (index: number) => {
-        videoUrls.value.splice(index, 1)
+    const handleDeleteVideo = () => {
+        videoUrl.value = null
     }
 
-    /**
-     * 替换视频
-     */
-    const handleReplaceVideo = (index: number) => {
-        replaceIndex.value = index
+    const handleReplaceVideo = () => {
         replaceVideoInputRef.value?.click()
     }
 
-    /**
-     * 替换视频文件选择后处理
-     */
     const handleReplaceVideoChange = async (event: Event) => {
         const target = event.target as HTMLInputElement
         const file = target.files?.[0]
 
         if (!file) {
-            replaceIndex.value = null
-            return
-        }
-
-        if (replaceIndex.value === null) {
-            replaceIndex.value = null
             return
         }
 
@@ -905,7 +861,7 @@
             const storageUrl = response?.url || ''
 
             if (displayUrl) {
-                videoUrls.value[replaceIndex.value] = { url: displayUrl, storageUrl }
+                videoUrl.value = { url: displayUrl, storageUrl }
                 ElMessage.success('视频替换成功')
             }
         } catch (error) {
@@ -913,7 +869,6 @@
             console.error('替换视频失败:', error)
         } finally {
             videoUploading.value = false
-            replaceIndex.value = null
             target.value = ''
         }
     }
@@ -1037,7 +992,7 @@
             id: Number(formData.id),
             name: formData.name,
             picture: formData.coverImage,
-            video: videoUrls.value.map(v => v.storageUrl || v.url),
+            video: videoUrl.value?.storageUrl || videoUrl.value?.url || '',
             instrumentIds: Array.isArray(formData.equipment) ? formData.equipment.map(id => Number(id)) : [],
             coachId: Number(formData.coachId),
             muscleRegionIds: formData.part,
@@ -1161,9 +1116,12 @@
 
     .video-actions {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: center;
         align-items: center;
         gap: 8px;
+        width: 150px;
+        margin-top: 12px;
     }
 
     .video-index {

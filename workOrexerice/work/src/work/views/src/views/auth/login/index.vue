@@ -94,14 +94,7 @@
                         </div>
 
                         <!-- 其他登录方式 -->
-                        <div class="mt-6">
-                            <div class="flex items-center text-xs text-g-500">
-                                <div class="flex-1 h-px bg-g-200" />
-                                <span class="mx-3">{{ $t('login.otherLogin') }}</span>
-                                <div class="flex-1 h-px bg-g-200" />
-                            </div>
-                            <div class="mt-4 flex gap-3">
-                                <ElButton
+                        <!--<ElButton
                                     class="flex-1 custom-height"
                                     plain
                                     :loading="socialLoadingProvider === 'google'"
@@ -110,7 +103,14 @@
                                     v-ripple
                                 >
                                     {{ $t('login.googleLogin') }}
-                                </ElButton>
+                                </ElButton>-->
+                        <div class="mt-6">
+                            <div class="flex items-center text-xs text-g-500">
+                                <div class="flex-1 h-px bg-g-200" />
+                                <span class="mx-3">{{ $t('login.otherLogin') }}</span>
+                                <div class="flex-1 h-px bg-g-200" />
+                            </div>
+                            <div class="mt-4 flex gap-3">
                                 <ElButton
                                     class="flex-1 custom-height"
                                     plain
@@ -143,7 +143,7 @@
     import { getCssVar } from '@/utils/ui'
     import { useI18n } from 'vue-i18n'
     import { HttpError } from '@/utils/http/error'
-    import { fetchLogin, fetchSocialOAuth, fetchSocialOAuthCallback } from '@/api/auth'
+    import { fetchLogin, fetchSocialOAuth, fetchSocialOAuthCallback, fetchGetUserInfo } from '@/api/auth'
     import { ElMessage, ElNotification, type FormInstance, type FormRules } from 'element-plus'
     import { useSettingStore } from '@/store/modules/setting'
     import { storeToRefs } from 'pinia'
@@ -327,7 +327,7 @@
         const error = route.query.error as string | undefined
 
         // 无第三方登录参数时不处理
-        if (!provider || (!code && !error)) return
+        if (!provider) return
 
         // 用户取消或授权失败
         if (error) {
@@ -336,6 +336,39 @@
             return
         }
 
+        // 如果有provider但没有code，说明是后端已经处理完OAuth回调后的重定向
+        // 通过调用用户信息API来验证登录状态（浏览器会自动携带cookie）
+        if (!code) {
+            try {
+                loading.value = true
+                const userInfo = await fetchGetUserInfo()
+
+                if (userInfo) {
+                    // 后端已经处理了OAuth，用户信息获取成功
+                    userStore.setUserInfo(userInfo)
+                    userStore.setLoginStatus(true)
+                    showLoginSuccessNotice()
+
+                    if (provider === 'dingtalk') {
+                        router.replace('/system/user')
+                    } else {
+                        const redirect = route.query.redirect as string
+                        router.replace(redirect || '/')
+                    }
+                } else {
+                    throw new Error('Failed to get user info')
+                }
+            } catch (error) {
+                console.error('[SocialLoginCallback] Error verifying login:', error)
+                ElMessage.error(t('login.socialError'))
+            } finally {
+                loading.value = false
+            }
+            clearSocialQuery()
+            return
+        }
+
+        // 前端处理OAuth回调（有code参数）
         try {
             loading.value = true
 
@@ -354,7 +387,12 @@
             showLoginSuccessNotice()
 
             const redirect = route.query.redirect as string
-            router.replace(redirect || '/')
+
+            if (provider === 'dingtalk') {
+                router.replace('/system/user')
+            } else {
+                router.replace(redirect || '/')
+            }
         } catch (error) {
             userStore.setLoginStatus(false)
             userStore.setToken('', '')

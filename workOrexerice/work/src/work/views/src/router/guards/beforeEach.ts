@@ -61,6 +61,8 @@ const menuProcessor = new MenuProcessor()
 
 // 跟踪是否需要关闭 loading
 let pendingLoading = false
+// cookie 登录兜底：避免每次路由跳转都打一次 /user/info
+let hasTriedCookieLogin = false
 
 /**
  * 获取 pendingLoading 状态
@@ -128,7 +130,7 @@ async function handleRouteGuard(
     }
 
     // 1. 检查登录状态
-    if (!handleLoginStatus(to, userStore, next)) {
+    if (!(await handleLoginStatus(to, userStore, next))) {
         return
     }
 
@@ -159,24 +161,33 @@ async function handleRouteGuard(
  * 处理登录状态
  * @returns true 表示可以继续，false 表示已处理跳转
  */
-function handleLoginStatus(
+async function handleLoginStatus(
     to: RouteLocationNormalized,
     userStore: ReturnType<typeof useUserStore>,
     next: NavigationGuardNext,
-): boolean {
-    // 如果标记已登录但没有 token，则强制登出，避免反复请求用户信息导致卡在 loading
-    if (userStore.isLogin && !userStore.accessToken) {
-        // 重置登录状态，避免路由守卫再次触发
-        userStore.setLoginStatus(false)
-        userStore.logOut()
-        // 确保关闭可能存在的 loading
-        closeLoading()
-        return false
-    }
-
+): Promise<boolean> {
     // 已登录或访问登录页或静态路由，直接放行
     if (userStore.isLogin || to.path === RoutesAlias.Login || isStaticRoute(to.path)) {
         return true
+    }
+
+    // 未登录但可能存在后端 cookie 会话：尝试用 cookie 拉一次用户信息完成自动登录
+    // - 只在本地无 token 时尝试
+    // - 每次页面生命周期最多尝试一次，避免每次跳转都请求
+    if (!userStore.accessToken && !hasTriedCookieLogin) {
+        hasTriedCookieLogin = true
+        try {
+            const data = await fetchGetUserInfo()
+            if (data) {
+                userStore.setUserInfo(data)
+                userStore.checkAndClearWorktabs()
+                userStore.setLoginStatus(true)
+                return true
+            }
+        } catch (error) {
+            // 忽略，继续走未登录逻辑
+            console.warn('[RouteGuard] cookie auto-login failed:', error)
+        }
     }
 
     // 未登录且访问需要权限的页面，跳转到登录页并携带 redirect 参数

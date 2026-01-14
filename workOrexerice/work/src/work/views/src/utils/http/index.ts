@@ -166,10 +166,20 @@ async function handleTokenRefresh(error: any) {
     const userStore = useUserStore()
     const { refreshToken } = userStore
 
-    // 如果没有刷新令牌，直接登出
+    // 如果没有刷新令牌（cookie 登录场景），尝试走 httpOnly cookie 刷新
     if (!refreshToken) {
-        handleUnauthorizedError()
-        return Promise.reject(createHttpError($t('httpMsg.unauthorized'), ApiStatus.unauthorized))
+        try {
+            const response = await fetchRefreshToken(undefined as any)
+            const { accessToken: newAccessToken, refreshToken: newRefreshToken } = response
+            if (!newAccessToken) throw new Error('cookie 刷新返回的 accessToken 为空')
+            userStore.setToken(newAccessToken, newRefreshToken)
+            userStore.setLoginStatus(true)
+            error.config.headers.Authorization = `Bearer ${newAccessToken}`
+            return axiosInstance.request(error.config)
+        } catch (refreshError: any) {
+            handleUnauthorizedError(refreshError?.response?.data?.message || refreshError?.message)
+            return Promise.reject(refreshError)
+        }
     }
 
     // 如果正在刷新，将请求加入队列

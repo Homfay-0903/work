@@ -71,7 +71,7 @@ export function fetchChangePassword(params: Api.Auth.ChangePasswordParams) {
 export function fetchRefreshToken(params: Api.Auth.RefreshTokenParams) {
     return request.post<Api.Auth.RefreshTokenResponse>({
         url: '/api/v1/auth/refresh-token',
-        data: params,
+        data: params ?? {},
         showErrorMessage: false, // 禁用自动错误提示，由调用页面手动处理
         skipAuth: true, // 跳过自动添加认证头
     })

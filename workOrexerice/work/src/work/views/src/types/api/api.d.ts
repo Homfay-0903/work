@@ -161,6 +161,8 @@ declare namespace Api {
             realName?: string
             address?: string
             bio?: string
+            /** 是否已绑定钉钉账号 */
+            dingtalkBound?: boolean
         }
 
         /** 更新用户信息参数 */
@@ -521,7 +523,7 @@ declare namespace Api {
             /** 动作封面 */
             picture?: string
             /** 动作视频列表 */
-            video?: string[]
+            video?: string
             /** 器械ID列表 */
             instrumentIds?: number[]
             /** 教练ID */
@@ -899,6 +901,8 @@ declare namespace Api {
             operationDesc: string
             /** 创建时间 */
             createdAt?: string
+            /** 最近登录时间 */
+            lastLoginAt?: string
         }
 
         /** 操作日志搜索参数 */

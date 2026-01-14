@@ -243,10 +243,7 @@
      * 注意：实际项目中需要从后端获取用户的 OAuth 绑定状态
      */
     const dingtalkStatus = computed(() => {
-        // TODO: 从后端获取实际的钉钉绑定状态
-        // 可以通过查询 user_oauth 表来判断 provider === 'dingtalk' 的记录
-        // 暂时返回示例值，实际应该通过 API 查询
-        return userInfo.value?.id ? '未绑定' : '未绑定'
+        return userInfo.value?.dingtalkBound ? '已绑定' : '未绑定'
     })
 
     /**
