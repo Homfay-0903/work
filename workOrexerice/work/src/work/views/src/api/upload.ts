@@ -60,6 +60,7 @@ export function fetchUploadFileToAws(params: Api.Common.UploadFileParams) {
             'Content-Type': 'multipart/form-data',
         },
         onUploadProgress: params.onUploadProgress,
+        timeout: 5 * 60 * 1000,
     }
 
     if (params.onUploadProgress) {
@@ -70,6 +71,7 @@ export function fetchUploadFileToAws(params: Api.Common.UploadFileParams) {
         url: config.url,
         data: formData,
         headers: config.headers,
+        timeout: 5 * 60 * 1000,
     })
 }
 

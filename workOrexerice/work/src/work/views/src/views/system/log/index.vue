@@ -207,12 +207,20 @@
                     'formatter': (row: LogListItem) => getDescriptionText(row.character),
                 },
                 {
-                    'prop': 'createdAt',
-                    'label': '创建时间',
+                    'prop': 'lastLoginAt',
+                    'label': '最近登录时间',
                     'width': 250,
                     'header-align': 'center',
                     'align': 'center',
-                    'formatter': (row: LogListItem) => formatTime(row.createdAt),
+                    'formatter': (row: LogListItem) => formatTime(row.lastLoginAt),
+                },
+                {
+                    'prop': 'operationTime',
+                    'label': '操作时间',
+                    'width': 250,
+                    'header-align': 'center',
+                    'align': 'center',
+                    'formatter': (row: LogListItem) => formatTime(row.operationTime),
                 },
                 {
                     'prop': 'status',

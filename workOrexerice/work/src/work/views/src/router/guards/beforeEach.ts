@@ -52,6 +52,7 @@ import { fetchGetUserInfo } from '@/api/auth'
 import { ApiStatus } from '@/utils/http/status'
 import { isHttpError } from '@/utils/http/error'
 import { RouteRegistry, MenuProcessor, IframeRouteManager, RoutePermissionValidator } from '../core'
+import { recordLoadingStartTime } from './afterEach'
 
 // 路由注册器实例
 let routeRegistry: RouteRegistry | null = null
@@ -128,6 +129,13 @@ async function handleRouteGuard(
     if (settingStore.showNprogress) {
         NProgress.start()
     }
+
+    // 记录 loading 开始时间
+    recordLoadingStartTime()
+
+    // 显示 loading 效果（页面切换时）
+    pendingLoading = true
+    loadingService.showLoading()
 
     // 1. 检查登录状态
     if (!(await handleLoginStatus(to, userStore, next))) {

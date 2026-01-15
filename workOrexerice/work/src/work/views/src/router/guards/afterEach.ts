@@ -6,6 +6,11 @@ import { useCommon } from '@/hooks/core/useCommon'
 import { loadingService } from '@/utils/ui'
 import { getPendingLoading, resetPendingLoading } from './beforeEach'
 
+// 记录 loading 开始时间
+let loadingStartTime = 0
+// 最小显示时间（毫秒），避免闪烁
+const MIN_LOADING_TIME = 300
+
 /** 路由全局后置守卫 */
 export function setupAfterEachGuard(router: Router) {
     const { scrollToTop } = useCommon()
@@ -25,10 +30,21 @@ export function setupAfterEachGuard(router: Router) {
 
         // 关闭 loading 效果
         if (getPendingLoading()) {
-            nextTick(() => {
-                loadingService.hideLoading()
-                resetPendingLoading()
-            })
+            const elapsedTime = Date.now() - loadingStartTime
+            const remainingTime = Math.max(0, MIN_LOADING_TIME - elapsedTime)
+
+            // 确保至少显示最小时间，避免闪烁
+            setTimeout(() => {
+                nextTick(() => {
+                    loadingService.hideLoading()
+                    resetPendingLoading()
+                })
+            }, remainingTime)
         }
     })
+}
+
+/** 记录 loading 开始时间 */
+export function recordLoadingStartTime(): void {
+    loadingStartTime = Date.now()
 }

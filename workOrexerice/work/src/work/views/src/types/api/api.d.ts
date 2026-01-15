@@ -903,6 +903,8 @@ declare namespace Api {
             createdAt?: string
             /** 最近登录时间 */
             lastLoginAt?: string
+            /** 操作时间 */
+            operationTime?: string
         }
 
         /** 操作日志搜索参数 */
