@@ -32,12 +32,14 @@ export function fetchAddSoLibVersion(body: Api.Ai.AiCreateBody) {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
+            operationDesc: '新增 SO 库版本',
         })
     }
 
     return request.post<Api.Ai.AiCreateBody>({
         url: '/api/v1/so-libs',
         data: body,
+        operationDesc: '新增 SO 库版本',
     })
 }
 

@@ -19,6 +19,7 @@ export function fetchCreateEquipment(body: Api.Equipment.EquipmentCreateBody) {
     return request.post<void>({
         url: '/api/v1/instruments',
         data: body,
+        operationDesc: '创建器械',
     })
 }
 
@@ -27,6 +28,7 @@ export function fetchUpdateEquipment(id: number, body: Api.Equipment.EquipmentUp
     return request.post<void>({
         url: `/api/v1/instruments/${id}`,
         data: body,
+        operationDesc: '编辑器械',
     })
 }
 
@@ -35,6 +37,7 @@ export function fetchEnableEquipment(params: Api.Equipment.EquipmentEnableBody) 
     const { id, status } = params
     return request.post<void>({
         url: `/api/v1/instruments/${id}/status/${status}`,
+        operationDesc: '启用/禁用器械',
     })
 }
 
@@ -42,6 +45,7 @@ export function fetchEnableEquipment(params: Api.Equipment.EquipmentEnableBody) 
 export function fetchDeleteEquipment(id: number) {
     return request.del<void>({
         url: `/api/v1/instruments/${id}`,
+        operationDesc: '删除器械',
     })
 }
 
@@ -57,6 +61,7 @@ export function fetchTranslateEquipment(body: Api.Equipment.EquipmentTranslateBo
     return request.post<void>({
         url: `/api/v1/instruments/translate`,
         data: body,
+        operationDesc: '翻译器械',
     })
 }
 
@@ -65,5 +70,6 @@ export function fetchUpdateEquipmentSort(id: number, sort: number) {
     return request.put<void>({
         url: `/api/v1/equipment/${id}/sort`,
         data: { sort },
+        operationDesc: '更新器械排序',
     })
 }

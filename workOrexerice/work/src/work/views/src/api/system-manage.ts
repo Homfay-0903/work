@@ -14,6 +14,7 @@ export function fetchCreateUser(body: Api.SystemManage.UserCreateBody) {
     return request.post<void>({
         url: '/api/v1/user',
         data: body,
+        operationDesc: '创建用户',
     })
 }
 
@@ -29,6 +30,7 @@ export function fetchCreateUser(body: Api.SystemManage.UserCreateBody) {
 export function fetchDeleteUser(id: number) {
     return request.del<void>({
         url: `/api/v1/user/${id}`,
+        operationDesc: '删除用户',
     })
 }
 
@@ -44,6 +46,7 @@ export function fetchCreateRole(body: Api.SystemManage.RoleCreateBody) {
     return request.post<void>({
         url: '/api/v1/role',
         data: body,
+        operationDesc: '创建角色',
     })
 }
 
@@ -51,6 +54,7 @@ export function fetchUpdateRole(body: Api.SystemManage.RoleUpdateBody) {
     return request.put<void>({
         url: '/api/v1/role',
         data: body,
+        operationDesc: '编辑角色',
     })
 }
 
@@ -58,12 +62,14 @@ export function fetchUpdateRolePermission(body: Api.SystemManage.RolePermissionU
     return request.put<void>({
         url: '/api/v1/role/permission',
         data: body,
+        operationDesc: '更新角色权限',
     })
 }
 
 export function fetchDeleteRole(id: number) {
     return request.del<void>({
         url: `/api/v1/role/${id}`,
+        operationDesc: '删除角色',
     })
 }
 
@@ -86,6 +92,7 @@ export function fetchCreateMenu(body: Api.SystemManage.MenuCreateBody) {
     return request.post<void>({
         url: '/api/v1/menus',
         data: body,
+        operationDesc: '创建菜单',
     })
 }
 
@@ -94,6 +101,7 @@ export function fetchUpdateMenu(body: Api.SystemManage.MenuUpdateBody) {
     return request.put<void>({
         url: '/api/v1/menus',
         data: body,
+        operationDesc: '编辑菜单',
     })
 }
 
@@ -101,6 +109,7 @@ export function fetchUpdateMenu(body: Api.SystemManage.MenuUpdateBody) {
 export function fetchDeleteMenu(id: number) {
     return request.del<void>({
         url: `/api/v1/menus/${id}`,
+        operationDesc: '删除菜单',
     })
 }
 
@@ -109,6 +118,7 @@ export function fetchCreateMenuAction(body: Api.SystemManage.MenuActionCreateBod
     return request.post<void>({
         url: '/api/v1/menus/action',
         data: body,
+        operationDesc: '创建菜单权限按钮',
     })
 }
 
@@ -117,6 +127,7 @@ export function fetchUpdateMenuAction(body: Api.SystemManage.MenuActionUpdateBod
     return request.put<void>({
         url: '/api/v1/menus/action',
         data: body,
+        operationDesc: '编辑菜单权限按钮',
     })
 }
 
@@ -124,6 +135,7 @@ export function fetchUpdateMenuAction(body: Api.SystemManage.MenuActionUpdateBod
 export function fetchDeleteMenuAction(id: number) {
     return request.del<void>({
         url: `/api/v1/menus/action/${id}`,
+        operationDesc: '删除菜单权限按钮',
     })
 }
 

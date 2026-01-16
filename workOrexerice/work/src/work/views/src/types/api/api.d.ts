@@ -892,29 +892,27 @@ declare namespace Api {
             /** 主键ID */
             id: number
             /** 账号名称 */
-            name: string
+            accountName: string
             /** 角色 */
-            character: string
+            roleName: string
             /** 操作类型 */
-            operationType: number
+            operationType: string
             /** 操作描述 */
-            operationDesc: string
-            /** 创建时间 */
+            operationDescription: string
+            /** 操作时间（createdAt 即为操作时间） */
             createdAt?: string
             /** 最近登录时间 */
             lastLoginAt?: string
-            /** 操作时间 */
-            operationTime?: string
         }
 
         /** 操作日志搜索参数 */
         interface LogSearchParams extends Api.Common.CommonSearchParams {
             /** 账号名称 */
-            name?: string
+            accountName?: string
             /** 角色 */
-            character?: string
+            roleName?: string
             /** 操作类型 */
-            operationType?: number
+            operationType?: string
         }
     }
 }

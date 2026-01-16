@@ -38,6 +38,7 @@ export function fetchCreateAction(body: Api.Action.ActionCreateBody) {
     return request.post<void>({
         url: '/api/v1/actions',
         data: body,
+        operationDesc: '创建动作',
     })
 }
 
@@ -52,6 +53,7 @@ export function fetchUpdateAction(body: Api.Action.ActionUpdateBody) {
     return request.post<void>({
         url: `/api/v1/actions/${id}`,
         data: updateBody,
+        operationDesc: '编辑动作',
     })
 }
 
@@ -60,6 +62,7 @@ export function fetchTranslateAction(body: Api.Action.ActionTranslateBody) {
     return request.post<void>({
         url: `/api/v1/actions/translate`,
         data: body,
+        operationDesc: '翻译动作',
     })
 }
 
@@ -67,6 +70,7 @@ export function fetchTranslateAction(body: Api.Action.ActionTranslateBody) {
 export function fetchDeleteAction(id: number) {
     return request.del<void>({
         url: `/api/v1/actions/${id}`,
+        operationDesc: '删除动作',
     })
 }
 
@@ -75,5 +79,6 @@ export function fetchUpdateActionStatus(params: Api.Action.ActionStatus) {
     return request.post<void>({
         url: `/api/v1/actions/${params.id}/status/${params.status}`,
         data: params,
+        operationDesc: '更新动作上下架状态',
     })
 }

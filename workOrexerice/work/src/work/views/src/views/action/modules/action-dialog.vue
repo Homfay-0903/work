@@ -325,7 +325,7 @@
     import { fetchUploadImage } from '@/api/upload'
     import { fetchUploadVideo } from '@/api/upload'
     import { fetchGetTagList } from '@/api/tag'
-    import { fetchGetMuscleList } from '@/api/muscle'
+    import { fetchGetMuscleList, fetchGetTrainingAreaList } from '@/api/muscle'
     import { fetchGetAiActionList } from '@/api/aiaction'
 
     import InstrumentRelation from './instrument-relation.vue'
@@ -398,17 +398,8 @@
     const equipmentDialogVisible = ref(false)
     const aiActionDialogVisible = ref(false)
 
-    // 训练部位列表 - 改为响应式引用
-    const partList = ref([
-        { label: '全身', value: 1 },
-        { label: '胸部', value: 2 },
-        { label: '肩部', value: 3 },
-        { label: '背部', value: 4 },
-        { label: '臀部', value: 5 },
-        { label: '腿部', value: 6 },
-        { label: '手臂', value: 7 },
-        { label: '腹部', value: 8 },
-    ])
+    // 训练部位列表
+    const partList = ref<Array<{ label: string; value: number }>>([])
 
     // 肌肉列表
     const muscleGroupList = ref<Array<{ label: string; value: number }>>([])
@@ -421,6 +412,23 @@
 
     // 型号列表
     const modelList = ref<Array<{ label: string; value: number }>>([])
+
+    /**
+     * 获取训练部位列表数据
+     */
+    const fetchPartList = async () => {
+        try {
+            const res = await fetchGetTrainingAreaList()
+            if (res) {
+                partList.value = (Array.isArray(res) ? res : []).map((region: any) => ({
+                    label: region.name || '未知训练部位',
+                    value: region.id,
+                }))
+            }
+        } catch (error) {
+            console.error('获取训练部位列表失败:', error)
+        }
+    }
 
     /**
      * 获取训练部位对应的肌肉列表数据
@@ -548,6 +556,7 @@
 
     // 组件挂载时获取型号列表
     onMounted(() => {
+        fetchPartList()
         fetchModelList()
         fetchCoachList()
         // 调用获取肌肉分组数据方法，传递默认训练部位ID数组

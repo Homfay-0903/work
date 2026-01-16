@@ -37,10 +37,10 @@
     // 表单配置
     const formItems = computed(() => [
         {
-            label: '角色名称',
-            key: 'name',
+            label: '账号名称',
+            key: 'accountName',
             type: 'input',
-            placeholder: '请输入角色名称',
+            placeholder: '请输入账号名称',
             clearable: true,
         },
     ])

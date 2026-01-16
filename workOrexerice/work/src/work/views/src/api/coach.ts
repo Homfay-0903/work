@@ -18,6 +18,7 @@ export function fetchCreateCoach(body: Api.Coach.CoachCreateBody) {
     return request.post<void>({
         url: '/api/v1/coaches',
         data: body,
+        operationDesc: '创建教练',
     })
 }
 
@@ -26,6 +27,7 @@ export function fetchUpdateCoach(id: number, body: Api.Coach.CoachUpdateBody) {
     return request.post<void>({
         url: `/api/v1/coaches/${id}`,
         data: body,
+        operationDesc: '编辑教练',
     })
 }
 
@@ -34,6 +36,7 @@ export function fetchEnableCoach(params: Api.Coach.CoachEnableBody) {
     const { id, status } = params
     return request.post<void>({
         url: `/api/v1/coaches/${id}/status/${status}`,
+        operationDesc: '启用/禁用教练',
     })
 }
 
@@ -41,6 +44,7 @@ export function fetchEnableCoach(params: Api.Coach.CoachEnableBody) {
 export function fetchDeleteCoach(id: number) {
     return request.del<void>({
         url: `/api/v1/coaches/${id}`,
+        operationDesc: '删除教练',
     })
 }
 
@@ -56,5 +60,6 @@ export function fetchTranslateCoach(body: Api.Coach.CoachTranslateBody) {
     return request.post<void>({
         url: '/api/v1/coaches/translate',
         data: body,
+        operationDesc: '翻译教练',
     })
 }

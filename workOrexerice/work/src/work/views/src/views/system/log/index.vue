@@ -31,6 +31,7 @@
     import LogSearch from './modules/log-search.vue'
     import { ElTag } from 'element-plus'
     import { useAuth } from '@/hooks/core/useAuth'
+    import { fetchGetLogList } from '@/api/log'
 
     defineOptions({ name: 'Log' })
 
@@ -39,59 +40,32 @@
     //权限
     const { hasAuth } = useAuth()
 
-    // 假数据
-    const mockData: LogListItem[] = [
-        {
-            id: 1,
-            name: 'ApiTest438427',
-            character: '接口测试',
-            operationType: 1,
-            operationDesc: '创建动作',
-            createdAt: '2025-07-18 23:18:19',
-        },
-        {
-            id: 2,
-            name: 'ApiTest351066',
-            character: '接口测试',
-            operationType: 1,
-            operationDesc: '创建动作',
-            createdAt: '2025-07-18 23:18:19',
-        },
-        {
-            id: 3,
-            name: '测试角色A4',
-            character: '接口测试',
-            operationType: 1,
-            operationDesc: '创建动作',
-            createdAt: '2025-05-21 10:30:00',
-        },
-        {
-            id: 4,
-            name: 'ApiTest_0523',
-            character: '接口测试',
-            operationType: 1,
-            operationDesc: '创建动作',
-            createdAt: '2025-05-23 14:20:00',
-        },
-    ]
-
     // 选中行
     const selectedRows = ref<LogListItem[]>([])
 
     // 搜索表单（默认值，重置时会恢复到这里）
-    const defaultSearchForm = {
-        name: undefined,
+    const defaultSearchForm: Partial<Api.Log.LogSearchParams> = {
+        accountName: undefined,
+        roleName: undefined,
+        operationType: undefined,
     }
 
     const searchForm = ref<Partial<Api.Log.LogSearchParams>>({
         ...defaultSearchForm,
     })
 
-    // 操作类型配置
-    const OPERATION_TYPE_CONFIG = {
-        1: { type: 'success' as const, text: '创建' },
-        2: { type: 'danger' as const, text: '删除' },
-    } as const
+    // 操作类型配置（按 HTTP Method 映射）
+    const OPERATION_TYPE_CONFIG: Record<
+        string,
+        {
+            type: 'success' | 'warning' | 'danger' | 'info'
+            text: string
+        }
+    > = {
+        POST: { type: 'success', text: 'POST' },
+        PUT: { type: 'warning', text: 'PUT' },
+        DELETE: { type: 'danger', text: 'DELETE' },
+    }
 
     /**
      * 获取序号文本
@@ -101,23 +75,23 @@
     }
 
     /**
-     * 获取角色名称
+     * 获取账号名称
      */
-    const getNameText = (name: string) => {
+    const getNameText = (name?: string) => {
         return name || '未知'
     }
 
     /**
-     * 获取角色描述
+     * 获取角色名称
      */
-    const getDescriptionText = (description?: string) => {
-        return description || '-'
+    const getRoleNameText = (roleName?: string) => {
+        return roleName || '-'
     }
 
     /**
-     * 获取角色状态配置
+     * 获取操作类型配置
      */
-    const getStatusConfig = (status: number) => {
+    const getStatusConfig = (status: string) => {
         return (
             OPERATION_TYPE_CONFIG[status as keyof typeof OPERATION_TYPE_CONFIG] || {
                 type: 'info' as const,
@@ -130,7 +104,18 @@
      * 格式化时间
      */
     const formatTime = (time?: string) => {
-        return time || '-'
+        if (time) {
+            return new Date(time).toLocaleString('zh-CN', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false,
+            })
+        }
+        return '-'
     }
 
     const {
@@ -146,43 +131,20 @@
     } = useTable({
         // 核心配置
         core: {
-            // 暂时使用假数据
-            apiFn: async (params: Api.Character.CharacterSearchParams) => {
-                return new Promise(resolve => {
-                    setTimeout(() => {
-                        // 模拟搜索过滤
-                        let filteredData = [...mockData]
-                        if (params.name) {
-                            filteredData = filteredData.filter(item => item.name.includes(params.name as string))
-                        }
-
-                        const page = params.page || 1
-                        const size = params.size || 10
-                        const start = (page - 1) * size
-                        const end = start + size
-                        const paginatedData = filteredData.slice(start, end)
-
-                        resolve({
-                            list: paginatedData,
-                            total: filteredData.length,
-                            page: page,
-                            size: size,
-                        })
-                    }, 300)
-                })
+            // 使用真实的操作日志列表接口
+            apiFn: async (params: Api.Log.LogSearchParams) => {
+                return fetchGetLogList(params)
             },
             apiParams: {
                 page: 1,
                 size: 10,
                 ...searchForm.value,
             },
-            // 使用真实的API
-            // apiFn: fetchGetCharacterList,
             columnsFactory: () => [
                 {
                     'prop': 'index',
                     'label': '序号',
-                    'width': 250,
+                    'width': 100,
                     'header-align': 'center',
                     'align': 'center',
                     'formatter': (row: LogListItem): string => {
@@ -191,20 +153,20 @@
                     },
                 },
                 {
-                    'prop': 'name',
+                    'prop': 'accountName',
                     'label': '账号名称',
                     'width': 250,
                     'header-align': 'center',
                     'align': 'center',
-                    'formatter': (row: LogListItem) => getNameText(row.name),
+                    'formatter': (row: LogListItem) => getNameText(row.accountName),
                 },
                 {
-                    'prop': 'character',
+                    'prop': 'roleName',
                     'label': '角色',
                     'width': 250,
                     'header-align': 'center',
                     'align': 'center',
-                    'formatter': (row: LogListItem) => getDescriptionText(row.character),
+                    'formatter': (row: LogListItem) => getRoleNameText(row.roleName),
                 },
                 {
                     'prop': 'lastLoginAt',
@@ -215,17 +177,17 @@
                     'formatter': (row: LogListItem) => formatTime(row.lastLoginAt),
                 },
                 {
-                    'prop': 'operationTime',
+                    'prop': 'createdAt',
                     'label': '操作时间',
                     'width': 250,
                     'header-align': 'center',
                     'align': 'center',
-                    'formatter': (row: LogListItem) => formatTime(row.operationTime),
+                    'formatter': (row: LogListItem) => formatTime(row.createdAt),
                 },
                 {
-                    'prop': 'status',
-                    'label': '状态',
-                    'width': 250,
+                    'prop': 'operationType',
+                    'label': '操作类型',
+                    'width': 150,
                     'header-align': 'center',
                     'align': 'center',
                     'formatter': (row: LogListItem) => {
@@ -240,6 +202,7 @@
                     'fixed': 'right', // 固定列
                     'header-align': 'center',
                     'align': 'center',
+                    'formatter': (row: LogListItem) => row.operationDescription || '-',
                 },
             ],
         },
@@ -261,7 +224,7 @@
      * 搜索处理
      * @param params 参数
      */
-    const handleSearch = async (params: Partial<Api.Character.CharacterSearchParams>) => {
+    const handleSearch = async (params: Partial<Api.Log.LogSearchParams>) => {
         console.log('筛选参数:', params)
         // 搜索参数赋值
         Object.assign(searchParams, params)

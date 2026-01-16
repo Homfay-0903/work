@@ -11,6 +11,7 @@ export function fetchLogin(params: Api.Auth.LoginParams) {
         params,
         showErrorMessage: false, // 禁用自动错误提示，由登录页面手动处理
         skipAuth: true, // 登录接口不需要携带认证头
+        operationDesc: '用户登录',
     })
 }
 
@@ -23,6 +24,8 @@ export function fetchRegister(params: Api.Auth.RegisterParams) {
     return request.post<Api.Auth.LoginResponse>({
         url: '/api/v1/auth/register',
         data: params,
+        operationDesc: '用户注册',
+        showErrorMessage: false, // 禁用自动错误提示，由注册页面手动处理
         skipAuth: true, // 注册接口不需要携带认证头
     })
 }
@@ -46,6 +49,7 @@ export function fetchUpdateUserInfo(body: Api.Auth.UpdateUserInfoParams) {
     return request.put<void>({
         url: '/api/v1/user',
         data: body,
+        operationDesc: '更新用户信息',
     })
 }
 
@@ -58,6 +62,7 @@ export function fetchChangePassword(params: Api.Auth.ChangePasswordParams) {
     return request.put<void>({
         url: '/api/v1/user/reset-password',
         data: params,
+        operationDesc: '修改密码',
         showErrorMessage: false, // 禁用自动错误提示，由调用页面手动处理
         skipAuth: true, // 修改密码接口不需要携带认证头
     })

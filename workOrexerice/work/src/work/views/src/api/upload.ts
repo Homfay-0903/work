@@ -38,6 +38,7 @@ export function fetchUploadFile(params: Api.Common.UploadFileParams) {
         url: config.url,
         data: formData,
         headers: config.headers,
+        operationDesc: '上传文件',
     })
 }
 
@@ -72,6 +73,7 @@ export function fetchUploadFileToAws(params: Api.Common.UploadFileParams) {
         data: formData,
         headers: config.headers,
         timeout: 5 * 60 * 1000,
+        operationDesc: '上传文件到 AWS',
     })
 }
 

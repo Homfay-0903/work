@@ -42,6 +42,12 @@ interface ExtendedAxiosRequestConfig extends AxiosRequestConfig {
     showErrorMessage?: boolean
     showSuccessMessage?: boolean
     skipAuth?: boolean
+    /** 是否禁用操作日志记录（用于内部调用日志接口本身等场景） */
+    disableOperationLog?: boolean
+    /** 可选：自定义操作描述，便于在操作日志中展示更加友好的文案 */
+    operationDesc?: string
+    /** 可选：自定义操作类型，默认使用 HTTP Method（POST/PUT/DELETE） */
+    operationTypeOverride?: string
 }
 
 const { VITE_API_URL, VITE_WITH_CREDENTIALS } = import.meta.env
@@ -71,7 +77,8 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
     (request: InternalAxiosRequestConfig) => {
         const { accessToken } = useUserStore()
-        if (accessToken && !(request as ExtendedAxiosRequestConfig).skipAuth) {
+        const extConfig = request as unknown as ExtendedAxiosRequestConfig
+        if (accessToken && !extConfig.skipAuth) {
             request.headers.set('Authorization', `Bearer ${accessToken}`)
         }
 
@@ -98,6 +105,9 @@ axiosInstance.interceptors.response.use(
             // 使用业务错误码和消息创建错误
             throw createHttpError(message || $t('httpMsg.requestFailed'), businessCode)
         }
+
+        // 仅对业务成功的非 GET 请求记录操作日志
+        void recordOperationLog(response)
 
         return response
     },
@@ -149,6 +159,84 @@ axiosInstance.interceptors.response.use(
 /** 统一创建HttpError */
 function createHttpError(message: string, code: number) {
     return new HttpError(message, code)
+}
+
+/** 安全序列化 data 字段（限制长度，避免过大） */
+function safeStringifyData(data: unknown, maxLength = 500): string {
+    try {
+        const str = typeof data === 'string' ? data : JSON.stringify(data)
+        if (str === 'undefined' || str === 'null' || str === '') {
+            return '{}'
+        }
+        if (str.length > maxLength) {
+            return str.slice(0, maxLength)
+        }
+        return str
+    } catch {
+        return '{}'
+    }
+}
+
+/**
+ * 记录操作日志
+ * - 仅在业务成功时调用
+ * - 仅对非 GET 且未显式禁用日志的请求生效
+ * - 失败不影响主业务流程
+ */
+async function recordOperationLog(response: AxiosResponse<BaseResponse>): Promise<void> {
+    const config = response.config as ExtendedAxiosRequestConfig
+
+    // 已显式禁用 / 或 请求本身就是操作日志接口，则不记录
+    if (config.disableOperationLog || config.url?.includes('/operation-logs')) {
+        return
+    }
+
+    const method = (config.method || 'GET').toUpperCase()
+
+    // 仅记录非 GET 请求（POST/PUT/DELETE 等）
+    if (method === 'GET') {
+        return
+    }
+
+    const operationType = config.operationTypeOverride || method
+    const apiPath = config.url || ''
+    const operationDescription = config.operationDesc || ''
+    const responseData = safeStringifyData(response.data?.data)
+
+    // 如果没有路径，或者没有操作类型，直接跳过
+    if (!apiPath || !operationType) {
+        return
+    }
+
+    try {
+        await axiosInstance.request<BaseResponse<string>>({
+            url: '/api/v1/operation-logs',
+            method: 'POST',
+            data: {
+                operationType,
+                apiPath,
+                operationDescription,
+                responseData,
+            },
+            // 移除自定义请求头，避免 CORS 预检问题，直接通过 body 传递即可
+            // 日志接口不需要重复提示
+            showErrorMessage: false,
+            showSuccessMessage: false,
+            // 需要携带认证头
+            skipAuth: false,
+            // 避免递归记录日志
+            disableOperationLog: true,
+        } as ExtendedAxiosRequestConfig)
+    } catch (error: any) {
+        // 记录日志失败不影响主业务，但输出详细错误信息便于排查
+        const errorDetails = {
+            message: error?.message || '未知错误',
+            code: error?.code || error?.response?.status,
+            response: error?.response?.data,
+            url: error?.config?.url,
+        }
+        console.error('[OperationLog] 记录操作日志失败:', errorDetails)
+    }
 }
 
 /** 判断是否是认证相关的请求（登录、注册、OAuth、修改密码等） */
