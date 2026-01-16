@@ -316,7 +316,7 @@
 
 <script setup lang="ts">
     import { ref, reactive, computed, watch, nextTick, onMounted } from 'vue'
-    import { ElMessage } from 'element-plus'
+    import { ElMessage, ElLoading } from 'element-plus'
     import type { FormInstance, FormRules, UploadFile, UploadFiles, UploadProps } from 'element-plus'
     import ArtWangEditor from '@/components/core/forms/art-wang-editor/index.vue'
     import { Plus, Loading } from '@element-plus/icons-vue'
@@ -990,6 +990,12 @@
         if (!formRef.value) return
         await formRef.value.validate()
 
+        const loadingInstance = ElLoading.service({
+            lock: true,
+            text: '正在保存...',
+            background: 'rgba(0, 0, 0, 0.7)',
+        })
+
         // 将型号选择值同步到tagIds
         // formData.tagIds = Array.isArray(formData.model) ? formData.model.map(id => Number(id)) : []
 
@@ -1040,6 +1046,8 @@
         } catch (error) {
             console.error('保存失败:', error)
             ElMessage.error(dialogType.value === 'add' ? '创建失败' : '更新失败')
+        } finally {
+            loadingInstance.close()
         }
     }
 

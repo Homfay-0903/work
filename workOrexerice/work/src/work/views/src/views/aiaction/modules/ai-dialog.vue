@@ -27,7 +27,7 @@
                     </div>
                     <el-icon v-else class="uploader-icon"><Plus /></el-icon>
                     <template #tip>
-                        <div class="el-upload__tip">请上传10MB以内.so格式文件</div>
+                        <div class="el-upload__tip">请上传.so格式文件</div>
                     </template>
                 </ElUpload>
             </ElFormItem>
@@ -159,16 +159,16 @@
 
     const beforeUploadSoFile = (file: File) => {
         const isValidSuffix = file.name.endsWith('.so')
-        const isLt10M = file.size / 1024 / 1024 < 10
+        //const isLt10M = file.size / 1024 / 1024 < 10
 
         if (!isValidSuffix) {
-            ElMessage.error('请上传10MB以内.so格式文件')
+            ElMessage.error('请上传.so格式文件')
             return false
         }
-        if (!isLt10M) {
-            ElMessage.error('文件大小不能超过10MB')
-            return false
-        }
+        //if (!isLt10M) {
+        //    ElMessage.error('文件大小不能超过10MB')
+        //    return false
+        //}
         return true
     }
 

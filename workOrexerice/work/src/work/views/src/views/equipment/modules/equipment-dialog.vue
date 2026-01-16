@@ -17,7 +17,7 @@
                 />
             </ElFormItem>
 
-            <ElFormItem label="器械图标" prop="icon">
+            <ElFormItem label="器械图标" prop="picture">
                 <ElUpload
                     class="upload-demo"
                     :http-request="customUploadIcon"
@@ -34,7 +34,7 @@
                     <img v-else-if="imageUrl" :src="imageUrl" class="coverImage" />
                     <el-icon v-else class="uploader-icon"><Plus /></el-icon>
                     <template #tip>
-                        <div class="el-upload__tip">*建议上传10MB以内的JPG、PNG、JPEG格式</div>
+                        <div class="el-upload__tip">*建议尺寸：90x90像素</div>
                     </template>
                 </ElUpload>
             </ElFormItem>
