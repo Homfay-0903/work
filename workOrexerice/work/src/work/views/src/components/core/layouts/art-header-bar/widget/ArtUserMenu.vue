@@ -14,17 +14,14 @@
         <template #reference>
             <img
                 class="size-8.5 mr-5 c-p rounded-full max-sm:w-6.5 max-sm:h-6.5 max-sm:mr-[16px]"
-                src="@imgs/user/avatar.webp"
+                :src="avatarUrl"
                 alt="avatar"
             />
         </template>
         <template #default>
             <div class="pt-3">
                 <div class="flex-c pb-1 px-0">
-                    <img
-                        class="w-10 h-10 mr-3 ml-0 overflow-hidden rounded-full float-left"
-                        src="@imgs/user/avatar.webp"
-                    />
+                    <img class="w-10 h-10 mr-3 ml-0 overflow-hidden rounded-full float-left" :src="avatarUrl" />
                     <div class="w-[calc(100%-60px)] h-full">
                         <span class="block text-sm font-medium text-g-800 truncate">{{ userInfo.username }}</span>
                         <span class="block mt-0.5 text-xs text-g-500 truncate">{{ userInfo.email }}</span>
@@ -35,10 +32,12 @@
                         <ArtSvgIcon icon="ri:user-3-line" />
                         <span>{{ $t('topBar.user.userCenter') }}</span>
                     </li>
+                    <!--
                     <li class="btn-item" @click="goPage('/system/setting')">
                         <ArtSvgIcon icon="ri:settings-2-line" />
                         <span>{{ $t('topBar.user.setting') }}</span>
                     </li>
+                    -->
                     <div class="w-full h-px my-2 bg-g-300/80"></div>
                     <div class="log-out c-p" @click="loginOut">
                         {{ $t('topBar.user.logout') }}
@@ -55,7 +54,7 @@
     import { ElMessageBox } from 'element-plus'
     import { useUserStore } from '@/store/modules/user'
     import { storeToRefs } from 'pinia'
-    import { ref } from 'vue'
+    import { ref, computed } from 'vue'
 
     defineOptions({ name: 'ArtUserMenu' })
 
@@ -65,6 +64,10 @@
 
     const { getUserInfo: userInfo } = storeToRefs(userStore)
     const userMenuPopover = ref()
+
+    const avatarUrl = computed(() => {
+        return userInfo.value?.avatar || new URL('@/assets/images/user/avatar.webp', import.meta.url).href
+    })
 
     /**
      * 页面跳转

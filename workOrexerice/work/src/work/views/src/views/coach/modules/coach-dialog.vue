@@ -122,7 +122,7 @@
             introduction: row.introduction || '',
         })
 
-        imageUrl.value = (row as any)._avatar || row.avatar || ''
+        imageUrl.value = (row as any).avatar || ''
     }
 
     /**
@@ -147,8 +147,8 @@
      * 头像上传成功
      */
     const handleAvatarSuccess = (response: Api.Common.UploadFileResponse, file: UploadFile) => {
-        const displayUrl = response?._url || response?.tmpUrl || ''
-        const storageUrl = response?.url || file.url || ''
+        const displayUrl = response?.url || response?.tmpUrl || ''
+        const storageUrl = response?._url || file.url || ''
 
         formData.avatar = storageUrl
 

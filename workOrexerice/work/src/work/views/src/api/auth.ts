@@ -109,3 +109,18 @@ export function fetchSocialOAuthCallback(params: Api.Auth.SocialOAuthCallbackPar
         skipAuth: true, // OAuth回调接口不需要携带认证头
     })
 }
+
+/**
+ * 钉钉免登
+ * @param params 钉钉免登参数
+ * @returns 登录响应
+ */
+export function fetchDingTalkSSO(params: Api.Auth.DingTalkSSOParams) {
+    return request.post<Api.Auth.DingTalkSSOResponse>({
+        url: '/api/v1/auth/dingtalk/sso',
+        data: params,
+        showErrorMessage: false, // 禁用自动错误提示，由调用页面手动处理
+        skipAuth: true, // 钉钉免登接口不需要携带认证头
+        operationDesc: '钉钉免登',
+    })
+}

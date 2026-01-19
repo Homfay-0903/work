@@ -353,9 +353,11 @@
         //'editImage',
         //'viewImageLink',
         //'insertVideo',
-        //'uploadVideo',
+        'uploadVideo',
+        '|',
         'divider',
         'fontSize',
+        'fontFamily',
         'emotion',
         'blockquote',
         'headerSelect',
@@ -709,7 +711,7 @@
             type: row.type || 1,
             calories: row.calories || 0,
             introduction: row.introduction || '',
-            other: (row as any)._other || row.other || '',
+            other: (row as any).other || '',
             remark: row.remark || '',
         })
 
@@ -718,12 +720,12 @@
             formData.coachId = null
         }
 
-        console.log('[action-dialog] initFormData - row.relatedActionId:', row.relatedActionId)
-        console.log('[action-dialog] initFormData - formData.aiAction:', formData.aiAction)
+        //console.log('[action-dialog] initFormData - row.relatedActionId:', row.relatedActionId)
+        //console.log('[action-dialog] initFormData - formData.aiAction:', formData.aiAction)
 
-        imageUrl.value = (row as any)._picture || row.picture || ''
+        imageUrl.value = (row as any).picture || ''
 
-        const videoData = (row as any)._video || row.video
+        const videoData = (row as any).video || ''
         if (videoData) {
             videoUrl.value = { url: videoData }
         } else {
@@ -809,8 +811,8 @@
      * 封面上传成功
      */
     const handleCoverSuccess = (response: Api.Common.UploadFileResponse, file: UploadFile) => {
-        const displayUrl = response?._url || response?.tmpUrl || ''
-        const storageUrl = response?.url || file.url || ''
+        const storageUrl = response?._url || response?.tmpUrl || ''
+        const displayUrl = response?.url || file.url || ''
 
         formData.coverImage = storageUrl
 
@@ -832,8 +834,8 @@
      * 视频上传成功
      */
     const handleVideoSuccess = (response: Api.Common.UploadFileResponse, file: UploadFile) => {
-        const displayUrl = response?._url || response?.tmpUrl || ''
-        const storageUrl = response?.url || file.url || ''
+        const storageUrl = response?._url || response?.tmpUrl || ''
+        const displayUrl = response?.url || file.url || ''
 
         if (displayUrl) {
             videoUrl.value = { url: displayUrl, storageUrl }

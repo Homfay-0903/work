@@ -187,7 +187,7 @@
      * 获取图标显示
      */
     const getIconDisplay = (row: EquipmentListItem) => {
-        const iconUrl = (row as any)._picture || row.picture || ''
+        const iconUrl = (row as any).picture || ''
         if (iconUrl) {
             return h(ElImage, {
                 src: iconUrl,
@@ -525,13 +525,23 @@
      */
     const handleDeleteEquipment = (row: EquipmentListItem): void => {
         ;(async () => {
-            try {
-                await ElMessageBox.confirm(`确定要删除该器械吗？`, '删除器械', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'error',
-                })
+            const loadingInstance = ElLoading.service({
+                lock: true,
+                text: '删除中...',
+                background: 'rgba(0, 0, 0, 0.7)',
+            })
 
+            try {
+                // 先检查启用状态
+                if (row.status === 1) {
+                    await ElMessageBox.alert('当前器械处于启用状态，不允许删除', '提示', {
+                        confirmButtonText: '确认',
+                        type: 'warning',
+                    })
+                    return
+                }
+
+                // 检查器械是否绑定了上架中的动作
                 try {
                     const actionListResult = await fetchGetActionList({
                         instrumentIds: [row.id],
@@ -554,7 +564,15 @@
                     }
                 } catch (error) {
                     console.error('检查器械使用状态失败:', error)
+                    return
                 }
+
+                // 检查通过后，弹出确认对话框
+                await ElMessageBox.confirm(`确定要删除该器械吗？`, '删除器械', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'error',
+                })
 
                 await fetchDeleteEquipment(row.id)
                 ElMessage.success('删除成功')
@@ -564,6 +582,8 @@
                     console.error('删除失败:', error)
                     ElMessage.error('删除失败')
                 }
+            } finally {
+                loadingInstance.close()
             }
         })()
     }

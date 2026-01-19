@@ -198,7 +198,7 @@
      * 获取头像显示
      */
     const getAvatarDisplay = (row: CoachListItem) => {
-        const avatarUrl = (row as any)._avatar || row.avatar
+        const avatarUrl = (row as any).avatar
         if (avatarUrl) {
             return h(ElImage, {
                 src: avatarUrl,
@@ -545,12 +545,21 @@
      */
     const handleDeleteCoach = (row: CoachListItem): void => {
         ;(async () => {
+            const loadingInstance = ElLoading.service({
+                lock: true,
+                text: '删除中...',
+                background: 'rgba(0, 0, 0, 0.7)',
+            })
+
             try {
-                await ElMessageBox.confirm(`确定要删除该教练吗？`, '删除教练', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'error',
-                })
+                // 先检查启用状态
+                if (row.status === 1) {
+                    await ElMessageBox.alert('当前教练处于启用状态，不允许删除', '提示', {
+                        confirmButtonText: '确认',
+                        type: 'warning',
+                    })
+                    return
+                }
 
                 // 检查教练是否绑定了上架中的动作
                 try {
@@ -569,7 +578,15 @@
                     }
                 } catch (error) {
                     console.error('检查教练使用状态失败:', error)
+                    return
                 }
+
+                // 检查通过后，弹出确认对话框
+                await ElMessageBox.confirm(`确定要删除该教练吗？`, '删除教练', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'error',
+                })
 
                 await fetchDeleteCoach(row.id)
                 ElMessage.success('删除成功')
@@ -579,6 +596,8 @@
                     console.error('删除失败:', error)
                     ElMessage.error('删除失败')
                 }
+            } finally {
+                loadingInstance.close()
             }
         })()
     }

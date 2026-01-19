@@ -144,6 +144,17 @@ declare namespace Api {
             refreshToken: string
         }
 
+        /** 钉钉免登参数 */
+        interface DingTalkSSOParams {
+            authCode: string
+        }
+
+        /** 钉钉免登响应 */
+        interface DingTalkSSOResponse {
+            accessToken: string
+            refreshToken: string
+        }
+
         /** 用户信息 */
         interface UserInfo {
             buttons: string[]
@@ -161,8 +172,18 @@ declare namespace Api {
             realName?: string
             address?: string
             bio?: string
+            userRoles?: userRoles[]
             /** 是否已绑定钉钉账号 */
             dingtalkBound?: boolean
+        }
+
+        /** 用户角色 */
+        interface userRoles {
+            id: number
+            name: string
+            createdAt: string
+            updatedAt: string
+            description?: string
         }
 
         /** 更新用户信息参数 */

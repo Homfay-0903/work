@@ -214,8 +214,8 @@
      * 职务（暂时使用角色列表的第一项，如果没有则显示默认值）
      */
     const position = computed(() => {
-        if (userInfo.value?.roles && userInfo.value.roles.length > 0) {
-            return userInfo.value.roles[0]
+        if (userInfo.value?.userRoles && userInfo.value.userRoles.length > 0) {
+            return userInfo.value.userRoles.map(role => role.name).join('/')
         }
         return '产品经理' // 默认值，实际应该从后端获取
     })

@@ -119,8 +119,8 @@
                         file,
                     })
                         .then((response: any) => {
-                            const displayUrl = response?._url || response?.tmpUrl || ''
-                            const storageUrl = response?.url || ''
+                            const displayUrl = response?.url || response?.tmpUrl || ''
+                            const storageUrl = response?._url || ''
 
                             if (displayUrl && storageUrl) {
                                 // 保存临时 URL 到永久 URL 的映射

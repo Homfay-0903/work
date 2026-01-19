@@ -107,7 +107,7 @@
             picture: row.picture || '',
         })
 
-        imageUrl.value = (row as any)._picture || row.picture || ''
+        imageUrl.value = (row as any).picture || ''
     }
 
     /**
@@ -132,8 +132,8 @@
      * 图标上传成功
      */
     const handleIconSuccess = (response: Api.Common.UploadFileResponse, file: UploadFile) => {
-        const displayUrl = response?._url || response?.tmpUrl || ''
-        const storageUrl = response?.url || file.url || ''
+        const storageUrl = response?._url || response?.tmpUrl || ''
+        const displayUrl = response?.url || file.url || ''
 
         formData.picture = storageUrl
 

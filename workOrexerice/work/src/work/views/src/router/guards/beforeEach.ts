@@ -48,11 +48,12 @@ import { staticRoutes } from '../routes/staticRoutes'
 import { loadingService } from '@/utils/ui'
 import { useCommon } from '@/hooks/core/useCommon'
 import { useWorktabStore } from '@/store/modules/worktab'
-import { fetchGetUserInfo } from '@/api/auth'
+import { fetchGetUserInfo, fetchDingTalkSSO } from '@/api/auth'
 import { ApiStatus } from '@/utils/http/status'
 import { isHttpError } from '@/utils/http/error'
 import { RouteRegistry, MenuProcessor, IframeRouteManager, RoutePermissionValidator } from '../core'
 import { recordLoadingStartTime } from './afterEach'
+import { isInDingTalk, getDingTalkAuthCodeFromURL, clearDingTalkAuthCodeFromURL } from '@/utils/dingtalk'
 
 // 路由注册器实例
 let routeRegistry: RouteRegistry | null = null
@@ -64,6 +65,8 @@ const menuProcessor = new MenuProcessor()
 let pendingLoading = false
 // cookie 登录兜底：避免每次路由跳转都打一次 /user/info
 let hasTriedCookieLogin = false
+// 钉钉免登：避免每次路由跳转都尝试钉钉免登
+let hasTriedDingTalkSSO = false
 
 /**
  * 获取 pendingLoading 状态
@@ -177,6 +180,26 @@ async function handleLoginStatus(
     // 已登录或访问登录页或静态路由，直接放行
     if (userStore.isLogin || to.path === RoutesAlias.Login || isStaticRoute(to.path)) {
         return true
+    }
+
+    // 检测是否在钉钉环境且未登录，尝试钉钉免登
+    if (isInDingTalk() && !userStore.accessToken && !hasTriedDingTalkSSO) {
+        hasTriedDingTalkSSO = true
+        try {
+            const authCode = getDingTalkAuthCodeFromURL()
+            if (authCode) {
+                console.log('[RouteGuard] 检测到钉钉 authCode，尝试免登')
+                const { accessToken, refreshToken } = await fetchDingTalkSSO({ authCode })
+                userStore.setToken(accessToken, refreshToken)
+                userStore.setLoginStatus(true)
+                // 清理 URL 中的 authCode 参数
+                clearDingTalkAuthCodeFromURL()
+                console.log('[RouteGuard] 钉钉免登成功')
+                return true
+            }
+        } catch (error) {
+            console.warn('[RouteGuard] 钉钉免登失败:', error)
+        }
     }
 
     // 未登录但可能存在后端 cookie 会话：尝试用 cookie 拉一次用户信息完成自动登录

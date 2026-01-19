@@ -237,19 +237,16 @@
         },
         // 数据处理
         transform: {
-            // 数据转换器 - 替换头像
             dataTransformer: records => {
-                // 类型守卫检查
                 if (!Array.isArray(records)) {
                     console.warn('数据转换器: 期望数组类型，实际收到:', typeof records)
                     return []
                 }
 
-                // 使用本地头像替换接口返回的头像
                 return records.map((item, index: number) => {
                     return {
                         ...item,
-                        avatar: ACCOUNT_TABLE_DATA[index % ACCOUNT_TABLE_DATA.length].avatar,
+                        avatar: item.avatar || ACCOUNT_TABLE_DATA[index % ACCOUNT_TABLE_DATA.length].avatar,
                     }
                 })
             },
