@@ -400,8 +400,8 @@
                             )
                         }
 
-                        // 启用/禁用（仅翻译后的子数据显示，且有权限时显示）
-                        if (row.status === 0 && hasAuth('enable')) {
+                        // 启用/禁用
+                        if (row.status === 0 && row.langCode === 'zh-CN' && hasAuth('enable')) {
                             buttons.push(
                                 h(
                                     ElButton,
@@ -414,7 +414,7 @@
                                     () => '启用',
                                 ),
                             )
-                        } else if (row.status === 1 && hasAuth('disable')) {
+                        } else if (row.status === 1 && row.langCode === 'zh-CN' && hasAuth('disable')) {
                             buttons.push(
                                 h(
                                     ElButton,

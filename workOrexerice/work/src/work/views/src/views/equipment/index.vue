@@ -381,7 +381,7 @@
                         }
 
                         //if ((row as any)._isChild) {
-                        if (row.status === 0 && hasAuth('enable')) {
+                        if (row.status === 0 && row.langCode === 'zh-CN' && hasAuth('enable')) {
                             buttons.push(
                                 h(
                                     ElButton,
@@ -394,7 +394,7 @@
                                     () => '启用',
                                 ),
                             )
-                        } else if (row.status === 1 && hasAuth('disable')) {
+                        } else if (row.status === 1 && row.langCode === 'zh-CN' && hasAuth('disable')) {
                             buttons.push(
                                 h(
                                     ElButton,

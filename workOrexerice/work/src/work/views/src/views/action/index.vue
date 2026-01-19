@@ -3,7 +3,7 @@
         <!-- 型号tab栏 -->
         <ElCard class="model-tabs-card" shadow="never">
             <div class="model-tabs-wrapper">
-                <div class="model-tabs-label">型号选择</div>
+                <div class="model-tabs-label"></div>
                 <ElTabs v-model="activeModelValue" @tab-click="handleModelChange">
                     <ElTabPane v-for="model in modelList" :key="model.value" :label="model.label" :name="model.value" />
                 </ElTabs>
@@ -676,11 +676,13 @@
 
                     // 检查是否有 translations 字段（翻译后的子动作）
                     if (item.translations && Array.isArray(item.translations) && item.translations.length > 0) {
-                        // 为子节点添加标记和序号信息
+                        // 为子节点添加标记和序号信息，并继承根节点的 coach 信息
                         itemWithTree.children = item.translations.map((child, index) => ({
                             ...child,
                             _isChild: true,
                             _childIndex: index + 1, // 子节点序号从1开始
+                            // 如果子节点没有 coach 对象，继承根节点的 coach
+                            coach: item.coach,
                         }))
                         itemWithTree.hasChildren = true
                     }
@@ -689,8 +691,8 @@
                     rootRecords.push(itemWithTree)
                 })
 
-                // 按ID升序排序根节点，并为每个根节点设置_rowIndex（用于序号显示）
-                const sortedRootRecords = rootRecords.sort((a, b) => Number(a.id) - Number(b.id))
+                // 按ID降序排序根节点，并为每个根节点设置_rowIndex（用于序号显示）
+                const sortedRootRecords = rootRecords.sort((a, b) => Number(b.id) - Number(a.id))
                 sortedRootRecords.forEach((rootNode, index) => {
                     rootNode._rowIndex = index
                     // 为子节点设置父序号（在getIndexText中会基于pagination动态计算）
@@ -806,6 +808,14 @@
             if (dialogType.value === 'add') {
                 ElMessage.success('创建成功')
                 await refreshCreate()
+
+                await nextTick()
+                if (tableRef.value?.elTableRef) {
+                    const tableBody = tableRef.value.elTableRef.$el.querySelector('.el-table__body-wrapper')
+                    if (tableBody) {
+                        tableBody.scrollTop = 0
+                    }
+                }
             } else if (dialogType.value === 'edit') {
                 ElMessage.success('更新成功')
                 await refreshUpdate()

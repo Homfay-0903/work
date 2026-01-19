@@ -30,6 +30,7 @@ export function fetchGetActionList(params: Api.Action.ActionSearchParams) {
                 return parts.join('&')
             },
         },
+        timeout: 5 * 60 * 1000,
     })
 }
 
