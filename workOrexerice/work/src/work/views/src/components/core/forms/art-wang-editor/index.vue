@@ -17,13 +17,12 @@
     import { onBeforeUnmount, onMounted, shallowRef, computed, ref } from 'vue'
     import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
     import { ElMessage, ElLoading } from 'element-plus'
-    import { fetchUploadImage } from '@/api/upload'
+    import { fetchUploadImage, fetchUploadVideo } from '@/api/upload'
     import EmojiText from '@/utils/ui/emojo'
     import { IDomEditor, IToolbarConfig, IEditorConfig } from '@wangeditor/editor'
 
     defineOptions({ name: 'ArtWangEditor' })
 
-    // Props 定义
     interface Props {
         /** 编辑器高度 */
         height?: string
@@ -41,6 +40,10 @@
         uploadConfig?: {
             maxFileSize?: number
             maxNumberOfFiles?: number
+            imageMaxFileSize?: number // 新增：单独控制图片大小限制
+            videoMaxFileSize?: number // 新增：单独控制视频大小限制
+            imageAllowedFileTypes?: string[] // 新增：图片允许的文件类型
+            videoAllowedFileTypes?: string[] // 新增：视频允许的文件类型
             server?: string
         }
     }
@@ -62,10 +65,13 @@
 
     // 常量配置
     const DEFAULT_UPLOAD_CONFIG = {
-        maxFileSize: 3 * 1024 * 1024, // 3MB
+        maxFileSize: 20 * 1024 * 1024, // 20MB - 默认最大文件大小
         maxNumberOfFiles: 10,
         fieldName: 'file',
-        allowedFileTypes: ['image/*'],
+        imageMaxFileSize: 10 * 1024 * 1024, // 10MB - 图片默认最大大小
+        videoMaxFileSize: 50 * 1024 * 1024, // 50MB - 视频默认最大大小
+        imageAllowedFileTypes: ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/bmp', 'image/webp'], // 图片允许的类型
+        videoAllowedFileTypes: ['video/mp4', 'video/mpeg', 'video/ogg', 'video/webm', 'video/quicktime'], // 视频允许的类型
     } as const
 
     // 合并上传配置
@@ -102,9 +108,9 @@
         MENU_CONF: {
             uploadImage: {
                 fieldName: mergedUploadConfig.value.fieldName,
-                maxFileSize: mergedUploadConfig.value.maxFileSize,
+                maxFileSize: mergedUploadConfig.value.imageMaxFileSize || mergedUploadConfig.value.maxFileSize, // 优先使用图片专用配置
                 maxNumberOfFiles: mergedUploadConfig.value.maxNumberOfFiles,
-                allowedFileTypes: mergedUploadConfig.value.allowedFileTypes,
+                allowedFileTypes: mergedUploadConfig.value.imageAllowedFileTypes, // 图片文件类型
                 customUpload(file: File, insertFn: (url: string, alt: string, href: string) => void) {
                     const formData = new FormData()
                     formData.append('file', file)
@@ -135,6 +141,47 @@
                         .catch((error: any) => {
                             console.error('图片上传失败:', error)
                             ElMessage.error(`图片上传失败 ${EmojiText[500]}`)
+                        })
+                        .finally(() => {
+                            loadingInstance.close()
+                        })
+                },
+            },
+            uploadVideo: {
+                fieldName: mergedUploadConfig.value.fieldName,
+                maxFileSize: mergedUploadConfig.value.videoMaxFileSize || mergedUploadConfig.value.maxFileSize, // 优先使用视频专用配置
+                maxNumberOfFiles: mergedUploadConfig.value.maxNumberOfFiles,
+                allowedFileTypes: mergedUploadConfig.value.videoAllowedFileTypes, // 视频文件类型
+                customUpload(file: File, insertFn: (url: string, alt: string, href: string) => void) {
+                    const formData = new FormData()
+                    formData.append('file', file)
+
+                    const loadingInstance = ElLoading.service({
+                        lock: true,
+                        text: '正在上传视频...',
+                        background: 'rgba(0, 0, 0, 0.7)',
+                    })
+
+                    fetchUploadVideo({
+                        file,
+                    })
+                        .then((response: any) => {
+                            const displayUrl = response?.url || response?.tmpUrl || ''
+                            const storageUrl = response?._url || ''
+
+                            if (displayUrl && storageUrl) {
+                                // 保存临时 URL 到永久 URL 的映射
+                                urlMapping.value.set(displayUrl, storageUrl)
+                                // 使用临时 URL 显示图片
+                                insertFn(displayUrl, file.name, displayUrl)
+                                ElMessage.success(`视频上传成功 ${EmojiText[200]}`)
+                            } else {
+                                throw new Error('上传响应中没有返回视频URL')
+                            }
+                        })
+                        .catch((error: any) => {
+                            console.error('视频上传失败:', error)
+                            ElMessage.error(`视频上传失败 ${EmojiText[500]}`)
                         })
                         .finally(() => {
                             loadingInstance.close()
