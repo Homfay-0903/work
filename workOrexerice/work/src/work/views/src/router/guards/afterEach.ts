@@ -3,8 +3,6 @@ import { useSettingStore } from '@/store/modules/setting'
 import { Router } from 'vue-router'
 import NProgress from 'nprogress'
 import { useCommon } from '@/hooks/core/useCommon'
-import { loadingService } from '@/utils/ui'
-import { getPendingLoading, resetPendingLoading } from './beforeEach'
 
 // 记录 loading 开始时间
 let loadingStartTime = 0
@@ -28,19 +26,16 @@ export function setupAfterEachGuard(router: Router) {
             }, 600)
         }
 
-        // 关闭 loading 效果
-        if (getPendingLoading()) {
-            const elapsedTime = Date.now() - loadingStartTime
-            const remainingTime = Math.max(0, MIN_LOADING_TIME - elapsedTime)
+        // 关闭路由加载状态（局部加载）
+        const elapsedTime = Date.now() - loadingStartTime
+        const remainingTime = Math.max(0, MIN_LOADING_TIME - elapsedTime)
 
-            // 确保至少显示最小时间，避免闪烁
-            setTimeout(() => {
-                nextTick(() => {
-                    loadingService.hideLoading()
-                    resetPendingLoading()
-                })
-            }, remainingTime)
-        }
+        // 确保至少显示最小时间，避免闪烁
+        setTimeout(() => {
+            nextTick(() => {
+                settingStore.setRouteLoading(false)
+            })
+        }, remainingTime)
     })
 }
 

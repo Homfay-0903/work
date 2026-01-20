@@ -80,10 +80,16 @@
                     </ElFormItem>
 
                     <ElFormItem label="器械" prop="equipment">
-                        <ElButton @click="showEquipmentDialog" :disabled="dialogType === 'view'">请选择</ElButton>
-                        <span v-if="selectedEquipment.length > 0" class="selected-items">
-                            {{ selectedEquipment.map(e => e.name).join('、') }}
-                        </span>
+                        <ElInput
+                            v-model="equipmentDisplayText"
+                            placeholder="请选择器械"
+                            readonly
+                            :disabled="dialogType === 'view'"
+                        >
+                            <template #append>
+                                <ElButton @click="showEquipmentDialog" v-if="dialogType !== 'view'">选择</ElButton>
+                            </template>
+                        </ElInput>
                     </ElFormItem>
 
                     <ElFormItem label="选择教练" prop="coach">
@@ -138,8 +144,16 @@
                     </ElFormItem>
 
                     <ElFormItem label="关联AI动作" prop="aiAction">
-                        <ElButton @click="showAiActionDialog" :disabled="dialogType === 'view'">请选择</ElButton>
-                        <span v-if="selectedAiAction" class="selected-items">{{ selectedAiAction.actionName }}</span>
+                        <ElInput
+                            v-model="aiActionDisplayText"
+                            placeholder="请选择关联AI动作"
+                            readonly
+                            :disabled="dialogType === 'view'"
+                        >
+                            <template #append>
+                                <ElButton @click="showAiActionDialog" v-if="dialogType !== 'view'">选择</ElButton>
+                            </template>
+                        </ElInput>
                     </ElFormItem>
                 </ElCol>
 
@@ -174,6 +188,7 @@
                                     <ElOption label="普拉提" :value="2" />
                                     <ElOption label="有氧减脂" :value="3" />
                                     <ElOption label="拉伸康复" :value="4" />
+                                    <ElOption label="评估筛查" :value="5" />
                                 </ElSelect>
                             </ElFormItem>
                         </ElCol>
@@ -386,6 +401,16 @@
     })
 
     const dialogType = computed(() => props.type)
+
+    const equipmentDisplayText = computed(() => {
+        if (selectedEquipment.value.length === 0) return ''
+        return selectedEquipment.value.map(e => e.name).join('、')
+    })
+
+    const aiActionDisplayText = computed(() => {
+        if (!selectedAiAction.value) return ''
+        return selectedAiAction.value.actionName || ''
+    })
 
     const formRef = ref<FormInstance>()
     // const uploadAction = ref('') // 已注释，使用自定义上传方法替代
@@ -658,6 +683,7 @@
             },
         ],
         introduction: [{ required: true, message: '请填写动作介绍', trigger: 'blur' }],
+        other: [{ required: true, message: '请填写其他内容', trigger: 'blur' }],
         equipment: [{ required: true, message: '请选择器械', trigger: 'change' }],
         calories: [
             {
@@ -1072,17 +1098,33 @@
 </script>
 
 <style lang="scss" scoped>
-    .selected-items {
-        margin-left: 8px;
-        color: var(--el-text-color-regular);
-    }
-
     .view-content {
         min-height: 60px;
         padding: 8px;
         border: 1px solid var(--el-border-color-light);
         border-radius: 4px;
         background-color: var(--el-fill-color-lighter);
+    }
+
+    :deep(.el-input-group__append) {
+        padding: 0;
+        background-color: transparent;
+    }
+
+    :deep(.el-input-group__append .el-button) {
+        border: none;
+        border-radius: 0 4px 4px 0;
+        background-color: var(--el-color-primary);
+        color: #fff;
+
+        &:hover {
+            background-color: var(--el-color-primary-light-3);
+            color: #fff;
+        }
+
+        &:active {
+            background-color: var(--el-color-primary-dark-2);
+        }
     }
 
     :deep(.el-upload__tip) {

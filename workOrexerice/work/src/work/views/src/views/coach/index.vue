@@ -65,6 +65,7 @@
     import CoachDialog from './modules/coach-dialog.vue'
     import { ElTag, ElMessageBox, ElMessage, ElButton, ElImage, ElLoading } from 'element-plus'
     import { useAuth } from '@/hooks/core/useAuth'
+    import { emitGlobalEvent } from '@/utils/eventBus'
 
     defineOptions({ name: 'Coach' })
 
@@ -265,7 +266,7 @@
             apiFn: fetchGetCoachList,
             apiParams: {
                 page: 1,
-                size: 30,
+                size: 20,
                 ...searchForm.value,
             },
             columnsFactory: () => [
@@ -439,6 +440,12 @@
                 },
             ],
         },
+        // 性能优化配置
+        performance: {
+            enableCache: true,
+            cacheTime: 5 * 60 * 1000,
+            maxCacheSize: 50,
+        },
         // 数据处理
         transform: {
             // 数据转换器
@@ -591,6 +598,7 @@
                 await fetchDeleteCoach(row.id)
                 ElMessage.success('删除成功')
                 await refreshRemove()
+                emitGlobalEvent('coach-changed')
             } catch (error: any) {
                 if (error !== 'cancel') {
                     console.error('删除失败:', error)
@@ -613,6 +621,7 @@
                 await fetchCreateCoach(dataToSubmit as Api.Coach.CoachCreateBody)
                 ElMessage.success('创建成功')
                 await refreshCreate()
+                emitGlobalEvent('coach-changed')
             } else if (dialogType.value === 'edit') {
                 if (!dataToSubmit.id) {
                     ElMessage.error('缺少教练ID')
@@ -621,6 +630,7 @@
                 await fetchUpdateCoach(dataToSubmit.id, dataToSubmit as Api.Coach.CoachUpdateBody)
                 ElMessage.success('更新成功')
                 await refreshUpdate()
+                emitGlobalEvent('coach-changed')
             }
 
             dialogVisible.value = false
@@ -647,6 +657,7 @@
                 }
                 ElMessage.success('启用成功')
                 await refreshData()
+                emitGlobalEvent('coach-changed')
             } catch (error) {
                 console.error('启用失败:', error)
                 ElMessage.error('启用失败')
@@ -670,6 +681,7 @@
                 }
                 ElMessage.success('禁用成功')
                 await refreshData()
+                emitGlobalEvent('coach-changed')
             } catch (error) {
                 console.error('禁用失败:', error)
                 ElMessage.error('禁用失败')

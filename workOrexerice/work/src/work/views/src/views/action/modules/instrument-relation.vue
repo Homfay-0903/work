@@ -112,11 +112,17 @@
                 ...searchForm.value,
             },
             columnsFactory: () => [
-                { type: 'selection', width: 60 },
+                {
+                    'type': 'globalIndex',
+                    'label': '序号',
+                    'width': 200,
+                    'header-align': 'center',
+                    'align': 'center',
+                },
                 {
                     'prop': 'id',
                     'label': '器械ID',
-                    'width': 120,
+                    'width': 200,
                     'header-align': 'center',
                     'align': 'center',
                 },
@@ -125,6 +131,10 @@
                     'label': '器械名称',
                     'header-align': 'center',
                     'align': 'center',
+                },
+                {
+                    type: 'selection',
+                    width: 60,
                 },
             ],
         },

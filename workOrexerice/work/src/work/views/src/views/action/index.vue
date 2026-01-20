@@ -79,6 +79,7 @@
     import { ElTag, ElMessageBox, ElMessage, ElTabs, ElTabPane, ElButton, ElLoading } from 'element-plus'
     import { useAuth } from '@/hooks/core/useAuth'
     import type { TabsPaneContext } from 'element-plus'
+    import { dataCache } from '@/utils/cache/dataCache'
 
     defineOptions({ name: 'Action' })
 
@@ -96,7 +97,7 @@
     const tableRef = ref<any>(null)
 
     // 型号tab相关
-    const activeModel = ref<string>('全部型号') // 空字符串表示"全部型号"
+    const activeModel = ref<string>('全部型号')
     const activeModelValue = ref<number>(0)
     const modelList = ref<Array<{ label: string; value: number }>>([{ label: '全部型号', value: 0 }])
 
@@ -104,23 +105,30 @@
     const { hasAuth } = useAuth()
 
     /**
-     * 获取型号列表（从标签API获取）
+     * 获取型号列表（使用缓存优化）
      */
     const fetchModelList = async () => {
         try {
+            const cached = dataCache.get<Array<{ label: string; value: number }>>('action-model-list')
+            if (cached) {
+                modelList.value = cached
+                return
+            }
+
             const response = await fetchGetTagList({
                 page: 1,
-                size: 1000, // 获取所有标签
+                size: 1000,
             })
-            // 将标签列表转换为型号列表格式，添加到"全部型号"之后
             const tagModels = response.list.map(tag => ({
                 label: tag.name,
                 value: tag.id,
             }))
-            modelList.value = [{ label: '全部型号', value: 0 }, ...tagModels]
+            const fullModelList = [{ label: '全部型号', value: 0 }, ...tagModels]
+
+            modelList.value = fullModelList
+            dataCache.set('action-model-list', fullModelList, 30 * 60 * 1000) // 30分钟缓存
         } catch (error) {
             console.error('获取型号列表失败:', error)
-            // 如果获取失败，使用默认值
             modelList.value = [
                 { label: '全部型号', value: 0 },
                 { label: 'T5X', value: 1 },
@@ -429,8 +437,7 @@
             apiFn: fetchGetActionList,
             apiParams: {
                 page: 1,
-                size: 30,
-                //model: activeModel.value === '' ? undefined : activeModel.value,
+                size: 20,
                 ...searchForm.value,
             },
             columnsFactory: () => [
@@ -646,6 +653,12 @@
                 },
             ],
         },
+        // 性能优化配置
+        performance: {
+            enableCache: true,
+            cacheTime: 5 * 60 * 1000,
+            maxCacheSize: 50,
+        },
         // 数据处理
         transform: {
             dataTransformer: records => {
@@ -716,7 +729,6 @@
     const handleSearch = async (params: Partial<Api.Action.ActionSearchParams>) => {
         console.log('筛选参数:', params)
 
-        // 需要清除的筛选字段列表（排除分页相关字段）
         const filterKeys = [
             'scene',
             'difficulty',
@@ -730,16 +742,13 @@
             'tagIds',
         ]
 
-        // 清除旧的筛选参数，保留分页参数
         filterKeys.forEach(key => {
             delete (searchParams as any)[key]
         })
 
-        // 赋值新的筛选参数
         Object.assign(searchParams, params)
         delete (searchParams as any).model
 
-        // 等待数据加载完成后打印，确保表格数据已更新
         await getData()
         console.log('表格数据：', data.value)
     }
@@ -749,19 +758,9 @@
      */
     const handleResetSearch = () => {
         console.log('重置搜索表单')
-        // 重置表单数据
         searchForm.value = { ...defaultSearchForm }
-        // 重置搜索参数
         resetSearchParams()
-        // 保持当前选中的型号，只重置其他筛选条件
-        //if (activeModel.value !== '') {
-        //    ;(searchParams as any).model = activeModel.value
-        //} else {
-        //    ;(searchParams as any).model = undefined
-        //}
-        // 重新获取数据
         delete (searchParams as any).model
-        getData()
     }
 
     /**

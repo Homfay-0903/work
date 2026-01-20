@@ -88,10 +88,6 @@
         actionName: '',
     })
 
-    const getIndexText = (id: number) => {
-        return id.toString() || '-'
-    }
-
     const getNameText = (name: string) => {
         return name || '-'
     }
@@ -119,16 +115,19 @@
             columnsFactory: () => {
                 const baseColumns: any[] = [
                     {
-                        type: 'selection',
-                        width: 60,
+                        'type': 'globalIndex',
+                        'label': '序号',
+                        'width': 200,
+                        'header-align': 'center',
+                        'align': 'center',
                     },
                     {
                         'prop': 'id',
                         'label': 'ID',
-                        'width': 120,
+                        'width': 200,
                         'header-align': 'center',
                         'align': 'center',
-                        'formatter': (row: AiActionItem) => getIndexText(row.actionId),
+                        'formatter': (row: AiActionItem) => row.actionId?.toString() || '-',
                     },
                     {
                         'prop': 'name',
@@ -136,6 +135,10 @@
                         'header-align': 'center',
                         'align': 'center',
                         'formatter': (row: AiActionItem) => getNameText(row.actionName),
+                    },
+                    {
+                        type: 'selection',
+                        width: 60,
                     },
                 ]
                 return baseColumns

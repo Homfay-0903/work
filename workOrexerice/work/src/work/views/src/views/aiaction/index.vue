@@ -54,6 +54,7 @@
     import AiSearch from './modules/ai-search.vue'
     import { ElMessage, ElButton } from 'element-plus'
     import { useAuth } from '@/hooks/core/useAuth'
+    import { dataCache } from '@/utils/cache/dataCache'
 
     defineOptions({ name: 'Action' })
 
@@ -112,7 +113,7 @@
             apiFn: fetchGetAiActionList,
             apiParams: {
                 page: 1,
-                size: 30,
+                size: 20,
                 ...searchForm.value,
             },
             columnsFactory: () => [
@@ -141,6 +142,11 @@
                     'formatter': (row: AiListItem) => getIntroductionText(row.remark || ''),
                 },
             ],
+        },
+        performance: {
+            enableCache: true,
+            cacheTime: 5 * 60 * 1000,
+            maxCacheSize: 50,
         },
         transform: {
             dataTransformer: records => {
@@ -195,13 +201,18 @@
      * 获取so库版本号
      */
     const fetchSoLibVersion = async () => {
-        const response = await fetchGetSoLibVersionList({
-            page: 1,
-            size: 20,
-        })
-        if (response) {
-            soLibVersion.value = (response as any).list?.[0]?.version || ''
-        }
+        const version = await dataCache.getOrSet<string>(
+            'aiaction-so-lib-version',
+            async () => {
+                const response = await fetchGetSoLibVersionList({
+                    page: 1,
+                    size: 20,
+                })
+                return (response as any)?.list?.[0]?.version || ''
+            },
+            30 * 60 * 1000,
+        )
+        soLibVersion.value = version
     }
 
     /**

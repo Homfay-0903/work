@@ -63,6 +63,7 @@
     import EquipmentSearch from './modules/equipment-search.vue'
     import EquipmentDialog from './modules/equipment-dialog.vue'
     import { useAuth } from '@/hooks/core/useAuth'
+    import { emitGlobalEvent } from '@/utils/eventBus'
     import { ElTag, ElMessageBox, ElMessage, ElButton, ElImage, ElLoading } from 'element-plus'
 
     defineOptions({ name: 'Equipment' })
@@ -262,7 +263,7 @@
             apiFn: fetchGetEquipmentList,
             apiParams: {
                 page: 1,
-                size: 30,
+                size: 20,
                 ...searchForm.value,
             },
             columnsFactory: () => [
@@ -418,6 +419,12 @@
                     },
                 },
             ],
+        },
+        // 性能优化配置
+        performance: {
+            enableCache: true,
+            cacheTime: 5 * 60 * 1000,
+            maxCacheSize: 50,
         },
         // 数据处理
         transform: {
@@ -577,6 +584,7 @@
                 await fetchDeleteEquipment(row.id)
                 ElMessage.success('删除成功')
                 await refreshRemove()
+                emitGlobalEvent('equipment-changed')
             } catch (error: any) {
                 if (error !== 'cancel') {
                     console.error('删除失败:', error)
@@ -599,6 +607,7 @@
                 await fetchCreateEquipment(dataToSubmit as Api.Equipment.EquipmentCreateBody)
                 ElMessage.success('创建成功')
                 await refreshCreate()
+                emitGlobalEvent('equipment-changed')
             } else if (dialogType.value === 'edit') {
                 if (!dataToSubmit.id) {
                     ElMessage.error('缺少器械ID')
@@ -607,6 +616,7 @@
                 await fetchUpdateEquipment(dataToSubmit.id, dataToSubmit as Api.Equipment.EquipmentUpdateBody)
                 ElMessage.success('更新成功')
                 await refreshUpdate()
+                emitGlobalEvent('equipment-changed')
             }
 
             dialogVisible.value = false
@@ -633,6 +643,7 @@
                 }
                 ElMessage.success('启用成功')
                 await refreshData()
+                emitGlobalEvent('equipment-changed')
             } catch (error) {
                 console.error('启用失败:', error)
                 ElMessage.error('启用失败')
@@ -656,6 +667,7 @@
                 }
                 ElMessage.success('禁用成功')
                 await refreshData()
+                emitGlobalEvent('equipment-changed')
             } catch (error) {
                 console.error('禁用失败:', error)
                 ElMessage.error('禁用失败')

@@ -39,7 +39,7 @@ import { useSettingStore } from './setting'
 import { useWorktabStore } from './worktab'
 import { AppRouteRecord } from '@/types/router'
 import { setPageTitle } from '@/utils/router'
-import { resetRouterState, resetPendingLoading } from '@/router/guards/beforeEach'
+import { resetRouterState } from '@/router/guards/beforeEach'
 import { useMenuStore } from './menu'
 import { StorageConfig } from '@/utils/storage/storage-config'
 
@@ -166,8 +166,9 @@ export const useUserStore = defineStore(
             useMenuStore().setHomePath('')
             // 重置路由状态
             resetRouterState(500)
-            // 重置 pending loading 状态，避免路由守卫中的 loading 无法关闭
-            resetPendingLoading()
+            // 重置路由加载状态，避免路由守卫中的 loading 无法关闭
+            const settingStore = useSettingStore()
+            settingStore.setRouteLoading(false)
             // 跳转到登录页，携带当前路由作为 redirect 参数
             const currentRoute = router.currentRoute.value
             const redirect = currentRoute.path !== '/login' ? currentRoute.fullPath : undefined

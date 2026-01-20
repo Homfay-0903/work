@@ -82,6 +82,8 @@ export const useSettingStore = defineStore(
         const showLanguage = ref(SETTING_DEFAULT_CONFIG.showLanguage)
         /** 是否显示进度条 */
         const showNprogress = ref(SETTING_DEFAULT_CONFIG.showNprogress)
+        /** 路由加载状态 */
+        const routeLoading = ref(false)
         /** 是否显示设置引导 */
         const showSettingGuide = ref(SETTING_DEFAULT_CONFIG.showSettingGuide)
         /** 是否显示节日文本 */
@@ -371,6 +373,14 @@ export const useSettingStore = defineStore(
             festivalDate.value = date
         }
 
+        /**
+         * 设置路由加载状态
+         * @param loading 是否加载中
+         */
+        const setRouteLoading = (loading: boolean) => {
+            routeLoading.value = loading
+        }
+
         const setDualMenuShowText = (show: boolean) => {
             dualMenuShowText.value = show
         }
@@ -392,6 +402,7 @@ export const useSettingStore = defineStore(
             showWorkTab,
             showLanguage,
             showNprogress,
+            routeLoading,
             colorWeak,
             showSettingGuide,
             pageTransition,
@@ -426,6 +437,7 @@ export const useSettingStore = defineStore(
             setWorkTab,
             setLanguage,
             setNprogress,
+            setRouteLoading,
             setColorWeak,
             hideSettingGuide,
             openSettingGuide,

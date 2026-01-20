@@ -16,7 +16,8 @@
     import { fetchGetCoachList } from '@/api/coach'
     import { fetchGetEquipmentList } from '@/api/equipment'
     import { fetchGetTrainingAreaList } from '@/api/muscle'
-    import { ref, computed, onMounted, onActivated } from 'vue'
+    import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+    import { onGlobalEvent } from '@/utils/eventBus'
 
     interface Props {
         modelValue: Record<string, any>
@@ -55,6 +56,7 @@
         { label: '普拉提', value: '2' },
         { label: '有氧减脂', value: '3' },
         { label: '拉伸康复', value: '4' },
+        { label: '评估筛查', value: '5' },
     ]
 
     // 难度选项
@@ -382,9 +384,17 @@
         await fetchPartOptions()
     })
 
-    onActivated(async () => {
-        await fetchInstrumentOptions()
+    // 仅在教练/器械变更时刷新，避免每次激活都重新请求
+    const stopCoachListener = onGlobalEvent('coach-changed', async () => {
         await fetchCoachOptions()
+    })
+    const stopEquipmentListener = onGlobalEvent('equipment-changed', async () => {
+        await fetchInstrumentOptions()
+    })
+
+    onBeforeUnmount(() => {
+        stopCoachListener()
+        stopEquipmentListener()
     })
 
     defineExpose({

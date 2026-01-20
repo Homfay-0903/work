@@ -36,7 +36,7 @@
  * @author Art Design Pro Team
  */
 import type { Router, RouteLocationNormalized, NavigationGuardNext } from 'vue-router'
-import { nextTick } from 'vue'
+//import { nextTick } from 'vue'
 import NProgress from 'nprogress'
 import { useSettingStore } from '@/store/modules/setting'
 import { useUserStore } from '@/store/modules/user'
@@ -45,7 +45,6 @@ import { setWorktab } from '@/utils/navigation'
 import { setPageTitle } from '@/utils/router'
 import { RoutesAlias } from '../routesAlias'
 import { staticRoutes } from '../routes/staticRoutes'
-import { loadingService } from '@/utils/ui'
 import { useCommon } from '@/hooks/core/useCommon'
 import { useWorktabStore } from '@/store/modules/worktab'
 import { fetchGetUserInfo, fetchDingTalkSSO } from '@/api/auth'
@@ -61,26 +60,10 @@ let routeRegistry: RouteRegistry | null = null
 // 菜单处理器实例
 const menuProcessor = new MenuProcessor()
 
-// 跟踪是否需要关闭 loading
-let pendingLoading = false
 // cookie 登录兜底：避免每次路由跳转都打一次 /user/info
 let hasTriedCookieLogin = false
 // 钉钉免登：避免每次路由跳转都尝试钉钉免登
 let hasTriedDingTalkSSO = false
-
-/**
- * 获取 pendingLoading 状态
- */
-export function getPendingLoading(): boolean {
-    return pendingLoading
-}
-
-/**
- * 重置 pendingLoading 状态
- */
-export function resetPendingLoading(): void {
-    pendingLoading = false
-}
 
 /**
  * 设置路由全局前置守卫
@@ -96,24 +79,13 @@ export function setupBeforeEachGuard(router: Router): void {
             console.error('[RouteGuard] 路由守卫处理失败:', error)
             // 确保关闭 loading 并重置登录状态
             const userStore = useUserStore()
+            const settingStore = useSettingStore()
             userStore.setLoginStatus(false)
             userStore.setToken('', '')
-            closeLoading()
+            settingStore.setRouteLoading(false)
             next({ name: 'Exception500' })
         }
     })
-}
-
-/**
- * 关闭 loading 效果
- */
-function closeLoading(): void {
-    if (pendingLoading) {
-        nextTick(() => {
-            loadingService.hideLoading()
-            pendingLoading = false
-        })
-    }
 }
 
 /**
@@ -136,10 +108,6 @@ async function handleRouteGuard(
     // 记录 loading 开始时间
     recordLoadingStartTime()
 
-    // 显示 loading 效果（页面切换时）
-    pendingLoading = true
-    loadingService.showLoading()
-
     // 1. 检查登录状态
     if (!(await handleLoginStatus(to, userStore, next))) {
         return
@@ -158,6 +126,8 @@ async function handleRouteGuard(
 
     // 4. 处理已匹配的路由
     if (to.matched.length > 0) {
+        // 设置路由加载状态（局部加载，不锁定页面）
+        settingStore.setRouteLoading(true)
         setWorktab(to)
         setPageTitle(to)
         next()
@@ -224,7 +194,8 @@ async function handleLoginStatus(
     // 未登录且访问需要权限的页面，跳转到登录页并携带 redirect 参数
     userStore.logOut()
     // 确保关闭可能存在的 loading
-    closeLoading()
+    const settingStore = useSettingStore()
+    settingStore.setRouteLoading(false)
     next({
         name: 'Login',
         query: { redirect: to.fullPath },
@@ -264,9 +235,10 @@ async function handleDynamicRoutes(
     next: NavigationGuardNext,
     router: Router,
 ): Promise<void> {
-    // 显示 loading
-    pendingLoading = true
-    loadingService.showLoading()
+    const settingStore = useSettingStore()
+
+    // 设置路由加载状态（局部加载，不锁定页面）
+    settingStore.setRouteLoading(true)
 
     try {
         // 1. 获取用户信息
@@ -305,7 +277,7 @@ async function handleDynamicRoutes(
         // 9. 重新导航到目标路由
         if (!hasPermission) {
             // 无权限访问，跳转到首页
-            closeLoading()
+            settingStore.setRouteLoading(false)
 
             // 输出警告信息
             console.warn(`[RouteGuard] 用户无权限访问路径: ${to.path}，已跳转到首页`)
@@ -331,7 +303,7 @@ async function handleDynamicRoutes(
         if (isUnauthorizedError(error)) {
             // 保险起见，前端再执行一次登出，确保状态清理和路由重置
             useUserStore().logOut()
-            closeLoading()
+            settingStore.setRouteLoading(false)
             next(false)
             return
         }
@@ -340,7 +312,7 @@ async function handleDynamicRoutes(
         if (isNotFoundError(error)) {
             console.error('[RouteGuard] 接口返回 404，请检查后端接口配置')
             routeRegistry?.markAsRegistered()
-            closeLoading()
+            settingStore.setRouteLoading(false)
             next({ name: 'Exception404' })
             return
         }
@@ -350,7 +322,7 @@ async function handleDynamicRoutes(
         // 如果是因为获取用户信息或菜单失败，重置登录状态
         userStore.setLoginStatus(false)
         userStore.setToken('', '')
-        closeLoading()
+        settingStore.setRouteLoading(false)
         next({ name: 'Exception500' })
     }
 }

@@ -137,7 +137,7 @@
             },
             apiParams: {
                 page: 1,
-                size: 10,
+                size: 20,
                 ...searchForm.value,
             },
             columnsFactory: () => [
@@ -205,6 +205,12 @@
                     'formatter': (row: LogListItem) => row.operationDescription || '-',
                 },
             ],
+        },
+        // 性能优化配置
+        performance: {
+            enableCache: true,
+            cacheTime: 5 * 60 * 1000,
+            maxCacheSize: 50,
         },
         // 数据处理
         transform: {
