@@ -491,8 +491,8 @@
                     rootRecords.push(itemWithTree)
                 })
 
-                // 按ID升序排序根节点，并为每个根节点设置_rowIndex（用于序号显示）
-                const sortedRootRecords = rootRecords.sort((a, b) => Number(a.id) - Number(b.id))
+                // 按ID降序排序根节点，并为每个根节点设置_rowIndex（用于序号显示）
+                const sortedRootRecords = rootRecords.sort((a, b) => Number(b.id) - Number(a.id))
                 sortedRootRecords.forEach((rootNode, index) => {
                     rootNode._rowIndex = index
                     // 为子节点设置父序号（在getIndexText中会基于pagination动态计算）
