@@ -23,22 +23,22 @@
                         <!-- 第一行 -->
                         <div class="flex items-center gap-x-50">
                             <div class="flex items-center w-60">
-                                <span class="text-sm text-g-600 mr-4">用户姓名：</span>
+                                <span class="text-sm text-g-600 mr-4 whitespace-nowrap">用户姓名：</span>
                                 <span class="text-sm">{{ userInfo.nickname || '未设置' }}</span>
                             </div>
                             <div class="flex items-center w-60">
-                                <span class="text-sm text-g-600 mr-4">职务：</span>
+                                <span class="text-sm text-g-600 mr-4 whitespace-nowrap">职务：</span>
                                 <span class="text-sm">{{ position || '未设置' }}</span>
                             </div>
                         </div>
                         <!-- 第二行 -->
                         <div class="flex items-center gap-x-50">
                             <div class="flex items-center w-60">
-                                <span class="text-sm text-g-600 mr-4">手机号码：</span>
+                                <span class="text-sm text-g-600 mr-4 whitespace-nowrap">手机号码：</span>
                                 <span class="text-sm">{{ userInfo.mobile || '未设置' }}</span>
                             </div>
                             <div class="flex items-center w-60">
-                                <span class="text-sm text-g-600 mr-4">钉钉账号：</span>
+                                <span class="text-sm text-g-600 mr-4 whitespace-nowrap">钉钉账号：</span>
                                 <span class="text-sm" :class="dingtalkStatus === '已绑定' ? 'text-green-600' : ''">
                                     {{ dingtalkStatus }}
                                 </span>
@@ -47,11 +47,11 @@
                         <!-- 第三行 -->
                         <div class="flex items-center gap-x-50">
                             <div class="flex items-center w-60">
-                                <span class="text-sm text-g-600 mr-4">登录邮箱：</span>
+                                <span class="text-sm text-g-600 mr-4 whitespace-nowrap">登录邮箱：</span>
                                 <span class="text-sm">{{ userInfo.email || '未设置' }}</span>
                             </div>
                             <div class="flex items-center w-60">
-                                <span class="text-sm text-g-600 mr-4">注册时间：</span>
+                                <span class="text-sm text-g-600 mr-4 whitespace-nowrap">注册时间：</span>
                                 <span class="text-sm">{{ registeredTime }}</span>
                             </div>
                         </div>

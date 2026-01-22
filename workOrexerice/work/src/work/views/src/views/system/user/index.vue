@@ -294,6 +294,15 @@
         console.log('删除用户:', row)
         ;(async () => {
             try {
+                // 检查是否为当前用户
+                if (row.id === currentUserId.value) {
+                    await ElMessageBox.alert('删除失败，无法删除自己', '提示', {
+                        confirmButtonText: '确认',
+                        type: 'warning',
+                    })
+                    return
+                }
+
                 await ElMessageBox.confirm(`确定要注销该用户吗？`, '注销用户', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',

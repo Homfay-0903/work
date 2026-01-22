@@ -36,6 +36,7 @@
                 :columns="columns"
                 :pagination="pagination"
                 rowKey="actionId"
+                :header-cell-class-name="headerCellClassName"
                 @selection-change="handleSelectionChange"
                 @select="handleSelect"
                 @pagination:size-change="handleSizeChange"
@@ -154,6 +155,13 @@
 
     const selectedRow = ref<AiActionItem | null>(null)
 
+    const headerCellClassName = ({ column }: { column: any }) => {
+        if (column.type === 'selection') {
+            return 'disable-select-all'
+        }
+        return ''
+    }
+
     const handleSelect = (selection: AiActionItem[], row: AiActionItem) => {
         // 检查是否点击的是当前已选中的行
         if (selectedRow.value?.actionId === row.actionId) {
@@ -246,5 +254,9 @@
         .relation-search {
             margin-bottom: 12px;
         }
+    }
+
+    :deep(.disable-select-all .el-checkbox) {
+        display: none;
     }
 </style>
