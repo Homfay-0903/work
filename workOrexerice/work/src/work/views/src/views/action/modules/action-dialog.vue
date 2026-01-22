@@ -66,8 +66,19 @@
                                 </template>
                             </ElUpload>
                             <div v-if="videoUrl && dialogType !== 'view'" class="video-actions">
-                                <ElButton type="primary" size="small" @click="handleReplaceVideo">替换</ElButton>
-                                <ElButton type="danger" size="small" @click="handleDeleteVideo">删除</ElButton>
+                                <ElButton v-if="!videoUploading" type="primary" size="small" @click="handleReplaceVideo"
+                                    >替换</ElButton
+                                >
+                                <ElButton v-else type="primary" size="small" :loading="videoUploading" disabled
+                                    >替换中...</ElButton
+                                >
+                                <ElButton
+                                    type="danger"
+                                    size="small"
+                                    @click="handleDeleteVideo"
+                                    :disabled="videoUploading"
+                                    >删除</ElButton
+                                >
                             </div>
                         </div>
                         <input
@@ -723,8 +734,8 @@
         Object.assign(formData, {
             id: row.id || null,
             name: row.name || '',
-            coverImage: row.picture || '',
-            video: row.video || '',
+            coverImage: (row as any)._picture || row.picture || '',
+            video: (row as any)._video || row.video || '',
             equipment: row.instruments?.map(instrument => instrument.id) || [],
             coachId: row.coachId || null,
             part: row.muscleRegions?.map(region => region.id) || [],
@@ -749,11 +760,12 @@
         //console.log('[action-dialog] initFormData - row.relatedActionId:', row.relatedActionId)
         //console.log('[action-dialog] initFormData - formData.aiAction:', formData.aiAction)
 
-        imageUrl.value = (row as any).picture || ''
+        imageUrl.value = row.picture || ''
 
-        const videoData = (row as any).video || ''
+        const videoData = row.video || ''
+        const videoStorageUrl = (row as any)._video || ''
         if (videoData) {
-            videoUrl.value = { url: videoData }
+            videoUrl.value = { url: videoData, storageUrl: videoStorageUrl }
         } else {
             videoUrl.value = null
         }
@@ -894,8 +906,8 @@
                 file,
             })
 
-            const displayUrl = response?._url || response?.tmpUrl || ''
-            const storageUrl = response?.url || ''
+            const storageUrl = response?._url || response?.tmpUrl || ''
+            const displayUrl = response?.url || ''
 
             if (displayUrl) {
                 videoUrl.value = { url: displayUrl, storageUrl }

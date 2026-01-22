@@ -153,7 +153,6 @@ async function handleLoginStatus(
     }
 
     // 检测是否在钉钉环境且未登录，尝试钉钉免登
-    // 检测是否在钉钉环境且未登录，尝试钉钉免登
     if (isInDingTalk() && !userStore.accessToken && !hasTriedDingTalkSSO) {
         hasTriedDingTalkSSO = true
         try {

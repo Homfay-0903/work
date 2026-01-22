@@ -894,6 +894,7 @@
                     rootId: actionId,
                 })
                 ElMessage.success('翻译成功')
+                loadingInstance.close()
 
                 // 刷新数据以显示翻译后的子动作
                 await refreshData()

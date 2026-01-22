@@ -401,7 +401,7 @@ declare namespace Api {
             /** 动作封面 */
             picture?: string
             /** 动作视频列表 */
-            video?: string[]
+            video?: string
             /** 器械名称 */
             equipment?: string
             /** 根动作ID */

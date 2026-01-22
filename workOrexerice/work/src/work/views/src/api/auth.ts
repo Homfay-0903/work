@@ -93,6 +93,7 @@ export function fetchSocialOAuth(params: Api.Auth.SocialOAuthParams) {
         data: params,
         showErrorMessage: false, // 禁用自动错误提示，由调用页面手动处理
         skipAuth: true, // OAuth接口不需要携带认证头
+        operationDesc: `获取${params.provider}第三方授权登录地址`,
     })
 }
 
@@ -107,6 +108,7 @@ export function fetchSocialOAuthCallback(params: Api.Auth.SocialOAuthCallbackPar
         data: params,
         showErrorMessage: false, // 禁用自动错误提示，由调用页面手动处理
         skipAuth: true, // OAuth回调接口不需要携带认证头
+        operationDesc: `处理${params.provider}第三方授权登录回调`,
     })
 }
 

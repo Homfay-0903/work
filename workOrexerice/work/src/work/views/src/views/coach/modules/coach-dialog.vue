@@ -118,11 +118,11 @@
         Object.assign(formData, {
             id: row.id || 0,
             name: row.name || '',
-            avatar: row.avatar || '',
+            avatar: (row as any)._avatar || row.avatar || '',
             introduction: row.introduction || '',
         })
 
-        imageUrl.value = (row as any).avatar || ''
+        imageUrl.value = row.avatar || ''
     }
 
     /**

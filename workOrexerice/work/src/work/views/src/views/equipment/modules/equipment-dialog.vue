@@ -104,10 +104,10 @@
         Object.assign(formData, {
             id: row.id || 0,
             name: row.name || '',
-            picture: row.picture || '',
+            picture: (row as any)._picture || row.picture || '',
         })
 
-        imageUrl.value = (row as any).picture || ''
+        imageUrl.value = row.picture || ''
     }
 
     /**
