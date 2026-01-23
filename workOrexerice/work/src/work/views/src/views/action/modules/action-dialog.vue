@@ -48,13 +48,13 @@
                                 <video :src="videoUrl.url" class="coverImage" controls preload="metadata" />
                             </div>
                             <ElUpload
-                                v-if="!videoUrl && dialogType !== 'view'"
+                                v-if="!videoUrl"
                                 class="upload-demo video-upload"
                                 :http-request="customUploadVideo"
                                 :before-upload="beforeUploadVideo"
                                 :on-success="handleVideoSuccess"
                                 :show-file-list="false"
-                                :disabled="videoUploading"
+                                :disabled="dialogType === 'view' || videoUploading"
                             >
                                 <div v-if="videoUploading" class="upload-loading">
                                     <el-icon class="is-loading"><Loading /></el-icon>
@@ -310,6 +310,30 @@
                             :maxlength="1000"
                             :show-word-limit="true"
                             placeholder="请输入备注"
+                            :disabled="dialogType === 'view'"
+                        />
+                    </ElFormItem>
+
+                    <ElFormItem label="呼吸建议" prop="breathingSuggestion">
+                        <ElInput
+                            v-model="formData.breathingSuggestion"
+                            type="textarea"
+                            :rows="3"
+                            :maxlength="1000"
+                            :show-word-limit="true"
+                            placeholder="请输入呼吸建议"
+                            :disabled="dialogType === 'view'"
+                        />
+                    </ElFormItem>
+
+                    <ElFormItem label="错误要点" prop="errorPoints">
+                        <ElInput
+                            v-model="formData.errorPoints"
+                            type="textarea"
+                            :rows="3"
+                            :maxlength="1000"
+                            :show-word-limit="true"
+                            placeholder="请输入错误要点"
                             :disabled="dialogType === 'view'"
                         />
                     </ElFormItem>
@@ -666,6 +690,8 @@
         introduction: '',
         other: '',
         remark: '',
+        breathingSuggestion: '',
+        errorPoints: '',
     }
 
     // 表单数据
@@ -750,6 +776,8 @@
             introduction: row.introduction || '',
             other: (row as any).other || '',
             remark: row.remark || '',
+            breathingSuggestion: row.breathingSuggestion || '',
+            errorPoints: row.errorPoints || '',
         })
 
         // 检查教练是否已被删除，如果教练不在列表中则清空 coachId
@@ -1062,6 +1090,8 @@
             introduction: formData.introduction,
             other: transformedOther,
             remark: formData.remark,
+            breathingSuggestion: formData.breathingSuggestion,
+            errorPoints: formData.errorPoints,
         }
 
         try {
@@ -1091,15 +1121,17 @@
         }
     }
 
-    // 监听对话框状态
+    // 监听对话框状态和属性变化
     watch(
         () => [props.visible, props.type, props.actionData],
         async ([visible]) => {
+            // 无论弹窗是否显示，只要类型或数据变化，就立即重置表单数据
+            // 这样可以确保在弹窗显示前，表单数据已经被正确初始化
+            await initFormData()
+
             if (visible) {
-                // 先获取最新的教练列表
+                // 弹窗显示时，获取最新的教练列表
                 await fetchCoachList()
-                // 然后初始化表单数据
-                await initFormData()
                 nextTick(() => {
                     formRef.value?.clearValidate()
                 })
@@ -1210,7 +1242,6 @@
     .video-upload .el-upload {
         border: 1px dashed var(--el-border-color);
         border-radius: 6px;
-        cursor: pointer;
         position: relative;
         overflow: hidden;
         transition: var(--el-transition-duration-fast);
@@ -1225,7 +1256,6 @@
     .upload-demo .el-upload {
         border: 1px dashed var(--el-border-color);
         border-radius: 6px;
-        cursor: pointer;
         position: relative;
         overflow: hidden;
         transition: var(--el-transition-duration-fast);

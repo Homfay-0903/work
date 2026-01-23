@@ -434,6 +434,10 @@ declare namespace Api {
             introduction: string
             /** 备注 */
             remark: string
+            /** 呼吸建议 */
+            breathingSuggestion: string
+            /** 错误要点 */
+            errorPoints: string
             /** 难度 */
             difficulty: number
             /** 属性 */
@@ -567,6 +571,10 @@ declare namespace Api {
             other?: string
             /** 备注 */
             remark: string
+            /** 呼吸建议 */
+            breathingSuggestion: string
+            /** 错误要点 */
+            errorPoints: string
             /** 难度 */
             difficulty: number
             /** 属性 */
