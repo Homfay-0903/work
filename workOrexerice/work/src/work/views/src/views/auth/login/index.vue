@@ -288,7 +288,7 @@
                 ElMessage.error(error.message)
             } else {
                 // 处理非 HttpError
-                ElMessage.error('登录失败，请稍后重试')
+                //ElMessage.error('登录失败，请稍后重试')
                 console.error('[Login] Unexpected error:', error)
             }
         } finally {

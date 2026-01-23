@@ -5,6 +5,7 @@
         width="80%"
         align-center
         :close-on-click-modal="false"
+        @close="handleDialogClose"
     >
         <ElForm ref="formRef" :model="formData" :rules="rules" label-width="120px">
             <ElRow :gutter="24">
@@ -42,7 +43,7 @@
                         </ElUpload>
                     </ElFormItem>
 
-                    <ElFormItem label="动作视频" prop="videos">
+                    <ElFormItem label="动作视频" prop="videos" v-if="formData.type !== 2">
                         <div class="video-upload-container">
                             <div v-if="videoUrl" class="video-preview">
                                 <video :src="videoUrl.url" class="coverImage" controls preload="metadata" />
@@ -72,13 +73,7 @@
                                 <ElButton v-else type="primary" size="small" :loading="videoUploading" disabled
                                     >替换中...</ElButton
                                 >
-                                <ElButton
-                                    type="danger"
-                                    size="small"
-                                    @click="handleDeleteVideo"
-                                    :disabled="videoUploading"
-                                    >删除</ElButton
-                                >
+                                <ElButton type="danger" size="small" @click="handleDeleteVideo">删除</ElButton>
                             </div>
                         </div>
                         <input
@@ -435,12 +430,7 @@
                                     <el-icon v-else class="uploader-icon"><Plus /></el-icon>
                                     <template #tip>
                                         <div class="el-upload__tip">
-                                            {{
-                                                formData.actionMedia.length === 0 ||
-                                                formData.actionMedia[0].type === 'image'
-                                                    ? '建议上传10MB以内的JPG、PNG、JPEG格式，最多3张'
-                                                    : '上传2GB以内的MP4格式视频'
-                                            }}
+                                            建议上传10MB以内的JPG、PNG、JPEG格式或2GB以内的MP4格式
                                         </div>
                                     </template>
                                 </ElUpload>
@@ -549,12 +539,7 @@
                                     <el-icon v-else class="uploader-icon"><Plus /></el-icon>
                                     <template #tip>
                                         <div class="el-upload__tip">
-                                            {{
-                                                formData.instMedia.length === 0 ||
-                                                formData.instMedia[0].type === 'image'
-                                                    ? '建议上传10MB以内的JPG、PNG、JPEG格式，最多3张'
-                                                    : '上传2GB以内的MP4格式视频'
-                                            }}
+                                            建议上传10MB以内的JPG、PNG、JPEG格式或2GB以内的MP4格式
                                         </div>
                                     </template>
                                 </ElUpload>
@@ -953,7 +938,7 @@
         coverImage: [{ required: true, message: '请上传动作封面', trigger: 'change' }],
         videos: [
             {
-                required: true,
+                required: false,
                 validator: (rule, value, callback) => {
                     if (!videoUrl.value) {
                         callback(new Error('请上传视频'))
@@ -1030,11 +1015,12 @@
         })
 
         // 初始化动作要点媒体
-        const actionMediaUrls = (row as any).actionMedia || []
+        const actionMediaUrls = row._actionMedia || []
+        const actionMediaStorageUrls = row.actionMedia || []
         if (Array.isArray(actionMediaUrls) && actionMediaUrls.length > 0) {
-            formData.actionMedia = actionMediaUrls.map((url: string) => ({
+            formData.actionMedia = actionMediaUrls.map((url: string, index: number) => ({
                 url,
-                storageUrl: url,
+                storageUrl: actionMediaStorageUrls[index] || url,
                 type: getMediaTypeFromUrl(url),
             }))
         } else {
@@ -1042,11 +1028,12 @@
         }
 
         // 初始化安装示意媒体
-        const instMediaUrls = (row as any).instMedia || []
+        const instMediaUrls = row._instMedia || []
+        const instMediaStorageUrls = row.instMedia || []
         if (Array.isArray(instMediaUrls) && instMediaUrls.length > 0) {
-            formData.instMedia = instMediaUrls.map((url: string) => ({
+            formData.instMedia = instMediaUrls.map((url: string, index: number) => ({
                 url,
-                storageUrl: url,
+                storageUrl: instMediaStorageUrls[index] || url,
                 type: getMediaTypeFromUrl(url),
             }))
         } else {
@@ -1311,6 +1298,8 @@
     // 动作要点媒体上传方法
     const customUploadActionMedia = async (options: any) => {
         try {
+            // 创建新的控制器
+            uploadControllers.value.actionMedia = new AbortController()
             actionMediaUploading.value = true
             const fileType = getFileType(options.file)
             let response
@@ -1318,18 +1307,23 @@
                 response = await fetchUploadImage({
                     file: options.file,
                     onUploadProgress: options.onProgress,
+                    //signal: uploadControllers.value.actionMedia.signal,
                 })
             } else {
                 response = await fetchUploadVideo({
                     file: options.file,
                     onUploadProgress: options.onProgress,
+                    //signal: uploadControllers.value.actionMedia.signal,
                 })
             }
             options.onSuccess(response, options.file)
         } catch (error) {
-            options.onError(error)
+            if ((error as Error).name !== 'AbortError') {
+                options.onError(error)
+            }
         } finally {
             actionMediaUploading.value = false
+            uploadControllers.value.actionMedia = null
         }
     }
 
@@ -1409,6 +1403,8 @@
     // 安装示意媒体上传方法
     const customUploadInstMedia = async (options: any) => {
         try {
+            // 创建新的控制器
+            uploadControllers.value.instMedia = new AbortController()
             instMediaUploading.value = true
             const fileType = getFileType(options.file)
             let response
@@ -1416,18 +1412,23 @@
                 response = await fetchUploadImage({
                     file: options.file,
                     onUploadProgress: options.onProgress,
+                    //signal: uploadControllers.value.instMedia.signal,
                 })
             } else {
                 response = await fetchUploadVideo({
                     file: options.file,
                     onUploadProgress: options.onProgress,
+                    //signal: uploadControllers.value.instMedia.signal,
                 })
             }
             options.onSuccess(response, options.file)
         } catch (error) {
-            options.onError(error)
+            if ((error as Error).name !== 'AbortError') {
+                options.onError(error)
+            }
         } finally {
             instMediaUploading.value = false
+            uploadControllers.value.instMedia = null
         }
     }
 
@@ -1504,43 +1505,63 @@
         formData.instMedia.splice(index, 1)
     }
 
+    // 上传控制器，用于中断上传
+    const uploadControllers = ref({
+        cover: null as AbortController | null,
+        video: null as AbortController | null,
+        actionMedia: null as AbortController | null,
+        instMedia: null as AbortController | null,
+    })
+
     // 自定义上传方法，使用我们实现的上传接口
     const customUploadCover: UploadProps['httpRequest'] = ({ file, onSuccess, onError, onProgress }) => {
+        // 创建新的控制器
+        uploadControllers.value.cover = new AbortController()
         coverUploading.value = true
         return fetchUploadImage({
             file,
             onUploadProgress: onProgress,
+            //signal: uploadControllers.value.cover.signal,
         })
             .then(response => {
                 onSuccess(response)
                 return response
             })
             .catch(error => {
-                onError(error)
-                throw error
+                if (error.name !== 'AbortError') {
+                    onError(error)
+                    throw error
+                }
             })
             .finally(() => {
                 coverUploading.value = false
+                uploadControllers.value.cover = null
             })
     }
 
     // 自定义视频上传方法
     const customUploadVideo: UploadProps['httpRequest'] = ({ file, onSuccess, onError, onProgress }) => {
+        // 创建新的控制器
+        uploadControllers.value.video = new AbortController()
         videoUploading.value = true
         return fetchUploadVideo({
             file,
             onUploadProgress: onProgress,
+            //signal: uploadControllers.value.video.signal,
         })
             .then(response => {
                 onSuccess(response)
                 //return response
             })
             .catch(error => {
-                onError(error)
-                //throw error
+                if (error.name !== 'AbortError') {
+                    onError(error)
+                    //throw error
+                }
             })
             .finally(() => {
                 videoUploading.value = false
+                uploadControllers.value.video = null
             })
     }
 
@@ -1603,6 +1624,40 @@
      */
     const handleCancel = () => {
         dialogVisible.value = false
+    }
+
+    /**
+     * 对话框关闭时的处理
+     */
+    const handleDialogClose = () => {
+        // 中断所有正在进行的上传
+        Object.values(uploadControllers.value).forEach(controller => {
+            if (controller) {
+                controller.abort()
+            }
+        })
+
+        // 重置所有上传状态
+        coverUploading.value = false
+        videoUploading.value = false
+        actionMediaUploading.value = false
+        instMediaUploading.value = false
+
+        // 清空上传控制器
+        Object.keys(uploadControllers.value).forEach(key => {
+            uploadControllers.value[key as keyof typeof uploadControllers.value] = null
+        })
+
+        // 对于新建动作，清空所有数据
+        if (props.type === 'add') {
+            Object.assign(formData, { ...defaultFormData })
+            imageUrl.value = ''
+            videoUrl.value = null
+            formData.actionMedia = []
+            formData.instMedia = []
+            selectedEquipment.value = []
+            selectedAiAction.value = null
+        }
     }
 
     /**

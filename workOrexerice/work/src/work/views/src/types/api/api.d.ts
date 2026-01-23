@@ -444,8 +444,12 @@ declare namespace Api {
             instDesc: string
             /** 动作要点媒体(图片或视频)列表,视频为长度为1的数组 */
             actionMedia?: string[]
+            /** 动作要点媒体*/
+            _actionMedia?: string[]
             /** 安装示意媒体(图片或视频)列表,视频为长度为1的数组 */
             instMedia?: string[]
+            /** 安装示意媒体*/
+            _instMedia?: string[]
             /** 难度 */
             difficulty: number
             /** 属性 */

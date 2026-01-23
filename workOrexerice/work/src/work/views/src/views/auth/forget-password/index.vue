@@ -11,11 +11,15 @@
                     <p class="sub-title">{{ $t('forgetPassword.subTitle') }}</p>
                     <div class="mt-5">
                         <span class="input-label" v-if="showInputLabel">账号</span>
-                        <ElInput
-                            class="custom-height"
-                            :placeholder="$t('forgetPassword.placeholder')"
-                            v-model.trim="username"
-                        />
+                        <ElForm ref="formRef" :model="formData" :rules="rules" :key="formKey">
+                            <ElFormItem prop="username">
+                                <ElInput
+                                    class="custom-height"
+                                    :placeholder="$t('forgetPassword.placeholder')"
+                                    v-model.trim="formData.username"
+                                />
+                            </ElFormItem>
+                        </ElForm>
                     </div>
 
                     <div style="margin-top: 15px">
@@ -42,15 +46,39 @@
 </template>
 
 <script setup lang="ts">
+    import { ref, reactive, watch } from 'vue'
+    import { useRouter } from 'vue-router'
+    import { useI18n } from 'vue-i18n'
+    import { ElForm, ElFormItem, ElInput, type FormInstance } from 'element-plus'
+
     defineOptions({ name: 'ForgetPassword' })
 
     const router = useRouter()
     const showInputLabel = ref(false)
 
-    const username = ref('')
     const loading = ref(false)
+    const formKey = ref(0)
+    const { locale } = useI18n()
 
-    const register = async () => {}
+    // 监听语言切换，重置表单
+    watch(locale, () => {
+        formKey.value++
+    })
+
+    const formData = reactive({
+        username: '',
+    })
+
+    const rules = reactive({
+        username: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
+    })
+
+    const formRef = ref<FormInstance>()
+
+    const register = async () => {
+        if (!formRef.value) return
+        await formRef.value.validate()
+    }
 
     const toLogin = () => {
         router.push({ name: 'Login' })
