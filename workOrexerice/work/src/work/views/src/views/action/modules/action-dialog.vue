@@ -353,6 +353,108 @@
                         />
                     </ElFormItem>
 
+                    <ElFormItem label="动作要点图片/视频" prop="actionMedia">
+                        <div class="media-upload-container">
+                            <!-- 视频预览 -->
+                            <div
+                                v-if="formData.actionMedia.length === 1 && formData.actionMedia[0].type === 'video'"
+                                class="video-preview"
+                            >
+                                <video
+                                    :src="formData.actionMedia[0].url"
+                                    class="coverImage"
+                                    controls
+                                    preload="metadata"
+                                />
+                            </div>
+                            <div
+                                v-if="
+                                    formData.actionMedia.length === 1 &&
+                                    formData.actionMedia[0].type === 'video' &&
+                                    dialogType !== 'view'
+                                "
+                                class="video-actions"
+                            >
+                                <ElButton
+                                    v-if="!actionMediaUploading"
+                                    type="primary"
+                                    size="small"
+                                    @click="handleReplaceActionMedia(0)"
+                                    >替换</ElButton
+                                >
+                                <ElButton v-else type="primary" size="small" :loading="actionMediaUploading" disabled
+                                    >替换中...</ElButton
+                                >
+                                <ElButton
+                                    type="danger"
+                                    size="small"
+                                    @click="handleDeleteActionMedia(0)"
+                                    :disabled="actionMediaUploading"
+                                    >删除</ElButton
+                                >
+                            </div>
+
+                            <!-- 图片列表 -->
+                            <div
+                                v-if="formData.actionMedia.length === 0 || formData.actionMedia[0].type === 'image'"
+                                class="images-upload-container"
+                            >
+                                <div
+                                    v-for="(media, index) in formData.actionMedia"
+                                    :key="index"
+                                    class="image-upload-item"
+                                >
+                                    <img :src="media.url" class="coverImage" />
+                                    <div v-if="dialogType !== 'view'" class="image-actions">
+                                        <ElButton size="small" @click="handleReplaceActionMedia(index)">替换</ElButton>
+                                        <ElButton type="danger" size="small" @click="handleDeleteActionMedia(index)"
+                                            >删除</ElButton
+                                        >
+                                    </div>
+                                </div>
+                                <!-- 统一的ElUpload，支持图片和视频 -->
+                                <ElUpload
+                                    v-if="
+                                        (formData.actionMedia.length === 0 ||
+                                            (formData.actionMedia[0].type === 'image' &&
+                                                formData.actionMedia.length < 3)) &&
+                                        dialogType !== 'view'
+                                    "
+                                    class="upload-demo"
+                                    :http-request="customUploadActionMedia"
+                                    :before-upload="file => beforeUploadMedia(file, formData.actionMedia)"
+                                    :on-success="handleActionMediaSuccess"
+                                    :show-file-list="false"
+                                    :disabled="actionMediaUploading"
+                                    accept="image/jpeg,image/jpg,image/png,video/mp4"
+                                >
+                                    <div v-if="actionMediaUploading" class="upload-loading">
+                                        <el-icon class="is-loading"><Loading /></el-icon>
+                                        <span>上传中...</span>
+                                    </div>
+                                    <el-icon v-else class="uploader-icon"><Plus /></el-icon>
+                                    <template #tip>
+                                        <div class="el-upload__tip">
+                                            {{
+                                                formData.actionMedia.length === 0 ||
+                                                formData.actionMedia[0].type === 'image'
+                                                    ? '建议上传10MB以内的JPG、PNG、JPEG格式，最多3张'
+                                                    : '上传2GB以内的MP4格式视频'
+                                            }}
+                                        </div>
+                                    </template>
+                                </ElUpload>
+                            </div>
+                        </div>
+                        <input
+                            ref="replaceActionMediaInputRef"
+                            type="file"
+                            accept="image/jpeg,image/jpg,image/png,video/mp4"
+                            style="display: none"
+                            @change="handleReplaceActionMediaChange"
+                        />
+                    </ElFormItem>
+
                     <ElFormItem label="安装示意" prop="instDesc">
                         <ElInput
                             v-model="formData.instDesc"
@@ -362,8 +464,111 @@
                             :show-word-limit="true"
                             placeholder="请输入安装示意"
                             :disabled="dialogType === 'view'"
-                        /> </ElFormItem
-                ></ElCol>
+                        />
+                    </ElFormItem>
+
+                    <ElFormItem label="安装示意图片/视频" prop="instMedia">
+                        <div class="media-upload-container">
+                            <!-- 视频预览 -->
+                            <div
+                                v-if="formData.instMedia.length === 1 && formData.instMedia[0].type === 'video'"
+                                class="video-preview"
+                            >
+                                <video
+                                    :src="formData.instMedia[0].url"
+                                    class="coverImage"
+                                    controls
+                                    preload="metadata"
+                                />
+                            </div>
+                            <div
+                                v-if="
+                                    formData.instMedia.length === 1 &&
+                                    formData.instMedia[0].type === 'video' &&
+                                    dialogType !== 'view'
+                                "
+                                class="video-actions"
+                            >
+                                <ElButton
+                                    v-if="!instMediaUploading"
+                                    type="primary"
+                                    size="small"
+                                    @click="handleReplaceInstMedia(0)"
+                                    >替换</ElButton
+                                >
+                                <ElButton v-else type="primary" size="small" :loading="instMediaUploading" disabled
+                                    >替换中...</ElButton
+                                >
+                                <ElButton
+                                    type="danger"
+                                    size="small"
+                                    @click="handleDeleteInstMedia(0)"
+                                    :disabled="instMediaUploading"
+                                    >删除</ElButton
+                                >
+                            </div>
+
+                            <!-- 图片列表 -->
+                            <div
+                                v-if="formData.instMedia.length === 0 || formData.instMedia[0].type === 'image'"
+                                class="images-upload-container"
+                            >
+                                <div
+                                    v-for="(media, index) in formData.instMedia"
+                                    :key="index"
+                                    class="image-upload-item"
+                                >
+                                    <img :src="media.url" class="coverImage" />
+                                    <div v-if="dialogType !== 'view'" class="image-actions">
+                                        <ElButton size="small" @click="handleReplaceInstMedia(index)">替换</ElButton>
+                                        <ElButton type="danger" size="small" @click="handleDeleteInstMedia(index)"
+                                            >删除</ElButton
+                                        >
+                                    </div>
+                                </div>
+                                <!-- 统一的ElUpload，支持图片和视频 -->
+                                <ElUpload
+                                    v-if="
+                                        (formData.instMedia.length === 0 ||
+                                            (formData.instMedia[0].type === 'image' &&
+                                                formData.instMedia.length < 3)) &&
+                                        dialogType !== 'view'
+                                    "
+                                    class="upload-demo"
+                                    :http-request="customUploadInstMedia"
+                                    :before-upload="file => beforeUploadMedia(file, formData.instMedia)"
+                                    :on-success="handleInstMediaSuccess"
+                                    :show-file-list="false"
+                                    :disabled="instMediaUploading"
+                                    accept="image/jpeg,image/jpg,image/png,video/mp4"
+                                >
+                                    <div v-if="instMediaUploading" class="upload-loading">
+                                        <el-icon class="is-loading"><Loading /></el-icon>
+                                        <span>上传中...</span>
+                                    </div>
+                                    <el-icon v-else class="uploader-icon"><Plus /></el-icon>
+                                    <template #tip>
+                                        <div class="el-upload__tip">
+                                            {{
+                                                formData.instMedia.length === 0 ||
+                                                formData.instMedia[0].type === 'image'
+                                                    ? '建议上传10MB以内的JPG、PNG、JPEG格式，最多3张'
+                                                    : '上传2GB以内的MP4格式视频'
+                                            }}
+                                        </div>
+                                    </template>
+                                </ElUpload>
+                            </div>
+                        </div>
+                        <input
+                            ref="replaceInstMediaInputRef"
+                            type="file"
+                            accept="image/jpeg,image/jpg,image/png,video/mp4"
+                            style="display: none"
+                            @change="handleReplaceInstMediaChange"
+                        />
+                    </ElFormItem>
+                </ElCol>
             </ElRow>
         </ElForm>
 
@@ -411,8 +616,18 @@
     const videoUrl = ref<{ url: string; storageUrl?: string } | null>(null)
     const replaceVideoInputRef = ref<HTMLInputElement | null>(null)
 
+    // 动作要点媒体上传引用
+    const replaceActionMediaInputRef = ref<HTMLInputElement | null>(null)
+    const currentActionImageIndex = ref<number>(-1)
+
+    // 安装示意媒体上传引用
+    const replaceInstMediaInputRef = ref<HTMLInputElement | null>(null)
+    const currentInstImageIndex = ref<number>(-1)
+
     const coverUploading = ref(false)
     const videoUploading = ref(false)
+    const actionMediaUploading = ref(false)
+    const instMediaUploading = ref(false)
 
     // 富文本编辑器引用
     const otherEditorRef = ref<InstanceType<typeof ArtWangEditor>>()
@@ -720,6 +935,8 @@
         errorPoints: '',
         actionDesc: '',
         instDesc: '',
+        actionMedia: [] as Array<{ url: string; storageUrl?: string; type: 'image' | 'video' }>,
+        instMedia: [] as Array<{ url: string; storageUrl?: string; type: 'image' | 'video' }>,
     }
 
     // 表单数据
@@ -773,6 +990,8 @@
             Object.assign(formData, { ...defaultFormData })
             imageUrl.value = ''
             videoUrl.value = null
+            formData.actionMedia = []
+            formData.instMedia = []
             selectedEquipment.value = []
             selectedAiAction.value = null
             otherEditorRef.value?.clear()
@@ -809,6 +1028,30 @@
             actionDesc: row.actionDesc || '',
             instDesc: row.instDesc || '',
         })
+
+        // 初始化动作要点媒体
+        const actionMediaUrls = (row as any).actionMedia || []
+        if (Array.isArray(actionMediaUrls) && actionMediaUrls.length > 0) {
+            formData.actionMedia = actionMediaUrls.map((url: string) => ({
+                url,
+                storageUrl: url,
+                type: getMediaTypeFromUrl(url),
+            }))
+        } else {
+            formData.actionMedia = []
+        }
+
+        // 初始化安装示意媒体
+        const instMediaUrls = (row as any).instMedia || []
+        if (Array.isArray(instMediaUrls) && instMediaUrls.length > 0) {
+            formData.instMedia = instMediaUrls.map((url: string) => ({
+                url,
+                storageUrl: url,
+                type: getMediaTypeFromUrl(url),
+            }))
+        } else {
+            formData.instMedia = []
+        }
 
         // 检查教练是否已被删除，如果教练不在列表中则清空 coachId
         if (formData.coachId && !coachList.value.find(coach => coach.id === formData.coachId)) {
@@ -980,6 +1223,287 @@
         }
     }
 
+    // 判断文件类型
+    const getFileType = (file: File): 'image' | 'video' => {
+        if (file.type.startsWith('image/')) {
+            return 'image'
+        } else if (file.type.startsWith('video/')) {
+            return 'video'
+        }
+        // 通过文件扩展名判断
+        const fileName = file.name.toLowerCase()
+        if (fileName.endsWith('.jpg') || fileName.endsWith('.jpeg') || fileName.endsWith('.png')) {
+            return 'image'
+        } else if (fileName.endsWith('.mp4')) {
+            return 'video'
+        }
+        return 'image' // 默认
+    }
+
+    // 通过URL判断媒体类型
+    const getMediaTypeFromUrl = (url: string): 'image' | 'video' => {
+        if (!url) return 'image'
+        const urlLower = url.toLowerCase()
+        // 检查URL中是否包含视频扩展名
+        if (urlLower.includes('.mp4') || urlLower.includes('video')) {
+            return 'video'
+        }
+        // 默认认为是图片
+        return 'image'
+    }
+
+    // 统一的媒体上传前验证
+    const beforeUploadMedia = (file: File, mediaList: Array<{ type: 'image' | 'video' }>) => {
+        const fileType = getFileType(file)
+
+        // 检查是否已有不同类型的媒体
+        if (mediaList.length > 0) {
+            const existingType = mediaList[0].type
+            if (existingType !== fileType) {
+                ElMessage.error(`已存在${existingType === 'image' ? '图片' : '视频'}，不能同时上传图片和视频`)
+                return false
+            }
+        }
+
+        // 图片验证
+        if (fileType === 'image') {
+            const isValidType = ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type)
+            const isLt10M = file.size / 1024 / 1024 < 10
+
+            if (!isValidType) {
+                ElMessage.error('请上传10MB以内JPG、PNG、JPEG格式图片')
+                return false
+            }
+            if (!isLt10M) {
+                ElMessage.error('图片大小不能超过10MB')
+                return false
+            }
+            // 检查图片数量限制
+            const imageCount = mediaList.filter(m => m.type === 'image').length
+            if (imageCount >= 3) {
+                ElMessage.error('最多只能上传3张图片')
+                return false
+            }
+        } else {
+            // 视频验证
+            const isValidType = file.type === 'video/mp4'
+            const isLt2G = file.size / 1024 / 1024 / 1024 < 2
+
+            if (!isValidType) {
+                ElMessage.error('请上传2GB以内MP4格式视频')
+                return false
+            }
+            if (!isLt2G) {
+                ElMessage.error('视频大小不能超过2GB')
+                return false
+            }
+            // 检查视频数量限制
+            const videoCount = mediaList.filter(m => m.type === 'video').length
+            if (videoCount >= 1) {
+                ElMessage.error('最多只能上传1个视频')
+                return false
+            }
+        }
+
+        return true
+    }
+
+    // 动作要点媒体上传方法
+    const customUploadActionMedia = async (options: any) => {
+        try {
+            actionMediaUploading.value = true
+            const fileType = getFileType(options.file)
+            let response
+            if (fileType === 'image') {
+                response = await fetchUploadImage({
+                    file: options.file,
+                    onUploadProgress: options.onProgress,
+                })
+            } else {
+                response = await fetchUploadVideo({
+                    file: options.file,
+                    onUploadProgress: options.onProgress,
+                })
+            }
+            options.onSuccess(response, options.file)
+        } catch (error) {
+            options.onError(error)
+        } finally {
+            actionMediaUploading.value = false
+        }
+    }
+
+    const handleActionMediaSuccess = (response: Api.Common.UploadFileResponse, file: UploadFile) => {
+        const storageUrl = response?._url || response?.tmpUrl || ''
+        const displayUrl = response?.url || file.url || ''
+
+        if (displayUrl) {
+            const fileType = getFileType(file.raw as File)
+            if (fileType === 'video') {
+                // 视频只能有一个，替换现有内容
+                formData.actionMedia = [{ url: displayUrl, storageUrl, type: 'video' }]
+            } else {
+                // 图片追加
+                formData.actionMedia.push({ url: displayUrl, storageUrl, type: 'image' })
+            }
+        }
+    }
+
+    const handleReplaceActionMedia = (index: number) => {
+        currentActionImageIndex.value = index
+        replaceActionMediaInputRef.value?.click()
+    }
+
+    const handleReplaceActionMediaChange = async (event: Event) => {
+        const target = event.target as HTMLInputElement
+        const file = target.files?.[0]
+
+        if (!file || currentActionImageIndex.value < 0) {
+            return
+        }
+
+        const fileType = getFileType(file)
+        const mediaItem = formData.actionMedia[currentActionImageIndex.value]
+
+        // 验证类型是否匹配
+        if (mediaItem.type !== fileType) {
+            ElMessage.error('替换的文件类型必须与原有文件类型一致')
+            target.value = ''
+            return
+        }
+
+        try {
+            actionMediaUploading.value = true
+            let response
+            if (fileType === 'image') {
+                response = await fetchUploadImage({ file })
+            } else {
+                response = await fetchUploadVideo({ file })
+            }
+
+            const storageUrl = response?._url || response?.tmpUrl || ''
+            const displayUrl = response?.url || ''
+
+            if (displayUrl) {
+                formData.actionMedia[currentActionImageIndex.value] = {
+                    url: displayUrl,
+                    storageUrl,
+                    type: fileType,
+                }
+                ElMessage.success('替换成功')
+            }
+        } catch (error) {
+            ElMessage.error('替换失败')
+            console.error('替换失败:', error)
+        } finally {
+            actionMediaUploading.value = false
+            target.value = ''
+            currentActionImageIndex.value = -1
+        }
+    }
+
+    const handleDeleteActionMedia = (index: number) => {
+        formData.actionMedia.splice(index, 1)
+    }
+
+    // 安装示意媒体上传方法
+    const customUploadInstMedia = async (options: any) => {
+        try {
+            instMediaUploading.value = true
+            const fileType = getFileType(options.file)
+            let response
+            if (fileType === 'image') {
+                response = await fetchUploadImage({
+                    file: options.file,
+                    onUploadProgress: options.onProgress,
+                })
+            } else {
+                response = await fetchUploadVideo({
+                    file: options.file,
+                    onUploadProgress: options.onProgress,
+                })
+            }
+            options.onSuccess(response, options.file)
+        } catch (error) {
+            options.onError(error)
+        } finally {
+            instMediaUploading.value = false
+        }
+    }
+
+    const handleInstMediaSuccess = (response: Api.Common.UploadFileResponse, file: UploadFile) => {
+        const storageUrl = response?._url || response?.tmpUrl || ''
+        const displayUrl = response?.url || file.url || ''
+
+        if (displayUrl) {
+            const fileType = getFileType(file.raw as File)
+            if (fileType === 'video') {
+                // 视频只能有一个，替换现有内容
+                formData.instMedia = [{ url: displayUrl, storageUrl, type: 'video' }]
+            } else {
+                // 图片追加
+                formData.instMedia.push({ url: displayUrl, storageUrl, type: 'image' })
+            }
+        }
+    }
+
+    const handleReplaceInstMedia = (index: number) => {
+        currentInstImageIndex.value = index
+        replaceInstMediaInputRef.value?.click()
+    }
+
+    const handleReplaceInstMediaChange = async (event: Event) => {
+        const target = event.target as HTMLInputElement
+        const file = target.files?.[0]
+
+        if (!file || currentInstImageIndex.value < 0) {
+            return
+        }
+
+        const fileType = getFileType(file)
+        const mediaItem = formData.instMedia[currentInstImageIndex.value]
+
+        // 验证类型是否匹配
+        if (mediaItem.type !== fileType) {
+            ElMessage.error('替换的文件类型必须与原有文件类型一致')
+            target.value = ''
+            return
+        }
+
+        try {
+            instMediaUploading.value = true
+            let response
+            if (fileType === 'image') {
+                response = await fetchUploadImage({ file })
+            } else {
+                response = await fetchUploadVideo({ file })
+            }
+
+            const storageUrl = response?._url || response?.tmpUrl || ''
+            const displayUrl = response?.url || ''
+
+            if (displayUrl) {
+                formData.instMedia[currentInstImageIndex.value] = {
+                    url: displayUrl,
+                    storageUrl,
+                    type: fileType,
+                }
+                ElMessage.success('替换成功')
+            }
+        } catch (error) {
+            ElMessage.error('替换失败')
+            console.error('替换失败:', error)
+        } finally {
+            instMediaUploading.value = false
+            target.value = ''
+            currentInstImageIndex.value = -1
+        }
+    }
+
+    const handleDeleteInstMedia = (index: number) => {
+        formData.instMedia.splice(index, 1)
+    }
+
     // 自定义上传方法，使用我们实现的上传接口
     const customUploadCover: UploadProps['httpRequest'] = ({ file, onSuccess, onError, onProgress }) => {
         coverUploading.value = true
@@ -1124,6 +1648,8 @@
             errorPoints: formData.errorPoints,
             actionDesc: formData.actionDesc,
             instDesc: formData.instDesc,
+            actionMedia: formData.actionMedia.map(media => media.storageUrl || media.url),
+            instMedia: formData.instMedia.map(media => media.storageUrl || media.url),
         }
 
         try {
@@ -1269,6 +1795,36 @@
     .action-buttons {
         display: flex;
         gap: 8px;
+    }
+
+    .images-upload-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        align-items: flex-start;
+    }
+
+    .image-upload-item {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .image-upload-item .coverImage {
+        width: 150px;
+        height: 150px;
+        display: block;
+        object-fit: cover;
+    }
+
+    .image-actions {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        width: 150px;
     }
 
     .video-upload .el-upload {
