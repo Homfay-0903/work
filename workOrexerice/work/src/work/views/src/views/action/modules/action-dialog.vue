@@ -9,7 +9,7 @@
         <ElForm ref="formRef" :model="formData" :rules="rules" label-width="120px">
             <ElRow :gutter="24">
                 <!-- 左列 -->
-                <ElCol :span="12">
+                <ElCol :span="6">
                     <ElFormItem label="动作名称" prop="name">
                         <ElInput
                             v-model="formData.name"
@@ -168,8 +168,8 @@
                     </ElFormItem>
                 </ElCol>
 
-                <!-- 右列 -->
-                <ElCol :span="12">
+                <!-- 中列 -->
+                <ElCol :span="10">
                     <ElRow :gutter="24">
                         <ElCol :span="12">
                             <ElFormItem label="适用型号" prop="tagIds">
@@ -338,6 +338,32 @@
                         />
                     </ElFormItem>
                 </ElCol>
+
+                <!-- 右列 -->
+                <ElCol :span="8">
+                    <ElFormItem label="动作要点" prop="actionDesc">
+                        <ElInput
+                            v-model="formData.actionDesc"
+                            type="textarea"
+                            :rows="3"
+                            :maxlength="1000"
+                            :show-word-limit="true"
+                            placeholder="请输入动作要点"
+                            :disabled="dialogType === 'view'"
+                        />
+                    </ElFormItem>
+
+                    <ElFormItem label="安装示意" prop="instDesc">
+                        <ElInput
+                            v-model="formData.instDesc"
+                            type="textarea"
+                            :rows="3"
+                            :maxlength="1000"
+                            :show-word-limit="true"
+                            placeholder="请输入安装示意"
+                            :disabled="dialogType === 'view'"
+                        /> </ElFormItem
+                ></ElCol>
             </ElRow>
         </ElForm>
 
@@ -692,6 +718,8 @@
         remark: '',
         breathingSuggestion: '',
         errorPoints: '',
+        actionDesc: '',
+        instDesc: '',
     }
 
     // 表单数据
@@ -778,6 +806,8 @@
             remark: row.remark || '',
             breathingSuggestion: row.breathingSuggestion || '',
             errorPoints: row.errorPoints || '',
+            actionDesc: row.actionDesc || '',
+            instDesc: row.instDesc || '',
         })
 
         // 检查教练是否已被删除，如果教练不在列表中则清空 coachId
@@ -1092,6 +1122,8 @@
             remark: formData.remark,
             breathingSuggestion: formData.breathingSuggestion,
             errorPoints: formData.errorPoints,
+            actionDesc: formData.actionDesc,
+            instDesc: formData.instDesc,
         }
 
         try {

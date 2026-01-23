@@ -438,6 +438,10 @@ declare namespace Api {
             breathingSuggestion: string
             /** 错误要点 */
             errorPoints: string
+            /** 动作要点 */
+            actionDesc: string
+            /** 安装示意 */
+            instDesc: string
             /** 难度 */
             difficulty: number
             /** 属性 */
@@ -575,6 +579,10 @@ declare namespace Api {
             breathingSuggestion: string
             /** 错误要点 */
             errorPoints: string
+            /** 动作要点 */
+            actionDesc: string
+            /** 安装示意 */
+            instDesc: string
             /** 难度 */
             difficulty: number
             /** 属性 */
