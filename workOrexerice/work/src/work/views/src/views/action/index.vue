@@ -80,6 +80,13 @@
     import { useAuth } from '@/hooks/core/useAuth'
     import type { TabsPaneContext } from 'element-plus'
     import { dataCache } from '@/utils/cache/dataCache'
+    import {
+        MUSCLE_REGIONS_TRANSLATIONS,
+        ACTION_TYPES_TRANSLATIONS,
+        STATUS_TRANSLATIONS,
+        DIFFICULTY_TRANSLATIONS,
+        SCENE_TRANSLATIONS,
+    } from '@/utils/translations'
 
     defineOptions({ name: 'Action' })
 
@@ -238,14 +245,6 @@
         ...defaultSearchForm,
     })
 
-    // 动作类型配置
-    const TYPE_CONFIG = {
-        1: '视频动作',
-        2: '非视频动作',
-        3: '片头',
-        4: '片尾',
-    } as const
-
     /**
      * 获取序号文本
      * 根节点：显示基于分页的序号（如：1, 2, 3...）
@@ -299,25 +298,32 @@
     /**
      * 获取动作类型文本
      */
-    const getTypeText = (type: number | string) => {
+    const getTypeText = (type: number | string, langCode: string = 'zh-CN') => {
         const typeKey = typeof type === 'number' ? type : parseInt(type, 10)
-        return TYPE_CONFIG[typeKey as keyof typeof TYPE_CONFIG] || '其他'
+        const typeMap: Record<number, string> = {
+            1: '视频动作',
+            2: '非视频动作',
+            3: '片头',
+            4: '片尾',
+        }
+        const typeText = typeMap[typeKey] || '其他'
+        return (ACTION_TYPES_TRANSLATIONS as Record<string, Record<string, string>>)[langCode]?.[typeText] || typeText
     }
-
-    // 适用场景配置
-    const SCENE_CONFIG = {
-        1: '力量训练',
-        2: '普拉提',
-        3: '有氧减脂',
-        4: '拉伸康复',
-    } as const
 
     /**
      * 获取适用场景文本
      */
-    const getSceneText = (scene: number | string) => {
+    const getSceneText = (scene: number | string, langCode: string = 'zh-CN') => {
         const sceneKey = typeof scene === 'number' ? scene : parseInt(scene, 10)
-        return SCENE_CONFIG[sceneKey as keyof typeof SCENE_CONFIG] || '其他'
+        const sceneMap: Record<number, string> = {
+            1: '力量训练',
+            2: '普拉提',
+            3: '有氧减脂',
+            4: '拉伸康复',
+            5: '评估筛查',
+        }
+        const sceneText = sceneMap[sceneKey] || '其他'
+        return (SCENE_TRANSLATIONS as Record<string, Record<string, string>>)[langCode]?.[sceneText] || sceneText
     }
 
     /**
@@ -337,7 +343,16 @@
         if (!row.muscleRegions || row.muscleRegions.length === 0) {
             return '无'
         }
-        return row.muscleRegions.map(part => part.name || '未知').join('<br>')
+        const langCode = row.langCode || 'zh-CN'
+        return row.muscleRegions
+            .map(part => {
+                const partName = part.name || '未知'
+                return (
+                    (MUSCLE_REGIONS_TRANSLATIONS as Record<string, Record<string, string>>)[langCode]?.[partName] ||
+                    partName
+                )
+            })
+            .join('<br>')
     }
 
     /**
@@ -354,17 +369,10 @@
         return LANGUAGE_CONFIG[langCode as keyof typeof LANGUAGE_CONFIG] || '未知'
     }
 
-    // 状态配置
-    const STATUS_CONFIG = {
-        1: { type: 'info' as const, text: '草稿' },
-        2: { type: 'success' as const, text: '上架中' },
-        3: { type: 'warning' as const, text: '已下架' },
-    } as const
-
     /**
      * 获取状态配置
      */
-    const getStatusConfig = (status?: string | number) => {
+    const getStatusConfig = (status?: string | number, langCode: string = 'zh-CN') => {
         if (status === undefined) {
             return {
                 type: 'info' as const,
@@ -372,38 +380,45 @@
             }
         }
         const statusKey = typeof status === 'number' ? status : Number(status)
-        return (
-            STATUS_CONFIG[statusKey as keyof typeof STATUS_CONFIG] || {
-                type: 'info' as const,
-                text: '未知',
-            }
-        )
+        const statusMap: Record<number, { type: string; text: string }> = {
+            1: { type: 'info', text: '草稿' },
+            2: { type: 'success', text: '上架' },
+            3: { type: 'warning', text: '下架' },
+        }
+        const statusConfig = statusMap[statusKey] || { type: 'info', text: '未知' }
+        const translatedText =
+            (STATUS_TRANSLATIONS as Record<string, Record<string, string>>)[langCode]?.[statusConfig.text] ||
+            statusConfig.text
+        return {
+            type: statusConfig.type as any,
+            text: translatedText,
+        }
     }
-
-    // 难度配置
-    const DIFFICULTY_CONFIG = {
-        '1': { type: 'success' as const, text: '初级' },
-        '2': { type: 'warning' as const, text: '中级' },
-        '3': { type: 'danger' as const, text: '高级' },
-    } as const
 
     /**
      * 获取难度配置
      */
-    const getDifficultyConfig = (difficulty?: string | number) => {
+    const getDifficultyConfig = (difficulty?: string | number, langCode: string = 'zh-CN') => {
         if (difficulty === undefined) {
             return {
                 type: 'info' as const,
                 text: '未知',
             }
         }
-        const difficultyKey = typeof difficulty === 'number' ? String(difficulty) : difficulty
-        return (
-            DIFFICULTY_CONFIG[difficultyKey as keyof typeof DIFFICULTY_CONFIG] || {
-                type: 'info' as const,
-                text: '未知',
-            }
-        )
+        const difficultyKey = typeof difficulty === 'number' ? difficulty : Number(difficulty)
+        const difficultyMap: Record<number, { type: string; text: string }> = {
+            1: { type: 'success', text: '初级' },
+            2: { type: 'warning', text: '中级' },
+            3: { type: 'danger', text: '高级' },
+        }
+        const difficultyConfig = difficultyMap[difficultyKey] || { type: 'info', text: '未知' }
+        const translatedText =
+            (DIFFICULTY_TRANSLATIONS as Record<string, Record<string, string>>)[langCode]?.[difficultyConfig.text] ||
+            difficultyConfig.text
+        return {
+            type: difficultyConfig.type as any,
+            text: translatedText,
+        }
     }
 
     /**
@@ -465,7 +480,7 @@
                     'width': 120,
                     'header-align': 'center',
                     'align': 'center',
-                    'formatter': (row: ActionListItem) => getTypeText(row.type),
+                    'formatter': (row: ActionListItem) => getTypeText(row.type, row.langCode || 'zh-CN'),
                 },
                 {
                     'prop': 'scene',
@@ -473,17 +488,17 @@
                     'width': 120,
                     'header-align': 'center',
                     'align': 'center',
-                    'formatter': (row: ActionListItem) => getSceneText(row.scene),
+                    'formatter': (row: ActionListItem) => getSceneText(row.scene, row.langCode || 'zh-CN'),
                 },
                 {
                     'prop': 'difficulty',
                     'label': '难度',
-                    'width': 100,
+                    'width': 130,
                     'header-align': 'center',
                     'align': 'center',
                     'formatter': (row: ActionListItem) => {
-                        const difficultyConfig = getDifficultyConfig(row.difficulty)
-                        return h(ElTag, { type: difficultyConfig.type }, () => difficultyConfig.text)
+                        const difficultyConfig = getDifficultyConfig(row.difficulty, row.langCode || 'zh-CN')
+                        return h(ElTag, { type: difficultyConfig.type as any }, () => difficultyConfig.text)
                     },
                 },
                 {
@@ -525,8 +540,8 @@
                     'header-align': 'center',
                     'align': 'center',
                     'formatter': (row: ActionListItem) => {
-                        const statusConfig = getStatusConfig(row.status)
-                        return h(ElTag, { type: statusConfig.type }, () => statusConfig.text)
+                        const statusConfig = getStatusConfig(row.status, row.langCode || 'zh-CN')
+                        return h(ElTag, { type: statusConfig.type as any }, () => statusConfig.text)
                     },
                 },
                 {
@@ -540,7 +555,7 @@
                         return h(ElTag, { type: aiStatus.type }, () => aiStatus.text)
                     },
                 },
-                { 'prop': 'operator', 'label': '操作人', 'width': 200, 'header-align': 'center', 'align': 'center' },
+                { 'prop': 'operator', 'label': '操作人', 'width': 180, 'header-align': 'center', 'align': 'center' },
                 {
                     'prop': 'operation',
                     'label': '操作',

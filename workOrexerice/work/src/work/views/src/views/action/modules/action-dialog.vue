@@ -49,9 +49,30 @@
                             placeholder="请选择难度"
                             :disabled="dialogType === 'view'"
                         >
-                            <ElOption label="初级" :value="1" />
-                            <ElOption label="中级" :value="2" />
-                            <ElOption label="高级" :value="3" />
+                            <ElOption
+                                :label="
+                                    DIFFICULTY_TRANSLATIONS[currentLangCode as keyof typeof DIFFICULTY_TRANSLATIONS][
+                                        '初级'
+                                    ]
+                                "
+                                :value="1"
+                            />
+                            <ElOption
+                                :label="
+                                    DIFFICULTY_TRANSLATIONS[currentLangCode as keyof typeof DIFFICULTY_TRANSLATIONS][
+                                        '中级'
+                                    ]
+                                "
+                                :value="2"
+                            />
+                            <ElOption
+                                :label="
+                                    DIFFICULTY_TRANSLATIONS[currentLangCode as keyof typeof DIFFICULTY_TRANSLATIONS][
+                                        '高级'
+                                    ]
+                                "
+                                :value="3"
+                            />
                         </ElSelect>
                     </ElFormItem>
                 </ElCol>
@@ -66,11 +87,36 @@
                             placeholder="请选择适用场景"
                             :disabled="dialogType === 'view'"
                         >
-                            <ElOption label="力量训练" :value="1" />
-                            <ElOption label="普拉提" :value="2" />
-                            <ElOption label="有氧减脂" :value="3" />
-                            <ElOption label="拉伸康复" :value="4" />
-                            <ElOption label="评估筛查" :value="5" />
+                            <ElOption
+                                :label="
+                                    SCENE_TRANSLATIONS[currentLangCode as keyof typeof SCENE_TRANSLATIONS]['力量训练']
+                                "
+                                :value="1"
+                            />
+                            <ElOption
+                                :label="
+                                    SCENE_TRANSLATIONS[currentLangCode as keyof typeof SCENE_TRANSLATIONS]['普拉提']
+                                "
+                                :value="2"
+                            />
+                            <ElOption
+                                :label="
+                                    SCENE_TRANSLATIONS[currentLangCode as keyof typeof SCENE_TRANSLATIONS]['有氧减脂']
+                                "
+                                :value="3"
+                            />
+                            <ElOption
+                                :label="
+                                    SCENE_TRANSLATIONS[currentLangCode as keyof typeof SCENE_TRANSLATIONS]['拉伸康复']
+                                "
+                                :value="4"
+                            />
+                            <ElOption
+                                :label="
+                                    SCENE_TRANSLATIONS[currentLangCode as keyof typeof SCENE_TRANSLATIONS]['评估筛查']
+                                "
+                                :value="5"
+                            />
                         </ElSelect>
                     </ElFormItem>
                 </ElCol>
@@ -82,10 +128,38 @@
                             @change="handleTypeChange"
                             :disabled="dialogType === 'view'"
                         >
-                            <ElOption label="视频动作" :value="1" />
-                            <ElOption label="非视频动作" :value="2" />
-                            <ElOption label="片头" :value="3" />
-                            <ElOption label="片尾" :value="4" />
+                            <ElOption
+                                :label="
+                                    ACTION_TYPES_TRANSLATIONS[
+                                        currentLangCode as keyof typeof ACTION_TYPES_TRANSLATIONS
+                                    ]['视频动作']
+                                "
+                                :value="1"
+                            />
+                            <ElOption
+                                :label="
+                                    ACTION_TYPES_TRANSLATIONS[
+                                        currentLangCode as keyof typeof ACTION_TYPES_TRANSLATIONS
+                                    ]['非视频动作']
+                                "
+                                :value="2"
+                            />
+                            <ElOption
+                                :label="
+                                    ACTION_TYPES_TRANSLATIONS[
+                                        currentLangCode as keyof typeof ACTION_TYPES_TRANSLATIONS
+                                    ]['片头']
+                                "
+                                :value="3"
+                            />
+                            <ElOption
+                                :label="
+                                    ACTION_TYPES_TRANSLATIONS[
+                                        currentLangCode as keyof typeof ACTION_TYPES_TRANSLATIONS
+                                    ]['片尾']
+                                "
+                                :value="4"
+                            />
                         </ElSelect>
                     </ElFormItem>
                 </ElCol>
@@ -628,6 +702,13 @@
 </template>
 
 <script setup lang="ts">
+    import {
+        MUSCLE_REGIONS_TRANSLATIONS,
+        EXERCISE_MUSCLES_TRANSLATIONS,
+        ACTION_TYPES_TRANSLATIONS,
+        DIFFICULTY_TRANSLATIONS,
+        SCENE_TRANSLATIONS,
+    } from '@/utils/translations'
     import { ref, reactive, computed, watch, nextTick, onMounted } from 'vue'
     import { ElMessage, ElLoading } from 'element-plus'
     import type { FormInstance, FormRules, UploadFile, UploadFiles, UploadProps } from 'element-plus'
@@ -712,6 +793,9 @@
 
     const dialogType = computed(() => props.type)
 
+    // 获取当前语言
+    const currentLangCode = computed(() => props.actionData?.langCode || 'zh-CN')
+
     const equipmentDisplayText = computed(() => {
         if (selectedEquipment.value.length === 0) return ''
         return selectedEquipment.value.map(e => e.name).join('、')
@@ -757,10 +841,17 @@
         try {
             const res = await fetchGetTrainingAreaList()
             if (res) {
-                partList.value = (Array.isArray(res) ? res : []).map((region: any) => ({
-                    label: region.name || '未知训练部位',
-                    value: region.id,
-                }))
+                partList.value = (Array.isArray(res) ? res : []).map((region: any) => {
+                    const regionName = region.name || '未知训练部位'
+                    const translatedName =
+                        (MUSCLE_REGIONS_TRANSLATIONS as Record<string, Record<string, string>>)[
+                            currentLangCode.value
+                        ]?.[regionName] || regionName
+                    return {
+                        label: translatedName,
+                        value: region.id,
+                    }
+                })
             }
         } catch (error) {
             console.error('获取训练部位列表失败:', error)
@@ -809,10 +900,17 @@
                 }
             }
 
-            const formattedData = Array.from(uniqueMusclesMap.values()).map(group => ({
-                label: group.name,
-                value: group.id,
-            }))
+            const formattedData = Array.from(uniqueMusclesMap.values()).map(group => {
+                const muscleName = group.name
+                const translatedName =
+                    (EXERCISE_MUSCLES_TRANSLATIONS as Record<string, Record<string, string>>)[currentLangCode.value]?.[
+                        muscleName
+                    ] || muscleName
+                return {
+                    label: translatedName,
+                    value: group.id,
+                }
+            })
 
             if (formattedData.length > 0) {
                 muscleGroupList.value = formattedData
@@ -1092,11 +1190,11 @@
         // 处理翻译后的教练数据
         if (row.coach) {
             // 使用翻译后的教练ID和名称
-            formData.coachId = row.coach.id
+            formData.coachId = row.coachId!
             // 检查翻译后的教练是否在列表中，如果不在则添加
-            if (!coachList.value.find(coach => coach.id === row.coach!.id)) {
+            if (!coachList.value.find(coach => coach.id === row.coachId)) {
                 coachList.value.push({
-                    id: row.coach.id,
+                    id: row.coachId!,
                     name: row.coach.name,
                 })
             }
