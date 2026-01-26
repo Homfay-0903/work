@@ -50,14 +50,17 @@
                         </ElFormItem>
 
                         <ElFormItem prop="agreement">
-                            <ElCheckbox v-model="formData.agreement">
-                                {{ $t('register.agreeText') }}
-                                <RouterLink
-                                    style="color: var(--theme-color); text-decoration: none"
-                                    to="/privacy-policy"
-                                    >{{ $t('register.privacyPolicy') }}</RouterLink
-                                >
-                            </ElCheckbox>
+                            <div class="agreement-container">
+                                <ElCheckbox v-model="formData.agreement"></ElCheckbox>
+                                <div class="agreement-text">
+                                    {{ $t('register.agreeText') }}
+                                    <span
+                                        style="color: var(--theme-color); text-decoration: none; cursor: pointer"
+                                        @click="openPrivacyPolicy"
+                                        >{{ $t('register.privacyPolicy') }}</span
+                                    >
+                                </div>
+                            </div>
                         </ElFormItem>
 
                         <div style="margin-top: 15px">
@@ -83,6 +86,10 @@
             </div>
         </div>
     </div>
+    <!-- 隐私政策弹窗 -->
+    <ElDialog v-model="privacyPolicyDialogVisible" :title="$t('register.privacyPolicy')" width="700px" destroy-on-close>
+        <PrivacyPolicy @agree="handlePrivacyPolicyAgree" @disagree="handlePrivacyPolicyDisagree" />
+    </ElDialog>
 </template>
 
 <script setup lang="ts">
@@ -92,6 +99,7 @@
     import { useUserStore } from '@/store/modules/user'
     import { useRouter } from 'vue-router'
     import { computed, reactive, ref, watch } from 'vue'
+    import PrivacyPolicy from '@/views/privacy-policy/index.vue'
 
     defineOptions({ name: 'Register' })
 
@@ -113,6 +121,7 @@
 
     const loading = ref(false)
     const formKey = ref(0)
+    const privacyPolicyDialogVisible = ref(false)
 
     // 监听语言切换，重置表单
     watch(locale, () => {
@@ -238,8 +247,44 @@
             router.push({ name: 'Login' })
         }, REDIRECT_DELAY)
     }
+
+    /**
+     * 打开隐私政策弹窗
+     */
+    const openPrivacyPolicy = () => {
+        privacyPolicyDialogVisible.value = true
+    }
+
+    /**
+     * 处理隐私政策同意
+     */
+    const handlePrivacyPolicyAgree = () => {
+        formData.agreement = true
+        privacyPolicyDialogVisible.value = false
+    }
+
+    /**
+     * 处理隐私政策不同意
+     */
+    const handlePrivacyPolicyDisagree = () => {
+        formData.agreement = false
+        privacyPolicyDialogVisible.value = false
+    }
 </script>
 
 <style scoped>
     @import '../login/style.css';
+
+    .agreement-container {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .agreement-text {
+        flex: 1;
+        font-size: 14px;
+        color: var(--el-text-color-regular);
+        line-height: 1.4;
+    }
 </style>

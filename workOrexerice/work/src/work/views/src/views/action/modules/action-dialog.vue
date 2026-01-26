@@ -8,9 +8,9 @@
         @close="handleDialogClose"
     >
         <ElForm ref="formRef" :model="formData" :rules="rules" label-width="120px">
+            <!-- 第一行：动作名称 -->
             <ElRow :gutter="24">
-                <!-- 左列 -->
-                <ElCol :span="6">
+                <ElCol :span="10">
                     <ElFormItem label="动作名称" prop="name">
                         <ElInput
                             v-model="formData.name"
@@ -20,52 +20,269 @@
                             :disabled="dialogType === 'view'"
                         />
                     </ElFormItem>
+                </ElCol>
+            </ElRow>
 
-                    <ElFormItem label="动作封面" prop="coverImage">
-                        <ElUpload
-                            class="upload-demo"
-                            :http-request="customUploadCover"
-                            :before-upload="beforeUploadCover"
-                            :on-success="handleCoverSuccess"
-                            :on-remove="handleCoverRemove"
-                            :show-file-list="false"
-                            :disabled="dialogType === 'view' || coverUploading"
+            <!-- 第二行：适用型号 和 难度 -->
+            <ElRow :gutter="24">
+                <ElCol :span="8">
+                    <ElFormItem label="适用型号" prop="tagIds">
+                        <ElSelect
+                            v-model="formData.tagIds"
+                            placeholder="请选择适用型号"
+                            multiple
+                            :disabled="dialogType === 'view'"
                         >
-                            <div v-if="coverUploading" class="upload-loading">
-                                <el-icon class="is-loading"><Loading /></el-icon>
-                                <span>上传中...</span>
-                            </div>
-                            <img v-else-if="imageUrl" :src="imageUrl" class="coverImage" />
-                            <el-icon v-else class="uploader-icon"><Plus /></el-icon>
-                            <template #tip>
-                                <div class="el-upload__tip">建议上传10MB以内的JPG、PNG、JPEG格式</div>
-                            </template>
-                        </ElUpload>
+                            <ElOption
+                                v-for="model in modelList"
+                                :key="model.value"
+                                :label="model.label"
+                                :value="model.value"
+                            />
+                        </ElSelect>
                     </ElFormItem>
+                </ElCol>
+                <ElCol :span="8">
+                    <ElFormItem label="难度" prop="difficulty">
+                        <ElSelect
+                            v-model="formData.difficulty"
+                            placeholder="请选择难度"
+                            :disabled="dialogType === 'view'"
+                        >
+                            <ElOption label="初级" :value="1" />
+                            <ElOption label="中级" :value="2" />
+                            <ElOption label="高级" :value="3" />
+                        </ElSelect>
+                    </ElFormItem>
+                </ElCol>
+            </ElRow>
 
-                    <ElFormItem label="动作视频" prop="videos" v-if="formData.type !== 2">
+            <!-- 第三行：适用场景 和 动作属性 -->
+            <ElRow :gutter="24">
+                <ElCol :span="8">
+                    <ElFormItem label="适用场景" prop="scene">
+                        <ElSelect
+                            v-model="formData.scene"
+                            placeholder="请选择适用场景"
+                            :disabled="dialogType === 'view'"
+                        >
+                            <ElOption label="力量训练" :value="1" />
+                            <ElOption label="普拉提" :value="2" />
+                            <ElOption label="有氧减脂" :value="3" />
+                            <ElOption label="拉伸康复" :value="4" />
+                            <ElOption label="评估筛查" :value="5" />
+                        </ElSelect>
+                    </ElFormItem>
+                </ElCol>
+                <ElCol :span="8">
+                    <ElFormItem label="动作类型" prop="type">
+                        <ElSelect
+                            v-model="formData.type"
+                            placeholder="请选择动作类型"
+                            @change="handleTypeChange"
+                            :disabled="dialogType === 'view'"
+                        >
+                            <ElOption label="视频动作" :value="1" />
+                            <ElOption label="非视频动作" :value="2" />
+                            <ElOption label="片头" :value="3" />
+                            <ElOption label="片尾" :value="4" />
+                        </ElSelect>
+                    </ElFormItem>
+                </ElCol>
+            </ElRow>
+
+            <!-- 第四行：动作类型 和 卡路里 -->
+            <ElRow :gutter="24">
+                <ElCol :span="8">
+                    <ElFormItem label="动作属性" prop="attribute">
+                        <ElSelect
+                            v-model="formData.attribute"
+                            placeholder="请选择动作属性"
+                            @change="handleAttributeChange"
+                            :disabled="dialogType === 'view'"
+                        >
+                            <ElOption label="按次数计算" :value="1" />
+                            <ElOption label="按时长计算" :value="2" />
+                            <ElOption label="按角度计算" :value="3" />
+                            <ElOption label="按长度计算" :value="4" />
+                            <ElOption label="按评估数值" :value="5" />
+                            <ElOption label="其他" :value="0" />
+                        </ElSelect>
+                    </ElFormItem>
+                </ElCol>
+                <ElCol :span="12" v-if="formData.attribute === 2">
+                    <ElFormItem label="卡路里" prop="calories">
+                        <ElInputNumber
+                            v-model="formData.calories"
+                            :min="0"
+                            :max="9999"
+                            :disabled="dialogType === 'view'"
+                        />
+                    </ElFormItem>
+                </ElCol>
+            </ElRow>
+
+            <!-- 第五行：器械 和 关联AI动作 -->
+            <ElRow :gutter="24">
+                <ElCol :span="10">
+                    <ElFormItem label="器械" prop="equipment">
+                        <ElInput
+                            v-model="equipmentDisplayText"
+                            placeholder="请选择器械"
+                            readonly
+                            :disabled="dialogType === 'view'"
+                        >
+                            <template #append>
+                                <ElButton @click="showEquipmentDialog" v-if="dialogType !== 'view'">选择</ElButton>
+                            </template>
+                        </ElInput>
+                    </ElFormItem>
+                </ElCol>
+                <ElCol :span="10">
+                    <ElFormItem label="关联AI动作" prop="aiAction">
+                        <ElInput
+                            v-model="aiActionDisplayText"
+                            placeholder="请选择关联AI动作"
+                            readonly
+                            :disabled="dialogType === 'view'"
+                        >
+                            <template #append>
+                                <ElButton @click="showAiActionDialog" v-if="dialogType !== 'view'">选择</ElButton>
+                            </template>
+                        </ElInput>
+                    </ElFormItem>
+                </ElCol>
+            </ElRow>
+
+            <!-- 第六行：选择教练 -->
+            <ElRow :gutter="24">
+                <ElCol :span="8">
+                    <ElFormItem label="选择教练" prop="coach">
+                        <ElSelect
+                            v-model="formData.coachId"
+                            placeholder="请选择教练"
+                            clearable
+                            :disabled="dialogType === 'view'"
+                        >
+                            <ElOption
+                                v-for="coach in coachList"
+                                :key="coach.id"
+                                :label="coach.name"
+                                :value="coach.id"
+                            />
+                        </ElSelect>
+                    </ElFormItem>
+                </ElCol>
+            </ElRow>
+
+            <!-- 第七行和第八行：训练部位、训练肌群 和 动作介绍（动作介绍占据两行高度，位于右侧） -->
+            <ElRow :gutter="24">
+                <ElCol :span="8">
+                    <!-- 第七行：训练部位 -->
+                    <ElFormItem label="训练部位" prop="part">
+                        <ElSelect
+                            v-model="formData.part"
+                            placeholder="请选择训练部位"
+                            multiple
+                            clearable
+                            :disabled="dialogType === 'view'"
+                            @change="handlePartChange"
+                        >
+                            <ElOption
+                                v-for="part in partList"
+                                :key="part.value"
+                                :label="part.label"
+                                :value="part.value"
+                            />
+                        </ElSelect>
+                    </ElFormItem>
+                    <ElFormItem label="训练肌群" prop="muscleGroup">
+                        <ElSelect
+                            v-model="formData.muscleGroup"
+                            placeholder="请选择训练肌群"
+                            multiple
+                            clearable
+                            :disabled="dialogType === 'view'"
+                        >
+                            <ElOption
+                                v-for="muscle in muscleGroupList"
+                                :key="muscle.value"
+                                :label="muscle.label"
+                                :value="muscle.value"
+                            />
+                        </ElSelect>
+                    </ElFormItem>
+                </ElCol>
+                <ElCol :span="12">
+                    <!-- 动作介绍：占据第七行和第八行的高度 -->
+                    <ElFormItem label="动作介绍" prop="introduction">
+                        <div v-if="dialogType === 'view'" class="view-content" v-html="formData.introduction"></div>
+                        <ElInput
+                            v-else
+                            v-model="formData.introduction"
+                            type="textarea"
+                            :rows="4"
+                            :maxlength="1000"
+                            :show-word-limit="true"
+                            placeholder="请输入动作介绍"
+                        />
+                    </ElFormItem>
+                </ElCol>
+            </ElRow>
+
+            <!-- 第九行：动作封面 -->
+            <ElRow :gutter="24">
+                <ElCol :span="24">
+                    <ElFormItem label="动作封面" prop="coverImage">
+                        <div class="flex-upload-container">
+                            <ElUpload
+                                class="upload-demo"
+                                :http-request="customUploadCover"
+                                :before-upload="beforeUploadCover"
+                                :on-success="handleCoverSuccess"
+                                :on-remove="handleCoverRemove"
+                                :show-file-list="false"
+                                :disabled="dialogType === 'view' || coverUploading"
+                            >
+                                <div v-if="coverUploading" class="upload-loading">
+                                    <el-icon class="is-loading"><Loading /></el-icon>
+                                    <span>上传中...</span>
+                                </div>
+                                <img v-else-if="imageUrl" :src="imageUrl" class="coverImage" />
+                                <el-icon v-else class="uploader-icon"><Plus /></el-icon>
+                            </ElUpload>
+                            <div class="flex-tip"> 建议上传1920*1080分辨率、10MB大小以内的JPG、PNG、JPEG格式图片 </div>
+                        </div>
+                    </ElFormItem>
+                </ElCol>
+            </ElRow>
+
+            <!-- 第十行：动作视频 -->
+            <ElRow :gutter="24" v-if="formData.type !== 2">
+                <ElCol :span="12">
+                    <ElFormItem label="动作视频" prop="videos">
                         <div class="video-upload-container">
                             <div v-if="videoUrl" class="video-preview">
                                 <video :src="videoUrl.url" class="coverImage" controls preload="metadata" />
                             </div>
-                            <ElUpload
-                                v-if="!videoUrl"
-                                class="upload-demo video-upload"
-                                :http-request="customUploadVideo"
-                                :before-upload="beforeUploadVideo"
-                                :on-success="handleVideoSuccess"
-                                :show-file-list="false"
-                                :disabled="dialogType === 'view' || videoUploading"
-                            >
-                                <div v-if="videoUploading" class="upload-loading">
-                                    <el-icon class="is-loading"><Loading /></el-icon>
-                                    <span>上传中...</span>
-                                </div>
-                                <el-icon v-else class="uploader-icon"><Plus /></el-icon>
-                                <template #tip>
-                                    <div class="el-upload__tip">上传2GB以内的MP4格式视频</div>
-                                </template>
-                            </ElUpload>
+                            <div class="flex-upload-container">
+                                <ElUpload
+                                    v-if="!videoUrl"
+                                    class="upload-demo video-upload"
+                                    :http-request="customUploadVideo"
+                                    :before-upload="beforeUploadVideo"
+                                    :on-success="handleVideoSuccess"
+                                    :show-file-list="false"
+                                    :disabled="dialogType === 'view' || videoUploading"
+                                >
+                                    <div v-if="videoUploading" class="upload-loading">
+                                        <el-icon class="is-loading"><Loading /></el-icon>
+                                        <span>上传中...</span>
+                                    </div>
+                                    <el-icon v-else class="uploader-icon"><Plus /></el-icon>
+                                </ElUpload>
+                                <div class="flex-tip"> 建议上传1920*1080分辨率、2GB大小以内的MP4格式视频 </div>
+                            </div>
                             <div v-if="videoUrl && dialogType !== 'view'" class="video-actions">
                                 <ElButton v-if="!videoUploading" type="primary" size="small" @click="handleReplaceVideo"
                                     >替换</ElButton
@@ -84,258 +301,12 @@
                             @change="handleReplaceVideoChange"
                         />
                     </ElFormItem>
-
-                    <ElFormItem label="器械" prop="equipment">
-                        <ElInput
-                            v-model="equipmentDisplayText"
-                            placeholder="请选择器械"
-                            readonly
-                            :disabled="dialogType === 'view'"
-                        >
-                            <template #append>
-                                <ElButton @click="showEquipmentDialog" v-if="dialogType !== 'view'">选择</ElButton>
-                            </template>
-                        </ElInput>
-                    </ElFormItem>
-
-                    <ElFormItem label="选择教练" prop="coach">
-                        <ElSelect
-                            v-model="formData.coachId"
-                            placeholder="请选择教练"
-                            clearable
-                            :disabled="dialogType === 'view'"
-                        >
-                            <ElOption
-                                v-for="coach in coachList"
-                                :key="coach.id"
-                                :label="coach.name"
-                                :value="coach.id"
-                            />
-                        </ElSelect>
-                    </ElFormItem>
-
-                    <ElFormItem label="训练部位" prop="part">
-                        <ElSelect
-                            v-model="formData.part"
-                            placeholder="请选择训练部位"
-                            multiple
-                            clearable
-                            :disabled="dialogType === 'view'"
-                            @change="handlePartChange"
-                        >
-                            <ElOption
-                                v-for="part in partList"
-                                :key="part.value"
-                                :label="part.label"
-                                :value="part.value"
-                            />
-                        </ElSelect>
-                    </ElFormItem>
-
-                    <ElFormItem label="训练肌群" prop="muscleGroup">
-                        <ElSelect
-                            v-model="formData.muscleGroup"
-                            placeholder="请选择训练肌群"
-                            multiple
-                            clearable
-                            :disabled="dialogType === 'view'"
-                        >
-                            <ElOption
-                                v-for="muscle in muscleGroupList"
-                                :key="muscle.value"
-                                :label="muscle.label"
-                                :value="muscle.value"
-                            />
-                        </ElSelect>
-                    </ElFormItem>
-
-                    <ElFormItem label="关联AI动作" prop="aiAction">
-                        <ElInput
-                            v-model="aiActionDisplayText"
-                            placeholder="请选择关联AI动作"
-                            readonly
-                            :disabled="dialogType === 'view'"
-                        >
-                            <template #append>
-                                <ElButton @click="showAiActionDialog" v-if="dialogType !== 'view'">选择</ElButton>
-                            </template>
-                        </ElInput>
-                    </ElFormItem>
                 </ElCol>
+            </ElRow>
 
-                <!-- 中列 -->
-                <ElCol :span="10">
-                    <ElRow :gutter="24">
-                        <ElCol :span="12">
-                            <ElFormItem label="适用型号" prop="tagIds">
-                                <ElSelect
-                                    v-model="formData.tagIds"
-                                    placeholder="请选择适用型号"
-                                    multiple
-                                    :disabled="dialogType === 'view'"
-                                >
-                                    <ElOption
-                                        v-for="model in modelList"
-                                        :key="model.value"
-                                        :label="model.label"
-                                        :value="model.value"
-                                    />
-                                </ElSelect>
-                            </ElFormItem>
-                        </ElCol>
-                        <ElCol :span="12">
-                            <ElFormItem label="适用场景" prop="scene">
-                                <ElSelect
-                                    v-model="formData.scene"
-                                    placeholder="请选择适用场景"
-                                    :disabled="dialogType === 'view'"
-                                >
-                                    <ElOption label="力量训练" :value="1" />
-                                    <ElOption label="普拉提" :value="2" />
-                                    <ElOption label="有氧减脂" :value="3" />
-                                    <ElOption label="拉伸康复" :value="4" />
-                                    <ElOption label="评估筛查" :value="5" />
-                                </ElSelect>
-                            </ElFormItem>
-                        </ElCol>
-                    </ElRow>
-
-                    <ElRow :gutter="24">
-                        <ElCol :span="12">
-                            <ElFormItem label="难度" prop="difficulty">
-                                <ElSelect
-                                    v-model="formData.difficulty"
-                                    placeholder="请选择难度"
-                                    :disabled="dialogType === 'view'"
-                                >
-                                    <ElOption label="初级" :value="1" />
-                                    <ElOption label="中级" :value="2" />
-                                    <ElOption label="高级" :value="3" />
-                                </ElSelect>
-                            </ElFormItem>
-                        </ElCol>
-                        <ElCol :span="12">
-                            <ElFormItem label="动作属性" prop="attribute">
-                                <ElSelect
-                                    v-model="formData.attribute"
-                                    placeholder="请选择动作属性"
-                                    @change="handleAttributeChange"
-                                    :disabled="dialogType === 'view'"
-                                >
-                                    <ElOption label="按次数计算" :value="1" />
-                                    <ElOption label="按时长计算" :value="2" />
-                                    <ElOption label="按角度计算" :value="3" />
-                                    <ElOption label="按长度计算" :value="4" />
-                                    <ElOption label="按评估数值" :value="5" />
-                                    <ElOption label="其他" :value="0" />
-                                </ElSelect>
-                            </ElFormItem>
-                        </ElCol>
-                    </ElRow>
-
-                    <ElRow :gutter="24">
-                        <ElCol :span="12">
-                            <ElFormItem label="动作类型" prop="type">
-                                <ElSelect
-                                    v-model="formData.type"
-                                    placeholder="请选择动作类型"
-                                    @change="handleTypeChange"
-                                    :disabled="dialogType === 'view'"
-                                >
-                                    <ElOption label="视频动作" :value="1" />
-                                    <ElOption label="非视频动作" :value="2" />
-                                    <ElOption label="片头" :value="3" />
-                                    <ElOption label="片尾" :value="4" />
-                                </ElSelect>
-                            </ElFormItem>
-                        </ElCol>
-                        <ElCol :span="12" v-if="formData.attribute === 2">
-                            <ElFormItem label="卡路里" prop="calories">
-                                <ElInputNumber
-                                    v-model="formData.calories"
-                                    :min="0"
-                                    :max="9999"
-                                    :disabled="dialogType === 'view'"
-                                />
-                            </ElFormItem>
-                        </ElCol>
-                    </ElRow>
-
-                    <ElFormItem label="动作介绍" prop="introduction" style="width: 100%">
-                        <div
-                            style="width: 100%"
-                            v-if="dialogType === 'view'"
-                            class="view-content"
-                            v-html="formData.introduction"
-                        ></div>
-                        <ElInput
-                            v-else
-                            v-model="formData.introduction"
-                            type="textarea"
-                            :rows="4"
-                            :maxlength="1000"
-                            :show-word-limit="true"
-                            placeholder="请输入动作介绍"
-                        />
-                    </ElFormItem>
-
-                    <!--v-if="formData.type !== 4"-->
-                    <ElFormItem label="其他" prop="other">
-                        <div
-                            style="width: 100%"
-                            v-if="dialogType === 'view'"
-                            class="view-content"
-                            v-html="formData.other"
-                        ></div>
-                        <ArtWangEditor
-                            ref="otherEditorRef"
-                            v-else
-                            v-model="formData.other"
-                            :height="'100px'"
-                            :toolbarKeys="toolbarKeys"
-                            :placeholder="'(需包含安装示意、错误要点、呼吸建议等) 不建议上传带文字的图片类型'"
-                        />
-                    </ElFormItem>
-
-                    <ElFormItem label="备注" prop="remark">
-                        <ElInput
-                            v-model="formData.remark"
-                            type="textarea"
-                            :rows="3"
-                            :maxlength="1000"
-                            :show-word-limit="true"
-                            placeholder="请输入备注"
-                            :disabled="dialogType === 'view'"
-                        />
-                    </ElFormItem>
-
-                    <ElFormItem label="呼吸建议" prop="breathingSuggestion">
-                        <ElInput
-                            v-model="formData.breathingSuggestion"
-                            type="textarea"
-                            :rows="3"
-                            :maxlength="1000"
-                            :show-word-limit="true"
-                            placeholder="请输入呼吸建议"
-                            :disabled="dialogType === 'view'"
-                        />
-                    </ElFormItem>
-
-                    <ElFormItem label="错误要点" prop="errorPoints">
-                        <ElInput
-                            v-model="formData.errorPoints"
-                            type="textarea"
-                            :rows="3"
-                            :maxlength="1000"
-                            :show-word-limit="true"
-                            placeholder="请输入错误要点"
-                            :disabled="dialogType === 'view'"
-                        />
-                    </ElFormItem>
-                </ElCol>
-
-                <!-- 右列 -->
-                <ElCol :span="8">
+            <!-- 第十一行：动作要点 和 呼吸建议 -->
+            <ElRow :gutter="24">
+                <ElCol :span="12">
                     <ElFormItem label="动作要点" prop="actionDesc">
                         <ElInput
                             v-model="formData.actionDesc"
@@ -347,7 +318,25 @@
                             :disabled="dialogType === 'view'"
                         />
                     </ElFormItem>
+                </ElCol>
+                <ElCol :span="12">
+                    <ElFormItem label="呼吸建议" prop="breathingSuggestion">
+                        <ElInput
+                            v-model="formData.breathingSuggestion"
+                            type="textarea"
+                            :rows="3"
+                            :maxlength="1000"
+                            :show-word-limit="true"
+                            placeholder="请输入呼吸建议"
+                            :disabled="dialogType === 'view'"
+                        />
+                    </ElFormItem>
+                </ElCol>
+            </ElRow>
 
+            <!-- 第十二行：动作要点图片/视频 和 错误要点 -->
+            <ElRow :gutter="24">
+                <ElCol :span="12">
                     <ElFormItem label="动作要点图片/视频" prop="actionMedia">
                         <div class="media-upload-container">
                             <!-- 视频预览 -->
@@ -410,17 +399,15 @@
                                 <!-- 统一的ElUpload，支持图片和视频 -->
                                 <ElUpload
                                     v-if="
-                                        (formData.actionMedia.length === 0 ||
-                                            (formData.actionMedia[0].type === 'image' &&
-                                                formData.actionMedia.length < 3)) &&
-                                        dialogType !== 'view'
+                                        formData.actionMedia.length === 0 ||
+                                        (formData.actionMedia[0].type === 'image' && formData.actionMedia.length < 3)
                                     "
                                     class="upload-demo"
                                     :http-request="customUploadActionMedia"
                                     :before-upload="file => beforeUploadMedia(file, formData.actionMedia)"
                                     :on-success="handleActionMediaSuccess"
                                     :show-file-list="false"
-                                    :disabled="actionMediaUploading"
+                                    :disabled="dialogType === 'view' || actionMediaUploading"
                                     accept="image/jpeg,image/jpg,image/png,video/mp4"
                                 >
                                     <div v-if="actionMediaUploading" class="upload-loading">
@@ -430,7 +417,8 @@
                                     <el-icon v-else class="uploader-icon"><Plus /></el-icon>
                                     <template #tip>
                                         <div class="el-upload__tip">
-                                            建议上传10MB以内的JPG、PNG、JPEG格式或2GB以内的MP4格式
+                                            建议上传1920*1080分辨率、10MB大小以内的JPG、PNG、JPEG格式图片或2GB大小以内的MP4格式视频，PNG不带背景图效果更佳
+                                            最多上传3张图片或1个视频文件
                                         </div>
                                     </template>
                                 </ElUpload>
@@ -444,7 +432,25 @@
                             @change="handleReplaceActionMediaChange"
                         />
                     </ElFormItem>
+                </ElCol>
+                <ElCol :span="12">
+                    <ElFormItem label="错误要点" prop="errorPoints">
+                        <ElInput
+                            v-model="formData.errorPoints"
+                            type="textarea"
+                            :rows="3"
+                            :maxlength="1000"
+                            :show-word-limit="true"
+                            placeholder="请输入错误要点"
+                            :disabled="dialogType === 'view'"
+                        />
+                    </ElFormItem>
+                </ElCol>
+            </ElRow>
 
+            <!-- 第十三行：安装示意 和 备注 -->
+            <ElRow :gutter="24">
+                <ElCol :span="12">
                     <ElFormItem label="安装示意" prop="instDesc">
                         <ElInput
                             v-model="formData.instDesc"
@@ -456,7 +462,25 @@
                             :disabled="dialogType === 'view'"
                         />
                     </ElFormItem>
+                </ElCol>
+                <ElCol :span="12">
+                    <ElFormItem label="备注" prop="remark">
+                        <ElInput
+                            v-model="formData.remark"
+                            type="textarea"
+                            :rows="3"
+                            :maxlength="1000"
+                            :show-word-limit="true"
+                            placeholder="请输入备注"
+                            :disabled="dialogType === 'view'"
+                        />
+                    </ElFormItem>
+                </ElCol>
+            </ElRow>
 
+            <!-- 第十四行：安装示意图片/视频 -->
+            <ElRow :gutter="24">
+                <ElCol :span="12">
                     <ElFormItem label="安装示意图片/视频" prop="instMedia">
                         <div class="media-upload-container">
                             <!-- 视频预览 -->
@@ -519,17 +543,15 @@
                                 <!-- 统一的ElUpload，支持图片和视频 -->
                                 <ElUpload
                                     v-if="
-                                        (formData.instMedia.length === 0 ||
-                                            (formData.instMedia[0].type === 'image' &&
-                                                formData.instMedia.length < 3)) &&
-                                        dialogType !== 'view'
+                                        formData.instMedia.length === 0 ||
+                                        (formData.instMedia[0].type === 'image' && formData.instMedia.length < 3)
                                     "
                                     class="upload-demo"
                                     :http-request="customUploadInstMedia"
                                     :before-upload="file => beforeUploadMedia(file, formData.instMedia)"
                                     :on-success="handleInstMediaSuccess"
                                     :show-file-list="false"
-                                    :disabled="instMediaUploading"
+                                    :disabled="dialogType === 'view' || instMediaUploading"
                                     accept="image/jpeg,image/jpg,image/png,video/mp4"
                                 >
                                     <div v-if="instMediaUploading" class="upload-loading">
@@ -539,7 +561,8 @@
                                     <el-icon v-else class="uploader-icon"><Plus /></el-icon>
                                     <template #tip>
                                         <div class="el-upload__tip">
-                                            建议上传10MB以内的JPG、PNG、JPEG格式或2GB以内的MP4格式
+                                            建议上传1920*1080分辨率、10MB大小以内的JPG、PNG、JPEG格式图片或2GB大小以内的MP4格式视频，PNG不带背景图效果更佳
+                                            最多上传3张图片或1个视频文件
                                         </div>
                                     </template>
                                 </ElUpload>
@@ -555,6 +578,30 @@
                     </ElFormItem>
                 </ElCol>
             </ElRow>
+
+            <!-- "其他"这一栏内容暂时删除不显示(注释掉即可) -->
+            <!--
+            <ElRow :gutter="24">
+                <ElCol :span="24">
+                    <ElFormItem label="其他" prop="other">
+                        <div
+                            style="width: 100%"
+                            v-if="dialogType === 'view'"
+                            class="view-content"
+                            v-html="formData.other"
+                        ></div>
+                        <ArtWangEditor
+                            ref="otherEditorRef"
+                            v-else
+                            v-model="formData.other"
+                            :height="'100px'"
+                            :toolbarKeys="toolbarKeys"
+                            :placeholder="'(需包含安装示意、错误要点、呼吸建议等) 不建议上传带文字的图片类型'"
+                        />
+                    </ElFormItem>
+                </ElCol>
+            </ElRow>
+            -->
         </ElForm>
 
         <!-- 器械关联选择弹窗 -->
@@ -617,6 +664,8 @@
     // 富文本编辑器引用
     const otherEditorRef = ref<InstanceType<typeof ArtWangEditor>>()
 
+    // toolbarKeys 用于"其他"字段的富文本编辑器，该字段已暂时注释，保留以备将来恢复
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const toolbarKeys = ref([
         'bold',
         'clearStyle',
@@ -1785,9 +1834,24 @@
     }
 
     :deep(.el-upload__tip) {
-        color: var(--el-text-color-regular);
+        color: var(--el-text-color-secondary);
         font-size: 12px;
+        line-height: 1.4;
         margin-top: 4px;
+    }
+
+    .flex-upload-container {
+        display: flex;
+        align-items: flex-end; /* 底部对齐 */
+        gap: 12px; /* 元素间距 */
+    }
+
+    .flex-tip {
+        color: var(--el-text-color-secondary);
+        font-size: 12px;
+        line-height: 1.4;
+        padding-bottom: 8px; /* 微调垂直对齐 */
+        min-width: 0; /* 防止溢出 */
     }
 
     .upload-demo .coverImage {

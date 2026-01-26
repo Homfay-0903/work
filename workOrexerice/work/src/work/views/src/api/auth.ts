@@ -79,6 +79,7 @@ export function fetchRefreshToken(params: Api.Auth.RefreshTokenParams) {
         data: params ?? {},
         showErrorMessage: false, // 禁用自动错误提示，由调用页面手动处理
         skipAuth: true, // 跳过自动添加认证头
+        operationDesc: '刷新访问令牌',
     })
 }
 

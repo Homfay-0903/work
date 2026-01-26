@@ -48,14 +48,14 @@
 </template>
 
 <script setup lang="ts">
-    import ArtButtonTable from '@/components/core/forms/art-button-table/index.vue'
+    //import ArtButtonTable from '@/components/core/forms/art-button-table/index.vue'
     import { ACCOUNT_TABLE_DATA } from '@/mock/temp/formData'
     import { useTable } from '@/hooks/core/useTable'
     import { fetchGetUserList, fetchCreateUser, fetchDeleteUser } from '@/api/system-manage'
     import { fetchUpdateUserInfo, fetchGetUserInfo } from '@/api/auth'
     import UserSearch from './modules/user-search.vue'
     import UserDialog from './modules/user-dialog.vue'
-    import { ElTag, ElMessageBox, ElImage, ElMessage } from 'element-plus'
+    import { ElTag, ElMessageBox, ElImage, ElMessage, ElButton } from 'element-plus'
     import { DialogType } from '@/types'
     import { useAuth } from '@/hooks/core/useAuth'
     import { useUserStore } from '@/store/modules/user'
@@ -205,32 +205,51 @@
                     },
                 },
                 {
-                    prop: 'operation',
-                    label: '操作',
-                    width: 120,
-                    fixed: 'right', // 固定列
-                    formatter: row => {
+                    'prop': 'operation',
+                    'label': '操作',
+                    'width': 120,
+                    'fixed': 'right', // 固定列
+                    'header-align': 'center',
+                    'align': 'center',
+                    'formatter': row => {
                         const buttons = []
                         // 只有拥有编辑权限时才显示编辑按钮
                         if (hasAuth('edit')) {
                             buttons.push(
-                                h(ArtButtonTable, {
-                                    type: 'edit',
-                                    onClick: () => showDialog('edit', row),
-                                }),
+                                h(
+                                    ElButton,
+                                    {
+                                        link: true,
+                                        disabled: false,
+                                        onClick: () => showDialog('edit', row),
+                                    },
+                                    () => '编辑',
+                                ),
                             )
                         }
                         // 只有拥有删除权限时才显示删除按钮
                         if (hasAuth('delete')) {
                             buttons.push(
-                                h(ArtButtonTable, {
-                                    type: 'delete',
-                                    onClick: () => deleteUser(row),
-                                }),
+                                h(
+                                    ElButton,
+                                    {
+                                        link: true,
+                                        type: 'danger',
+                                        disabled: false,
+                                        onClick: () => deleteUser(row),
+                                    },
+                                    () => '删除',
+                                ),
                             )
                         }
                         // 如果没有任何操作按钮，返回空内容
-                        return buttons.length > 0 ? h('div', buttons) : null
+                        return buttons.length > 0
+                            ? h(
+                                  'div',
+                                  { style: 'display: flex; gap: 5px; flex-wrap: wrap; justify-content: center;' },
+                                  buttons,
+                              )
+                            : null
                     },
                 },
             ],

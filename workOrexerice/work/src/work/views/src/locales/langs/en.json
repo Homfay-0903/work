@@ -276,5 +276,58 @@
         "zebra": "Zebra",
         "border": "Border",
         "headerBackground": "Header BG"
+    },
+    "privacyPolicy": {
+        "title": "Privacy Policy",
+        "lastUpdated": "Last Updated",
+        "intro": {
+            "title": "1. Introduction",
+            "content": "Welcome to our service. We are committed to protecting your privacy and personal information security. This Privacy Policy is intended to inform you about how we collect, use, store and protect your personal information, as well as your rights regarding your personal information."
+        },
+        "dataCollection": {
+            "title": "2. Information We Collect",
+            "content": {
+                "1": "We may collect the following types of personal information:",
+                "2": "Personal identification information: such as username, password, etc.",
+                "3": "Usage information: such as when, how and how often you use our services.",
+                "4": "Device information: such as your device type, operating system version, etc.",
+                "5": "Other information: such as other information you submit through our services."
+            }
+        },
+        "dataUse": {
+            "title": "3. How We Use Your Information",
+            "content": {
+                "1": "We may use your personal information for the following purposes:",
+                "2": "Provide and maintain our services.",
+                "3": "Improve the quality of our services.",
+                "4": "Send you relevant notifications and information.",
+                "5": "Protect the security of our services and users."
+            }
+        },
+        "dataProtection": {
+            "title": "4. How We Protect Your Information",
+            "content": "We take various security measures to protect your personal information, including but not limited to encrypted storage, access control, security audit, etc. However, please note that information transmission over the Internet is not completely secure, and we cannot guarantee the absolute security of your personal information during transmission."
+        },
+        "dataSharing": {
+            "title": "5. How We Share Your Information",
+            "content": {
+                "1": "We do not sell your personal information to third parties. We may share your personal information in the following cases:",
+                "2": "Obtain your explicit consent.",
+                "3": "Comply with legal and regulatory requirements.",
+                "4": "Protect our rights, property and safety, or the rights, property and safety of other users."
+            }
+        },
+        "userRights": {
+            "title": "6. Your Rights",
+            "content": "You have the right to access, correct, and delete your personal information, and you also have the right to restrict or refuse our processing of your personal information. If you want to exercise these rights, please contact us."
+        },
+        "policyUpdates": {
+            "title": "7. Updates to Privacy Policy",
+            "content": "We may update this Privacy Policy from time to time. When we update this Privacy Policy, we will publish the updated version on our service and update the Last Updated date at the top of this Privacy Policy."
+        },
+        "contact": {
+            "title": "8. Contact Us",
+            "content": "If you have any questions or suggestions about this Privacy Policy, please contact us at: support@example.com"
+        }
     }
 }
