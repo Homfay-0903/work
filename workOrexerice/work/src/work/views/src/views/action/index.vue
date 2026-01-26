@@ -598,50 +598,52 @@
                             )
                         }
 
-                        // 编辑（仅有权限时显示）
-                        if (hasAuth('edit')) {
-                            buttons.push(
-                                h(
-                                    ElButton,
-                                    {
-                                        link: true,
-                                        disabled: false,
-                                        onClick: () => showDialog('edit', row),
-                                    },
-                                    () => '编辑',
-                                ),
-                            )
-                        }
+                        if (row.status !== 2) {
+                            // 编辑（仅有权限时显示）
+                            if (hasAuth('edit')) {
+                                buttons.push(
+                                    h(
+                                        ElButton,
+                                        {
+                                            link: true,
+                                            disabled: false,
+                                            onClick: () => showDialog('edit', row),
+                                        },
+                                        () => '编辑',
+                                    ),
+                                )
+                            }
 
-                        // 翻译：中文动作内容创建后且有权限时出现
-                        if (hasAuth('translate') && (row.langCode === 'zh-CN' || row.langName === '中文')) {
-                            buttons.push(
-                                h(
-                                    ElButton,
-                                    {
-                                        link: true,
-                                        disabled: false,
-                                        onClick: () => handleTranslate(row),
-                                    },
-                                    () => '翻译',
-                                ),
-                            )
-                        }
+                            // 翻译：中文动作内容创建后且有权限时出现
+                            if (hasAuth('translate') && (row.langCode === 'zh-CN' || row.langName === '中文')) {
+                                buttons.push(
+                                    h(
+                                        ElButton,
+                                        {
+                                            link: true,
+                                            disabled: false,
+                                            onClick: () => handleTranslate(row),
+                                        },
+                                        () => '翻译',
+                                    ),
+                                )
+                            }
 
-                        // 删除（仅有权限时显示）
-                        if (hasAuth('delete')) {
-                            buttons.push(
-                                h(
-                                    ElButton,
-                                    {
-                                        link: true,
-                                        type: 'danger',
-                                        disabled: false,
-                                        onClick: () => deleteAction(row),
-                                    },
-                                    () => '删除',
-                                ),
-                            )
+                            // 删除（仅有权限时显示）
+                            if (hasAuth('delete')) {
+                                buttons.push(
+                                    h(
+                                        ElButton,
+                                        {
+                                            link: true,
+                                            type: 'danger',
+                                            disabled: false,
+                                            onClick: () => deleteAction(row),
+                                        },
+                                        () => '删除',
+                                    ),
+                                )
+                            }
                         }
 
                         return h(
@@ -695,7 +697,7 @@
                             _isChild: true,
                             _childIndex: index + 1, // 子节点序号从1开始
                             // 如果子节点没有 coach 对象，继承根节点的 coach
-                            coach: item.coach,
+                            //coach: item.coach,
                         }))
                         itemWithTree.hasChildren = true
                     }

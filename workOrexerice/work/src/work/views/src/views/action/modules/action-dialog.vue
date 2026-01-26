@@ -1089,8 +1089,19 @@
             formData.instMedia = []
         }
 
-        // 检查教练是否已被删除，如果教练不在列表中则清空 coachId
-        if (formData.coachId && !coachList.value.find(coach => coach.id === formData.coachId)) {
+        // 处理翻译后的教练数据
+        if (row.coach) {
+            // 使用翻译后的教练ID和名称
+            formData.coachId = row.coach.id
+            // 检查翻译后的教练是否在列表中，如果不在则添加
+            if (!coachList.value.find(coach => coach.id === row.coach!.id)) {
+                coachList.value.push({
+                    id: row.coach.id,
+                    name: row.coach.name,
+                })
+            }
+        } else if (formData.coachId && !coachList.value.find(coach => coach.id === formData.coachId)) {
+            // 检查教练是否已被删除，如果教练不在列表中则清空 coachId
             formData.coachId = null
         }
 
