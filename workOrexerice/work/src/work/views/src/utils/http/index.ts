@@ -23,7 +23,7 @@ import { BaseResponse } from '@/types'
 import { fetchRefreshToken } from '@/api/auth'
 
 /** 请求配置常量 */
-const REQUEST_TIMEOUT = 30000
+const REQUEST_TIMEOUT = 2 * 60 * 1000
 const LOGOUT_DELAY = 500
 const MAX_RETRIES = 0
 const RETRY_DELAY = 1000
