@@ -313,6 +313,15 @@
         console.log('删除用户:', row)
         ;(async () => {
             try {
+                // 检查是否为钉钉用户
+                if (row.dingtalkBound) {
+                    await ElMessageBox.alert('钉钉用户无法删除', '提示', {
+                        confirmButtonText: '确认',
+                        type: 'warning',
+                    })
+                    return
+                }
+
                 // 检查是否为当前用户
                 if (row.id === currentUserId.value) {
                     await ElMessageBox.alert('删除失败，无法删除自己', '提示', {

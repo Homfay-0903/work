@@ -7,7 +7,18 @@
         <ElTable
             ref="elTableRef"
             v-loading="!!loading"
-            v-bind="{ ...$attrs, ...props, height, stripe, border, size, headerCellStyle }"
+            v-bind="{
+                ...$attrs,
+                ...props,
+                height,
+                stripe,
+                border,
+                size,
+                headerCellStyle,
+                virtual: props.virtualScroll,
+                rowHeight: props.rowHeight,
+                estimateRowHeight: props.estimatedRowHeight,
+            }"
         >
             <template v-for="col in columns" :key="col.prop || col.type">
                 <!-- 渲染全局序号列 -->
@@ -137,6 +148,12 @@
         emptyText?: string
         /** 是否开启 ArtTableHeader，解决表格高度自适应问题 */
         showTableHeader?: boolean
+        /** 是否开启虚拟滚动 */
+        virtualScroll?: boolean
+        /** 虚拟滚动行高 */
+        rowHeight?: number
+        /** 虚拟滚动预估总高度 */
+        estimatedRowHeight?: number
     }
 
     const props = withDefaults(defineProps<ArtTableProps>(), {
@@ -149,6 +166,9 @@
         emptyHeight: '100%',
         emptyText: '暂无数据',
         showTableHeader: true,
+        virtualScroll: false,
+        rowHeight: 50,
+        estimatedRowHeight: 50,
     })
 
     const LAYOUT = {

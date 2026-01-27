@@ -246,6 +246,8 @@ declare namespace Api {
             lastLoginAt?: string
             /** 用户角色列表 */
             userRoles?: string[]
+            /** 是否已绑定钉钉账号 */
+            dingtalkBound?: boolean
             /** 创建时间 */
             createdAt: string
             /** 更新时间 */

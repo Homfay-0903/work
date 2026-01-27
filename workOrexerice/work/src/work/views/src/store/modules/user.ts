@@ -43,6 +43,9 @@ import { resetRouterState } from '@/router/guards/beforeEach'
 import { useMenuStore } from './menu'
 import { StorageConfig } from '@/utils/storage/storage-config'
 
+// 最大搜索历史长度
+const MAX_SEARCH_HISTORY = 20
+
 /**
  * 用户状态管理
  * 管理用户登录状态、个人信息、语言设置、搜索历史、锁屏状态等
@@ -104,7 +107,12 @@ export const useUserStore = defineStore(
          * @param list 搜索历史列表
          */
         const setSearchHistory = (list: AppRouteRecord[]) => {
-            searchHistory.value = list
+            // 限制搜索历史长度
+            if (list.length > MAX_SEARCH_HISTORY) {
+                searchHistory.value = list.slice(0, MAX_SEARCH_HISTORY)
+            } else {
+                searchHistory.value = list
+            }
         }
 
         /**

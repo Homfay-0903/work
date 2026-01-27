@@ -39,6 +39,9 @@
                 :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
                 :default-expand-all="false"
                 rowKey="id"
+                :virtual-scroll="true"
+                :row-height="60"
+                :estimated-row-height="60"
                 @selection-change="handleSelectionChange"
                 @pagination:size-change="handleSizeChange"
                 @pagination:current-change="handleCurrentChange"
@@ -846,10 +849,88 @@
     }
 
     /**
+     * 验证动作数据完整性
+     */
+    const validateActionData = (row: ActionListItem): boolean => {
+        // 验证动作名称
+        if (!row.name || row.name.trim() === '') {
+            ElMessage.error('请填写动作名称')
+            return false
+        }
+
+        // 验证适用型号
+        if (!row.tags || row.tags.length === 0) {
+            ElMessage.error('请选择适用型号')
+            return false
+        }
+
+        // 验证适用场景
+        if (!row.scene) {
+            ElMessage.error('请选择适用场景')
+            return false
+        }
+
+        // 验证动作类型
+        if (!row.type) {
+            ElMessage.error('请选择动作类型')
+            return false
+        }
+
+        // 验证难度
+        if (!row.difficulty) {
+            ElMessage.error('请选择难度')
+            return false
+        }
+
+        // 验证动作属性
+        if (!row.attribute) {
+            ElMessage.error('请选择动作属性')
+            return false
+        }
+
+        // 验证动作封面
+        if (!row.picture) {
+            ElMessage.error('请上传动作封面')
+            return false
+        }
+
+        // 验证视频（视频动作需要）
+        if (row.type !== 2 && !row.video) {
+            ElMessage.error('请上传视频')
+            return false
+        }
+
+        // 验证动作介绍
+        if (!row.introduction) {
+            ElMessage.error('请填写动作介绍')
+            return false
+        }
+
+        // 验证器械
+        if (!row.instruments || row.instruments.length === 0) {
+            ElMessage.error('请选择器械')
+            return false
+        }
+
+        // 验证卡路里（按时长计算时需要）
+        if (row.attribute === 2 && (!row.calories || row.calories === 0)) {
+            ElMessage.error('按时长计算时需要填写卡路里')
+            return false
+        }
+
+        return true
+    }
+
+    /**
      * 上架动作
      */
     const handleShelve = (row: ActionListItem): void => {
         ;(async () => {
+            // 先验证动作数据完整性
+            if (!validateActionData(row)) {
+                return
+            }
+
             try {
                 await fetchUpdateActionStatus({
                     id: row.id,

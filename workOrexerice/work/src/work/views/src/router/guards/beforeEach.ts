@@ -58,7 +58,7 @@ import { isInDingTalk, clearDingTalkAuthCodeFromURL, getDingTalkAuthCode } from 
 let routeRegistry: RouteRegistry | null = null
 
 // 菜单处理器实例
-const menuProcessor = new MenuProcessor()
+let menuProcessor: MenuProcessor | null = null
 
 // cookie 登录兜底：避免每次路由跳转都打一次 /user/info
 let hasTriedCookieLogin = false
@@ -69,8 +69,19 @@ let hasTriedDingTalkSSO = false
  * 设置路由全局前置守卫
  */
 export function setupBeforeEachGuard(router: Router): void {
+    // 清理之前的实例，避免内存泄漏
+    if (routeRegistry) {
+        routeRegistry.unregister()
+        routeRegistry = null
+    }
+    if (menuProcessor) {
+        menuProcessor = null
+    }
+
     // 初始化路由注册器
     routeRegistry = new RouteRegistry(router)
+    // 初始化菜单处理器
+    menuProcessor = new MenuProcessor()
 
     router.beforeEach(async (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
         try {
@@ -245,6 +256,9 @@ async function handleDynamicRoutes(
         await fetchUserInfo()
 
         // 2. 获取菜单数据
+        if (!menuProcessor) {
+            throw new Error('菜单处理器未初始化')
+        }
         const menuList = await menuProcessor.getMenuList()
 
         // 3. 验证菜单数据
@@ -349,12 +363,24 @@ async function fetchUserInfo(): Promise<void> {
  */
 export function resetRouterState(delay: number): void {
     setTimeout(() => {
+        // 清理路由注册器
         routeRegistry?.unregister()
+        routeRegistry = null
+
+        // 清理菜单处理器
+        menuProcessor = null
+
+        // 清理 iframe 路由
         IframeRouteManager.getInstance().clear()
 
+        // 清理菜单状态
         const menuStore = useMenuStore()
         menuStore.removeAllDynamicRoutes()
         menuStore.setMenuList([])
+
+        // 重置标志
+        hasTriedCookieLogin = false
+        hasTriedDingTalkSSO = false
     }, delay)
 }
 

@@ -50,6 +50,11 @@ interface WorktabState {
     keepAliveExclude: string[]
 }
 
+// 最大标签页数量
+const MAX_TABS = 5
+// 最小保留标签页数量（固定标签页除外）
+const MIN_TABS = 1
+
 /**
  * 工作台标签页管理 Store
  */
@@ -132,6 +137,16 @@ export const useWorktabStore = defineStore(
             }
 
             if (existingIndex === -1) {
+                // 检查标签页数量限制
+                const nonFixedTabs = opened.value.filter(t => !t.fixedTab)
+                if (nonFixedTabs.length >= MAX_TABS - MIN_TABS) {
+                    // 关闭最久未使用的非固定标签页
+                    const tabsToClose = nonFixedTabs.slice(0, nonFixedTabs.length - (MAX_TABS - MIN_TABS - 1))
+                    tabsToClose.forEach(t => {
+                        removeTab(t.path)
+                    })
+                }
+
                 // 新增标签页
                 const insertIndex = tab.fixedTab ? findFixedTabInsertIndex() : opened.value.length
                 const newTab = { ...tab }
