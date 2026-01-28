@@ -1028,8 +1028,32 @@
         }
 
         if (newPart && newPart.length > 0) {
+            // 找出新添加的训练部位
+            const addedParts = newPart.filter(part => !previousPart.value.includes(part))
+            //console.log('新添加的训练部位:', addedParts)
+
             // 传递所有选中的部位ID获取新的肌肉列表
-            fetchMuscleGroupData(newPart)
+            fetchMuscleGroupData(newPart).then(() => {
+                // 自动选择新添加部位对应的所有肌肉群
+                if (addedParts.length > 0) {
+                    const addedMuscleIds = new Set<number>()
+                    for (const partId of addedParts) {
+                        const muscleIds = partMuscleMap.value.get(partId)
+                        if (muscleIds) {
+                            muscleIds.forEach(id => addedMuscleIds.add(id))
+                        }
+                    }
+                    //console.log('需要添加的肌肉群ID:', addedMuscleIds)
+
+                    // 将新添加部位对应的肌肉群添加到已选择列表中
+                    addedMuscleIds.forEach(id => {
+                        if (!formData.muscleGroup.includes(id)) {
+                            formData.muscleGroup.push(id)
+                        }
+                    })
+                    //console.log('更新后的选中肌肉群:', formData.muscleGroup)
+                }
+            })
         } else {
             // 如果没有选择训练部位，清空肌肉列表和肌肉群映射
             muscleGroupList.value = []
