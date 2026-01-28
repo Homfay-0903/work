@@ -37,6 +37,12 @@ export const staticRoutes: AppRouteRecordRaw[] = [
         meta: { title: 'menus.forgetPassword.title', isHideTab: true },
     },
     {
+        path: '/auth/reset-password',
+        name: 'ResetPassword',
+        component: () => import('@views/auth/reset-password/index.vue'),
+        meta: { title: '重置密码', isHideTab: true },
+    },
+    {
         path: '/403',
         name: 'Exception403',
         component: () => import('@views/exception/403/index.vue'),

@@ -127,3 +127,48 @@ export function fetchDingTalkSSO(params: Api.Auth.DingTalkSSOParams) {
         operationDesc: '钉钉免登',
     })
 }
+
+/**
+ * 检查邮箱是否存在
+ * @param params 检查邮箱参数
+ * @returns 检查邮箱响应
+ */
+export function fetchCheckEmail(params: Api.Auth.CheckEmailParams) {
+    return request.post<Api.Auth.CheckEmailResponse>({
+        url: '/api/v1/auth/forget-password/check-email',
+        data: params,
+        showErrorMessage: false, // 禁用自动错误提示，由调用页面手动处理
+        skipAuth: true, // 检查邮箱接口不需要携带认证头
+        operationDesc: '检查邮箱',
+    })
+}
+
+/**
+ * 发送重置密码验证码
+ * @param params 发送验证码参数
+ * @returns 发送验证码响应
+ */
+export function fetchSendVerificationCode(params: Api.Auth.SendVerificationCodeParams) {
+    return request.post<Api.Auth.SendVerificationCodeResponse>({
+        url: '/api/v1/auth/forget-password/send-code',
+        data: params,
+        showErrorMessage: false, // 禁用自动错误提示，由调用页面手动处理
+        skipAuth: true, // 发送验证码接口不需要携带认证头
+        operationDesc: '发送验证码',
+    })
+}
+
+/**
+ * 重置密码
+ * @param params 重置密码参数
+ * @returns 重置密码响应
+ */
+export function fetchResetPassword(params: Api.Auth.ResetPasswordParams) {
+    return request.post<Api.Auth.ResetPasswordResponse>({
+        url: '/api/v1/auth/forget-password/reset',
+        data: params,
+        showErrorMessage: false, // 禁用自动错误提示，由调用页面手动处理
+        skipAuth: true, // 重置密码接口不需要携带认证头
+        operationDesc: '重置密码',
+    })
+}

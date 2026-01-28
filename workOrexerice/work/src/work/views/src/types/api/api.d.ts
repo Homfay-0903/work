@@ -206,6 +206,40 @@ declare namespace Api {
             newPassword: string
             confirmPassword: string
         }
+
+        /** 检查邮箱参数 */
+        interface CheckEmailParams {
+            email: string
+        }
+
+        /** 检查邮箱响应 */
+        interface CheckEmailResponse {
+            exists: boolean
+            deleted: boolean
+        }
+
+        /** 发送验证码参数 */
+        interface SendVerificationCodeParams {
+            email: string
+        }
+
+        /** 发送验证码响应 */
+        interface SendVerificationCodeResponse {
+            message: string
+        }
+
+        /** 重置密码参数 */
+        interface ResetPasswordParams {
+            email: string
+            password: string
+            confirmPassword: string
+            code: string
+        }
+
+        /** 重置密码响应 */
+        interface ResetPasswordResponse {
+            message: string
+        }
     }
 
     /** 系统管理类型 */
@@ -404,6 +438,8 @@ declare namespace Api {
             picture?: string
             /** 动作视频列表 */
             video?: string
+            /** 视频时长（秒） */
+            videoDuration?: number
             /** 器械名称 */
             equipment?: string
             /** 根动作ID */
@@ -563,6 +599,8 @@ declare namespace Api {
             picture?: string
             /** 动作视频列表 */
             video?: string
+            /** 视频时长（秒） */
+            videoDuration?: number
             /** 器械ID列表 */
             instrumentIds?: number[]
             /** 教练ID */

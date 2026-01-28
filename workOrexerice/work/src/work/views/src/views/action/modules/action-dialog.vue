@@ -727,6 +727,7 @@
 
     const imageUrl = ref('')
     const videoUrl = ref<{ url: string; storageUrl?: string } | null>(null)
+    const videoDuration = ref<number>(0)
     const replaceVideoInputRef = ref<HTMLInputElement | null>(null)
 
     // 动作要点媒体上传引用
@@ -1162,8 +1163,8 @@
         })
 
         // 初始化动作要点媒体
-        const actionMediaUrls = row._actionMedia || []
-        const actionMediaStorageUrls = row.actionMedia || []
+        const actionMediaUrls = row.actionMedia || []
+        const actionMediaStorageUrls = row._actionMedia || []
         if (Array.isArray(actionMediaUrls) && actionMediaUrls.length > 0) {
             formData.actionMedia = actionMediaUrls.map((url: string, index: number) => ({
                 url,
@@ -1175,8 +1176,8 @@
         }
 
         // 初始化安装示意媒体
-        const instMediaUrls = row._instMedia || []
-        const instMediaStorageUrls = row.instMedia || []
+        const instMediaUrls = row.instMedia || []
+        const instMediaStorageUrls = row._instMedia || []
         if (Array.isArray(instMediaUrls) && instMediaUrls.length > 0) {
             formData.instMedia = instMediaUrls.map((url: string, index: number) => ({
                 url,
@@ -1212,8 +1213,18 @@
         const videoStorageUrl = (row as any)._video || ''
         if (videoData) {
             videoUrl.value = { url: videoData, storageUrl: videoStorageUrl }
+            // 优先使用后端存储的视频时长
+            if (row.videoDuration) {
+                videoDuration.value = row.videoDuration
+            } else {
+                // 否则获取视频时长
+                getVideoDuration(videoData).then(duration => {
+                    videoDuration.value = duration
+                })
+            }
         } else {
             videoUrl.value = null
+            videoDuration.value = 0
         }
 
         selectedEquipment.value = (row.instruments || []).map((eq: any) => ({
@@ -1315,14 +1326,40 @@
     }
 
     /**
+     * 获取视频时长
+     */
+    const getVideoDuration = (videoUrl: string) => {
+        const video = document.createElement('video')
+        video.preload = 'metadata'
+        video.src = videoUrl
+
+        return new Promise<number>(resolve => {
+            video.onloadedmetadata = () => {
+                const duration = video.duration
+                if (isNaN(duration)) {
+                    resolve(0)
+                    return
+                }
+                resolve(duration)
+            }
+
+            video.onerror = () => {
+                resolve(0)
+            }
+        })
+    }
+
+    /**
      * 视频上传成功
      */
-    const handleVideoSuccess = (response: Api.Common.UploadFileResponse, file: UploadFile) => {
+    const handleVideoSuccess = async (response: Api.Common.UploadFileResponse, file: UploadFile) => {
         const storageUrl = response?._url || response?.tmpUrl || ''
         const displayUrl = response?.url || file.url || ''
 
         if (displayUrl) {
             videoUrl.value = { url: displayUrl, storageUrl }
+            // 获取视频时长
+            videoDuration.value = await getVideoDuration(displayUrl)
         }
     }
 
@@ -1331,6 +1368,7 @@
      */
     const handleDeleteVideo = () => {
         videoUrl.value = null
+        videoDuration.value = 0
     }
 
     const handleReplaceVideo = () => {
@@ -1357,6 +1395,8 @@
 
             if (displayUrl) {
                 videoUrl.value = { url: displayUrl, storageUrl }
+                // 获取视频时长
+                videoDuration.value = await getVideoDuration(displayUrl)
                 ElMessage.success('视频替换成功')
             }
         } catch (error) {
@@ -1843,6 +1883,7 @@
             name: formData.name,
             picture: formData.coverImage,
             video: videoUrl.value?.storageUrl || videoUrl.value?.url || '',
+            videoDuration: videoDuration.value,
             instrumentIds: Array.isArray(formData.equipment) ? formData.equipment.map(id => Number(id)) : [],
             coachId: Number(formData.coachId),
             muscleRegionIds: formData.part,

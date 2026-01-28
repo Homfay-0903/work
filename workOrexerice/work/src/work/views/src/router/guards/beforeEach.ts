@@ -52,7 +52,7 @@ import { ApiStatus } from '@/utils/http/status'
 import { isHttpError } from '@/utils/http/error'
 import { RouteRegistry, MenuProcessor, IframeRouteManager, RoutePermissionValidator } from '../core'
 import { recordLoadingStartTime } from './afterEach'
-import { isInDingTalk, clearDingTalkAuthCodeFromURL, getDingTalkAuthCode } from '@/utils/dingtalk'
+import { isInDingTalk, getDingTalkAuthCodeFromURL, clearDingTalkAuthCodeFromURL } from '@/utils/dingtalk'
 
 // 路由注册器实例
 let routeRegistry: RouteRegistry | null = null
@@ -167,9 +167,9 @@ async function handleLoginStatus(
     if (isInDingTalk() && !userStore.accessToken && !hasTriedDingTalkSSO) {
         hasTriedDingTalkSSO = true
         try {
-            const authCode = await getDingTalkAuthCode('your_corp_id_here')
+            const authCode = getDingTalkAuthCodeFromURL()
             if (authCode) {
-                console.log('[RouteGuard] 获取到钉钉 authCode，尝试免登')
+                console.log('[RouteGuard] 检测到钉钉 authCode，尝试免登')
                 const { accessToken, refreshToken } = await fetchDingTalkSSO({ authCode })
                 userStore.setToken(accessToken, refreshToken)
                 userStore.setLoginStatus(true)
