@@ -883,7 +883,7 @@
         }
 
         // 验证动作属性
-        if (!row.attribute) {
+        if (row.attribute < 0) {
             ElMessage.error('请选择动作属性')
             return false
         }
