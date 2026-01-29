@@ -51,7 +51,7 @@ const getType = (file: File): 'video' | 'image' => {
 const partMuscleMap = ref<Map<number, number[]>>(new Map<number, number[]>())
 const previousPart = ref<number[]>([])
 const handlePartChange = (newPart: number[]) => {
-    const removeParts = previousPart.value.filter((id: number) => !newPart.includes(id))
+    const removeParts = previousPart.value.filter(id => !newPart.includes(id))
 
     if (removeParts.length > 0) {
         const removePartsIds = new Set<number>()
@@ -65,4 +65,24 @@ const handlePartChange = (newPart: number[]) => {
         formdata.muscleGroup = formdata.muscleGroup.filter(id => !removePartsIds.has(id))
     }
 
+    if (newPart && newPart.length > 0) {
+        const addParts = newPart.filter(id => !previousPart.value.includes(id))
+
+        if (addParts.length > 0) {
+            const addPartsIds = new Set<number>()
+            for(const partId of addParts) {
+                const muscleIds = partMuscleMap.value.get(partId)
+                if(muscleIds) {
+                    muscleIds.forEach(id => addPartsIds.add(id))
+                }
+            }
+
+            addPartsIds.forEach(id => {
+                if (!formdata.muscleGroup.includes(id)) {
+                    formdata.muscleGroup.push(id)
+                }
+            })
+        }
+    }
 }
+
