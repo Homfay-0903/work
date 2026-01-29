@@ -1887,7 +1887,13 @@
      */
     const handleSave = async () => {
         if (!formRef.value) return
-        await formRef.value.validate()
+        try {
+            await formRef.value.validate()
+        } catch (error) {
+            console.error('表单验证失败:', error)
+            ElMessage.error('请填写完整信息')
+            return
+        }
 
         const loadingInstance = ElLoading.service({
             lock: true,
