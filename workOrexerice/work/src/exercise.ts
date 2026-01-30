@@ -1,5 +1,7 @@
 /* eslint-disable */
 
+import { transform } from "typescript"
+
 const formdata = {
     actionMedia: [] as Array<{url: string, storage: string, type: 'video' | 'image'}>,
     muscleGroup: [] as number[]
@@ -83,6 +85,30 @@ const handlePartChange = (newPart: number[]) => {
                 }
             })
         }
+    }
+}
+
+interface ListItem {
+    name: string
+}
+
+transform: {
+    dataTransformer: records => {
+        if (Array.isArray(!records)) {
+            console.log('error', typeof records)
+            return []
+        }
+
+        type haveIndexList = ListItem & {
+            _rowIndex : number
+        }
+        
+        const processRecords : haveIndexList = records.map((item: Object, index: number) => ({
+            ...item,
+            _rowIndex: index
+        }))
+
+        return processRecords
     }
 }
 
