@@ -1,16 +1,10 @@
 <!-- 角色管理页面 -->
 <template>
     <div class="art-full-height">
-        <RoleSearch v-show="showSearchBar" v-model="searchForm" @search="handleSearch" @reset="resetSearchParams">
-        </RoleSearch>
+        <RoleSearch v-model="searchForm" @search="handleSearch" @reset="resetSearchParams"> </RoleSearch>
 
-        <ElCard class="art-table-card" shadow="never" :style="{ 'margin-top': showSearchBar ? '12px' : '0' }">
-            <ArtTableHeader
-                v-model:columns="columnChecks"
-                v-model:showSearchBar="showSearchBar"
-                :loading="loading"
-                @refresh="refreshData"
-            >
+        <ElCard class="art-table-card" shadow="never">
+            <ArtTableHeader v-model:columns="columnChecks" :loading="loading" @refresh="refreshData">
                 <template #left>
                     <ElSpace wrap>
                         <ElButton v-if="hasAuth('add')" @click="showDialog('add')" v-ripple>新增角色</ElButton>
@@ -66,8 +60,6 @@
         description: undefined,
         daterange: undefined,
     })
-
-    const showSearchBar = ref(false)
 
     const dialogVisible = ref(false)
     const permissionDialog = ref(false)
@@ -183,6 +175,12 @@
         // 处理日期区间参数，把 daterange 转换为 startTime 和 endTime
         const { daterange, ...filtersParams } = params
         const [startTime, endTime] = Array.isArray(daterange) ? daterange : [null, null]
+
+        // 先删除可能的搜索字段，避免保留空值
+        const searchFields = ['name', 'description', 'startTime', 'endTime']
+        searchFields.forEach(field => {
+            delete (searchParams as Record<string, any>)[field]
+        })
 
         // 搜索参数赋值
         Object.assign(searchParams, { ...filtersParams, startTime, endTime })

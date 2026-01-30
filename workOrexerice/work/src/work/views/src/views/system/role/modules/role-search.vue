@@ -93,6 +93,13 @@
      */
     const handleSearch = async () => {
         await searchBarRef.value.validate()
-        emit('search', formData.value)
+        // 过滤掉空值字段
+        const filteredData = Object.entries(formData.value).reduce((acc, [key, value]) => {
+            if (value !== '' && value !== null && value !== undefined) {
+                ;(acc as Record<string, any>)[key] = value
+            }
+            return acc
+        }, {})
+        emit('search', filteredData)
     }
 </script>

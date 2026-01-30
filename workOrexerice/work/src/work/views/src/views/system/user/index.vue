@@ -54,7 +54,7 @@
     //import ArtButtonTable from '@/components/core/forms/art-button-table/index.vue'
     import { ACCOUNT_TABLE_DATA } from '@/mock/temp/formData'
     import { useTable } from '@/hooks/core/useTable'
-    import { fetchGetUserList, fetchCreateUser, fetchDeleteUser } from '@/api/system-manage'
+    import { fetchGetUserList, fetchCreateUser, fetchToggleUserStatus } from '@/api/system-manage'
     import { fetchUpdateUserInfo, fetchGetUserInfo } from '@/api/auth'
     import UserSearch from './modules/user-search.vue'
     import UserDialog from './modules/user-dialog.vue'
@@ -93,23 +93,22 @@
         gender: undefined,
         mobile: undefined,
         email: undefined,
-        status: '1',
+        status: undefined,
     })
 
     // 用户状态配置
     const USER_STATUS_CONFIG = {
-        '1': { type: 'success' as const, text: '在线' },
-        '2': { type: 'info' as const, text: '离线' },
-        '3': { type: 'warning' as const, text: '异常' },
-        '4': { type: 'danger' as const, text: '注销' },
+        '0': { type: 'success' as const, text: '启用中' },
+        '1': { type: 'danger' as const, text: '禁用中' },
     } as const
 
     /**
      * 获取用户状态配置
      */
-    const getUserStatusConfig = (status: string) => {
+    const getUserStatusConfig = (status: string | number) => {
+        const statusStr = String(status)
         return (
-            USER_STATUS_CONFIG[status as keyof typeof USER_STATUS_CONFIG] || {
+            USER_STATUS_CONFIG[statusStr as keyof typeof USER_STATUS_CONFIG] || {
                 type: 'info' as const,
                 text: '未知',
             }
@@ -142,7 +141,7 @@
         refreshData,
         refreshCreate,
         refreshUpdate,
-        refreshRemove,
+        //refreshRemove,
         toggleColumn,
     } = useTable({
         // 核心配置
@@ -245,7 +244,7 @@
                 {
                     'prop': 'operation',
                     'label': '操作',
-                    'width': 200,
+                    'width': 250,
                     'fixed': 'right', // 固定列
                     'header-align': 'center',
                     'align': 'center',
@@ -265,21 +264,37 @@
                                 ),
                             )
                         }
-                        // 只有拥有删除权限时才显示删除按钮
-                        if (hasAuth('delete')) {
+                        // 只有拥有编辑权限时才显示启用/禁用按钮
+                        if (hasAuth('enable')) {
+                            console.log('row.status', row.status)
                             buttons.push(
                                 h(
                                     ElButton,
                                     {
                                         link: true,
-                                        type: 'danger',
+                                        type: String(row.status) === '0' ? 'danger' : 'success',
                                         disabled: false,
-                                        onClick: () => deleteUser(row),
+                                        onClick: () => toggleUserStatus(row),
                                     },
-                                    () => '删除',
+                                    () => (String(row.status) === '0' ? '禁用' : '启用'),
                                 ),
                             )
                         }
+                        // 只有拥有删除权限时才显示删除按钮
+                        //if (hasAuth('delete')) {
+                        //    buttons.push(
+                        //        h(
+                        //            ElButton,
+                        //            {
+                        //                link: true,
+                        //                type: 'danger',
+                        //                disabled: false,
+                        //                onClick: () => deleteUser(row),
+                        //            },
+                        //            () => '删除',
+                        //        ),
+                        //    )
+                        //}
                         // 如果没有任何操作按钮，返回空内容
                         return buttons.length > 0
                             ? h(
@@ -324,12 +339,18 @@
      * @param params 参数
      */
     const handleSearch = async (params: Record<string, any>) => {
-        console.log(params)
+        //console.log(params)
+
+        const { ...filteredParams } = params
+        const searchFields = ['username', 'mobile', 'email', 'status', 'gender']
+        searchFields.forEach(field => {
+            delete (searchParams as Record<string, any>)[field]
+        })
         // 搜索参数赋值
-        Object.assign(searchParams, params)
+        Object.assign(searchParams, { ...filteredParams })
         // 等待数据加载完成后打印，确保表格数据已更新
-        await getData()
-        console.log('表格数据：', data.value)
+        getData()
+        //console.log('表格数据：', data.value)
     }
 
     /**
@@ -347,37 +368,72 @@
     /**
      * 删除用户
      */
-    const deleteUser = (row: UserListItem): void => {
-        console.log('删除用户:', row)
+    //const deleteUser = (row: UserListItem): void => {
+    //    console.log('删除用户:', row)
+    //    ;(async () => {
+    //        try {
+    //            // 检查是否为钉钉用户
+    //            if (row.dingtalkBound) {
+    //                await ElMessageBox.alert('钉钉用户无法删除', '提示', {
+    //                    confirmButtonText: '确认',
+    //                    type: 'warning',
+    //                })
+    //                return
+    //            }
+    //
+    //            // 检查是否为当前用户
+    //            if (row.id === currentUserId.value) {
+    //                await ElMessageBox.alert('删除失败，无法删除自己', '提示', {
+    //                    confirmButtonText: '确认',
+    //                    type: 'warning',
+    //                })
+    //                return
+    //            }
+    //
+    //            await ElMessageBox.confirm(`确定要注销该用户吗？`, '注销用户', {
+    //                confirmButtonText: '确定',
+    //                cancelButtonText: '取消',
+    //                type: 'error',
+    //            })
+    //
+    //            await fetchDeleteUser(row.id)
+    //            ElMessage.success('注销成功')
+    //            await refreshRemove()
+    //        } catch (error) {
+    //            console.log(error)
+    //            // 取消或失败
+    //        }
+    //    })()
+    //}
+
+    /**
+     * 启用/禁用用户
+     */
+    const toggleUserStatus = (row: UserListItem): void => {
+        console.log('切换用户状态:', row)
         ;(async () => {
             try {
-                // 检查是否为钉钉用户
-                if (row.dingtalkBound) {
-                    await ElMessageBox.alert('钉钉用户无法删除', '提示', {
-                        confirmButtonText: '确认',
-                        type: 'warning',
-                    })
-                    return
-                }
-
                 // 检查是否为当前用户
                 if (row.id === currentUserId.value) {
-                    await ElMessageBox.alert('删除失败，无法删除自己', '提示', {
+                    await ElMessageBox.alert('操作失败，无法操作自己的账号状态', '提示', {
                         confirmButtonText: '确认',
                         type: 'warning',
                     })
                     return
                 }
 
-                await ElMessageBox.confirm(`确定要注销该用户吗？`, '注销用户', {
+                const newStatus = String(row.status) === '0' ? '1' : '0'
+                const statusText = newStatus === '0' ? '启用' : '禁用'
+
+                await ElMessageBox.confirm(`确定要${statusText}该用户吗？`, `${statusText}用户`, {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
-                    type: 'error',
+                    type: newStatus === '0' ? 'success' : 'warning',
                 })
 
-                await fetchDeleteUser(row.id)
-                ElMessage.success('注销成功')
-                await refreshRemove()
+                await fetchToggleUserStatus(row.id, { status: Number(newStatus) })
+                ElMessage.success(`${statusText}成功`)
+                await refreshData()
             } catch (error) {
                 console.log(error)
                 // 取消或失败

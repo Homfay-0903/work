@@ -34,6 +34,15 @@ export function fetchDeleteUser(id: number) {
     })
 }
 
+// 启用/禁用用户
+export function fetchToggleUserStatus(id: number, body: { status: number }) {
+    return request.put<void>({
+        url: `/api/v1/user/${id}/toggle-status`,
+        data: body,
+        operationDesc: body.status === 0 ? '启用用户' : '禁用用户',
+    })
+}
+
 // 获取角色列表
 export function fetchGetRoleList(params: Api.SystemManage.RoleSearchParams) {
     return request.get<Api.SystemManage.RoleList>({
