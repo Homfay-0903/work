@@ -49,6 +49,7 @@
                             />
                         </ElFormItem>
 
+                        <!-- 同意隐私政策 
                         <ElFormItem prop="agreement">
                             <div class="agreement-container">
                                 <ElCheckbox v-model="formData.agreement"></ElCheckbox>
@@ -62,6 +63,7 @@
                                 </div>
                             </div>
                         </ElFormItem>
+                        -->
 
                         <div style="margin-top: 15px">
                             <ElButton
@@ -174,13 +176,13 @@
      * 验证用户协议
      * 确保用户已勾选同意协议
      */
-    const validateAgreement = (_rule: any, value: boolean, callback: (error?: Error) => void) => {
-        if (!value) {
-            callback(new Error(t('register.rule.agreementRequired')))
-            return
-        }
-        callback()
-    }
+    //const validateAgreement = (_rule: any, value: boolean, callback: (error?: Error) => void) => {
+    //    if (!value) {
+    //        callback(new Error(t('register.rule.agreementRequired')))
+    //        return
+    //    }
+    //    callback()
+    //}
 
     const rules = computed<FormRules<RegisterForm>>(() => ({
         username: [
@@ -197,7 +199,7 @@
             { min: PASSWORD_MIN_LENGTH, message: t('register.rule.passwordLength'), trigger: 'blur' },
         ],
         confirmPassword: [{ required: true, validator: validateConfirmPassword, trigger: 'blur' }],
-        agreement: [{ validator: validateAgreement, trigger: 'change' }],
+        //agreement: [{ validator: validateAgreement, trigger: 'change' }],
     }))
 
     /**
@@ -251,9 +253,9 @@
     /**
      * 打开隐私政策弹窗
      */
-    const openPrivacyPolicy = () => {
-        privacyPolicyDialogVisible.value = true
-    }
+    //const openPrivacyPolicy = () => {
+    //    privacyPolicyDialogVisible.value = true
+    //}
 
     /**
      * 处理隐私政策同意

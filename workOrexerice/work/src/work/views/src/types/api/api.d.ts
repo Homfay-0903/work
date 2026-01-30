@@ -279,7 +279,7 @@ declare namespace Api {
             /** 最后登录时间 */
             lastLoginAt?: string
             /** 用户角色列表 */
-            userRoles?: string[]
+            userRoles?: UserRole[]
             /** 是否已绑定钉钉账号 */
             dingtalkBound?: boolean
             /** 创建时间 */
@@ -302,6 +302,11 @@ declare namespace Api {
 
         /** 角色列表 */
         type RoleList = Api.Common.PaginatedResponse<RoleListItem>
+
+        interface UserRole {
+            id: number
+            name: string
+        }
 
         /** 角色列表项 */
         interface RoleListItem {

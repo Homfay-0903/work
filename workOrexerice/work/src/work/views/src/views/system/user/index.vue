@@ -34,6 +34,9 @@
                 @pagination:size-change="handleSizeChange"
                 @pagination:current-change="handleCurrentChange"
             >
+                <template #role="{ row }">
+                    <div style="min-height: 32px; line-height: 20px; padding: 4px 0" v-html="getRoleText(row)"></div>
+                </template>
             </ArtTable>
 
             <!-- 用户弹窗 -->
@@ -113,6 +116,18 @@
         )
     }
 
+    /**
+     * 获取角色文本
+     */
+    const getRoleText = (row: UserListItem) => {
+        const roles = row.userRoles?.map(item => item.name) || []
+
+        if (roles.length === 0) {
+            return '无'
+        }
+        return roles.join('<br>')
+    }
+
     const {
         columns,
         columnChecks,
@@ -145,7 +160,13 @@
             // },
             columnsFactory: () => [
                 //{ type: 'selection' }, // 勾选列
-                { type: 'index', width: 60, label: '序号' }, // 序号
+                {
+                    type: 'index',
+                    width: 100,
+                    headerAlign: 'center',
+                    align: 'center',
+                    label: '序号',
+                },
                 {
                     'prop': 'userInfo',
                     'label': '账号名称',
@@ -170,31 +191,51 @@
                         return row.username
                     },
                 },
+                //{
+                //    prop: 'userGender',
+                //    label: '性别',
+                //    width: 80,
+                //    sortable: true,
+                //    formatter: row => {
+                //        const g = Number(row.gender)
+                //        if (g === 1) return '男'
+                //        if (g === 2) return '女'
+                //        return '未知'
+                //    },
+                //},
                 {
-                    prop: 'userGender',
-                    label: '性别',
-                    width: 80,
-                    sortable: true,
-                    formatter: row => {
-                        const g = Number(row.gender)
-                        if (g === 1) return '男'
-                        if (g === 2) return '女'
-                        return '未知'
-                    },
-                },
-                {
-                    'prop': 'userPhone',
-                    'label': '手机号',
+                    'prop': 'role',
+                    'label': '角色',
+                    'width': 250,
                     'header-align': 'center',
                     'align': 'center',
                     'sortable': true,
-                    'formatter': row => {
-                        return row.mobile
+                    'useSlot': true,
+                },
+                {
+                    prop: 'lastLoginAt',
+                    label: '最近登录时间',
+                    headerAlign: 'center',
+                    align: 'center',
+                    sortable: true,
+                    formatter: row => {
+                        const date = new Date(row.lastLoginAt || '')
+                        const year = date.getFullYear()
+                        const month = date.getMonth() + 1
+                        const day = date.getDate()
+                        const hours = date.getHours().toString().padStart(2, '0')
+                        const minutes = date.getMinutes().toString().padStart(2, '0')
+                        const seconds = date.getSeconds().toString().padStart(2, '0')
+                        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
                     },
                 },
                 {
                     prop: 'status',
                     label: '状态',
+                    width: 250,
+                    headerAlign: 'center',
+                    align: 'center',
+                    sortable: true,
                     formatter: row => {
                         //row.status = '1'
                         const statusConfig = getUserStatusConfig(row.status)
@@ -202,18 +243,9 @@
                     },
                 },
                 {
-                    prop: 'createTime',
-                    label: '创建日期',
-                    sortable: true,
-                    formatter: row => {
-                        const date = new Date(row.createdAt)
-                        return date.toLocaleString()
-                    },
-                },
-                {
                     'prop': 'operation',
                     'label': '操作',
-                    'width': 120,
+                    'width': 200,
                     'fixed': 'right', // 固定列
                     'header-align': 'center',
                     'align': 'center',

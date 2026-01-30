@@ -257,7 +257,8 @@ async function handleDynamicRoutes(
 
         // 2. 获取菜单数据
         if (!menuProcessor) {
-            throw new Error('菜单处理器未初始化')
+            // 重新初始化菜单处理器
+            menuProcessor = new MenuProcessor()
         }
         const menuList = await menuProcessor.getMenuList()
 
@@ -267,7 +268,11 @@ async function handleDynamicRoutes(
         }
 
         // 4. 注册动态路由
-        routeRegistry?.register(menuList)
+        if (!routeRegistry) {
+            // 重新初始化路由注册器
+            routeRegistry = new RouteRegistry(router)
+        }
+        routeRegistry.register(menuList)
 
         // 5. 保存菜单数据到 store
         const menuStore = useMenuStore()
