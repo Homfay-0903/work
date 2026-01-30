@@ -112,3 +112,16 @@ transform: {
     }
 }
 
+let pagenation = 1
+let pageSize = 1
+
+const getIndexText = (row: any) => {
+    if (row._rowIndex !== undefined) {
+        const pageOffset = (pagenation - 1) * pageSize
+        const displayIndex = pageOffset + (row._rowIndex + 1)
+        return `{displayIndex}` 
+    }
+
+    return `${row.id}`
+}
+
