@@ -343,10 +343,10 @@
      * 获取训练部位文本
      */
     const getPartText = (row: ActionListItem) => {
-        if (!row.muscleRegions || row.muscleRegions.length === 0) {
-            return '无'
-        }
         const langCode = row.langCode || 'zh-CN'
+        if (!row.muscleRegions || row.muscleRegions.length === 0) {
+            return (MUSCLE_REGIONS_TRANSLATIONS as Record<string, Record<string, string>>)[langCode]?.['无'] || '无'
+        }
         return row.muscleRegions
             .map(part => {
                 const partName = part.name || '未知'
@@ -483,7 +483,7 @@
                     'width': 120,
                     'header-align': 'center',
                     'align': 'center',
-                    'formatter': (row: ActionListItem) => getTypeText(row.type, row.langCode || 'zh-CN'),
+                    'formatter': (row: ActionListItem) => getTypeText(row.type, 'zh-CN'),
                 },
                 {
                     'prop': 'scene',
@@ -543,7 +543,7 @@
                     'header-align': 'center',
                     'align': 'center',
                     'formatter': (row: ActionListItem) => {
-                        const statusConfig = getStatusConfig(row.status, row.langCode || 'zh-CN')
+                        const statusConfig = getStatusConfig(row.status, 'zh-CN')
                         return h(ElTag, { type: statusConfig.type as any }, () => statusConfig.text)
                     },
                 },

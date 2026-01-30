@@ -43,6 +43,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: '身心',
         大腿: '大腿',
         小腿: '小腿',
+        无: '无',
     },
     'zh-TW': {
         全身: '全身',
@@ -59,6 +60,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: '身心',
         大腿: '大腿',
         小腿: '小腿',
+        无: '無',
     },
     'zh-HK': {
         全身: '全身',
@@ -75,6 +77,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: '身心',
         大腿: '大腿',
         小腿: '小腿',
+        无: '無',
     },
     'sv-SE': {
         全身: 'Hela kroppen',
@@ -91,6 +94,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Lik och sinne',
         大腿: 'Thighs',
         小腿: 'Calf',
+        无: 'Ingen',
     },
     'hu-HU': {
         全身: 'Az egész test',
@@ -107,6 +111,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Test és lélek',
         大腿: ' Combok',
         小腿: 'Boka',
+        无: 'Nincs',
     },
     'fi-FI': {
         全身: 'Koko keho',
@@ -123,6 +128,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Keho ja henki',
         大腿: 'Lonkat',
         小腿: 'Jalkapohja',
+        无: 'Ei mitään',
     },
     'el-GR': {
         全身: 'Ολόκληρο το σώμα',
@@ -139,6 +145,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Σώμα και ψυχή',
         大腿: 'Από τους μηρούς',
         小腿: 'Πλάτα ποδιού',
+        无: 'Τίποτα',
     },
     'cs-CZ': {
         全身: 'Celé tělo',
@@ -155,6 +162,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Tělo a duše',
         大腿: 'Stehna',
         小腿: 'Holenní kost',
+        无: 'Nic',
     },
     'ar-AR': {
         全身: 'الجسم بأكمله',
@@ -171,6 +179,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'الجسم والنفس',
         大腿: 'الساقين العلوية',
         小腿: 'الساقين السفلية',
+        无: 'لا شيء',
     },
     'en': {
         全身: 'Full Body',
@@ -187,6 +196,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Body and Mind',
         大腿: 'Thighs',
         小腿: 'Calves',
+        无: 'None',
     },
     'en-US': {
         全身: 'Full Body',
@@ -203,6 +213,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Body and Mind',
         大腿: 'Thighs',
         小腿: 'Calves',
+        无: 'None',
     },
     'en-GB': {
         全身: 'Full Body',
@@ -219,6 +230,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Body and Mind',
         大腿: 'Thighs',
         小腿: 'Calves',
+        无: 'None',
     },
     'ja': {
         全身: '全身',
@@ -235,6 +247,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: '身心',
         大腿: '太もも',
         小腿: '脹脛',
+        无: 'なし',
     },
     'ja-JP': {
         全身: '全身',
@@ -251,6 +264,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: '身心',
         大腿: '太もも',
         小腿: '脹脛',
+        无: 'なし',
     },
     'ko': {
         全身: '전신',
@@ -267,6 +281,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: '심신',
         大腿: '허벅지',
         小腿: '종아리',
+        无: '없음',
     },
     'ko-KR': {
         全身: '전신',
@@ -283,6 +298,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: '심신',
         大腿: '허벅지',
         小腿: '종아리',
+        无: '없음',
     },
     'es': {
         全身: 'Cuerpo completo',
@@ -299,6 +315,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Cuerpo y mente',
         大腿: 'Muslos',
         小腿: 'Pantorrillas',
+        无: 'Ninguno',
     },
     'es-ES': {
         全身: 'Cuerpo completo',
@@ -315,6 +332,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Cuerpo y mente',
         大腿: 'Muslos',
         小腿: 'Pantorrillas',
+        无: 'Ninguno',
     },
     'fr': {
         全身: 'Corps entier',
@@ -331,6 +349,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Corps et esprit',
         大腿: 'Cuisses',
         小腿: 'Mollets',
+        无: 'Aucun',
     },
     'fr-FR': {
         全身: 'Corps entier',
@@ -347,6 +366,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Corps et esprit',
         大腿: 'Cuisses',
         小腿: 'Mollets',
+        无: 'Aucun',
     },
     'de': {
         全身: 'Ganzkörper',
@@ -363,6 +383,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Körper und Geist',
         大腿: 'Oberschenkel',
         小腿: 'Waden',
+        无: 'Keine',
     },
     'de-DE': {
         全身: 'Ganzkörper',
@@ -379,6 +400,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Körper und Geist',
         大腿: 'Oberschenkel',
         小腿: 'Waden',
+        无: 'Keine',
     },
     'ru': {
         全身: 'Полное тело',
@@ -395,6 +417,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Тело и разум',
         大腿: 'Бедра',
         小腿: 'Нижние части ног',
+        无: 'Ничего',
     },
     'ru-RU': {
         全身: 'Полное тело',
@@ -411,6 +434,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Тело и разум',
         大腿: 'Бедра',
         小腿: 'Нижние части ног',
+        无: 'Ничего',
     },
     'pt': {
         全身: 'Corpo inteiro',
@@ -427,6 +451,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Corpo e mente',
         大腿: 'Coxas',
         小腿: 'Panturrilhas',
+        无: 'Nenhum',
     },
     'pt-BR': {
         全身: 'Corpo inteiro',
@@ -443,6 +468,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Corpo e mente',
         大腿: 'Coxas',
         小腿: 'Panturrilhas',
+        无: 'Nenhum',
     },
     'pt-PT': {
         全身: 'Corpo inteiro',
@@ -459,6 +485,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Corpo e mente',
         大腿: 'Coxas',
         小腿: 'Panturrilhas',
+        无: 'Nenhum',
     },
     'ar': {
         全身: 'الجسم بأكمله',
@@ -475,6 +502,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'الجسم والنفس',
         大腿: 'الساقين العلوية',
         小腿: 'الساقين السفلية',
+        无: 'لا شيء',
     },
     'ar-SA': {
         全身: 'الجسم بأكمله',
@@ -491,6 +519,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'الجسم والنفس',
         大腿: 'الساقين العلوية',
         小腿: 'الساقين السفلية',
+        无: 'لا شيء',
     },
     'it': {
         全身: 'Corpo intero',
@@ -507,6 +536,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Corpo e mente',
         大腿: 'Cosce',
         小腿: 'Gambe inferiori',
+        无: 'Nessuno',
     },
     'it-IT': {
         全身: 'Corpo intero',
@@ -523,6 +553,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Corpo e mente',
         大腿: 'Cosce',
         小腿: 'Gambe inferiori',
+        无: 'Nessuno',
     },
     'nl': {
         全身: 'Hele lichaam',
@@ -539,6 +570,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Lichaam en geest',
         大腿: 'Onderbenen',
         小腿: 'Knieën',
+        无: 'Geen',
     },
     'nl-NL': {
         全身: 'Hele lichaam',
@@ -555,6 +587,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Lichaam en geest',
         大腿: 'Onderbenen',
         小腿: 'Knieën',
+        无: 'Geen',
     },
     'pl': {
         全身: 'Całe ciało',
@@ -571,6 +604,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Ciało i umysł',
         大腿: 'Uda',
         小腿: 'Łydki',
+        无: 'Żaden',
     },
     'pl-PL': {
         全身: 'Całe ciało',
@@ -587,6 +621,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Ciało i umysł',
         大腿: 'Uda',
         小腿: 'Łydki',
+        无: 'Żaden',
     },
     'tr': {
         全身: 'Tüm vücut',
@@ -603,6 +638,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Vücut ve zihin',
         大腿: 'Üst bacaklar',
         小腿: 'Alt bacaklar',
+        无: 'Hiçbiri',
     },
     'tr-TR': {
         全身: 'Tüm vücut',
@@ -619,6 +655,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Vücut ve zihin',
         大腿: 'Üst bacaklar',
         小腿: 'Alt bacaklar',
+        无: 'Hiçbiri',
     },
     'vi': {
         全身: 'Toàn thân',
@@ -635,6 +672,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Thân thể và tâm trí',
         大腿: 'Đùi',
         小腿: 'Chân dưới',
+        无: 'Không',
     },
     'vi-VN': {
         全身: 'Toàn thân',
@@ -651,6 +689,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Thân thể và tâm trí',
         大腿: 'Đùi',
         小腿: 'Chân dưới',
+        无: 'Không',
     },
     'th': {
         全身: 'ร่างกายทั้งหมด',
@@ -667,6 +706,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'ร่างกายและจิตใจ',
         大腿: 'ขาหลัง',
         小腿: 'ขาใน',
+        无: 'ไม่มี',
     },
     'th-TH': {
         全身: 'ร่างกายทั้งหมด',
@@ -683,6 +723,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'ร่างกายและจิตใจ',
         大腿: 'ขาหลัง',
         小腿: 'ขาใน',
+        无: 'ไม่มี',
     },
     'id': {
         全身: 'Seluruh tubuh',
@@ -699,6 +740,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Tubuh dan pikiran',
         大腿: 'Paha',
         小腿: 'Betis',
+        无: 'Tidak ada',
     },
     'id-ID': {
         全身: 'Seluruh tubuh',
@@ -715,6 +757,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Tubuh dan pikiran',
         大腿: 'Paha',
         小腿: 'Betis',
+        无: 'Tidak ada',
     },
     'ms': {
         全身: 'Seluruh badan',
@@ -731,6 +774,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Badan dan minda',
         大腿: 'Paha',
         小腿: 'Betis',
+        无: 'Tiada',
     },
     'ms-MY': {
         全身: 'Seluruh badan',
@@ -747,6 +791,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Badan dan minda',
         大腿: 'Paha',
         小腿: 'Betis',
+        无: 'Tiada',
     },
     'hi': {
         全身: 'संपूर्ण शरीर',
@@ -763,6 +808,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'शरीर और मन',
         大腿: 'जांघें',
         小腿: 'शरीर के निचले हिस्से',
+        无: 'कुछ नहीं',
     },
     'hi-IN': {
         全身: 'संपूर्ण शरीर',
@@ -779,6 +825,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'शरीर और मन',
         大腿: 'जांघें',
         小腿: 'शरीर के निचले हिस्से',
+        无: 'कुछ नहीं',
     },
     'bn': {
         全身: 'পুরো শরীর',
@@ -795,6 +842,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'শরীর এবং মন',
         大腿: 'জোয়াড়',
         小腿: 'শরীরের নীচে অংশ',
+        无: 'কিছু না',
     },
     'bn-IN': {
         全身: 'পুরো শরীর',
@@ -811,6 +859,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'শরীর এবং মন',
         大腿: 'জোয়াড়',
         小腿: 'শরীরের নীচে অংশ',
+        无: 'কিছু না',
     },
     'uk': {
         全身: 'Ціле тіло',
@@ -827,6 +876,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Тіло і розум',
         大腿: 'Стегна',
         小腿: 'Легені',
+        无: 'Нічого',
     },
     'uk-UA': {
         全身: 'Ціле тіло',
@@ -843,6 +893,7 @@ export const MUSCLE_REGIONS_TRANSLATIONS = {
         身心: 'Тіло і розум',
         大腿: 'Стегна',
         小腿: 'Легені',
+        无: 'Нічого',
     },
 }
 
@@ -865,6 +916,7 @@ export const EXERCISE_MUSCLES_TRANSLATIONS = {
         肱三头肌: '肱三头肌',
         前臂肌群: '前臂肌群',
         腹肌: '腹肌',
+        无: '无',
     },
     'zh-TW': {
         胸大肌: '胸大肌',
@@ -883,6 +935,7 @@ export const EXERCISE_MUSCLES_TRANSLATIONS = {
         肱三头肌: '肱三頭肌',
         前臂肌群: '前臂肌群',
         腹肌: '腹肌',
+        无: '無',
     },
     'zh-HK': {
         胸大肌: '胸大肌',
@@ -901,6 +954,7 @@ export const EXERCISE_MUSCLES_TRANSLATIONS = {
         肱三头肌: '肱三頭肌',
         前臂肌群: '前臂肌群',
         腹肌: '腹肌',
+        无: '無',
     },
     'en-US': {
         胸大肌: 'Pectoralis Major',
@@ -919,9 +973,10 @@ export const EXERCISE_MUSCLES_TRANSLATIONS = {
         肱三头肌: 'Triceps',
         前臂肌群: 'Forearm Muscles',
         腹肌: 'Abdominals',
+        无: 'None',
     },
     'ru-RU': {
-        胸大肌: 'Большие грудные мышцы',
+        胸大肌: ' Большие грудные мышцы',
         三角肌前束: 'Передняя дельтовидная мышца',
         三角肌中束: 'Боковая дельтовидная мышца',
         三角肌后束: 'Задняя дельтовидная мышца',
@@ -937,6 +992,7 @@ export const EXERCISE_MUSCLES_TRANSLATIONS = {
         肱三头肌: 'Трицепс',
         前臂肌群: 'Мышцы предплечья',
         腹肌: 'Животные мышцы',
+        无: 'Ничего',
     },
     'es-ES': {
         胸大肌: 'Pectoral Mayor',
@@ -955,6 +1011,7 @@ export const EXERCISE_MUSCLES_TRANSLATIONS = {
         肱三头肌: 'Tríceps',
         前臂肌群: 'Músculos del Antebrazo',
         腹肌: 'Abdominales',
+        无: 'Ninguno',
     },
     'fr-FR': {
         胸大肌: 'Grand Pectoral',
@@ -973,6 +1030,7 @@ export const EXERCISE_MUSCLES_TRANSLATIONS = {
         肱三头肌: 'Triceps',
         前臂肌群: "Muscles de l'avant-bras",
         腹肌: 'Abdominaux',
+        无: 'Aucun',
     },
     'de-DE': {
         胸大肌: 'Großer Brustmuskel',
@@ -991,6 +1049,7 @@ export const EXERCISE_MUSCLES_TRANSLATIONS = {
         肱三头肌: 'Trizeps',
         前臂肌群: 'Unterarmmuskeln',
         腹肌: 'Bauchmuskeln',
+        无: 'Keine',
     },
     'it-IT': {
         胸大肌: 'Pettorale Maggiore',
@@ -1009,6 +1068,7 @@ export const EXERCISE_MUSCLES_TRANSLATIONS = {
         肱三头肌: 'Tricipiti',
         前臂肌群: "Muscoli dell'Avambraccio",
         腹肌: 'Addominali',
+        无: 'Nessuno',
     },
     'pt-PT': {
         胸大肌: 'Pectoral Maior',
@@ -1027,6 +1087,7 @@ export const EXERCISE_MUSCLES_TRANSLATIONS = {
         肱三头肌: 'Tríceps',
         前臂肌群: 'Músculos do Antebraço',
         腹肌: 'Abdominais',
+        无: 'Nenhum',
     },
     'nl-NL': {
         胸大肌: 'Grote Borstspier',
@@ -1045,6 +1106,7 @@ export const EXERCISE_MUSCLES_TRANSLATIONS = {
         肱三头肌: 'Triceps',
         前臂肌群: 'Voorarmspieren',
         腹肌: 'Buikspieren',
+        无: 'Geen',
     },
     'tr-TR': {
         胸大肌: 'Büyük Göğüs Kası',
@@ -1063,6 +1125,7 @@ export const EXERCISE_MUSCLES_TRANSLATIONS = {
         肱三头肌: 'Triceps',
         前臂肌群: 'Ön Kol Kasları',
         腹肌: 'Karın Kasları',
+        无: 'Hiçbiri',
     },
     'id-ID': {
         胸大肌: 'Otot Dada Besar',
@@ -1081,6 +1144,7 @@ export const EXERCISE_MUSCLES_TRANSLATIONS = {
         肱三头肌: 'Triceps',
         前臂肌群: 'Otot Lengan Depan',
         腹肌: 'Otot Perut',
+        无: 'Tidak ada',
     },
     'ja-JP': {
         胸大肌: '大胸筋',
@@ -1099,6 +1163,7 @@ export const EXERCISE_MUSCLES_TRANSLATIONS = {
         肱三头肌: '上腕三頭筋',
         前臂肌群: '前腕の筋肉',
         腹肌: '腹筋',
+        无: 'なし',
     },
     'th-TH': {
         胸大肌: 'กล้ามเนื้อหน้าอกใหญ่',
@@ -1117,6 +1182,7 @@ export const EXERCISE_MUSCLES_TRANSLATIONS = {
         肱三头肌: 'ทริเซปส์',
         前臂肌群: 'กล้ามเนื้อแขนหน้า',
         腹肌: 'กล้ามเนื้อหน้าท้อง',
+        无: 'ไม่มี',
     },
     'el-GR': {
         胸大肌: 'Μεγάλος θώρακας μυς',
@@ -1135,6 +1201,7 @@ export const EXERCISE_MUSCLES_TRANSLATIONS = {
         肱三头肌: 'Triceps',
         前臂肌群: 'Πρόχειρας μύες',
         腹肌: 'Παχύτες',
+        无: 'Τίποτα',
     },
     'ar-AR': {
         胸大肌: 'العضلة الصدرية الكبيرة',
@@ -1153,6 +1220,7 @@ export const EXERCISE_MUSCLES_TRANSLATIONS = {
         肱三头肌: 'العضلة ذات الرأس الثالث',
         前臂肌群: 'عضلات الساعد الأمامي',
         腹肌: 'عضلات البطن',
+        无: 'لا شيء',
     },
     'hu-HU': {
         胸大肌: 'Nagy mellizmok',
@@ -1171,6 +1239,7 @@ export const EXERCISE_MUSCLES_TRANSLATIONS = {
         肱三头肌: 'Tricepsz',
         前臂肌群: 'Előkarizmok',
         腹肌: 'Hasizmok',
+        无: 'Nincs',
     },
     'sv-SE': {
         胸大肌: 'Stor Bröstmuskel',
@@ -1189,6 +1258,7 @@ export const EXERCISE_MUSCLES_TRANSLATIONS = {
         肱三头肌: 'Triceps',
         前臂肌群: 'Underarmsmuskler',
         腹肌: 'Mage muskler',
+        无: 'Ingen',
     },
     'cs-CZ': {
         胸大肌: 'Velká prsní sval',
@@ -1207,6 +1277,7 @@ export const EXERCISE_MUSCLES_TRANSLATIONS = {
         肱三头肌: 'Triceps',
         前臂肌群: 'Svaly předloktí',
         腹肌: 'Břišní svaly',
+        无: 'Nic',
     },
     'fi-FI': {
         胸大肌: 'Suuri rintakeho',
@@ -1225,6 +1296,7 @@ export const EXERCISE_MUSCLES_TRANSLATIONS = {
         肱三头肌: 'Triceps',
         前臂肌群: 'Vartalon lihaksia',
         腹肌: 'Vatsalihaksia',
+        无: 'Ei mitään',
     },
 }
 

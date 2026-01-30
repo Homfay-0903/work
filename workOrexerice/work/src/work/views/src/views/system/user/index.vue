@@ -55,7 +55,7 @@
     import { fetchUpdateUserInfo, fetchGetUserInfo } from '@/api/auth'
     import UserSearch from './modules/user-search.vue'
     import UserDialog from './modules/user-dialog.vue'
-    import { ElTag, ElMessageBox, ElImage, ElMessage, ElButton } from 'element-plus'
+    import { ElTag, ElMessageBox, ElMessage, ElButton } from 'element-plus'
     import { DialogType } from '@/types'
     import { useAuth } from '@/hooks/core/useAuth'
     import { useUserStore } from '@/store/modules/user'
@@ -144,32 +144,36 @@
             //   size: 'pageSize'
             // },
             columnsFactory: () => [
-                { type: 'selection' }, // 勾选列
+                //{ type: 'selection' }, // 勾选列
                 { type: 'index', width: 60, label: '序号' }, // 序号
                 {
-                    prop: 'userInfo',
-                    label: '用户名',
-                    width: 280,
+                    'prop': 'userInfo',
+                    'label': '账号名称',
+                    'header-align': 'center',
+                    'align': 'center',
+                    'width': 280,
                     // visible: false, // 默认是否显示列
-                    formatter: row => {
-                        return h('div', { class: 'user flex-c' }, [
-                            h(ElImage, {
-                                class: 'size-9.5 rounded-md',
-                                src: row.avatar,
-                                previewSrcList: [row.avatar],
-                                // 图片预览是否插入至 body 元素上，用于解决表格内部图片预览样式异常
-                                previewTeleported: true,
-                            }),
-                            h('div', { class: 'ml-2' }, [
-                                h('p', { class: 'user-name' }, row.username),
-                                h('p', { class: 'email' }, row.email),
-                            ]),
-                        ])
+                    'formatter': row => {
+                        //return h('div', { class: 'user flex-c' }, [
+                        //    h(ElImage, {
+                        //        class: 'size-9.5 rounded-md',
+                        //        src: row.avatar,
+                        //        previewSrcList: [row.avatar],
+                        //        // 图片预览是否插入至 body 元素上，用于解决表格内部图片预览样式异常
+                        //        previewTeleported: true,
+                        //    }),
+                        //    h('div', { class: 'ml-2' }, [
+                        //        h('p', { class: 'user-name' }, row.username),
+                        //        h('p', { class: 'email' }, row.email),
+                        //    ]),
+                        //])
+                        return row.username
                     },
                 },
                 {
                     prop: 'userGender',
                     label: '性别',
+                    width: 80,
                     sortable: true,
                     formatter: row => {
                         const g = Number(row.gender)
@@ -179,10 +183,12 @@
                     },
                 },
                 {
-                    prop: 'userPhone',
-                    label: '手机号',
-                    sortable: true,
-                    formatter: row => {
+                    'prop': 'userPhone',
+                    'label': '手机号',
+                    'header-align': 'center',
+                    'align': 'center',
+                    'sortable': true,
+                    'formatter': row => {
                         return row.mobile
                     },
                 },

@@ -1889,8 +1889,7 @@
         if (!formRef.value) return
         try {
             await formRef.value.validate()
-        } catch (error) {
-            console.error('表单验证失败:', error)
+        } catch {
             ElMessage.error('请填写完整信息')
             return
         }
