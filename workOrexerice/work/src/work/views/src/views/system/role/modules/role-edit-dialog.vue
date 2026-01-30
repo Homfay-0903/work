@@ -25,8 +25,12 @@
     import { fetchCreateRole, fetchUpdateRole } from '@/api/system-manage'
     import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
     import { computed, reactive, watch } from 'vue'
+    import { useUserStore } from '@/store/modules/user'
 
     type RoleListItem = Api.SystemManage.RoleListItem
+
+    const userStore = useUserStore()
+    const userInfo = computed(() => userStore.getUserInfo)
 
     interface Props {
         modelValue: boolean
@@ -75,6 +79,8 @@
         id: 0,
         name: '',
         description: '',
+        status: 0,
+        createdBy: userInfo.value?.username || '',
     })
 
     /**

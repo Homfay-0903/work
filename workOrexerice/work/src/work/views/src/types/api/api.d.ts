@@ -323,6 +323,14 @@ declare namespace Api {
             updatedAt?: string
             /** 删除时间 */
             deletedAt?: string
+            /** 状态 (0:启用, 1:禁用) */
+            status: number
+            /** 创建人 */
+            createdBy: string
+        }
+
+        interface RoleStatusUpdateBody {
+            status: number
         }
 
         interface RoleMenu {
@@ -335,7 +343,9 @@ declare namespace Api {
             Pick<RoleListItem, 'id' | 'name' | 'description'> & Api.Common.CommonSearchParams
         >
 
-        type RoleCreateBody = Pick<RoleListItem, 'name' | 'description'>
+        type RoleCreateBody = Pick<RoleListItem, 'name' | 'description'> & {
+            createdBy: string
+        }
 
         type RoleUpdateBody = Pick<RoleListItem, 'id'> & RoleCreateBody
 

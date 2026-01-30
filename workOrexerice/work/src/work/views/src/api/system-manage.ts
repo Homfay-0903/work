@@ -75,6 +75,15 @@ export function fetchUpdateRolePermission(body: Api.SystemManage.RolePermissionU
     })
 }
 
+// 启用/禁用角色
+export function fetchToggleRoleStatus(id: number, body: Api.SystemManage.RoleStatusUpdateBody) {
+    return request.put<void>({
+        url: `/api/v1/role/status/${id}`,
+        data: body,
+        operationDesc: body.status === 0 ? '启用角色' : '禁用角色',
+    })
+}
+
 export function fetchDeleteRole(id: number) {
     return request.del<void>({
         url: `/api/v1/role/${id}`,
