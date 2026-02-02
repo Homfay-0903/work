@@ -94,8 +94,8 @@
     // 动态生成验证规则
     const pwdRules = computed<FormRules>(() => {
         const rules: FormRules = {
-            newPassword: [{ validator: validateNewPassword, trigger: 'blur' }],
-            confirmPassword: [{ validator: validateConfirmPassword, trigger: 'blur' }],
+            newPassword: [{ required: true, validator: validateNewPassword, trigger: 'blur' }],
+            confirmPassword: [{ required: true, validator: validateConfirmPassword, trigger: 'blur' }],
         }
 
         // 非管理员模式下需要验证当前密码

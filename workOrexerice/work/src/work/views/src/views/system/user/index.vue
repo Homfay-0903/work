@@ -127,6 +127,18 @@
         return roles.join('<br>')
     }
 
+    /**
+     * 获取序号文本
+     */
+    const getIndexText = (row: UserListItem) => {
+        if ((row as any)._rowIndex !== undefined) {
+            const pageOffset = (pagination.page - 1) * pagination.size
+            const displayIndex = (row as any)._rowIndex + 1 + pageOffset
+            return `${displayIndex}`
+        }
+        return ''
+    }
+
     const {
         columns,
         columnChecks,
@@ -160,11 +172,12 @@
             columnsFactory: () => [
                 //{ type: 'selection' }, // 勾选列
                 {
-                    type: 'index',
+                    prop: 'index',
                     width: 100,
                     headerAlign: 'center',
                     align: 'center',
                     label: '序号',
+                    formatter: (row: UserListItem): string => getIndexText(row),
                 },
                 {
                     'prop': 'userInfo',
@@ -318,12 +331,22 @@
                     return []
                 }
 
-                return records.map((item, index: number) => {
-                    return {
-                        ...item,
-                        avatar: item.avatar || ACCOUNT_TABLE_DATA[index % ACCOUNT_TABLE_DATA.length].avatar,
-                    }
-                })
+                type UserListItemWithIndex = UserListItem & { _rowIndex?: number }
+
+                //return records.map((item, index: number) => {
+                //    return {
+                //        ...item,
+                //        avatar: item.avatar || ACCOUNT_TABLE_DATA[index % ACCOUNT_TABLE_DATA.length].avatar,
+                //    }
+                //})
+
+                const processedRecords: UserListItemWithIndex[] = records.map((item, index: number) => ({
+                    ...item,
+                    avatar: item.avatar || ACCOUNT_TABLE_DATA[index % ACCOUNT_TABLE_DATA.length].avatar,
+                    _rowIndex: index,
+                }))
+
+                return processedRecords
             },
         },
     })
