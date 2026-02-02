@@ -4,6 +4,13 @@
             <ElFormItem label="用户名" prop="username">
                 <ElInput v-model="formData.username" placeholder="请输入用户名" />
             </ElFormItem>
+            <ElFormItem label="账号密码" prop="password">
+                <ElInput v-model="formData.password" placeholder="请输入密码" type="password" />
+            </ElFormItem>
+            <ElFormItem label="确认密码" prop="confirmPassword">
+                <ElInput v-model="formData.confirmPassword" placeholder="请输入确认密码" type="password" />
+            </ElFormItem>
+            <!---
             <ElFormItem label="昵称" prop="nickname">
                 <ElInput v-model="formData.nickname" placeholder="请输入昵称" />
             </ElFormItem>
@@ -20,6 +27,7 @@
                     <ElOption label="女" :value="2" />
                 </ElSelect>
             </ElFormItem>
+            -->
             <ElFormItem label="角色" prop="role">
                 <ElSelect v-model="formData.role" multiple>
                     <ElOption v-for="role in roleList" :key="role.id" :value="role.id" :label="role.name" />
@@ -72,6 +80,8 @@
     // 表单数据
     const formData = reactive({
         username: '',
+        password: '',
+        confirmPassword: '',
         nickname: '',
         mobile: '',
         email: '',
@@ -79,29 +89,70 @@
         role: [] as number[],
     })
 
+    /**
+     * 密码验证规则
+     * @param rule 验证规则
+     * @param value 密码值
+     * @param callback 验证回调
+     */
+    const validatePassword = (rule: any, value: string, callback: any) => {
+        if (!value) {
+            callback(new Error('请输入密码'))
+        } else {
+            if (formData.confirmPassword) {
+                formRef.value?.validateField('confirmPassword')
+            }
+        }
+        callback()
+    }
+
+    /**
+     * 确认密码验证规则
+     * @param rule 验证规则
+     * @param value 确认密码值
+     * @param callback 验证回调
+     */
+    const validateConfirmPassword = (rule: any, value: string, callback: any) => {
+        if (!value) {
+            callback(new Error('请输入确认密码'))
+        } else if (value !== formData.password) {
+            callback(new Error('两次输入密码不一致'))
+        } else {
+            callback()
+        }
+    }
+
     // 表单验证规则
     const rules: FormRules = {
         username: [
             { required: true, message: '请输入用户名', trigger: 'blur' },
             { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' },
         ],
-        nickname: [
-            { required: false, message: '请输入昵称', trigger: 'blur' },
-            { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' },
+        password: [
+            { required: true, validator: validatePassword, trigger: 'blur' },
+            { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' },
         ],
-        mobile: [
-            { required: true, message: '请输入手机号', trigger: 'blur' },
-            { pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号格式', trigger: 'blur' },
+        confirmPassword: [
+            { required: true, validator: validateConfirmPassword, trigger: 'blur' },
+            { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' },
         ],
-        email: [
-            { required: false, message: '请输入邮箱', trigger: 'blur' },
-            {
-                pattern: /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/,
-                message: '请输入正确的邮箱格式',
-                trigger: 'blur',
-            },
-        ],
-        gender: [{ required: true, message: '请选择性别', trigger: 'change' }],
+        //nickname: [
+        //    { required: false, message: '请输入昵称', trigger: 'blur' },
+        //    { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' },
+        //],
+        //mobile: [
+        //    { required: true, message: '请输入手机号', trigger: 'blur' },
+        //    { pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号格式', trigger: 'blur' },
+        //],
+        //email: [
+        //    { required: false, message: '请输入邮箱', trigger: 'blur' },
+        //    {
+        //        pattern: /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/,
+        //        message: '请输入正确的邮箱格式',
+        //        trigger: 'blur',
+        //    },
+        //],
+        //gender: [{ required: true, message: '请选择性别', trigger: 'change' }],
         role: [{ required: true, message: '请选择角色', trigger: 'change' }],
     }
 
@@ -118,7 +169,7 @@
             nickname: isEdit && row ? row.nickname || '' : '',
             mobile: isEdit && row ? row.mobile || '' : '',
             email: isEdit && row ? row.email || '' : '',
-            gender: isEdit && row ? (typeof row.gender === 'number' ? row.gender : 1) : 1,
+            gender: isEdit && row ? (typeof row.gender === 'number' ? row.gender : 0) : 0,
             // 将后端传回的 role 对象或 userRoles 转换为 role id 数组
             role:
                 isEdit && row && Array.isArray(row.userRoles)
@@ -177,10 +228,12 @@
             if (valid) {
                 const payload: any = {
                     username: formData.username,
-                    nickname: formData.nickname,
-                    mobile: formData.mobile,
-                    email: formData.email,
-                    gender: Number(formData.gender),
+                    password: formData.password,
+                    roleIds: formData.role,
+                    //nickname: formData.nickname,
+                    //mobile: formData.mobile,
+                    //email: formData.email,
+                    //gender: Number(formData.gender),
                 }
                 if (dialogType.value === 'edit' && props.userData && props.userData.id) {
                     payload.id = props.userData.id

@@ -253,6 +253,8 @@ declare namespace Api {
             id: number
             /** 用户名 */
             username: string
+            /** 密码 */
+            password: string
             /** 统一ID */
             unionId: string
             /** 手机号 */
@@ -296,7 +298,14 @@ declare namespace Api {
                 Api.Common.CommonSearchParams
         >
 
-        type UserCreateBody = Pick<UserListItem, 'username' | 'mobile' | 'gender'>
+        //type UserCreateBody = Pick<UserListItem, 'username' | 'mobile' | 'gender' | 'password'>
+        interface UserCreateBody {
+            username: string
+            password: string
+            roleIds: number[]
+            mobile?: string
+            gender?: number
+        }
 
         type UserUpdateBody = Pick<UserListItem, 'id'> & UserCreateBody
 

@@ -219,6 +219,9 @@
                     //sortable: true,
                     formatter: row => {
                         const date = new Date(row.lastLoginAt || '')
+                        if (isNaN(date.getTime())) {
+                            return '未登录'
+                        }
                         const year = date.getFullYear()
                         const month = date.getMonth() + 1
                         const day = date.getDate()
@@ -449,24 +452,26 @@
             const dataToSubmit = payload || { ...currentUserData.value }
 
             // 基础必填校验
-            if (!dataToSubmit.username) {
-                ElMessage.error('请输入用户名')
-                return
-            }
-            if (!dataToSubmit.mobile) {
-                ElMessage.error('请输入手机号')
-                return
-            }
-            if (dataToSubmit.gender === undefined || dataToSubmit.gender === null) {
-                ElMessage.error('请选择性别')
-                return
-            }
+            //if (!dataToSubmit.username) {
+            //    ElMessage.error('请输入用户名')
+            //    return
+            //}
+            //if (!dataToSubmit.mobile) {
+            //    ElMessage.error('请输入手机号')
+            //    return
+            //}
+            //if (dataToSubmit.gender === undefined || dataToSubmit.gender === null) {
+            //    ElMessage.error('请选择性别')
+            //    return
+            //}
 
             if (dialogType.value === 'add') {
                 await fetchCreateUser({
                     username: dataToSubmit.username,
-                    mobile: dataToSubmit.mobile,
-                    gender: Number(dataToSubmit.gender),
+                    password: dataToSubmit.password,
+                    roleIds: dataToSubmit.roleIds,
+                    //mobile: dataToSubmit.mobile,
+                    //gender: Number(dataToSubmit.gender),
                 })
                 ElMessage.success('创建成功')
                 await refreshCreate()
