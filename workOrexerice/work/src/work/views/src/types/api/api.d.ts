@@ -340,7 +340,7 @@ declare namespace Api {
 
         /** 角色搜索参数 */
         type RoleSearchParams = Partial<
-            Pick<RoleListItem, 'id' | 'name' | 'description'> & Api.Common.CommonSearchParams
+            Pick<RoleListItem, 'id' | 'name' | 'description' | 'status'> & Api.Common.CommonSearchParams
         >
 
         type RoleCreateBody = Pick<RoleListItem, 'name' | 'description'> & {

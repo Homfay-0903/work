@@ -208,7 +208,7 @@
                     'width': 250,
                     'header-align': 'center',
                     'align': 'center',
-                    'sortable': true,
+                    //'sortable': true,
                     'useSlot': true,
                 },
                 {
@@ -216,7 +216,7 @@
                     label: '最近登录时间',
                     headerAlign: 'center',
                     align: 'center',
-                    sortable: true,
+                    //sortable: true,
                     formatter: row => {
                         const date = new Date(row.lastLoginAt || '')
                         const year = date.getFullYear()
@@ -234,7 +234,7 @@
                     width: 250,
                     headerAlign: 'center',
                     align: 'center',
-                    sortable: true,
+                    //sortable: true,
                     formatter: row => {
                         //row.status = '1'
                         const statusConfig = getUserStatusConfig(row.status)

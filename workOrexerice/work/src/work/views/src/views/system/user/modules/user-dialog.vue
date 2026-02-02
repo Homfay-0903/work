@@ -130,7 +130,7 @@
     // 加载角色列表
     const loadRoles = async () => {
         try {
-            const res = await fetchGetRoleList({ page: 1, size: 100 })
+            const res = await fetchGetRoleList({ page: 1, size: 100, status: 0 })
             const list = (res && (res as any).list) || []
             roleList.value = list.map((r: any) => ({
                 id: Number(r.id ?? r.roleId),

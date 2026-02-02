@@ -186,7 +186,7 @@
                     headerAlign: 'center',
                     align: 'center',
                     width: 300,
-                    sortable: true,
+                    //sortable: true,
                     formatter: row => {
                         const date = new Date(row.createdAt || '')
                         const year = date.getFullYear()
@@ -204,7 +204,7 @@
                     headerAlign: 'center',
                     align: 'center',
                     width: 100,
-                    sortable: true,
+                    //sortable: true,
                     formatter: row => {
                         //row.status = '1'
                         const statusConfig = getRoleStatusConfig(row.status)
