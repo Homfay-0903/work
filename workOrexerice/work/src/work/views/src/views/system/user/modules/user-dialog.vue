@@ -5,9 +5,21 @@
                 <ElInput v-model="formData.username" placeholder="请输入用户名" />
             </ElFormItem>
             <ElFormItem label="账号密码" prop="password">
-                <ElInput v-model="formData.password" placeholder="请输入密码" type="password" />
+                <ElInput
+                    v-if="dialogType === 'add'"
+                    v-model="formData.password"
+                    placeholder="请输入密码"
+                    type="password"
+                    show-password
+                />
+                <div v-else class="flex items-center">
+                    <ElInput v-model="formData.password" placeholder="********" type="password" disabled />
+                    <ElButton type="primary" link class="ml-4 shrink-0" @click="showPasswordDialog = true">
+                        修改密码
+                    </ElButton>
+                </div>
             </ElFormItem>
-            <ElFormItem label="确认密码" prop="confirmPassword">
+            <ElFormItem v-if="dialogType === 'add'" label="确认密码" prop="confirmPassword">
                 <ElInput v-model="formData.confirmPassword" placeholder="请输入确认密码" type="password" />
             </ElFormItem>
             <!---
@@ -41,6 +53,15 @@
             </div>
         </template>
     </ElDialog>
+    <!-- 修改密码弹窗 -->
+    <ResetPassword
+        ref="resetPasswordRef"
+        v-model:visible="showPasswordDialog"
+        :admin-mode="true"
+        :user-id="props.userData?.id"
+        @close="showPasswordDialog = false"
+        @success="handlePasswordSuccess"
+    />
 </template>
 
 <script setup lang="ts">
@@ -48,6 +69,7 @@
     import { ElMessage } from 'element-plus'
     import type { FormInstance, FormRules } from 'element-plus'
     import { computed, nextTick, reactive, ref, watch } from 'vue'
+    import ResetPassword from '@/components/core/views/reset-password/index.vue'
 
     interface Props {
         visible: boolean
@@ -65,6 +87,9 @@
 
     // 角色列表数据
     const roleList = ref<Array<{ id: number; name: string }>>([])
+
+    //密码修改弹窗显示控制
+    const showPasswordDialog = ref(false)
 
     // 对话框显示控制
     const dialogVisible = computed({
@@ -96,7 +121,7 @@
      * @param callback 验证回调
      */
     const validatePassword = (rule: any, value: string, callback: any) => {
-        if (!value) {
+        if (!value && dialogType.value === 'add') {
             callback(new Error('请输入密码'))
         } else {
             if (formData.confirmPassword) {
@@ -123,53 +148,63 @@
     }
 
     // 表单验证规则
-    const rules: FormRules = {
-        username: [
-            { required: true, message: '请输入用户名', trigger: 'blur' },
-            { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' },
-        ],
-        password: [
-            { required: true, validator: validatePassword, trigger: 'blur' },
-            { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' },
-        ],
-        confirmPassword: [
-            { required: true, validator: validateConfirmPassword, trigger: 'blur' },
-            { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' },
-        ],
-        //nickname: [
-        //    { required: false, message: '请输入昵称', trigger: 'blur' },
-        //    { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' },
-        //],
-        //mobile: [
-        //    { required: true, message: '请输入手机号', trigger: 'blur' },
-        //    { pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号格式', trigger: 'blur' },
-        //],
-        //email: [
-        //    { required: false, message: '请输入邮箱', trigger: 'blur' },
-        //    {
-        //        pattern: /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/,
-        //        message: '请输入正确的邮箱格式',
-        //        trigger: 'blur',
-        //    },
-        //],
-        //gender: [{ required: true, message: '请选择性别', trigger: 'change' }],
-        role: [{ required: true, message: '请选择角色', trigger: 'change' }],
+    const rules = computed<FormRules>(() => {
+        const isEdit = dialogType.value === 'edit'
+        return {
+            username: [
+                { required: true, message: '请输入用户名', trigger: 'blur' },
+                { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' },
+            ],
+            password: [
+                { required: !isEdit, validator: validatePassword, trigger: 'blur' },
+                { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' },
+            ],
+            confirmPassword: [
+                { required: !isEdit, validator: validateConfirmPassword, trigger: 'blur' },
+                { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' },
+            ],
+            //nickname: [
+            //    { required: false, message: '请输入昵称', trigger: 'blur' },
+            //    { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' },
+            //],
+            //mobile: [
+            //    { required: true, message: '请输入手机号', trigger: 'blur' },
+            //    { pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号格式', trigger: 'blur' },
+            //],
+            //email: [
+            //    { required: false, message: '请输入邮箱', trigger: 'blur' },
+            //    {
+            //        pattern: /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/,
+            //        message: '请输入正确的邮箱格式',
+            //        trigger: 'blur',
+            //    },
+            //],
+            //gender: [{ required: true, message: '请选择性别', trigger: 'change' }],
+            role: [{ required: true, message: '请选择角色', trigger: 'change' }],
+        }
+    })
+
+    const handlePasswordSuccess = () => {
+        showPasswordDialog.value = false
+        ElMessage.success('密码修改成功')
     }
 
     /**
      * 初始化表单数据
      * 根据对话框类型（新增/编辑）填充表单
      */
-    const initFormData = () => {
+    const initFormData = async () => {
         const isEdit = props.type === 'edit' && props.userData
         const row = props.userData
 
         Object.assign(formData, {
             username: isEdit && row ? row.username || '' : '',
-            nickname: isEdit && row ? row.nickname || '' : '',
-            mobile: isEdit && row ? row.mobile || '' : '',
-            email: isEdit && row ? row.email || '' : '',
-            gender: isEdit && row ? (typeof row.gender === 'number' ? row.gender : 0) : 0,
+            password: isEdit && row ? '' : '',
+            confirmPassword: isEdit && row ? '' : '',
+            //nickname: isEdit && row ? row.nickname || '' : '',
+            //mobile: isEdit && row ? row.mobile || '' : '',
+            //email: isEdit && row ? row.email || '' : '',
+            //gender: isEdit && row ? (typeof row.gender === 'number' ? row.gender : 0) : 0,
             // 将后端传回的 role 对象或 userRoles 转换为 role id 数组
             role:
                 isEdit && row && Array.isArray(row.userRoles)
@@ -205,9 +240,10 @@
      */
     watch(
         () => [props.visible, props.type, props.userData],
-        ([visible]) => {
+        async ([visible]) => {
+            await initFormData()
+
             if (visible) {
-                initFormData()
                 loadRoles()
                 nextTick(() => {
                     formRef.value?.clearValidate()
@@ -228,13 +264,18 @@
             if (valid) {
                 const payload: any = {
                     username: formData.username,
-                    password: formData.password,
                     roleIds: formData.role,
                     //nickname: formData.nickname,
                     //mobile: formData.mobile,
                     //email: formData.email,
                     //gender: Number(formData.gender),
                 }
+
+                // 只有当用户输入了密码时才包含密码字段
+                if (formData.password) {
+                    payload.password = formData.password
+                }
+
                 if (dialogType.value === 'edit' && props.userData && props.userData.id) {
                     payload.id = props.userData.id
                     payload.userRoles = formData.role.map(rid => ({ userId: props.userData?.id, roleId: Number(rid) }))

@@ -117,6 +117,7 @@ declare module 'vue' {
     MenuLayoutSettings: typeof import('./../../components/core/layouts/art-settings-panel/widget/MenuLayoutSettings.vue')['default']
     MenuStyleSettings: typeof import('./../../components/core/layouts/art-settings-panel/widget/MenuStyleSettings.vue')['default']
     PerfMonitor: typeof import('./../../components/performance/PerfMonitor.vue')['default']
+    ResetPassword: typeof import('./../../components/core/views/reset-password/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SectionTitle: typeof import('./../../components/core/layouts/art-settings-panel/widget/SectionTitle.vue')['default']

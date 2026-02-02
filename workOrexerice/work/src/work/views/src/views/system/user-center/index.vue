@@ -115,46 +115,22 @@
                 </div>
             </div>
         </div>
-
-        <!-- 修改密码弹窗 -->
-        <ElDialog v-model="showPasswordDialog" title="修改密码" width="500px">
-            <ElForm :model="pwdForm" ref="pwdFormRef" :rules="pwdRules" label-width="100px">
-                <ElFormItem label="当前密码" prop="password">
-                    <ElInput v-model="pwdForm.password" type="password" show-password placeholder="请输入当前密码" />
-                </ElFormItem>
-
-                <ElFormItem label="新密码" prop="newPassword">
-                    <ElInput v-model="pwdForm.newPassword" type="password" show-password placeholder="请输入新密码" />
-                </ElFormItem>
-
-                <ElFormItem label="确认新密码" prop="confirmPassword">
-                    <ElInput
-                        v-model="pwdForm.confirmPassword"
-                        type="password"
-                        show-password
-                        placeholder="请再次输入新密码"
-                    />
-                </ElFormItem>
-            </ElForm>
-
-            <template #footer>
-                <div class="dialog-footer">
-                    <ElButton @click="showPasswordDialog = false">取消</ElButton>
-                    <ElButton type="primary" @click="handleChangePassword">确定</ElButton>
-                </div>
-            </template>
-        </ElDialog>
     </div>
+    <!-- 修改密码弹窗 -->
+    <ResetPassword
+        ref="resetPasswordRef"
+        v-model:visible="showPasswordDialog"
+        @close="showPasswordDialog = false"
+        @success="handlePasswordSuccess"
+    />
 </template>
 
 <script setup lang="ts">
     import { useUserStore } from '@/store/modules/user'
-    import type { FormInstance, FormRules } from 'element-plus'
-    import { ElMessage } from 'element-plus'
-    import { ref, computed, onMounted, reactive } from 'vue'
-    import { fetchChangePassword, fetchGetUserInfo } from '@/api/auth'
+    import { ref, computed, onMounted } from 'vue'
+    import { fetchGetUserInfo } from '@/api/auth'
     import { useAuth } from '@/hooks/core/useAuth'
-    import { HttpError } from '@/utils/http/error'
+    import ResetPassword from '@/components/core/views/reset-password/index.vue'
 
     defineOptions({ name: 'UserCenter' })
 
@@ -166,49 +142,6 @@
 
     // 修改密码弹窗显示状态
     const showPasswordDialog = ref(false)
-    const pwdFormRef = ref<FormInstance>()
-
-    /**
-     * 密码修改表单
-     */
-    const pwdForm = reactive({
-        password: '',
-        newPassword: '',
-        confirmPassword: '',
-    })
-
-    /**
-     * 密码验证规则
-     */
-    const validateConfirmPassword = (rule: any, value: any, callback: any) => {
-        if (value === '') {
-            callback(new Error('请再次输入新密码'))
-        } else if (value !== pwdForm.newPassword) {
-            callback(new Error('两次密码输入不一致'))
-        } else {
-            callback()
-        }
-    }
-
-    const validateNewPassword = (rule: any, value: any, callback: any) => {
-        if (value === '') {
-            callback(new Error('请输入新密码'))
-        } else if (value.length < 6) {
-            callback(new Error('密码至少6位字符'))
-        }
-        //else if (!/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/.test(value)) {
-        //    callback(new Error('密码必须同时包含数字和大小写字母'))
-        //}
-        else {
-            callback()
-        }
-    }
-
-    const pwdRules = reactive<FormRules>({
-        password: [{ required: true, message: '请输入当前密码', trigger: 'blur' }],
-        newPassword: [{ validator: validateNewPassword, trigger: 'blur' }],
-        confirmPassword: [{ validator: validateConfirmPassword, trigger: 'blur' }],
-    })
 
     /**
      * 职务（暂时使用角色列表的第一项，如果没有则显示默认值）
@@ -267,41 +200,11 @@
     })
 
     /**
-     * 修改密码
+     * 处理密码修改成功
      */
-    const handleChangePassword = async () => {
-        if (!pwdFormRef.value) return
-
-        try {
-            await pwdFormRef.value.validate()
-            await fetchChangePassword({
-                oldPassword: pwdForm.password,
-                newPassword: pwdForm.newPassword,
-                confirmPassword: pwdForm.confirmPassword,
-            })
-            ElMessage.success('密码修改成功')
-            showPasswordDialog.value = false
-            // 清空表单
-            pwdForm.password = ''
-            pwdForm.newPassword = ''
-            pwdForm.confirmPassword = ''
-            // 重置表单验证状态
-            pwdFormRef.value.resetFields()
-        } catch (error: any) {
-            if (error?.fields) {
-                // 表单验证失败
-                return
-            }
-            // 处理 HttpError
-            if (error instanceof HttpError) {
-                // 显示错误消息给用户
-                ElMessage.error(error.message)
-            } else {
-                // 处理非 HttpError
-                console.error('修改密码失败:', error)
-                ElMessage.error('修改密码失败')
-            }
-        }
+    const handlePasswordSuccess = () => {
+        showPasswordDialog.value = false
+        ElMessage.success('密码修改成功')
     }
 
     /**
