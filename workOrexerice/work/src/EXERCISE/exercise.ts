@@ -153,3 +153,15 @@ paramsSerializer: {
     return parts.join("&");
   };
 }
+
+interface Prop {
+  visible: boolean
+  admin: boolean
+}
+const prop = defineProps<Prop>()
+
+interface Emit {
+  'update: visible': [visible: boolean],
+  'submit':[data: any]
+}
+const emits = defineEmits<Emit>()
