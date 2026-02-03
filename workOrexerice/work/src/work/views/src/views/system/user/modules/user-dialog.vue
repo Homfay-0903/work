@@ -20,7 +20,12 @@
                 </div>
             </ElFormItem>
             <ElFormItem v-if="dialogType === 'add'" label="确认密码" prop="confirmPassword">
-                <ElInput v-model="formData.confirmPassword" placeholder="请输入确认密码" type="password" />
+                <ElInput
+                    v-model="formData.confirmPassword"
+                    placeholder="请输入确认密码"
+                    type="password"
+                    show-password
+                />
             </ElFormItem>
             <!---
             <ElFormItem label="昵称" prop="nickname">
