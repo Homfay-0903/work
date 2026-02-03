@@ -115,14 +115,14 @@
                 </div>
             </div>
         </div>
+        <!-- 修改密码弹窗 -->
+        <ResetPassword
+            ref="resetPasswordRef"
+            v-model:visible="showPasswordDialog"
+            @close="showPasswordDialog = false"
+            @success="handlePasswordSuccess"
+        />
     </div>
-    <!-- 修改密码弹窗 -->
-    <ResetPassword
-        ref="resetPasswordRef"
-        v-model:visible="showPasswordDialog"
-        @close="showPasswordDialog = false"
-        @success="handlePasswordSuccess"
-    />
 </template>
 
 <script setup lang="ts">
@@ -130,6 +130,7 @@
     import { ref, computed, onMounted } from 'vue'
     import { fetchGetUserInfo } from '@/api/auth'
     import { useAuth } from '@/hooks/core/useAuth'
+    import { ElMessage } from 'element-plus'
     import ResetPassword from '@/components/core/views/reset-password/index.vue'
 
     defineOptions({ name: 'UserCenter' })
@@ -142,6 +143,8 @@
 
     // 修改密码弹窗显示状态
     const showPasswordDialog = ref(false)
+    // 修改密码弹窗引用
+    const resetPasswordRef = ref()
 
     /**
      * 职务（暂时使用角色列表的第一项，如果没有则显示默认值）
