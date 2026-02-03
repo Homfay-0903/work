@@ -155,13 +155,57 @@ paramsSerializer: {
 }
 
 interface Prop {
-  visible: boolean
-  admin: boolean
+  visible: boolean;
+  admin: boolean;
 }
-const prop = defineProps<Prop>()
+const prop = defineProps<Prop>();
 
 interface Emit {
-  'update: visible': [visible: boolean],
-  'submit':[data: any]
+  "update: visible": [visible: boolean];
+  submit: [data: any];
 }
-const emits = defineEmits<Emit>()
+const emits = defineEmits<Emit>();
+
+interface ActionListItem {
+  id: number;
+  name: string;
+}
+
+transform: {
+  dataTransformer: (records: any) => {
+    if (Array.isArray(records)) {
+      console.error("error", typeof records)
+      return
+    }
+
+    type ItemWithChild = ActionListItem & {
+      rootId: number
+      child: ActionListItem[]
+      hasChild: boolean
+      _isChild?: boolean
+      _parentIndex?: number
+      _childIndex?: number
+      _rowIndex?: number
+    }
+
+    const rootRecords: ItemWithChild[] = []
+
+    records.forEach((item: any) => {
+      const ItemWithTree: ItemWithChild = {
+        ...item
+      }
+      
+      if (item.translation && item.translation.length > 0 && Array.isArray(item.translation)) {
+        ItemWithTree.child = item.translation.map((child: any, index: number) => {
+          return {
+            ...child,
+            _isChild: true,
+            _childIndex: index + 1
+          }
+        })
+      }
+
+      rootRecords.push(ItemWithTree)
+    })
+  }
+}
