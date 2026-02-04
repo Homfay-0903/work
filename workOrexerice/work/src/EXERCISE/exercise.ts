@@ -9,6 +9,7 @@ const formdata = {
     type: "video" | "image";
   }>,
   muscleGroup: [] as number[],
+  part: [] as number[]
 };
 
 const actionMediaUrls = row.actionMedia || [];
@@ -208,4 +209,32 @@ transform: {
       rootRecords.push(ItemWithTree)
     })
   }
+}
+
+
+const muscleGroupList = ref<Array<{label: string, value: number}>>([])
+
+const handleMuscleGroupChange = (newMuscleGroup: number[]) => {
+  if (newMuscleGroup.length === 0 || !newMuscleGroup) {
+    formdata.part = []
+    muscleGroupList.value = []
+    partMuscleMap.value = new Map()
+    previousPart.value = []
+  }
+
+  const partsToRemove: any[] = []
+
+  for (const partId of formdata.part) {
+    const muscleIds = partMuscleMap.value.get(partId)
+
+    if (muscleIds && muscleIds.length > 0) {
+      const hasAnyMuscleSelected = muscleIds.some(muscleId => newMuscleGroup.includes(muscleId))
+
+      if (!hasAnyMuscleSelected) {
+        partsToRemove.push(partId)
+      }
+    }
+  }
+
+  
 }
