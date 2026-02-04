@@ -1,0 +1,71 @@
+// 主要颜色
+@color-blue: #1D66E6;
+@color-light-blue: #FFFFFF;
+@color-red: #BB0D0D;
+@color-green: #2EB12F;
+@color-orange: #ff791f;
+@color-gray: #5e687b;
+@color-white: #FFFFFF;
+// 小面积浅灰
+@color-light-gray: #333333;
+// 大面积浅灰
+@color-light-gray-2: #f2f8ff;
+
+
+// 字体颜色
+@text-gray: #333333;
+@text-gray-2: #666666;
+@text-gray-3: #999999;
+@text-light-gray: #E7E9F0;
+// 默认可点击背景颜色
+@color-background: #333333;
+// 点击后得背景颜色
+@color-click: #104EBB;
+// 信息提示类不可点击的状态
+@color-disable: #333333;
+// 异常信息提示类不可点击状态
+@color-error: #1F2429;
+// 激活样式-蓝色边框
+.active-border {
+    padding: 0;
+    border-radius: 32px;
+    background: @color-blue;
+    // border: 2px solid @color-blue;
+    box-sizing: border-box;
+}
+
+// 默认样式-边框
+.normal-border {
+    border-radius: 32px;
+    background: @color-light-gray;
+    border: 2px solid @color-light-gray;
+    box-sizing: border-box;
+}
+// 默认可点击的状态
+.able-click{
+    padding: 0;
+    border-radius: 32px;
+    background: @color-background;
+    // border: 2px solid @color-background;
+    box-sizing: border-box;
+}
+// 点击完成的颜色状态
+.finish-click{
+    background: @color-click!important;
+    .title {
+        &::before {
+            background-color: @color-white!important;
+        }
+    }
+    .describe{
+        color: @text-light-gray!important;
+    }
+}
+// 信息提示类不可点击的状态
+.is-not-information {
+    background: @color-disable
+}
+// 异常信息提示类不可点击状
+.is-error-information {
+    background: @color-error;
+}

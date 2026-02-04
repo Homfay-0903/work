@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="80px" height="80px" viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>tips</title>
+    <g id="PRO版本体态评估" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="体围测量-测量过程中人离开" transform="translate(-348.000000, -1519.000000)">
+            <g id="tips" transform="translate(60.000000, 1440.000000)">
+                <g id="编组-2" transform="translate(288.000000, 72.000000)">
+                    <g id="tips" transform="translate(0.000000, 7.000000)">
+                        <rect id="矩形" x="0" y="0" width="80" height="80"></rect>
+                        <circle id="椭圆形" fill="#BB0D0D" transform="translate(40.000000, 40.000000) rotate(-360.000000) translate(-40.000000, -40.000000) " cx="40" cy="40" r="30.6493506"></circle>
+                        <path d="M36.3636364,31.6305916 L36.3636364,24.9350649 L43.6363636,24.9350649 L43.6363636,31.6305916 L36.3636364,31.6305916 Z M36.3636364,55.0649351 L36.3636364,36.6522367 L43.6363636,36.6522367 L43.6363636,55.0649351 L36.3636364,55.0649351 Z" id="形状" fill="#FFFFFF" fill-rule="nonzero"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="96px" height="96px" viewBox="0 0 96 96" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Remeasurement-D</title>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Remeasurement-D">
+            <polygon id="Path" points="0 0 96 0 96 96 0 96"></polygon>
+            <path d="M48,13 C67.3305,13 83,28.6695 83,48 C83,67.3305 67.3305,83 48,83 C28.6695,83 13,67.3305 13,48 L20,48 C20,63.463 32.537,76 48,76 C63.463,76 76,63.463 76,48 C76,32.537 63.463,20 48,20 C38.375,20 29.884,24.8545 24.8475,32.25 L34,32.25 L34,39.25 L13,39.25 L13,18.25 L20,18.25 L20,27 C26.384,18.495 36.5515,13 48,13 Z M51.8662979,31 L51.8662979,46.8736341 L63,58.1011576 L58.1420942,63 L45,49.7402359 L45,31 L51.8662979,31 Z" id="Shape" fill="#CCCCCC"></path>
+        </g>
+    </g>
+</svg>

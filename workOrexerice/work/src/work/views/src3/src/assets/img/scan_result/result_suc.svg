@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="290px" height="290px" viewBox="0 0 290 290" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Get report</title>
+    <defs>
+        <rect id="path-1" x="0.490974729" y="0" width="271.018051" height="271.018051"></rect>
+    </defs>
+    <g id="扫码&amp;打印" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="扫码成功-手动打印" transform="translate(-395.000000, -648.000000)">
+            <g id="Get-report" transform="translate(397.000000, 650.000000)">
+                <g id="扫码" stroke="#999999" stroke-width="4">
+                    <polyline id="路径" points="33 286 0 286 0 253"></polyline>
+                    <polyline id="路径" transform="translate(16.500000, 16.500000) rotate(90.000000) translate(-16.500000, -16.500000) " points="33 33 -1.24235026e-12 33 -1.24234956e-12 0"></polyline>
+                    <polyline id="路径" transform="translate(269.500000, 16.500000) rotate(180.000000) translate(-269.500000, -16.500000) " points="286 33 253 33 253 0"></polyline>
+                    <polyline id="路径" transform="translate(269.500000, 269.500000) rotate(270.000000) translate(-269.500000, -269.500000) " points="286 286 253 286 253 253"></polyline>
+                </g>
+                <g id="斜线矩阵" transform="translate(7.000000, 7.000000)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <g id="蒙版"></g>
+                    <line x1="-257.761733" y1="-0.981949458" x2="16.2021661" y2="272.981949" id="路径-11" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="-243.523466" y1="-0.981949458" x2="30.4404332" y2="272.981949" id="路径-11备份" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="-228.794224" y1="-0.981949458" x2="45.1696751" y2="272.981949" id="路径-11备份-2" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="-214.064982" y1="-0.981949458" x2="59.898917" y2="272.981949" id="路径-11备份-3" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="-199.33574" y1="-0.981949458" x2="74.6281588" y2="272.981949" id="路径-11备份-4" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="-184.606498" y1="-0.981949458" x2="89.3574007" y2="272.981949" id="路径-11备份-5" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="-169.877256" y1="-0.981949458" x2="104.086643" y2="272.981949" id="路径-11备份-6" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="-155.148014" y1="-0.981949458" x2="118.815884" y2="272.981949" id="路径-11备份-7" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="-140.418773" y1="-0.981949458" x2="133.545126" y2="272.981949" id="路径-11备份-8" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="-125.689531" y1="-0.981949458" x2="148.274368" y2="272.981949" id="路径-11备份-9" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="-110.960289" y1="-0.981949458" x2="163.00361" y2="272.981949" id="路径-11备份-10" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="-96.2310469" y1="-0.981949458" x2="177.732852" y2="272.981949" id="路径-11备份-11" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="-81.5018051" y1="-0.981949458" x2="192.462094" y2="272.981949" id="路径-11备份-12" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="-66.7725632" y1="-0.981949458" x2="207.191336" y2="272.981949" id="路径-11备份-13" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="-52.0433213" y1="-0.981949458" x2="221.920578" y2="272.981949" id="路径-11备份-14" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="-37.3140794" y1="-0.981949458" x2="236.649819" y2="272.981949" id="路径-11备份-15" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="-22.5848375" y1="-0.981949458" x2="251.379061" y2="272.981949" id="路径-11备份-16" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="-7.85559567" y1="-0.981949458" x2="266.108303" y2="272.981949" id="路径-11备份-17" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="6.87364621" y1="-0.981949458" x2="280.837545" y2="272.981949" id="路径-11备份-18" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="21.6028881" y1="-0.981949458" x2="295.566787" y2="272.981949" id="路径-11备份-19" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="36.33213" y1="-0.981949458" x2="310.296029" y2="272.981949" id="路径-11备份-20" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="51.0613718" y1="-0.981949458" x2="325.025271" y2="272.981949" id="路径-11备份-21" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="65.7906137" y1="-0.981949458" x2="339.754513" y2="272.981949" id="路径-11备份-22" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="80.5198556" y1="-0.981949458" x2="354.483755" y2="272.981949" id="路径-11备份-23" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="95.2490975" y1="-0.981949458" x2="369.212996" y2="272.981949" id="路径-11备份-24" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="109.978339" y1="-0.981949458" x2="383.942238" y2="272.981949" id="路径-11备份-25" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="124.707581" y1="-0.981949458" x2="398.67148" y2="272.981949" id="路径-11备份-26" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="139.436823" y1="-0.981949458" x2="413.400722" y2="272.981949" id="路径-11备份-27" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="154.166065" y1="-0.981949458" x2="428.129964" y2="272.981949" id="路径-11备份-28" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="168.895307" y1="-0.981949458" x2="442.859206" y2="272.981949" id="路径-11备份-29" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="183.624549" y1="-0.981949458" x2="457.588448" y2="272.981949" id="路径-11备份-30" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="198.353791" y1="-0.981949458" x2="472.31769" y2="272.981949" id="路径-11备份-31" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="213.083032" y1="-0.981949458" x2="487.046931" y2="272.981949" id="路径-11备份-32" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="227.812274" y1="-0.981949458" x2="501.776173" y2="272.981949" id="路径-11备份-33" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="242.541516" y1="-0.981949458" x2="516.505415" y2="272.981949" id="路径-11备份-34" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                    <line x1="257.270758" y1="-0.981949458" x2="531.234657" y2="272.981949" id="路径-11备份-35" stroke="#666666" stroke-width="2" mask="url(#mask-2)"></line>
+                </g>
+                <g id="编组-2" transform="translate(86.000000, 73.000000)">
+                    <g id="安全" fill="#104EBB" fill-rule="nonzero" stroke="#649CFF" stroke-width="6">
+                        <path d="M57,-3.07270297 L117,10.216444 L117,82.6150682 C116.996474,95.7827764 110.400417,108.079025 99.4191467,115.383862 L99.4191467,115.383862 L57,143.603195 L14.5811414,115.384053 C3.59653821,108.076999 -3,95.7761993 -3,82.6050103 L-3,82.6050103 L-3,10.216444 L57,-3.07270297 Z" id="蒙版"></path>
+                    </g>
+                    <polygon id="路径" fill="#FFFFFF" points="53.34 68.452 78.798 43 87.282 51.484 53.34 85.426 30 62.086 38.49 53.602"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

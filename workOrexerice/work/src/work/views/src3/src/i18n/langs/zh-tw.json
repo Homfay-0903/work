@@ -1,0 +1,699 @@
+{
+  "common": {
+    "btn": {
+      "switch": "單擊確認<br />雙擊返回",
+      "switch1": "雙擊返回",
+      "add": "向上切換",
+      "sub": "向下切換"
+    },
+    "prev": "上一頁",
+    "next": "下一頁",
+    "dong-tai-shi-yan-shi": "動態實驗室",
+    "guide": {
+      "interfere1": "請站在轉台上，並確保 1 米內無其他人員"
+    },
+    "jian-bu-gong-neng": "肩部功能",
+    "shen-ti-cheng-fen": "身體成分",
+    "ti-zhong-ce-liang": "體重測量",
+    "error-end": "；請使用按鍵操作進入項目測量",
+    "ti-tai-ping-gu": "體態評估",
+    "ti-wei-ce-liang": "體圍測量",
+    "wu-dian-liu": "無電流營養分析",
+    "error": {
+      "start-failed-title": "啟動失敗",
+      "start-failed-timeout": "啟動超時",
+      "device-err-desc": [
+        "設備異常，請嘗試重啟設備解決！",
+        "設備異常，請聯繫售後工程師維修！",
+        "設備異常，即將自動恢復",
+        "未檢測到轉台，請重新插拔轉台連接線並重啟設備！"
+      ],
+      "err-code": "錯誤代碼：{0}",
+      "scan-failed-title": "測量失敗",
+      "scan-err-desc": [
+        "測量過程中人離開",
+        "啟動測量超時",
+        "測量超時",
+        "測量異常",
+        "啟動超時, 請重新測量"
+      ],
+      "re-scan": "{0}，請重新測量！",
+      "count-down1": "{num} 秒後返回首頁",
+      "count-down2": "{num} 秒後將結束測量",
+      "count-down3": "倒計時 {num} 秒",
+      "count-down4": "{num} 秒後返回",
+      "count-down5": "{num} 秒後返回網絡異常頁"
+    },
+    "gesture-select": {
+      "left": {
+        "content-title": "舉起左手",
+        "cha-kan-bao-gao": "查看報告",
+        "zhong-xin-ce-liang": "重新測量"
+      },
+      "right": {
+        "content-title": "舉起右手",
+        "jie-shu-ce-liang": "結束測量"
+      }
+    },
+    "key-select": {
+      "cha-kan-bao-gao": "查看報告",
+      "cha-kan-bao-gao_desc": "查看{0}結果",
+      "zhong-xin-ce-liang": "重新測量",
+      "zhong-xin-ce-liang_desc1": "再次進行{0}",
+      "zhong-xin-ce-liang_desc2": "請繼續保持靜止",
+      "zhong-xin-ce-liang_desc3": "請回到轉台腳印位置",
+      "tiao-guo-ce-liang": "結束測量",
+      "tiao-guo-ce-liang_desc": "跳過{0}項目",
+      "jie-shu-ce-liang": "結束測量",
+      "jie-shu-ce-liang_desc1": "結束測量可查看已測項目的報告",
+      "jie-shu-ce-liang_desc2": "查看肩部功能評估測量結果",
+      "jie-shu-ce-liang_desc3": "結束測量將返回首頁",
+      "jie-shu-ce-liang_desc4": "結束測量請離開金屬電極片，即可查看報告",
+      "jie-shu-ce-liang_desc5": "結束測量請離開金屬電極片"
+    },
+    "device-usable": {
+      "error-tip0": "請嘗試重新插拔轉盤電源，如仍然無效，請聯繫售後維修",
+      "error-tip1": "請嘗試重新插拔轉盤電源，如仍然無效，請聯繫售後維修",
+      "error-tip2": "未檢測到轉台，請重新插拔轉台連接線並重啟設備；若嘗試無效，請聯繫售後維修",
+      "error-tip3": "設備異常，請聯繫售後工程師維修"
+    }
+  },
+  "setting": {
+    "check": {
+      "network": {
+        "disconnected": "網絡連接已斷開",
+        "disconnected_desc": "請檢查網線是否插入設備或路由器是否聯網",
+        "disconnected_desc1": "請檢查有線網絡或wifi是否連接",
+        "disconnected_desc2": "有線網絡檢查方式：網線是否插好或路由器是否聯網",
+        "jian-ce-shi-jian": "檢測時間",
+        "shang-chuan-su-du": "上傳速度",
+        "testing": "正在診斷網絡…",
+        "wang-luo-jiao-cha": "網絡較差",
+        "wang-luo-jiao-cha_desc": "當前設備網絡情況較差，可能導致報告合成時間較長，建議聯繫網絡供應商，提高設備網絡帶寬{0}",
+        "wang-luo-jiao-cha_desc_extend": "，並檢查路由器設置是否限制了下載速度",
+        "wang-luo-liang-hao": "網絡良好",
+        "wang-luo-liang-hao_desc": "當前設備網絡情況良好，可正常使用{0}",
+        "wang-luo-liang-hao_desc_extend": "，但下載速度較慢，請檢查路由器設置是否限制了下載速度",
+        "wang-luo-you-xiu": "網絡優秀",
+        "wang-luo-you-xiu_desc": "當前設備網絡情況優秀{0}",
+        "wang-luo-you-xiu_desc_extend": "，但下載速度較慢，請檢查路由器設置是否限制了下載速度",
+        "wu-fa-lian-jie-fu-wu-qi": "無法連接伺服器",
+        "wu-fa-lian-jie-fu-wu-qi_desc": "當前設備網絡連接正常，但無法連接維塑服務，請稍後重試或聯繫維塑售後",
+        "xia-zai-su-du": "下載速度"
+      },
+      "wang-luo-zhen-duan": "網絡診斷",
+      "wang-luo-fen-xi": "網絡分析",
+      "bao-gao-huo-qu-fang-shi": "報告獲取方式",
+      "an-jian-zhi-yin": "按鍵指引",
+      "yu-yan": "語言"
+    },
+    "detect": {
+      "guang-zhao-huan-jing-cha": "光照環境差",
+      "guang-zhao-huan-jing-cha_desc": [
+        "檢測到周邊光線不滿足使用條件，地墊站人的快速啟動測量和手勢交互不可用。",
+        "請打開周邊燈光或移動設備到光線強的區域。"
+      ],
+      "guang-zhao-huan-jing-ruo": "光照環境弱",
+      "guang-zhao-huan-jing-ruo_desc": [
+        "檢測到周邊光線弱，將會影響地墊站人的快速啟動測量和手勢交互。",
+        "請打開周邊燈光或移動設備到光線強的區域。"
+      ],
+      "guide": "請按照圖示抬起您的{0}手",
+      "shi-bie-cheng-gong": "識別成功",
+      "shi-bie-cheng-gong_desc": "請在後續測量過程中按照剛才的姿勢進行手勢操作",
+      "shou-shi-cao-zuo-yin-dao": "手勢操作引導",
+      "shou-shi-cao-zuo-yin-dao_desc": "通過引導快速掌握手勢識別的操作方式與規範",
+      "shou-shi-shi-bie": "手勢識別",
+      "shou-shi-shi-bie_close_desc": "關閉後將取消手勢識別，可使用觸屏和按鍵操作",
+      "shou-shi-shi-bie_close_desc_key": "關閉後將取消手勢識別，可使用按鍵操作",
+      "shou-shi-shi-bie_open_desc": "開啟後可使用手勢識別進行操作",
+      "ying-jian-yi-chang": "硬件異常",
+      "ying-jian-yi-chang_desc": "請嘗試重啟設備，若重啟後無效，請聯繫售後維修",
+      "you-shou": "右",
+      "zuo-shou": "左"
+    },
+    "index": {
+      "da-yin-she-zhi": "打印設置",
+      "dong-tai-shi-yan-shi": "動態實驗室",
+      "she-bei-jian-ce": "設備檢測",
+      "sheng-yin-she-zhi": "聲音設置",
+      "ping-mu-liang-du": "屏幕亮度",
+      "an-jian-zhi-yin": "按鍵指引",
+      "shou-shi-shi-bie": "手勢識別",
+      "yi-guan-bi": "已關閉",
+      "yi-kai-qi": "已開啟",
+      "languageTitleOne": "English",
+      "languageTitleTwo": "中文",
+      "languageTitleThree": "日本語",
+      "languageTitleFour": "Español",
+      "languageTitleFive": "Deutsch",
+      "languageTitleSex": "Français",
+      "languageTitleSeven": "Türkçe",
+      "languageTitleEight": "Português",
+      "languageTitleNine": "Italiano",
+      "languageTitleTen": "Ελληνικά",
+      "languageTitleEleven": "Русский язык",
+      "languageTitleTwelve": "magyar",
+      "languageTitleThirteen":"繁體",
+      "languageTitleFourteen":"繁體(台灣)",
+      "language": "語言",
+      "set": "設置",
+      "check": "確認",
+      "return": "返回",
+      "device-mode": "測量模式",
+      "device-mode-chankang": "產康模式",
+      "device-mode-standard": "標準模式",
+      "wang-luo-she-zhi": "網絡設置"
+    },
+    "print": {
+      "da-yin-gong-neng": "打印功能",
+      "da-yin-gong-neng_desc": [
+        "關閉後設備將不再打印測量報告",
+        "開啟後設備可快速打印測量報告"
+      ],
+      "da-yin-ren-wu-she-zhi": "打印任務設置",
+      "shou-dong-da-yin_desc": "測量完成並掃碼成功之後，選擇是否打印",
+      "zi-dong-da-yin_desc": "任務在測量成功後將自動加入打印隊列進行打印"
+    },
+    "bind": {
+      "guan-li-ping-tai": "管理平台",
+      "guan-li-ping-tai_desc": "測量完成後，使用測量序號在管理平台完成用戶信息綁定，即可查看本次測量報告。",
+      "er-wei-ma": "二維碼",
+      "er-wei-ma_desc": "測量完成後，使用手機掃描二維碼，在手機端完成用戶信息綁定，即可查看本次測量報告。"
+    },
+    "shou-dong-da-yin": "手動打印",
+    "zi-dong-da-yin": "自動打印",
+    "btn-guidance": {
+      "xia-yi-bu": "下一步",
+      "shang-yi-bu": "上一步",
+      "tui-chu": "退出",
+      "model1-text": {
+        "switch": "短按一次，確認選擇 ",
+        "add": "短按一次，選擇上一個選項",
+        "sub": "短按一次，選擇下一個選項"
+      },
+      "model2-text": {
+        "btn-tip": {
+          "add": "長按{addImg}鍵查看報告列表{sub}。",
+          "sub": "，長按{subImg}鍵進入設置"
+        },
+        "add": "長按查看報告列表",
+        "sub": "長按進入設置功能"
+      },
+      "model3-text": {
+        "switch": "連續按 2 次，返回上一步",
+        "add": "長按 2 秒，進行關機詢問",
+        "sub": "長按 6 秒直接關機【不建議】"
+      }
+    },
+    "measure-mode": {
+      "device-mode-chankang_des": "針對孕期和產後康復的人群提供更加專業的健康測量和定制化營養建議。",
+      "device-mode-standard_des": "適合各種人群的全面身體評估方案。"
+    },
+    "peeling": {
+      "sure-set": "確認設置"
+    }
+  },
+  "home": {
+    "fa-xian-xin-ban-ben": "發現新版本",
+    "fa-xian-xin-ban-ben_subtitle": "您的設備有新版本 {0} 可更新",
+    "fa-xian-xin-ban-ben_subtitle_tip_touch": "點擊此處快速進入更新",
+    "fa-xian-xin-ban-ben_subtitle_tip_key": "請按{icon}鍵快速進入更新。",
+    "items_err": "{0}項目異常",
+    "ji-jiang-dao-qi": "即將到期",
+    "she-bei-wang-luo-man": "設備網絡慢",
+    "she-bei-wang-luo-man_subtitle": "可能會導致等待結果時間加長，請檢查網絡",
+    "jian-cha-wang-luo": "檢查網絡",
+    "jian-cha-wang-luo_subtitle": "點擊此處進行網絡診斷。",
+    "cha_ru_wang_xian_or_wifi_subtitle": "請插入網線，或點擊此處進行WiFi設置。",
+    "shou-shi-shi-bie-yi-chang": "手勢識別異常",
+    "shou-shi-shi-bie-yi-chang_subtitle": "請嘗試重啟設備，若重啟無效，請聯繫售後",
+    "xu-fei-tong-zhi": "續費通知",
+    "xu-fei-tong-zhi_subtitle": "親愛的用戶：目前您的設備雲端數據存儲服務{0}，請您於 {1}前到設備B端管理平台 {2} 完成年費續繳，否則設備將無法使用。如有疑問可諮詢維塑官方客服：400-161-7020",
+   "ai-xu-fei-tong-zhi_subtitle1": "親愛的用戶：您的設備【基礎版】將於{0}到期，請您於到期前到【維塑數字健康平台】{1} 完成續費，否則設備將無法使用。如有疑問可諮詢維塑官方客服 WhatsApp：+852 5704 0513  郵箱：hello@visbody.com",
+    "ai-xu-fei-tong-zhi_subtitle2": "親愛的用戶：您的設備【基礎版】已到期，將在{0}正式停機，請您於停機前到【維塑數字健康平台】 {1} 完成續費，否則設備將無法使用。如有疑問可諮詢維塑官方客服\n WhatsApp：+852 5704 0513 \n郵箱：hello@visbody.com",
+
+    "ai-xu-fei-tong-zhi_subtitle3": "親愛的用戶：您的設備將於{0}到期，請您於到期前到【維塑數字健康平台】{1} 完成續費，否則設備將無法使用。如有疑問可諮詢維塑官方客服\n服務熱線：400-161-7020",
+    "ai-xu-fei-tong-zhi_subtitle4": "親愛的用戶： \n您的設備已到期， 將在{0}正式停機，請您於停機前到【維塑數字健康平台】{1} 完成續費，否則設備將無法使用。如有疑問可諮詢維塑官方客服 \n服務熱線：400-161-7020",
+    "yi-dao-qi": "已到期",
+    "zhou-bian-guang-xian-cha": "周邊光線差",
+    "zhou-bian-guang-xian-cha_subtitle": "請打開周邊燈光或移動設備到光線強的區域",
+    "zhou-bian-guang-xian-ruo": "周邊光線弱",
+    "qing-chong-qi-she-bei": "請重啟設備",
+    "qing-chong-qi-she-bei_subtitle": "設備連續運行時間過長，為保證測量精準度，請您盡快重啟設備。",
+    "print-info": {
+      "msg0": "打印機異常，請檢查打印機是否連接並開機",
+      "msg1": "有報告打印失敗，如需查看詳情請按{icon}鍵",
+      "msg2": "當前有{num}份報告打印中，如需查看詳情請按{icon}鍵",
+      "msg3": "如需查看報告列表，請按{icon}鍵"
+    },
+    "btn-tip": {
+      "add": "長按{addImg}鍵查看報告列表{sub}。",
+      "sub": "，長按{subImg}鍵進入設置"
+    },
+    "skip-tip": "長按{subImg}鍵可跳過該項目",
+    "sys-error": {
+      "title": "系統異常！程序已重新啟動。",
+      "tips":"請重新開始測量"
+    },
+    "top-tip": "* 孕期用戶測量時需站穩謹防跌倒",
+    "mass-tips": "*請穿著緊身服飾"
+  },
+  "item-select": {
+    "dong-tai-shi-yan-shi": "@:common.dong-tai-shi-yan-shi",
+    "dong-tai-shi-yan-shi_desc": "體驗動態評估項目",
+    "dong-tai-shi-yan-shi_desc1": "邀請您來體驗產品新功能",
+    "items_err": "{0}項目異常",
+    "jian-bu-gong-neng": "肩部功能",
+    "jian-bu-gong-neng-celiang": "肩部功能",
+    "jian-bu-gong-neng-ce-liang": "肩部功能測量",
+    "jian-bu-gong-neng_desc": "了解您的肩關節靈活度信息",
+    "jie-shu-ce-liang": "結束測量",
+    "jie-shu-ce-liang_desc": "結束可查看{0}報告",
+    "result0-ce-liang": "{0}測量",
+    "shen-ti-cheng-fen": "@:common.shen-ti-cheng-fen",
+    "shen-ti-cheng-fen-celiang": "身體成分",
+    "shen-ti-cheng-fen-ce-liang": "身體成分測量",
+    "shen-ti-cheng-fen-ce-liang-wei-du": "身體成分圍度測量",
+    "shen-ti-cheng-fen-ce-liang_desc": "請站上金屬電極片",
+    "ti-tai-ping-gu_desc_m30": "請站上轉台腳印位置",
+    "dong-tai-shi-yan-shi_desc_m30": "請按{0}鍵進入",
+    "shen-ti-cheng-fen_desc": "了解您的體重、體脂率、骨骼肌等",
+    "ti-wei-ce-liang_desc": "了解您的身體圍度",
+    "ti-wei-wu-dian_desc": "為您提供專業的營養分析",
+    "shi-fou-ji-xu-ce-liang": "是否繼續測量",
+    "ti-tai-ping-gu": "@:common.ti-tai-ping-gu",
+    "ti-wei-ce-liang": "@:common.ti-wei-ce-liang",
+    "ti-zhong-ce-liang":"@:common.ti-zhong-ce-liang",
+    "ti-tai-ping-gu_desc": [
+      "請自然站立{item}保持靜止 2 秒",
+      "了解您的身體姿態"
+    ],
+    "ti-zhong-ce-liang-desc":"了解您的體重信息",
+    "yi-ce-xiang-mu-de": "已測項目的",
+    "jie-shu-ce-liang_touch": "結束測量可獲取報告",
+    "jie-shu-ce-liang_touch_tip": "點擊獲取報告",
+    "wu-dian-liu": "營養分析",
+    "wu-dian-liu-sub": "營養分析<br/> <img/>"
+  },
+  "mass": {
+    "confirm": {
+      "tip-list1": {
+        "content": "保證足底和金屬腳印的充分接觸",
+        "shortMsg": "雙腳站在腳印位置"
+      },
+      "tip-list2": {
+        "content": "雙手拇指及四指，握緊設備兩側電極片",
+        "shortMsg": "雙手握緊扶手"
+      },
+      "tip-list3": {
+        "content": "雙臂自然打開，並保持在45°夾角位置",
+        "shortMsg": "雙臂自然打開45°夾角"
+      },
+      "tip-list4": {
+        "content": "測量過程中保持頭部和身體靜止",
+        "shortMsg": "測量過程中請保持靜止"
+      }
+    },
+    "guide": "請光腳站在電極片上，保持靜止不動",
+    "scan": {
+      "down": {
+        "guide1": "測量過程中，保持身體靜止",
+        "successful": "等待 [身體成分報告] 生成…"
+      },
+      "stand": {
+        "guide1": "身體成分測量中...",
+        "guide2": "身體成分測量成功",
+        "guide3": "身體成分測量失敗"
+      },
+      "predict": "預計 {num} 秒完成"
+    },
+    "success": "測量成功",
+    "weight": {
+      "guide": "請站在設備前方的金屬電極片位置",
+      "guide1": "站上轉台",
+      "guide2":"雙手垂放，自然站立，保持靜止",
+      "scan": {
+        "down": {
+          "guide1": "站在轉台上，雙手垂放，自然站立",
+          "guide2": "保持靜止",
+          "successful": "即將進入體圍測量"
+        },
+        "stand": {
+          "guide1": "雙手垂放，保持身體靜止",
+          "guide2": "體重測量中...",
+          "guide3": "體重測量成功",
+          "guide4": "體重測量失敗"
+        }
+      }
+    }
+  },
+  "shape": {
+    "ti-tai-ce-liang": "體態測量",
+    "ti-wei-ce-liang": "體圍測量",
+    "guide": {
+      "bottom-msg1": "站上轉台",
+      "bottom-msg2": "雙手垂放，自然站立，保持靜止"
+    },
+    "result": {
+      "bottom-msg-item1": "體態測量",
+      "bottom-msg-item2": "體圍測量",
+      "bottom-msg-item3": "體重測量",
+      "bottom-msg-item4": "身體成分",
+      "bottom-msg-title": "測量完成，可獲取報告"
+    },
+    "scan": {
+      "bottom-msg1": "請保持靜止",
+      "bottom-msg2": "測量中，請保持身體靜止",
+      "bottom-msg3": "請等待測量結果...",
+      "leaveReset1": "違規操作",
+      "leaveReset2": "測量過程中人離開，設備復位中"
+    }
+  },
+  "girth": {
+    "guide": {
+      "bottom-msg1": "請保持姿勢 2 秒",
+      "bottom-msg2": "請雙手握拳並自然打開 30° 角",
+      "bottom-msg3": "保持靜止",
+      "bottom-msg4": "請緩慢增大雙臂角度",
+      "bottom-msg5": "請緩慢縮小雙臂角度"
+    },
+    "select": {
+      "content": "是否繼續【體圍測量】",
+      "item1": {
+        "content": "繼續測量",
+        "remarks": "即可進入體圍測量"
+      },
+      "item2": {
+        "content": "跳過該項目",
+        "remarks": "跳過後可查看體態測量結果"
+      }
+    }
+  },
+  "shoulder": {
+    "jian-bu-gong-neng-ce-liang": "@:item-select.jian-bu-gong-neng-ce-liang",
+    "jian-bu-gong-neng": "@:item-select.jian-bu-gong-neng",
+    "countdown": {
+      "bottom-msg": "請保持靜止",
+      "bottom-msg1": "請自然站立，並保持 2 秒靜止"
+    },
+    "success": {
+      "title": "測量完成，可獲取報告",
+      "item1": "外展上舉",
+      "item2": "前屈上舉"
+    },
+    "bottom-tips1": "請面向屏幕，保持身體自然站立",
+    "bottom-tips2": "左手向左伸直，緩慢展開上舉至最高處",
+    "bottom-tips3": "右手向右伸直，緩慢展開上舉至最高處",
+    "bottom-tips4": "左手向前伸直，掌心朝內，緩慢展開上舉至最高處",
+    "bottom-tips5": "右手向前伸直，掌心朝內，緩慢展開上舉至最高處",
+    "nav-container1": {
+      "first-title": "外展上舉-左手",
+      "second-title": "外展上舉-右手"
+    },
+    "nav-container2": {
+      "first-title": "前屈上舉-左手",
+      "second-title": "前屈上舉-右手"
+    }
+  },
+  "check-self": {
+    "she-bei-zi-jian-zhong": "設備自檢中，請勿在轉台上站人或放置異物"
+  },
+  "recovery": {
+    "she-bei-xiao-zhun-zhong": "設備校準中，請稍候"
+  },
+  "shut-down": {
+    "que-ren-guan-ji": "確認關機",
+    "guan-ji-ti-shi": "關機提示",
+    "guan-ji-ti-shi_desc1": "關機將會丟失正在進行的任務，",
+    "guan-ji-ti-shi_desc2": "是否確認繼續關機？",
+    "que-ren-guan-ji_touch_desc": "點擊此處，或再次按下關機鍵",
+    "que-ren-guan-ji_key_desc": "確認關機, 請再次按下關機鍵",
+    "qu-xiao-guan-ji_touch": "取消關機({0}s)",
+    "qu-xiao-guan-ji_key": "{0}秒後自動取消關機",
+    "msg-box": "設備正在使用，請稍後再試",
+    "msg-box-duration": "{num} 秒後關閉"
+  },
+  "welcome": {
+    "huan-ying-ti-yan": "歡迎體驗",
+    "product-name": "「 維塑3D智能體測精靈 」",
+    "product-name-va": "「 維塑3D智能體測鏡 」"
+  },
+  "print-list": {
+    "scan-tips":"掃碼查看報告",
+    "xiang-mu-ti-shi": "項目提示:",
+    "ti-wei-ce-liang": "@:common.ti-wei-ce-liang",
+    "ti-tai-ping-gu": "@:common.ti-tai-ping-gu",
+    "jian-bu-gong-neng": "@:common.jian-bu-gong-neng",
+    "ti-zhong-ce-liang":"@:common.ti-zhong-ce-liang",
+    "ti-cheng-fen-ce-liang":"@:common.shen-ti-cheng-fen",
+    "xin-yong-hu-zhu-ce": "新用戶註冊",
+    "status0": "生成中",
+    "status1": "打印中",
+    "status2": "打印成功",
+    "status3": "打印請求失敗",
+    "status4": "用戶註冊中",
+    "status5": "排隊中",
+    "status6": "註冊超時",
+    "status7": "打印機異常",
+    "status8": "打印請求超時",
+    "status9": "生成失敗",
+    "status10": "未打印",
+    "status11": "打印排隊中-{0}",
+    "shang-yi-ye": "上一頁",
+    "xia-yi-ye": "下一頁",
+    "mei-you-da-yin-bao-gao": "+ 沒有打印報告",
+    "msg-box": {
+      "title0": "是否重新打印報告？",
+      "title1": "暫不支持重新打印！",
+      "zhong-xin-da-yin": "重新打印",
+      "qu-xiao": "取消",
+      "hao-de": "好的（{0}s）"
+    }
+  },
+  "scan-result": {
+    "qrcode": {
+      "loading": "二維碼加載中",
+      "load-failed": "二維碼加載失敗",
+      "title0": "請使用微信掃描二維碼",
+      "title1": "請掃描二維碼",
+      "title2": "請刷手環",
+      "title3": "請掃描二維碼",
+      "title4": "掃碼查看體重測量結果"
+    },
+    "or": "或",
+    "card": {
+      "get-result": "刷手環獲取結果"
+    },
+    "countdown": "@:common.error.count-down1",
+    "countdown1": "@:common.error.count-down5",
+    "load-down": "加載倒計時 {num} 秒",
+    "error": {
+      "network": "網絡異常，請檢查網絡連接情況",
+      "api": "接口請求地址錯誤"
+    },
+    "result": {
+      "card-title": "刷手環成功",
+      "qrcode-title": "掃碼成功",
+      "desc": "請在手機上查看本次的測量結果",
+      "key-select": {
+        "da-yin-bao-gao": "打印報告",
+        "da-yin-bao-gao_desc": "可獲取紙質報告",
+        "qu-xiao-da-yin": "取消打印",
+        "qu-xiao-da-yin_desc": "取消打印將返回首頁",
+        "ji-xu-da-yin": "繼續打印",
+        "ji-xu-da-yin_desc": "請檢查打印機狀態"
+      },
+      "msg-card": {
+        "new-user": "報告將在註冊完成後生成，請盡快在微信端完成註冊。",
+        "print-added": "已加入打印隊列，請耐心等待報告生成"
+      }
+    },
+    "printer-error": {
+      "da-yin-ji-wei-jiu-xu": "打印機未就緒",
+      "da-yin-ji-wei-jiu-xu_desc": "打印機狀態異常，請檢查打印機是否連接並開機",
+      "print-added": "任務已加入報告列表，待打印機就緒後執行打印"
+    }
+  },
+  "get-report": {
+    "sao-miao-shi-jian": "掃描時間：",
+    "xu-hao": "序號：",
+    "desc0": "請記住您的掃描時間及序號，<br />並聯繫工作人員獲取專業測量報告",
+    "desc1": "網絡異常，信息加載中..."
+  },
+  "update": {
+    "title": {
+      "updating": "正在更新 {0}%",
+      "complete": "更新完成",
+      "success": "設備更新成功",
+      "failed": "更新失敗，正在恢復",
+      "rolled-back": "設備已恢復",
+      "roll-back-failed": "設備恢復失敗"
+    },
+    "sub-title": "（預計用時 5~10 分鐘）",
+    "tips0": "請勿斷電關機",
+    "tips1": "強行關機可能導致設備無法使用",
+    "tips2": "即將重啟設備，重啟後方可開始測量",
+    "tips3": "恢復失敗，請聯繫售後工程師",
+    "tips4": "更新過程中請勿斷電關機"
+  },
+  "device-error": {
+    "title": "設備異常",
+    "desc0": "設備異常，請重啟設備，若重啟無效，{item}請聯繫售後維修",
+    "desc1": "請聯繫售後維修"
+  },
+  "network-error": {
+    "title": "網絡異常",
+    "desc0": "請檢查網絡設置及網線連接情況，或重啟設備，{item}若重啟無效，請聯繫售後維修",
+    "desc1": "若重啟無效，請聯繫售後維修"
+  },
+  "navigation-bar": {
+    "shou-ye": "首頁",
+    "zhi-zhang-gui-ge": "紙張規格",
+    "she-zhi": "設置",
+    "dong-tai-shi-yan-shi": "動態實驗室",
+    "sheng-yin-she-zhi": "聲音設置",
+    "liang-du-she-zhi": "亮度設置",
+    "shou-shi-shi-bie": "手勢識別",
+    "shou-shi-cao-zuo-yin-dao": "手勢操作引導",
+    "da-yin-she-zhi": "打印設置",
+    "wang-luo-zhen-duan": "@:setting.check.wang-luo-zhen-duan",
+    "wang-luo-fen-xi": "@:setting.check.wang-luo-fen-xi",
+    "she-bei-jian-ce": "設備檢測",
+    "xiang-mu-xuan-ze": "項目選擇",
+    "xuan-ze-ce-liang-xiang-mu": "選擇測量項目",
+    "qing-an-tu-shi-dong-zuo-jin-ru-ce-liang-xiang-mu": "請按圖示動作進入測量項目",
+    "qing-zuo-hao-yi-xia-zhun-bei": "請做好以下準備",
+    "wu-dian-liu": "無電流營養分析測量",
+    "shi-fou-ji-xu-ce-liang": "是否繼續測量",
+    "bao-gao-lie-biao": "報告列表",
+    "huo-qu-ce-liang-bao-gao": "獲取測量報告",
+    "shen-ti-cheng-fen-ce-liang": "身體成分測量",
+    "shen-ti-cheng-fen": "身體成分",
+    "ti-zhong-ce-liang": "體重測量",
+    "shen-ti-cheng-fen-ce-liang-zhun-bei": "身體成分測量準備",
+    "ti-tai-ce-liang": "體態測量",
+    "ti-tai-ping-gu": "體態評估",
+    "ti-wei-ce-liang": "體圍測量",
+    "jian-bu-gong-neng": "@:item-select.jian-bu-gong-neng",
+    "jian-bu-gong-neng-ce-liang": "肩部功能測量",
+    "wang-luo-yi-chang-ye": "網絡異常頁",
+    "title1": "外展上舉-動作演示",
+    "title2": "前屈上舉-動作演示",
+    "title3": "即將啟動測量",
+    "title4": "外展上舉測量",
+    "title5": "前屈上舉測量",
+    "title6": "肩部功能測量",
+    "wang-luo-she-zhi": "網絡設置"
+  },
+  "reset":{
+    "content-title": "設備初始化",
+    "content-tip": "請勿在轉台上站人或放置異物",
+    "title": "設備復位",
+    "title-tips": "設備復位中，請離開轉台"
+  },
+  "renewal":{
+    "wei-jihuo-title": "設備待激活",
+    "wei-jihuo-content": "親愛的用戶，您好！<br />您的設備尚未激活，請按照以下步驟完成激活:",
+    "wei-jihuo-content1": "打開【Visbody WellnessHub】網址：{0}",
+    "wei-jihuo-content2": "註冊並激活",
+    "wei-jihuo-content3": "完成激活後，重啟設備即可開始使用",
+    "wei-jihuo-content4": "如遇任何問題，隨時聯繫我們的客服團隊，我們將竭誠為您服務：",
+    "wei-jihuo-content5": "WhatsApp: +852 5704 0513",
+    "wei-jihuo-content6": "郵箱: hello@visbody.com",
+    "wei-jihuo-content7": "感謝您的支持與信任，祝您使用愉快！",
+    "wei-jihuo-content8": "具體操作流程",
+    "ting-ji-title": "停機通知",
+    "ting-ji-content": "親愛的用戶：<br />您的設備【基礎版】已於{0}停機，目前設備已無法使用，請您盡快到【維塑數字健康平台】（{1}）完成續費。續費成功後該設備將恢復使用，若續費後未恢復使用，請嘗試重啟設備！<br />如有疑問可諮詢維塑官方客服<br />WhatsApp：+852 5704 0513 <br />郵箱：hello@visbody.com"
+  },
+  "renewal1":{
+    "wei-jihuo-title": "設備待激活",
+    "wei-jihuo-content": "親愛的用戶，您好！<br />您的設備尚未激活，請按照以下步驟完成激活:",
+    "wei-jihuo-content1": "打開【Visbody WellnessHub】網址：{0}",
+    "wei-jihuo-content2": "註冊並激活",
+    "wei-jihuo-content3": "完成激活後，重啟設備即可開始使用",
+    "wei-jihuo-content4": "如遇任何問題，隨時聯繫我們的客服團隊，我們將竭誠為您服務：",
+    "wei-jihuo-content5": "服務熱線：400-161-7020",
+    "wei-jihuo-content6": "",
+    "wei-jihuo-content7": "感謝您的支持與信任，祝您使用愉快！",
+    "wei-jihuo-content8": "具體操作流程見：",
+    "ting-ji-title": "停機通知",
+    "ting-ji-content": "親愛的用戶：<br />您的設備已於{0}停機，目前設備已無法使用，請您盡快到【維塑數字健康平台】網址：{1} 完成續費。續費成功後該設備將恢復使用，若續費後未恢復使用，請嘗試重啟設備！<br />如有疑問可諮詢維塑官方客服<br />服務熱線：400-161-7020"
+  },
+  "beauty":{
+    "device-mode": "測量模式",
+    "device-mode-beauty": "美業模式",
+    "device-mode-standard": "標準模式",
+    "device-mode-beauty-desc": "適合美容健康行業的身體評估方案",
+    "device-mode-standard_des": "適合各種人群的全面身體評估方案。",
+    "device-mode-beauty-desc1": "適合美容健康行業的身體評估方案，需聯繫銷售開通"
+  },
+  "egym":{
+    "logintips1":"請在刷卡機上刷手環進行身份驗證",
+    "logintips2":"請重新刷手環，若重試無效請聯繫場館人員",
+    "logintips3":"請確認性別和年齡",
+    "logintips4": "身份驗證失敗，請重新刷手環",
+    "logintips5": "若重試無效，請聯繫場館人員",
+    "age":"年齡",
+    "female":"女",
+    "male":"男",
+    "sex":"性別",
+    "year":"歲",
+    "logintips6":"您可以直接輸入數字，或使用 {up} {down}微調數值",
+    "ageerr":"年齡支持範圍 3~99歲",
+    "heightsuccess":"測量成功！可調整身高數值",
+    "heighterr1": "身高支持範圍 70~200cm",
+    "heighterr2": "身高支持範圍 2ft 3in ~ 6ft 7in"
+  },
+  "height":{
+    "tips9":"保存設置並繼續測量"
+  },
+  "touch-disabled": "觸屏異常，請使用按鍵進行操作",
+  "wifi": {
+    "title": "網絡設置",
+    "items-title-1": "無線網絡",
+    "items-vice-1": "已連接無網絡",
+    "items-title-2": "有線網絡",
+    "items-vice-2": "已連接",
+    "items-vice-3": "未連接",
+    "items-vice-4": "連接中...",
+    "wifi-off": "WiFi 開關",
+    "search": "正在搜索WiFi...",
+    "error-connect": "網絡無法連接或無網絡，請更換網絡重試",
+    "loading": "加載中...",
+    "box-title": "是否斷開當前網絡連接",
+    "box-button-1": "確認斷開",
+    "box-button-2": "{num} 秒後取消",
+    "qr-title-1": "WiFi 配置方式：",
+    "qr-title-2": "1.請使用手機掃描下方的二維碼，填寫 WiFi 信息並生成 WiFi 二維碼；",
+    "qr-title-3": "2.請將 WiFi 二維碼對準設備屏幕下方的相機位置進行掃描。",
+    "qr-tips-1": "請使用手機掃描二維碼",
+    "qr-tips-2": "掃描成功，連接中",
+    "qr-tips-3": "無效二維碼",
+    "qr-tips-4": "連接成功",
+    "connect-error-0": "連接成功",
+    "connect-error-1": "連接超時",
+    "connect-error-2": "密碼錯誤",
+    "connect-error-3": "WiFi網絡未在範圍內",
+    "connect-error-4": "認證超時或協議不匹配",
+    "connect-error-5": "WiFi 適配器被禁用",
+    "connect-error-6": "網絡配置參數錯誤",
+    "connect-error-7": "IP獲取失敗",
+    "connect-error-8": "連接命令執行失敗",
+    "connect-error-9": "連接失敗",
+    "tip-waiting": "正在連接",
+    "tip-btn-ok": "知道了",
+    "tip-check": "請輸入密碼",
+    "tip-check-fail": "密碼錯誤，連接失敗",
+    "tip-btn-confirm": "確認",
+    "tip-btn-cancel": "取消",
+    "tip-btn-disconnected": "斷開"
+  },
+  "click-skip": "點擊跳過此項目",
+  "Athlete":{
+    "tips": "當前模式僅適用於大肌肉人群",
+    "title": "適用人群",
+    "title2":"運動員",
+    "desc1": "適用於專業健美運動員的體成分評估方案"
+  }
+}

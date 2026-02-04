@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>add-circle-fill</title>
+    <g id="待机页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="待机页-更新提示" transform="translate(-140.000000, -1861.000000)">
+            <g id="编组-2" transform="translate(60.000000, 1857.000000)">
+                <g id="add-circle-fill" transform="translate(80.000000, 4.000000)">
+                    <polygon id="路径" points="0 0 48 0 48 48 0 48"></polygon>
+                    <path d="M24,43 C13.5063,43 5,34.4937 5,24 C5,13.5063 13.5063,5 24,5 C34.4937,5 43,13.5063 43,24 C43,34.4937 34.4937,43 24,43 Z M22,22 L14,22 L14,26 L22,26 L22,34 L26,34 L26,26 L34,26 L34,22 L26,22 L26,14 L22,14 L22,22 Z" id="形状" fill="#FFFFFF"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,554 @@
+{
+    "common": {
+        "dong-tai-shi-yan-shi": "ダイナミックラボ",
+        "guide": {
+            "interfere1": "ターレットの上に立ってください。1メートル以内に他の人がいないようにしてください"
+        },
+        "wu-dian-liu": "",
+        "wu-dian-liu-sub": "",
+        "jian-bu-gong-neng": "頸肩部機能",
+        "shen-ti-cheng-fen": "体組成",
+        "ti-tai-ping-gu": "姿勢評価",
+        "error": {
+            "start-failed-title": "起動エラーです",
+            "device-err-desc": [
+                "デバイス異常です。デバイスを再起動して問題を解決してください！",
+                "デバイス異常です。カスタマーサービスのエンジニアに修理を依頼してください。",
+                "デバイス異常です。まもなく自動で復帰します",
+                "ターレットが検測できません。ターレットのケーブルを抜き差しして、デバイスを再起動してください！"
+            ],
+            "err-code": "エラーコード：{0}",
+            "scan-failed-title": "測定エラーです",
+            "scan-err-desc": [
+                "開始時間が超過しました",
+                "動作時間が超過しました。",
+                "測定時間が超過しました。",
+                "測定時間が超過しました",
+                "開始時間が超過しました"
+            ],
+            "re-scan": "{0} もう一度測定してください！",
+            "count-down1": "{num} 秒後にトップページ",
+            "count-down2": "測定は {num} 秒後に終了します",
+            "count-down3": "カウントダウン {num} 秒",
+            "count-down4": "{num} 秒後に戻ります"
+        },
+        "gesture-select": {
+            "left": {
+                "content-title": "左手を挙げてください",
+                "cha-kan-bao-gao": "レポートを確認します",
+                "zhong-xin-ce-liang": "もう一度測定します"
+            },
+            "right": {
+                "content-title": "右手を挙げてください",
+                "jie-shu-ce-liang": "測定を終了させます"
+            }
+        },
+        "key-select": {
+            "cha-kan-bao-gao": "@:common.gesture-select.left.cha-kan-bao-gao",
+            "cha-kan-bao-gao_desc": "{0}の結果を見る",
+            "zhong-xin-ce-liang": "@:common.gesture-select.left.zhong-xin-ce-liang",
+            "zhong-xin-ce-liang_desc1": "再度{0}測定を行います",
+            "zhong-xin-ce-liang_desc3": "デバイス前方の金属製電極プレートに戻ってください",
+            "jie-shu-ce-liang": "@:common.gesture-select.right.jie-shu-ce-liang",
+            "jie-shu-ce-liang_desc1": "測定が完了すると測定済みの項目レポートを確認できます",
+            "jie-shu-ce-liang_desc2": "頸肩部の機能測定結果を確認します",
+            "jie-shu-ce-liang_desc3": "測定完了後トップページに戻ります"
+        },
+        "device-usable": {
+            "error-tip0": "デバイス異常です、デバイスを再起動してください。再起動しても異常がある場合、カスタマーサービスに連絡してください。",
+            "error-tip1": "デバイス異常です、電源を切って、再起動してください。再起動しても異常がある場合、カスタマーサービスに連絡してください。",
+            "error-tip2": "ターレットを検測できません。ケーブルを抜き差し、再起動してください。効かない場合、カスタマーサービスに連絡してください。",
+            "error-tip3": "@:common.error.device-err-desc.1"
+        }
+    },
+    "setting": {
+        "check": {
+            "network": {
+                "disconnected": "ネットワーク接続が切った",
+                "disconnected_desc": "ネットワークケーブルがデバイスに差し込まれているかどうか、ルーターがネットワークに繋がっているかどうか確認ください",
+                "disconnected_desc1": "请检查有线网络或wifi是否连接",
+                "disconnected_desc2": "有线网络检查方式：网线是否插好或路由器是否联网",
+                "jian-ce-shi-jian": "測定時間",
+                "shang-chuan-su-du": "アップロード速度",
+                "testing": "ネットワーク診断中…",
+                "wang-luo-jiao-cha": "ネットワーク環境が悪くなっています",
+                "wang-luo-jiao-cha_desc": "当該デバイスのネットワーク環境が悪く、レポートの生成に時間がかかることがあります。 ネットワークプロバイダーに連絡して、デバイスの帯域幅を増やすようにしてください",
+                "wang-luo-jiao-cha_desc_extend": "当該デバイスのネットワーク環境が悪く、レポートの生成に時間がかかることがあります。ネットワークプロバイダーに連絡してデバイスの帯域幅を増やし、ルーターの設定でダウンロード速度が制限されていないか確認するようにしてください",
+                "wang-luo-liang-hao": "ネットワークは良好です",
+                "wang-luo-liang-hao_desc": "現在のデバイスネットワーク状況は良好で、正常に使用できます",
+                "wang-luo-liang-hao_desc_extend": "，ただし、ダウンロード速度が遅いようですので、ルーターの設定でダウンロード速度が制限されていないかどうか確認するようにしてください",
+                "wang-luo-you-xiu": "ネットワークは優良です",
+                "wang-luo-you-xiu_desc": "現在のデバイスネットワーク状況は優良です",
+                "wang-luo-you-xiu_desc_extend": "@:setting.check.network.wang-luo-liang-hao_desc_extend",
+                "wu-fa-lian-jie-fu-wu-qi": "サーバーに接続できません",
+                "wu-fa-lian-jie-fu-wu-qi_desc": "デバイスに接続するネットワークが正常で、Visbodyのサーバーにつながらない場合、時間をおいて再度試すか、Visbodyサービスサポートまで連絡ください",
+                "xia-zai-su-du": "ダウンロード速度"
+            },
+            "wang-luo-zhen-duan": "ネットワーク診断",
+            "wang-luo-fen-xi": "ネットワーク分析",
+            "bao-gao-huo-qu-fang-shi": "レポートの入手方法",
+            "yu-yan": "言語"
+        },
+        "detect": {
+            "guang-zhao-huan-jing-cha": "光線環境が悪いです",
+            "guang-zhao-huan-jing-cha_desc": [
+                "周辺の明るさが使用条件を満足していないことを検知しました。立っている人のクイックスタート測定とジェスチャーコミュニケーションが使用不可になります。",
+                "周辺のライトをつけるか、デバイスを明るいところまで移動してください。"
+            ],
+            "guang-zhao-huan-jing-ruo": "光量環境が弱くなっています",
+            "guang-zhao-huan-jing-ruo_desc": [
+                "周辺の明るさが弱いことを検知しました。立っている人のクイックスタート測定とジェスチャーコミュニケーションに影響を及ぼします。",
+                "@:setting.detect.guang-zhao-huan-jing-cha_desc.1"
+            ],
+            "guide": "図の通り、お客様の{0}手を挙げてください",
+            "shi-bie-cheng-gong": "識別完了です",
+            "shi-bie-cheng-gong_desc": "以降の測定では、今回と同じジェスチャー操作で測定してください",
+            "shou-shi-cao-zuo-yin-dao": "ジェスチャー操作ガイダンス",
+            "shou-shi-cao-zuo-yin-dao_desc": "ガイダンスでジェスチャー認識の操作方法とルールを素早く身につけます",
+            "shou-shi-shi-bie": "ジェスチャー認識",
+            "shou-shi-shi-bie_close_desc": "電源を切るとジェスチャー認識を取り消し、ボタン操作のみ使用できます。",
+            "shou-shi-shi-bie_open_desc": "ジェスチャ認識をオンにして、測定プロセスで手で操作できます",
+            "ying-jian-yi-chang": "ハードウェア異常です",
+            "ying-jian-yi-chang_desc": "デバイスを再起動してください。再起動しても異常がある場合、カスタマーサービスのエンジニアに連絡してください",
+            "you-shou": "右",
+            "zuo-shou": "左"
+        },
+        "index": {
+            "da-yin-she-zhi": "プリント設定",
+            "dong-tai-shi-yan-shi": "@:common.dong-tai-shi-yan-shi",
+            "she-bei-jian-ce": "デバイス検測",
+            "sheng-yin-she-zhi": "音声ガイド設定",
+            "shou-shi-shi-bie": "@:setting.detect.shou-shi-shi-bie",
+            "yi-guan-bi": "オフ",
+            "yi-kai-qi": "オン",
+            "languageTitleOne": "English",
+            "languageTitleTwo": "中文",
+            "languageTitleThree": "日本語",
+            "languageTitleFour": "Español",
+            "languageTitleFive": "Deutsch",
+            "languageTitleSex": "Français",
+            "languageTitleSeven": "Türkçe",
+            "languageTitleEight": "Português",
+            "languageTitleNine": "Italiano",
+            "languageTitleTen": "Ελληνικά",
+            "languageTitleEleven": "Русский язык",
+            "languageTitleTwelve": "magyar",
+            "languageTitleThirteen":"繁體",
+            "languageTitleFourteen":"繁體(台灣)",
+            "language": "言語",
+            "set": "设置",
+            "check": "确认",
+            "return": "返回",
+            "wang-luo-she-zhi": "网络设置"
+        },
+        "print": {
+            "da-yin-gong-neng": "プリント機能",
+            "da-yin-gong-neng_desc": [
+                "電源を切るとデバイスは計測レポートをプリントアウトできません",
+                "電源を入れるとデバイスは速やかに計測レポートをプリントアウトできます"
+            ],
+            "da-yin-ren-wu-she-zhi": "プリントタスク設定",
+            "shou-dong-da-yin_desc": "測定完了並びにユーザー情報のバインドが終わった後、レポートリストページから手動でプリントアウトするかどうか選択できます",
+            "zi-dong-da-yin_desc": "測定完了並びにユーザー情報のバインドが終わった後、自動的にプリントタスクに入りプリントアウトします"
+        },
+        "bind": {
+            "guan-li-ping-tai": "マネジメントプラットフォーム",
+            "guan-li-ping-tai_desc": "測定が完了したら、測定シリアル番号を使用してマネジメントプラットフォームでのユーザー情報のバインドを完了すれば、今回の測定レポートを確認できます。",
+            "er-wei-ma": "QRコード",
+            "er-wei-ma_desc": "測定が完了したら、携帯電話を使用してQRコードをスキャンし、携帯電話でのユーザー情報のバインドを完了すれば、今回の測定レポートを確認できます。"
+        },
+        "shou-dong-da-yin": "手動プリント",
+        "zi-dong-da-yin": "自動プリント"
+    },
+    "home": {
+        "fa-xian-xin-ban-ben": "新しいバーションを見つけました",
+        "fa-xian-xin-ban-ben_subtitle": "お客様のデバイスに新しいバージョン{0}をアップデートできます",
+        "fa-xian-xin-ban-ben_subtitle_tip_touch": "今すぐ更新",
+        "fa-xian-xin-ban-ben_subtitle_tip_key": "{icon}ボタンを押して速やかにアップデートを行ってください",
+        "items_err": "{0}項目異常",
+        "ji-jiang-dao-qi": "",
+        "she-bei-wang-luo-man": "デバイスのネットワークが遅くなっています",
+        "she-bei-wang-luo-man_subtitle": "結果待ちの時間が長くなる可能性がありますので、ネットワークを確認してください。",
+        "shou-shi-shi-bie-yi-chang": "ジェスチャー認識が異常です",
+        "shou-shi-shi-bie-yi-chang_subtitle": "デバイスの再起動をお試しください。再起動してもうまくいかない場合は、アフターサービスにご連絡ください。",
+        "xu-fei-tong-zhi": "更新通知",
+        "xu-fei-tong-zhi_subtitle": "",
+        "yi-dao-qi": "期限切れ",
+        "jian-cha-wang-luo_subtitle": "ネットワーク診断を開始",
+        "ai-xu-fei-tong-zhi_subtitle1": "親愛なるユーザー様：お客様のデバイス【ベーシック版】は{0}に期限切れとなります。期限切れ前に【維塑デジタル健康プラットフォーム】{1} で更新を完了してください。そうしないと、デバイスは使用できなくなります。ご不明な点がございましたら、Visbody公式カスタマーサービスまでお問い合わせください<br />WhatsApp：+852 5704 0513 <br />メール：hello@visbody.com",
+        "ai-xu-fei-tong-zhi_subtitle2": "親愛なるユーザー様：お客様のデバイス【ベーシック版】は{0}に期限切れとなります。期限切れ前に【維塑デジタル健康プラットフォーム】{1} で更新を完了してください。そうしないと、デバイスは使用できなくなります。ご不明な点がございましたら、Visbody公式カスタマーサービスまでお問い合わせください<br />WhatsApp：+852 5704 0513 <br />メール：hello@visbody.com",    
+        "zhou-bian-guang-xian-cha": "周辺の明るさが悪いです",
+        "zhou-bian-guang-xian-cha_subtitle": "@:setting.detect.guang-zhao-huan-jing-cha_desc.1",
+        "zhou-bian-guang-xian-ruo": "周辺の明るさが弱いです",
+        "qing-chong-qi-she-bei": "デバイスを再起動してください",
+        "qing-chong-qi-she-bei_subtitle": "デバイスが長時間使用され続けています。測定精度を確保するため、できるだけ早くデバイスを再起動してください。",
+        "print-info": {
+            "msg0": "プリンターエラーです。プリンターが接続され電源が入っているかを確認してください。",
+            "msg1": "レポートのプリントエラーです。{icon}ボタンを押して詳細を確認してください。",
+            "msg2": "現在{num}部のレポートはプリント中です。{icon}ボタンを押して詳細を確認してください。",
+            "msg3": "レポートリストを確認するには{icon}ボタンを押してください。"
+        }
+    },
+    "item-select": {
+        "dong-tai-shi-yan-shi": "@:common.dong-tai-shi-yan-shi",
+        "dong-tai-shi-yan-shi_desc": "ダイナミック評価項目を体験する",
+        "dong-tai-shi-yan-shi_desc1": "製品の新機能をぜひお試しください。",
+        "items_err": "@:home.items_err",
+        "jian-bu-gong-neng": "@:common.jian-bu-gong-neng",
+        "jian-bu-gong-neng-celiang": "頸肩部機能",
+        "jian-bu-gong-neng-ce-liang": "頸肩部機能",
+        "jian-bu-gong-neng_desc": "お客様の肩関節の柔軟性に関する情報を調べます。",
+        "jie-shu-ce-liang": "@:common.gesture-select.right.jie-shu-ce-liang",
+        "jie-shu-ce-liang_desc": "終了すると{0}レポートを確認できます。",
+        "result0-ce-liang": "{0}",
+        "shen-ti-cheng-fen": "@:common.shen-ti-cheng-fen",
+        "shen-ti-cheng-fen-celiang": "体組成",
+        "shen-ti-cheng-fen-ce-liang": "体組成測定",
+        "shen-ti-cheng-fen-ce-liang-wei-du": "",
+        "shen-ti-cheng-fen-ce-liang_desc": "金属製電極プレートに立ってください",
+        "shen-ti-cheng-fen_desc": "お客様の体重・体脂肪率・筋肉量などを調べます。",
+        "shi-fou-ji-xu-ce-liang": "測定を継続しますか？",
+        "ti-tai-ping-gu": "@:common.ti-tai-ping-gu",
+        "ti-tai-ping-gu_desc": [
+            "自然に立って、{item}2秒間静止してください",
+            "頭部前傾・肩の高さの左右差・ウェストを調べます。"
+        ],
+        "yi-ce-xiang-mu-de": "測定済みの項目",
+        "jie-shu-ce-liang_touch": "測定を終了してレポートを取得する",
+        "jie-shu-ce-liang_touch_tip": "クリックしてレポートを取得する"
+    },
+    "mass": {
+        "confirm": {
+            "tip-list1": {
+                "content": "足裏と金属製プレートの足印を十分に接触させてください",
+                "shortMsg": "両足を足印の位置に載せてください"
+            },
+            "tip-list2": {
+                "content": "両手の指でマシン両側の電極プレートを握り締めてください",
+                "shortMsg": "両手で手すりをしっかりと持ち"
+            },
+            "tip-list3": {
+                "content": "両脇を自然に開き、45°の角度を保ってください",
+                "shortMsg": "両脇を45°角度にゆったりと開いてください"
+            },
+            "tip-list4": {
+                "content": "測定中は頭と身体をを静止させてください",
+                "shortMsg": "測定中は身体を静止させてください"
+            }
+        },
+        "scan": {
+            "down": {
+                "guide1": "測定中は身体を動かさないでください",
+                "successful": "[体組成レポート]を作成しますのでお待ちください…"
+            },
+            "stand": {
+                "guide1": "体組成測定中...",
+                "guide2": "体組成測定が完了しました",
+                "guide3": "体組成測定に失敗しました"
+            },
+            "predict": "{num}秒で完了する予定です"
+        },
+        "success": "測定が完了しました",
+        "weight": {
+            "guide": "デバイス前方の金属製電極プレートにお立ちください。",
+            "scan": {
+                "down": {
+                    "guide1": "両足を金属製電極プレートの位置に立ってください",
+                    "guide2": "両手を楽にし、身体を動かさないでください",
+                    "successful": "これから[体組成測定]を始めます"
+                },
+                "stand": {
+                    "guide1": "両手を楽にし、身体を静止させてください",
+                    "guide2": "体重測定中...",
+                    "guide3": "体重測定完了",
+                    "guide4": "体重測定エラーです"
+                }
+            }
+        }
+    },
+    "shape": {
+        "ti-tai-ce-liang": "@:shape.result.bottom-msg-item1",
+        "ti-wei-ce-liang": "@:shape.result.bottom-msg-item2",
+        "guide": {
+            "bottom-msg1": "ターレットの上で両手を楽にして立ってください",
+            "bottom-msg2": "2秒間、静止してください"
+        },
+        "result": {
+            "bottom-msg-item1": "姿勢測定",
+            "bottom-msg-item2": "体の周囲長測定",
+            "bottom-msg-title": "測定完了後、レポートを受け取れます"
+        },
+        "scan": {
+            "bottom-msg1": "そのまま静止してください",
+            "bottom-msg2": "測定中です。身体を動かさないでください",
+            "bottom-msg3": "測定結果をお待ちください…",
+            "leaveReset1": "操作ミスです",
+            "leaveReset2": "測定中に人が離れました。デバイスがリセットしています"
+        }
+    },
+    "girth": {
+        "guide": {
+            "bottom-msg1": "姿勢を2秒静止してください",
+            "bottom-msg2": "両手で握りこぶしを作って、自然に30°開いてください",
+            "bottom-msg3": "@:shape.guide.bottom-msg2",
+            "bottom-msg4": "ゆっくりと両脇の角度を広げてください",
+            "bottom-msg5": "ゆっくりと両脇の角度を縮めてください"
+        },
+        "select": {
+            "content": "【体の周囲長測定】を継続しますか？",
+            "item1": {
+                "content": "測定を継続すると",
+                "remarks": "まもなく体の周囲長測定に入ります"
+            },
+            "item2": {
+                "content": "当該項目をスキップします",
+                "remarks": "スキップ後、姿勢測定の結果を確認できます"
+            }
+        }
+    },
+    "shoulder": {
+        "jian-bu-gong-neng-ce-liang": "@:item-select.jian-bu-gong-neng-ce-liang",
+        "jian-bu-gong-neng": "@:item-select.jian-bu-gong-neng",
+        "countdown": {
+            "bottom-msg": "@:shape.scan.bottom-msg1",
+            "bottom-msg1": "楽に立ち、2秒静止してください"
+        },
+        "success": {
+            "title": "@:shape.result.bottom-msg-title",
+            "item1": "外転上げ",
+            "item2": "前屈上げ"
+        },
+        "bottom-tips1": "ディスプレイに向かって身体を楽にして立ってください",
+        "bottom-tips2": "左手を左側に伸ばしゆっくりと一番高いところまで挙げてください",
+        "bottom-tips3": "右手を右側に伸ばしゆっくりと一番高いところまで挙げてください",
+        "bottom-tips4": "左手をまっすぐ伸ばし、手のひらを内側にしてゆっくりと一番高いところまで挙げてください",
+        "bottom-tips5": "右手をまっすぐ伸ばし、手のひらを内側にしてゆっくりと一番高いところまで挙げてください",
+        "nav-container1": {
+            "first-title": "外転上げ－左手",
+            "second-title": "外転上げ－右手"
+        },
+        "nav-container2": {
+            "first-title": "前屈上げ－左手",
+            "second-title": "前屈上げ－右手"
+        }
+    },
+    "check-self": {
+        "she-bei-zi-jian-zhong": "デバイスのセルフチェック中..."
+    },
+    "recovery": {
+        "she-bei-xiao-zhun-zhong": "デバイスの校正中です。{item}しばらくお待ちください"
+    },
+    "shut-down": {
+        "que-ren-guan-ji": "シャットダウン確認",
+        "guan-ji-ti-shi": "シャットダウンメッセージ",
+        "guan-ji-ti-shi_desc1": "電源を切ると今行っているタスクがなくなります。",
+        "guan-ji-ti-shi_desc2": "そのまま電源を切りますか？",
+        "que-ren-guan-ji_touch_desc": "ここをクリックするか、もう一度電源ボタンを押してください",
+        "que-ren-guan-ji_key_desc": "電源を切って、電源オフボタンを再度押します",
+        "qu-xiao-guan-ji_touch": "シャットダウンをキャンセル ({0} 秒)",
+        "qu-xiao-guan-ji_key": "{0} 秒後に自動でシャットダウンを取り消します",
+        "msg-box-duration": "{num} 秒でシャットダウンします",
+        "msg-box": "デバイスは今使用中です。時間をおいてから試してください"
+    },
+    "welcome": {
+        "huan-ying-ti-yan": "お使いいただきありがとうございます",
+        "product-name": "Visbody3Dスマート体型測定デバイス"
+    },
+    "print-list": {
+        "scan-tips":"スキャンしてレポートを表示する",
+        "xiang-mu-ti-shi": "項目提示",
+        "xin-yong-hu-zhu-ce": "新規ユーザー登録",
+        "status0": "生成中",
+        "status1": "プリントアウト中",
+        "status2": "プリントアウト完了",
+        "status3": "プリントリクエストエラー",
+        "status4": "ユーザー登録中",
+        "status5": "",
+        "status6": "新規登録タイムアウト",
+        "status7": "プリンター異常",
+        "status8": "プリントリクエストタイムアウト",
+        "status9": "生成エラー",
+        "status10": "未プリント",
+        "status11": "プリントキューの進行状況-{0}",
+        "shang-yi-ye": "前ページ",
+        "xia-yi-ye": "次ページ",
+        "mei-you-da-yin-bao-gao": "+ レポートのプリントアウト無し",
+        "msg-box": {
+            "title0": "レポートを再度印刷しますか?",
+            "title1": "再印刷は現在対応しておりません！",
+            "zhong-xin-da-yin": "再度印刷",
+            "qu-xiao": "キャンセル",
+            "hao-de": "OK ({0}秒)"
+        }
+    },
+    "scan-result": {
+        "qrcode": {
+            "loading": "QRコードを読み込んでいます",
+            "load-failed": "QRコードの読み込みに失敗しました",
+            "title0": "",
+            "title1": "QRコードをスキャンしてください",
+            "title2": "",
+            "title3": "@:scan-result.qrcode.title1"
+        },
+        "or": "あるいは",
+        "card": {
+            "get-result": ""
+        },
+        "countdown": "@:common.error.count-down1",
+        "load-down": "ロードするのに {num} 秒カウントダウンします",
+        "error": {
+            "network": "ネットワークが異常です。ネットワーク接続を確認してください",
+            "api": ""
+        },
+        "result": {
+            "card-title": "",
+            "qrcode-title": "コードをスキャンできました",
+            "desc": "携帯電話で測定レポートをご確認ください",
+            "key-select": {
+                "da-yin-bao-gao": "レポートを印刷します",
+                "da-yin-bao-gao_desc": "紙のレポートが利用可能です",
+                "qu-xiao-da-yin": "印刷をキャンセルします",
+                "qu-xiao-da-yin_desc": "印刷をキャンセルすると最初のページに戻ります",
+                "ji-xu-da-yin": "印刷を続けます",
+                "ji-xu-da-yin_desc": "プリンターの状態を確認してください"
+            },
+            "msg-card": {
+                "new-user": "",
+                "print-added": "印刷リストに追加されました。レポートが生成されるまでしばらくお待ちください"
+            }
+        },
+        "printer-error": {
+            "da-yin-ji-wei-jiu-xu": "プリンターの準備ができていません",
+            "da-yin-ji-wei-jiu-xu_desc": "プリンターエラーです。プリンターが接続され電源が入っているかを確認してください。",
+            "print-added": "タスクがレポートリストに追加されました。プリンターの準備ができたら印刷されます。"
+        }
+    },
+    "get-report": {
+        "sao-miao-shi-jian": "スキャン日時:",
+        "xu-hao": "シリアル<br />No.",
+        "desc0": "お客様のスキャン日時とシリアルNo.を覚えておき、スタッフに連絡して専門測定レポートを入手してください。",
+        "desc1": "ネットワークエラーです。情報ロード中…"
+    },
+    "update": {
+        "title": {
+            "updating": "現在更新中です",
+            "complete": "アップデート完了",
+            "success": "デバイスの更新が完了しました",
+            "failed": "更新に失敗しました。現在復帰しています",
+            "rolled-back": "デバイスは復帰しました",
+            "roll-back-failed": "デバイスの復帰に失敗しました"
+        },
+        "sub-title": "5〜10 分間かかります",
+        "tips0": "決して電源を切らないようにしてください",
+        "tips1": "強制的にシャットダウンすると、デバイスが使用できなくなる恐れがあります",
+        "tips2": "まもなくデバイスが再起動します。再起動後、測定が開始できます",
+        "tips3": "復帰できません。カスタマーサービスのエンジニアに連絡してください",
+        "tips4": "更新中は電源を切らないでください"
+    },
+    "device-error": {
+        "title": "デバイス異常です",
+        "desc0": "デバイスが異常です。デバイスを再起動してください。再起動しても問題が解決しない場合は、アフターサービスにお問い合わせください"
+    },
+    "network-error": {
+        "title": "ネットワーク異常です",
+        "desc0": "ネットワーク設定及びネットワークケーブルの接続状況を確認するか、デバイスを再起動してください。再起動しても異常がある場合、カスタマーサービスのエンジニアに連絡してください"
+    },
+    "navigation-bar": {
+        "shou-ye": "トップページ",
+        "she-zhi": "設定",
+        "zhi-zhang-gui-ge": "紙のサイズ",
+        "dong-tai-shi-yan-shi": "@:common.dong-tai-shi-yan-shi",
+        "sheng-yin-she-zhi": "@:setting.index.sheng-yin-she-zhi",
+        "liang-du-she-zhi": "亮度设置",
+        "shou-shi-shi-bie": "@:setting.detect.shou-shi-shi-bie",
+        "shou-shi-cao-zuo-yin-dao": "@:setting.detect.shou-shi-cao-zuo-yin-dao",
+        "da-yin-she-zhi": "@:setting.index.da-yin-she-zhi",
+        "wang-luo-zhen-duan": "@:setting.check.wang-luo-zhen-duan",
+        "wang-luo-fen-xi": "@:setting.check.wang-luo-fen-xi",
+        "she-bei-jian-ce": "@:setting.index.she-bei-jian-ce",
+        "xiang-mu-xuan-ze": "項目の選択",
+        "xuan-ze-ce-liang-xiang-mu": "測定項目の選択肢",
+        "shi-fou-ji-xu-ce-liang": "@:item-select.shi-fou-ji-xu-ce-liang",
+        "bao-gao-lie-biao": "レポートリスト",
+        "huo-qu-ce-liang-bao-gao": "測定レポートを確認します",
+        "shen-ti-cheng-fen-ce-liang": "@:item-select.shen-ti-cheng-fen-ce-liang",
+        "shen-ti-cheng-fen": "@:common.shen-ti-cheng-fen",
+        "ti-zhong-ce-liang": "体重測定",
+        "shen-ti-cheng-fen-ce-liang-zhun-bei": "体組成の測定準備",
+        "ti-tai-ce-liang": "@:shape.result.bottom-msg-item1",
+        "ti-tai-ping-gu": "@:common.ti-tai-ping-gu",
+        "ti-wei-ce-liang": "@:shape.result.bottom-msg-item2",
+        "jian-bu-gong-neng": "@:item-select.jian-bu-gong-neng",
+        "jian-bu-gong-neng-ce-liang": "@:item-select.jian-bu-gong-neng-ce-liang",
+        "wang-luo-yi-chang-ye": "ネットワーク異常ページに戻ります",
+        "title1": "外転上げ－動作デモ",
+        "title2": "前屈上げ－動作デモ",
+        "title4": "外転上げ測定",
+        "title5": "前屈上げ測定",
+        "title6": "@:item-select.jian-bu-gong-neng-ce-liang",
+        "wang-luo-she-zhi": "网络设置"
+    },
+    "renewal":{
+        "wei-jihuo-title": "デバイス有効化手順",
+        "wei-jihuo-content": "お客様各位<br />デバイスの有効化が完了していません。以下の手順で有効化を完了してください：",
+        "wei-jihuo-content1": "「Visbody WellnessHub」にアクセス：{0}",
+        "wei-jihuo-content2": "登録・認証を完了",
+        "wei-jihuo-content3": "認証完了後、デバイスを再起動してご使用ください。",
+        "wei-jihuo-content4": "サポートが必要な場合は、下記までご連絡ください：",
+        "wei-jihuo-content5": "WhatsApp: +852 5704 0513",
+        "wei-jihuo-content6": "メール：hello@visbody.com",
+        "wei-jihuo-content7": "Visbodyをご利用いただき、誠にありがとうございます。",
+        "wei-jihuo-content8": "詳しい手順",
+        "ting-ji-title": "停止通知",
+      "ting-ji-content": "親愛なるユーザー様：<br />お客様のデバイス【ベーシック版】は{0}に停止されました。現在、デバイスは使用できません。早急に【維塑デジタル健康プラットフォーム】（{1}）で更新を完了してください。更新が成功した後、デバイスは使用可能になります。更新後も使用できない場合は、デバイスを再起動してください。<br />ご不明な点がございましたら、Visbody公式カスタマーサービスまでお問い合わせください<br />WhatsApp：+852 5704 0513 <br />メール：hello@visbody.com"
+    },
+  "beauty":{
+    "device-mode": "測定モード",
+    "device-mode-beauty": "美容業界モード",
+    "device-mode-standard": "スタンダードモード",
+    "device-mode-beauty-desc": "美容健康業界向けの身体評価プラン",
+    "device-mode-standard_des": "あらゆる方に適した総合的な身体評価プラン",
+    "device-mode-beauty-desc1": "美容健康業界向けの身体評価プラン、ご利用には営業担当へのお問い合わせが必要です"
+  },
+  "touch-disabled": "タッチパネルが異常です。ボタンで操作してください。",
+  "wifi": {
+    "title": "网络设置",
+    "items-title-1": "无线网络",
+    "items-vice-1": "已连接无网络",
+    "items-title-2": "有线网络",
+    "items-vice-2": "已连接",
+    "items-vice-3": "未连接",
+    "items-vice-4": "连接中...",
+    "wifi-off": "WiFi 开关",
+    "search": "正在搜索WiFi...",
+    "error-connect": "网络无法连接或无网络，请更换网络重试",
+    "loading": "加载中...",
+    "box-title": "是否断开当前网络连接",
+    "box-button-1": "确认断开",
+    "box-button-2": "{num} 秒后取消",
+    "qr-title-1": "WiFi 配置方式：",
+    "qr-title-2": "1.请使用手机扫描下方的二维码，填写 WiFi 信息并生成 WiFi 二维码；",
+    "qr-title-3": "2.请将 WiFi 二维码对准设备屏幕下方的相机位置进行扫描。",
+    "qr-tips-1": "请使用手机扫描二维码",
+    "qr-tips-2": "扫描成功，连接中",
+    "qr-tips-3": "无效二维码",
+    "qr-tips-4": "连接成功",
+    "connect-error-0": "连接成功",
+    "connect-error-1": "连接超时",
+    "connect-error-2": "密码错误",
+    "connect-error-3": "WiFi网络未在范围内",
+    "connect-error-4": "认证超时或协议不匹配",
+    "connect-error-5": "WiFi 适配器被禁用",
+    "connect-error-6": "网络配置参数错误",
+    "connect-error-7": "IP获取失败",
+    "connect-error-8": "连接命令执行失败",
+    "connect-error-9": "连接失败"
+  },
+  "click-skip": "この項目をスキップ",
+  "Athlete":{
+    "tips": "このモードは、筋肉量の多い方専用です。",
+    "title": "対象ユーザー",
+    "title2":"アスリート",
+    "desc1": "プロボディビルダー向け体組成分析プログラム"
+  }
+}

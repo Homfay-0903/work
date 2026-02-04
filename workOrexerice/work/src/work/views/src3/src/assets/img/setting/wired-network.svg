@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="72px" height="72px" viewBox="0 0 72 72" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>编组 9</title>
+    <g id="设置" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="设置-网络设置" transform="translate(-108, -708)">
+            <g id="list备份-5" transform="translate(60, 648)">
+                <g id="编组-9" transform="translate(48, 60)">
+                    <polygon id="路径备份-8" points="0 0 72 0 72 72 0 72"></polygon>
+                    <polygon id="路径备份-9" points="10 4 62 4 62 68 10 68"></polygon>
+                    <g id="编组-7备份-2" transform="translate(10, 4)">
+                        <path d="M46,0 L46,6 L19,6 L19,46 L30,46 L30,52 L0,52 L0,0 L46,0 Z" id="形状结合备份" fill="#FFFFFF"></path>
+                        <rect id="矩形备份-13" fill="#FFFFFF" x="17" y="50" width="6" height="12"></rect>
+                        <rect id="矩形备份-7" fill="#FFFFFF" x="36" y="35" width="6" height="27"></rect>
+                        <rect id="矩形" stroke="#FFFFFF" stroke-width="6" x="28" y="15" width="21" height="22"></rect>
+                        <rect id="矩形" fill="#FFFFFF" x="35.5" y="18" width="6" height="8"></rect>
+                        <rect id="矩形备份-14" fill="#FFFFFF" x="6" y="58" width="36" height="6"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

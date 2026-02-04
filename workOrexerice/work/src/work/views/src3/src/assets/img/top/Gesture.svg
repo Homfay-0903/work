@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Gesture</title>
+    <defs>
+        <path d="M3.42298289,0 C3.42298289,4.4 7.25672372,7.984 11.9633252,8 L11.9633252,8 L16.3105134,8 C18.5354523,8 19.6821516,9.152 20.3496333,9.776 L20.3496333,9.776 L28,16.944 L25.5867971,19.2 L18.8264059,12.88 L18.8264059,32 L15.403423,32 L15.403423,22.4 L11.9804401,22.4 L11.9804401,32 L8.55745721,32 L8.55745721,10.736 C3.61124694,9.344 0,5.056 0,0 L0,0 Z M14,0 C15.7843046,0 17.2307692,1.4326888 17.2307692,3.2 C17.2307692,4.9673112 15.7843046,6.4 14,6.4 C12.2156954,6.4 10.7692308,4.9673112 10.7692308,3.2 C10.7692308,1.4326888 12.2156954,0 14,0 Z" id="path-1"></path>
+    </defs>
+    <g id="Gesture" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="internet">
+            <polygon id="Path-Copy" points="48 0 0 0 0 48 48 48"></polygon>
+            <polygon id="路径" points="6 6 42 6 42 42 6 42"></polygon>
+            <g id="白色" transform="translate(10.000000, 8.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use id="Mask" fill="#000000" fill-rule="nonzero" xlink:href="#path-1"></use>
+                <g id="Group" mask="url(#mask-2)">
+                    <g transform="translate(-45.000000, -8.000000)">
+                        <rect id="Rectangle" fill="#000000" x="0" y="0" width="118" height="48"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

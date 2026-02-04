@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61 (89581) - https://sketch.com -->
+    <title>37BB2089-F91D-4D16-BF69-66C87986C5E8</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="1.33209974%" y1="26.3203487%" x2="87.2085875%" y2="69.1813579%" id="linearGradient-1">
+            <stop stop-color="#2368FF" offset="0%"></stop>
+            <stop stop-color="#1071EF" offset="13.4974486%"></stop>
+            <stop stop-color="#24D9E2" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-2">
+            <stop stop-color="#24D9E2" offset="0%"></stop>
+            <stop stop-color="#1071EF" offset="86.5025514%"></stop>
+            <stop stop-color="#2368FF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="设计" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="报告/扫码成功-手动打印" transform="translate(-258.000000, -1132.000000)">
+            <g id="编组" transform="translate(258.000000, 1128.000000)">
+                <g id="查看报告" transform="translate(0.000000, 4.000000)">
+                    <g id="baogao-">
+                        <path d="M1.33424866,12.5890097 L18.0842487,0.612098718 C19.2256285,-0.204032906 20.7743715,-0.204032906 21.9157513,0.612098718 L38.6657513,12.5890097 C39.5042156,13.1885448 40,14.1444553 40,15.1615439 L40,36.8153672 C40,38.5741913 38.5449254,40 36.75,40 L3.25,40 C1.45507456,40 0,38.5741913 0,36.8153672 L0,15.1615439 C0,14.1444553 0.495784406,13.1885448 1.33424866,12.5890097 Z" id="蒙版" fill="#5E687B" opacity="0.771368118"></path>
+                        <rect id="矩形" fill="#FFFFFF" x="5.83333333" y="4.16666667" width="28.32" height="24.84" rx="0.96"></rect>
+                        <rect id="矩形" fill="#CED7E0" x="9.16666667" y="9.16666667" width="10.8333333" height="1.66666667"></rect>
+                        <rect id="矩形备份" fill="#CED7E0" x="9.16666667" y="12.5" width="16.6666667" height="1.66666667"></rect>
+                        <rect id="矩形备份-2" fill="#CED7E0" x="9.16666667" y="15.8333333" width="21.6666667" height="1.66666667"></rect>
+                        <rect id="矩形备份-3" fill="#CED7E0" x="9.16666667" y="19.1666667" width="21.6666667" height="1.66666667"></rect>
+                        <rect id="矩形备份-4" fill="#CED7E0" x="9.16666667" y="22.5" width="21.6666667" height="1.66666667"></rect>
+                        <rect id="矩形备份-5" fill="#CED7E0" x="9.16666667" y="25.8333333" width="21.6666667" height="1.66666667"></rect>
+                        <path d="M0.584468957,16.5520796 C0.83820501,16.9119242 1.1607217,17.2140055 1.53201182,17.4395839 L37.5,39.29211 C36.9628562,39.7351778 36.2822068,40 35.5417565,40 L3.14326149,40 C1.40735454,40 0,38.544489 0,36.7490252 L0,15 C0.0586140303,15.5433322 0.250705552,16.0787414 0.584468957,16.5520796 Z" id="路径" fill="url(#linearGradient-1)"></path>
+                        <path d="M40.0000053,36.7962835 C40.0000053,38.5656473 38.5790697,40 36.8265734,40 L3.25,40 C2.49875952,40 1.97950538,39.9151468 1.43598295,39.4745983 L38.4333956,17.7675372 C38.808234,17.5452379 39.1338328,17.2475479 39.3899937,16.8929342 C39.8030588,16.3211119 40.0011862,15.6573658 39.9996163,15 L40.0000053,36.7962835 Z" id="路径" fill="url(#linearGradient-2)"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

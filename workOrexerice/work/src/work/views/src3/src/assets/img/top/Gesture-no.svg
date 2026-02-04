@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Gesture-no</title>
+    <defs>
+        <path d="M30.9393398,0.939339828 L33.0606602,3.06066017 L3.06066017,33.0606602 L0.939339828,30.9393398 L30.9393398,0.939339828 Z M21.826,18.536 L21.8264059,33 L18.403423,33 L18.403423,23.4 L16.962,23.4 L21.826,18.536 Z M14.98,25.382 L14.9804401,33 L11.5574572,33 L11.557,28.805 L14.98,25.382 Z M26.569,13.793 L31,17.944 L28.5867971,20.2 L24.232,16.13 L26.569,13.793 Z M6.42298289,1 C6.42298289,5.31851852 10.116048,8.85097942 14.7027641,8.99545781 L14.9633252,9 L18.637,9 L11.557,16.08 L11.5574572,11.736 C6.70823146,10.3712941 3.14213078,6.22304344 3.00414806,1.29650991 L3,1 L6.42298289,1 Z M17,1 C18.7843046,1 20.2307692,2.4326888 20.2307692,4.2 C20.2307692,5.9673112 18.7843046,7.4 17,7.4 C15.2156954,7.4 13.7692308,5.9673112 13.7692308,4.2 C13.7692308,2.4326888 15.2156954,1 17,1 Z" id="path-1"></path>
+    </defs>
+    <g id="Gesture-no" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="gesture-no">
+            <polygon id="路径" points="0 0 48 0 48 48 0 48"></polygon>
+            <polygon id="路径" points="6 6 42 6 42 42 6 42"></polygon>
+            <g id="白色" transform="translate(7.000000, 7.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use id="Mask" fill="#000000" fill-rule="nonzero" xlink:href="#path-1"></use>
+                <g id="Group" mask="url(#mask-2)">
+                    <g transform="translate(-42.000000, -7.000000)">
+                        <rect id="Rectangle" fill="#000000" x="0" y="0" width="118" height="48"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

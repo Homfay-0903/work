@@ -1,0 +1,662 @@
+{
+  "common": {
+    "btn": {
+      "switch": "Érintse meg a megerősítéshez<br />Dupla koppintás a visszalépéshez",
+      "switch1": "Dupla koppintás a visszalépéshez",
+      "add": "Húzza felfelé a váltáshoz",
+      "sub":  "Húzza lefelé a váltáshoz"
+    },
+    "prev": "Előző oldal",
+    "next": "Következő oldal",
+    "dong-tai-shi-yan-shi": "Dinamikus laboratórium",
+    "guide": {
+      "interfere1": "Kérjük, álljon a forgóasztalra, és győződjön meg róla, hogy 1 méteres körzetben senki más nem tartózkodik."
+    },
+    "jian-bu-gong-neng": "Vállfunkció",
+    "shen-ti-cheng-fen": "Testösszetétel",
+    "ti-zhong-ce-liang": "Súlymérés",
+    "error-end": "；Kérjük, használja a gombokat a mérési módba való belépéshez",
+    "ti-tai-ping-gu": "Testtartás felmérés",
+    "ti-wei-ce-liang": "Körméret mérés",
+    "wu-dian-liu": "无电流营养分析",
+    "error": {
+      "start-failed-title": "Indítás sikertelen",
+      "start-failed-timeout": "Indítási időtúllépés",
+      "device-err-desc": [
+        "Eszközhiba: A megoldáshoz kérjük, próbálja meg újraindítani az eszközt!",
+        "Eszközhiba: Kérjük, vegye fel a kapcsolatot a vevőszolgálattal javítás céljából!",
+        "Eszközhiba, automatikus helyreállítás hamarosan.",
+        "Forgóasztal nem észlelhető: Kérjük, csatlakoztassa újra a kábelt, és indítsa újra az eszközt!"
+      ],
+      "err-code": "Hibakód: {0}",
+      "scan-failed-title": "Mérés sikertelen",
+      "scan-err-desc": [
+        "Mérés megszakítva: A vizsgált személy mérés közben távozott.",
+        "A mérés indítása időtúllépés miatt sikertelen.",
+        "Mérés időtúllépés",
+        "Mérési hiba",
+        "Az indítás időtúllépés miatt sikertelen. Kérjük, mérjen újra."
+      ],
+      "re-scan": "{0}, kérjük, mérjen újra!",
+      "count-down1": "Visszatérés a kezdőlapra {num} másodperc múlva",
+      "count-down2": "A mérés {num} másodperc múlva befejeződik.",
+      "count-down3": "Betöltés visszaszámlálása {num} másodperc",
+      "count-down4": "Visszatérés a kezdőlapra {num} másodperc múlva",
+      "count-down5": "Visszatérés a hálózati hiba oldalra {num} másodperc múlva."
+    },
+    "gesture-select": {
+      "left": {
+        "content-title": "Emelje fel a bal kezét",
+        "cha-kan-bao-gao": "Jelentés megtekintése",
+        "zhong-xin-ce-liang": "Újra mérés"
+      },
+      "right": {
+        "content-title": "Emelje fel a jobb kezét",
+        "jie-shu-ce-liang": "Mérés befejezése"
+      }
+    },
+    "key-select": {
+      "cha-kan-bao-gao": "Jelentés megtekintése",
+      "cha-kan-bao-gao_desc": "{0} Eredményeinek megtekintése",
+      "zhong-xin-ce-liang": "Újra mérés",
+      "zhong-xin-ce-liang_desc1": "{0} Megismétlése",
+      "zhong-xin-ce-liang_desc2": "Kérjük, maradjon mozdulatlan.",
+      "zhong-xin-ce-liang_desc3": "Kérjük, térjen vissza a forgóasztalon jelzett helyre",
+      "tiao-guo-ce-liang": "Mérés befejezése",
+      "tiao-guo-ce-liang_desc": "A(z) {0} feladat kihagyása",
+      "jie-shu-ce-liang": "Mérés befejezése",
+      "jie-shu-ce-liang_desc1": "Jelentések megtekintése",
+      "jie-shu-ce-liang_desc2": "A vállfunkció mérés eredményeinek megtekintése",
+      "jie-shu-ce-liang_desc3": "A mérés befejezésével visszatér a kezdőlapra.",
+      "jie-shu-ce-liang_desc4": "结束测量请离开金属电极片，即可查看报告",
+      "jie-shu-ce-liang_desc5": "结束测量请离开金属电极片"
+    },
+    "device-usable": {
+      "error-tip0": "Kérjük, próbálja meg újra csatlakoztatni a forgóasztal tápellátását. Ha a probléma továbbra is fennáll, vegye fel a kapcsolatot a szervizzel",
+      "error-tip1": "Kérjük, próbálja meg újra csatlakoztatni a forgóasztal tápellátását. Ha a probléma továbbra is fennáll, vegye fel a kapcsolatot a szervizzel",
+      "error-tip2": "Ha a forgóasztal nem észlelhető, kérjük, húzza ki és csatlakoztassa újra a forgóasztal kábelét, majd indítsa újra az eszközt. Ha a probléma továbbra is fennáll, kérjük, vegye fel a kapcsolatot a szervizzel.",
+      "error-tip3": "Eszközhiba: Kérjük, vegye fel a kapcsolatot a vevőszolgálattal javítás céljából!"
+    }
+  },
+  "setting": {
+    "check": {
+      "network": {
+        "disconnected": "Hálózati kapcsolat megszakadt",
+        "disconnected_desc": "Kérjük, ellenőrizze, hogy a hálózati kábel csatlakoztatva van-e az eszközhöz, és hogy a router kapcsolódik-e az internethez.",
+        "disconnected_desc1": "Kérjük, ellenőrizze a vezetékes vagy Wi-Fi hálózati kapcsolatot.",
+        "disconnected_desc2": "Vezetékes kapcsolat esetén győződjön meg arról, hogy a hálózati kábel megfelelően csatlakozik, és a router kapcsolódik az internethez.",
+        "jian-ce-shi-jian": "Észlelési idő",
+        "shang-chuan-su-du": "Feltöltési sebesség",
+        "testing": "Hálózat diagnosztizálása…",
+        "wang-luo-jiao-cha": "Gyenge hálózati kapcsolat",
+        "wang-luo-jiao-cha_desc": "A jelenlegi hálózati kapcsolat gyenge, ami késleltetheti a jelentés elkészítését. Kérjük, lépjen kapcsolatba a szolgáltatójával a sávszélesség növelése érdekében.{0}",
+        "wang-luo-jiao-cha_desc_extend": ", továbbá ellenőrizze, hogy a router beállításai korlátozzák-e a letöltési sebességet.",
+        "wang-luo-liang-hao": "Jó hálózati kapcsolat",
+        "wang-luo-liang-hao_desc": "A hálózati kapcsolat jó. Az eszköz megfelelően működik.{0}",
+        "wang-luo-liang-hao_desc_extend": ", de a letöltési sebesség lassú. Kérjük, ellenőrizze, hogy a router beállításai korlátozzák-e a letöltési sebességet.",
+        "wang-luo-you-xiu": "Kiváló hálózati kapcsolat",
+        "wang-luo-you-xiu_desc": "A jelenlegi hálózati kapcsolat kiváló{0}",
+        "wang-luo-you-xiu_desc_extend": ", de a letöltési sebesség lassú. Kérjük, ellenőrizze, hogy a router beállításai korlátozzák-e a letöltési sebességet.",
+        "wu-fa-lian-jie-fu-wu-qi": "Nem lehet csatlakozni a szerverhez",
+        "wu-fa-lian-jie-fu-wu-qi_desc": "A hálózati kapcsolat normális, de az eszköz nem tud csatlakozni a Visbody szolgáltatáshoz. Kérjük, próbálja újra később, vagy vegye fel a kapcsolatot a Visbody ügyfélszolgálatával.",
+        "xia-zai-su-du": "Letöltési sebesség"
+      },
+      "wang-luo-zhen-duan": "Hálózati diagnosztika",
+      "wang-luo-fen-xi": "Hálózati elemzés",
+      "bao-gao-huo-qu-fang-shi": "Jelentés elérési módja",
+      "an-jian-zhi-yin": "Gombhasználati útmutató",
+      "yu-yan": "Nyelv"
+    },
+    "detect": {
+      "guang-zhao-huan-jing-cha": "Gyenge fényviszonyok",
+      "guang-zhao-huan-jing-cha_desc": [
+        "A környezeti fény nem felel meg a működési követelményeknek. A gyorsmérés és a gesztusvezérlés nem érhető el.",
+        "Kérjük, kapcsolja fel a környező fényeket, vagy helyezze át az eszközt egy világosabb területre."
+      ],
+      "guang-zhao-huan-jing-ruo": "Gyenge fényviszonyok",
+      "guang-zhao-huan-jing-ruo_desc": [
+        "Gyenge környezeti fény észlelhető, ami befolyásolhatja a gyorsmérést és a gesztusvezérlést.",
+        "Kérjük, kapcsolja fel a környező fényeket, vagy helyezze át az eszközt egy világosabb területre."
+      ],
+      "guide": "Kérjük, emelje fel a(z) {0} kezét az ábra szerint.",
+      "shi-bie-cheng-gong": "Felismerés sikeres",
+      "shi-bie-cheng-gong_desc": "Kérjük, a további mérések során ugyanazt a gesztust használja, mint korábban.",
+      "shou-shi-cao-zuo-yin-dao": "Gesztusvezérlési útmutató",
+      "shou-shi-cao-zuo-yin-dao_desc": "Használja az útmutatót a gesztusfelismerési műveletek gyors elsajátításához és szabványosításához.",
+      "shou-shi-shi-bie": "Gesztusfelismerés",
+      "shou-shi-shi-bie_close_desc": "Kikapcsolás után a gesztusfelismerés kikapcsol. Használhatja helyette az érintőképernyőt és a gombokat.",
+      "shou-shi-shi-bie_close_desc_key": "Kikapcsolás után a gesztusfelismerés megszűnik. Használja a gombokat a vezérléshez",
+      "shou-shi-shi-bie_open_desc": "Engedélyezéskor a gesztusvezérlés használható a műveletekhez.",
+      "ying-jian-yi-chang": "Hardverhiba",
+      "ying-jian-yi-chang_desc": "Kérjük, próbálja meg újraindítani az eszközt; ha a probléma továbbra is fennáll, vegye fel a kapcsolatot a vevőszolgálattal.",
+      "you-shou": "Jobb",
+      "zuo-shou": "Bal"
+    },
+    "index": {
+      "da-yin-she-zhi": "Nyomtatási beállítások",
+      "dong-tai-shi-yan-shi": "Dinamikus laboratórium",
+      "she-bei-jian-ce": "Eszközészlelés",
+      "sheng-yin-she-zhi": "Hangbeállítások",
+      "ping-mu-liang-du": "Képernyő fényereje",
+      "an-jian-zhi-yin": "Gombhasználati útmutató",
+      "shou-shi-shi-bie": "Gesztusfelismerés",
+      "yi-guan-bi": "Ki",
+      "yi-kai-qi": "Be",
+      "languageTitleOne": "English",
+      "languageTitleTwo": "中文",
+      "languageTitleThree": "日本語",
+      "languageTitleFour": "Español",
+      "languageTitleFive": "Deutsch",
+      "languageTitleSex": "Français",
+      "languageTitleSeven": "Türkçe",
+      "languageTitleEight": "Português",
+      "languageTitleNine": "Italiano",
+      "languageTitleTen": "Ελληνικά",
+      "languageTitleEleven": "Русский язык",
+      "languageTitleTwelve": "magyar",
+      "languageTitleThirteen":"繁體",
+      "languageTitleFourteen":"繁體(台灣)",
+      "language": "Nyelv",
+      "set": "Beállítások ",
+      "check": "Megerősítés",
+      "return": "Vissza",
+      "device-mode": "Mérési mód",
+      "device-mode-chankang": "产康模式",
+      "device-mode-standard": "Standard mód",
+      "wang-luo-she-zhi": "Hálózati beállítások"
+    },
+    "print": {
+      "da-yin-gong-neng": "Nyomtatási beállítások",
+      "da-yin-gong-neng_desc": [
+        "Engedélyezve az eszköz gyorsan kinyomtatja a jelentéseket.",
+        "Nyomtatási feladat beállításai"
+      ],
+      "da-yin-ren-wu-she-zhi": "Nyomtatási feladat beállításai",
+      "shou-dong-da-yin_desc": "A mérés és a sikeres QR-kód beolvasása után válassza ki, hogy nyomtat-e.",
+      "zi-dong-da-yin_desc": "A sikeres mérés után a feladat automatikusan a nyomtatási sorba kerül."
+    },
+    "bind": {
+      "guan-li-ping-tai": "Kezelőfelület",
+      "guan-li-ping-tai_desc": "A mérés után használja a mérési számot a kezelőfelületen az adatok összekapcsolásához és a jelentés megtekintéséhez",
+      "er-wei-ma": "QR-kód",
+      "er-wei-ma_desc": "A mérés után olvassa be a QR-kódot a telefonjával az adatok összekapcsolásához és a jelentés megtekintéséhez."
+    },
+    "shou-dong-da-yin": "Kézi nyomtatás",
+    "zi-dong-da-yin": "Automatikus nyomtatás",
+    "btn-guidance": {
+      "xia-yi-bu": "Következő lépés",
+      "shang-yi-bu": "Előző lépés",
+      "tui-chu": "Kilépés",
+      "model1-text": {
+        "switch": "Nyomja meg egyszer a választás megerősítéséhez",
+        "add": "Nyomja meg egyszer az előző lehetőség kiválasztásához",
+        "sub": "Nyomja meg egyszer a következő lehetőség kiválasztásához"
+      },
+      "model2-text": {
+        "btn-tip": {
+          "add": "{addImg} Jelentéslista {sub}",
+          "sub": "{subImg} Beállítások"
+        },
+        "add": "Nyomja meg és tartsa lenyomva a jelentéslista megtekintéséhez",
+        "sub": "Nyomja meg és tartsa lenyomva a beállítások megnyitásához"
+      },
+      "model3-text": {
+        "switch": "Nyomja meg kétszer a visszalépéshez",
+        "add": "Nyomja meg és tartsa lenyomva 2 másodpercig a kikapcsolási kéréshez",
+        "sub": "Nyomja meg és tartsa lenyomva 6 másodpercig a kényszerített kikapcsoláshoz [nem ajánlott]"
+      }
+    },
+    "measure-mode": {
+      "device-mode-chankang_des": "针对孕期和产后康复的人群提供更加专业的健康测量和定制化营养建议。",
+      "device-mode-standard_des": "适合各种人群的全面身体评估方案。"
+    }
+  },
+  "home": {
+    "fa-xian-xin-ban-ben": "Új Verzió elérhető",
+    "fa-xian-xin-ban-ben_subtitle": "Új {0} verzió érhető el az eszközéhez.",
+    "fa-xian-xin-ban-ben_subtitle_tip_touch": "Frissítés Most",
+    "fa-xian-xin-ban-ben_subtitle_tip_key": "Kérjük, nyomja meg a(z) {icon} gombot a gyors frissítéshez.",
+    "items_err": "Hiba a(z) {0} modulnál",
+    "ji-jiang-dao-qi": "Hamarosan lejár",
+    "she-bei-wang-luo-man": "Lassú hálózat",
+    "she-bei-wang-luo-man_subtitle": "Ez hosszabb várakozási időt eredményezhet, kérjük, ellenőrizze a hálózatot.",
+    "jian-cha-wang-luo": "Hálózat ellenőrzése",
+    "jian-cha-wang-luo_subtitle": "Hálózati Diagnosztika Futtatása",
+    "cha_ru_wang_xian_or_wifi_subtitle": "Csatlakoztassa a kábelt, vagy kattintson ide a Wi-Fi-hez.",
+    "shou-shi-shi-bie-yi-chang": "Gesztusfelismerési hiba",
+    "shou-shi-shi-bie-yi-chang_subtitle": "Kérjük, próbálja meg újraindítani az eszközt; ha a probléma továbbra is fennáll, vegye fel a kapcsolatot a technikai támogatással.",
+    "xu-fei-tong-zhi": "Előfizetés megújítási értesítés",
+    "xu-fei-tong-zhi_subtitle": "亲爱的用户：目前您的设备云端数据存储服务{0}，请您于 {1}前到设备B端管理平台 {2} 完成年费续缴，否则设备将无法使用。如有疑问可咨询维塑官方客服：400-161-7020",
+   "ai-xu-fei-tong-zhi_subtitle1": "Kedves felhasználó! Az Ön [Basic Version] eszköze {0}-án lejár. Kérjük, újítsa meg a lejárat előtt a Visbody WellnessHub oldalon a megszakítás elkerülése érdekében. Segítségért forduljon a Visbody ügyfélszolgálatához a WhatsApp-on: +852 5704 0513, e-mail: hello@visbody.com.",
+    "ai-xu-fei-tong-zhi_subtitle2": "Kedves felhasználó! Az Ön [Basic Version] eszköze lejárt, és {0}-án leállításra kerül. Kérjük, újítsa meg ezen dátum előtt a Visbody WellnessHub oldalon az eszköz használatának folytatásához. Támogatásért forduljon a Visbody ügyfélszolgálatához a WhatsApp-on: +852 5704 0513, e-mail: hello@visbody.com.",
+
+    "ai-xu-fei-tong-zhi_subtitle3": "亲爱的用户：您的设备将于{0}到期，请您于到期前到【维塑数字健康平台】{1} 完成续费，否则设备将无法使用。如有疑问可咨询维塑官方客服\n服务热线：400-161-7020",
+    "ai-xu-fei-tong-zhi_subtitle4": "亲爱的用户： \n您的设备已到期， 将在{0}正式停机，请您于停机前到【维塑数字健康平台】{1} 完成续费，否则设备将无法使用。如有疑问可咨询维塑官方客服 \n服务热线：400-161-7020",
+    "yi-dao-qi": "Lejárt",
+    "zhou-bian-guang-xian-cha": "Gyenge fényviszonyok",
+    "zhou-bian-guang-xian-cha_subtitle": "Kérjük, kapcsolja fel a környező fényeket, vagy helyezze át az eszközt egy világosabb területre.",
+    "zhou-bian-guang-xian-ruo": "Gyenge fényviszonyok",
+    "qing-chong-qi-she-bei": "Kérjük, indítsa újra az eszközt",
+    "qing-chong-qi-she-bei_subtitle": "Az eszköz folyamatosan működik. Kérjük, indítsa újra minél előbb a mérési pontosság biztosítása érdekében",
+    "print-info": {
+      "msg0": "Nyomtatóhiba: Győződjön meg róla, hogy a nyomtató csatlakoztatva van és be van kapcsolva.",
+      "msg1": "Jelentés nyomtatása sikertelen. Nyomja meg a(z) {icon} gombot a részletekért",
+      "msg2": "{num} jelentés nyomtatása folyamatban. Nyomja meg a(z) {icon} gombot a részletekért.",
+      "msg3": "{num} jelentés nyomtatása folyamatban. Nyomja meg a(z) {icon} gombot a részletekért."
+    },
+    "btn-tip": {
+      "add": "{addImg} Jelentéslista {sub}",
+      "sub": "{subImg} Beállítások"
+    },
+    "skip-tip": "{subImg} hosszan: kihagyás",
+    "sys-error": {
+      "title": "Rendszerhiba! A program újraindult.",
+      "tips":"Kérjük, kezdje újra a mérést."
+    },
+    "top-tip": "* 孕期用户测量时需站稳谨防跌倒",
+    "mass-tips": "*请穿着紧身服饰"
+  },
+  "item-select": {
+    "dong-tai-shi-yan-shi": "@:common.dong-tai-shi-yan-shi",
+    "dong-tai-shi-yan-shi_desc": "Próbálja ki a dinamikus felmérési funkciókat",
+    "dong-tai-shi-yan-shi_desc1": "Próbálja ki új termékfunkcióinkat!",
+    "items_err": "Hiba a(z) {0} modulnál",
+    "jian-bu-gong-neng": "Vállfunkció",
+    "jian-bu-gong-neng-celiang": "Vállfunkció",
+    "jian-bu-gong-neng-ce-liang": "Vállfunkció mérés",
+    "jian-bu-gong-neng_desc": "Ismerje meg vállízületének rugalmasságát.",
+    "jie-shu-ce-liang": "Mérés befejezése",
+    "jie-shu-ce-liang_desc": "A mérés befejezésével megtekintheti a(z) {0} jelentést.",
+    "result0-ce-liang": "{0} Mérés",
+    "shen-ti-cheng-fen": "@:common.shen-ti-cheng-fen",
+    "shen-ti-cheng-fen-celiang": "Testösszetétel",
+    "shen-ti-cheng-fen-ce-liang": "Testösszetétel mérés",
+    "shen-ti-cheng-fen-ce-liang-wei-du": "Testösszetétel és körméret mérés",
+    "shen-ti-cheng-fen-ce-liang_desc": "Kérjük, álljon a fém elektródákra.",
+    "ti-tai-ping-gu_desc_m30": "Kérjük, álljon a forgóasztalon jelzett helyre",
+    "dong-tai-shi-yan-shi_desc_m30": "Kérjük, nyomja meg a(z) {0} gombot a belépéshez.",
+    "shen-ti-cheng-fen_desc": "Ismerje meg súlyát, testzsír-százalékát és izomtömegét.",
+    "ti-wei-ce-liang_desc": "Ellenőrizze testének körméreteit",
+    "ti-wei-wu-dian_desc": "为您提供专业的营养分析",
+    "shi-fou-ji-xu-ce-liang": "Folytatja a mérést?",
+    "ti-tai-ping-gu": "@:common.ti-tai-ping-gu",
+    "ti-wei-ce-liang": "@:common.ti-wei-ce-liang",
+    "ti-zhong-ce-liang":"@:common.ti-zhong-ce-liang",
+    "ti-tai-ping-gu_desc": [
+      "Álljon természetesen és mozdulatlanul {item} 2 másodpercig.",
+      "Ellenőrizze testtartását"
+    ],
+    "ti-zhong-ce-liang-desc":"Ellenőrizze testtartását",
+    "yi-ce-xiang-mu-de": "A mért tételek",
+    "jie-shu-ce-liang_touch": "A mérés befejezésével megkapja a jelentést.",
+    "jie-shu-ce-liang_touch_tip": "Kattintson ide a jelentés megtekintéséhez",
+    "wu-dian-liu": "营养分析",
+    "wu-dian-liu-sub": "营养分析<br/> <img/>"
+  },
+  "mass": {
+    "confirm": {
+      "tip-list1": {
+        "content": "Álljon mindkét lábával a lábnyomra.",
+        "shortMsg": "Álljon mindkét lábával a lábnyomra."
+      },
+      "tip-list2": {
+        "content": "Fogja meg erősen az oldalsó elektródákat hüvelykujjával és ujjaival.",
+        "shortMsg": "Fogja meg erősen a kapaszkodókat."
+      },
+      "tip-list3": {
+        "content": "Tartsa karjait enyhén nyitva, 45°-os szögben.",
+        "shortMsg": "Tartsa karjait nyitva 45°-os szögben."
+      },
+      "tip-list4": {
+        "content": "Mérés közben tartsa mozdulatlanul a fejét és a testét.",
+        "shortMsg": "Maradjon mozdulatlan a mérés alatt."
+      }
+    },
+    "guide": "请光脚站在电极片上，保持静止不动",
+    "scan": {
+      "down": {
+        "guide1": "Maradjon mozdulatlan a mérés alatt.",
+        "successful": "[Testösszetétel-jelentés] generálása…"
+      },
+      "stand": {
+        "guide1": "Testösszetétel mérése...",
+        "guide2": "Testösszetétel-mérés sikeres volt",
+        "guide3": "Testösszetétel-mérés sikertelen volt"
+      },
+      "predict": "Várható befejezés {num} másodperc múlva."
+    },
+    "success": "A mérés sikeres volt",
+    "weight": {
+      "guide": "请站在设备前方的金属电极片位置",
+      "guide1": "Lépjen a forgóasztalra",
+      "guide2":"Karok oldalt, álljon természetesen, maradjon mozdulatlan",
+      "scan": {
+        "down": {
+          "guide1": "Álljon a forgóasztalra, engedje le karjait, és álljon természetesen.",
+          "guide2": "Kérjük, maradjon mozdulatlan.",
+          "successful": "Testmérés indul…"
+        },
+        "stand": {
+          "guide1": "Álljon leengedett karokkal, tartsa mozdulatlanul a testét.",
+          "guide2": "Súlymérés folyamatban...",
+          "guide3": "A súlymérés sikeres volt",
+          "guide4": "A súlymérés sikertelen volt"
+        }
+      }
+    }
+  },
+  "shape": {
+    "ti-tai-ce-liang": "Testtartás felmérés",
+    "ti-wei-ce-liang": "Körméret mérés",
+    "guide": {
+      "bottom-msg1": "Lépjen a forgóasztalra",
+      "bottom-msg2": "Karok oldalt, álljon természetesen, maradjon mozdulatlan"
+    },
+    "result": {
+      "bottom-msg-item1": "Testtartás felmérés",
+      "bottom-msg-item2": "Körméret mérés",
+      "bottom-msg-item3": "Súlymérés",
+      "bottom-msg-item4": "Testösszetétel",
+      "bottom-msg-title": "Mérés befejezve. A jelentés most elérhető."
+    },
+    "scan": {
+      "bottom-msg1": "Kérjük, maradjon mozdulatlan.",
+      "bottom-msg2": "Mérés folyamatban: Kérjük, tartsa mozdulatlanul a testét.",
+      "bottom-msg3": "Kérjük, várjon a mérési eredményekre...",
+      "leaveReset1": "Helytelen művelet",
+      "leaveReset2": "A vizsgált személy mérés közben elmozdult. Az eszköz alaphelyzetbe áll."
+    }
+  },
+  "girth": {
+    "guide": {
+      "bottom-msg1": "Kérjük, tartsa a testtartást 2 másodpercig.",
+      "bottom-msg2": "Szorítsa ökölbe a kezét, és tartsa karjait természetes 30°-os szögben.",
+      "bottom-msg3": "Kérjük, maradjon mozdulatlan.",
+      "bottom-msg4": "Lassan növelje a karok szögét.",
+      "bottom-msg5": "Lassan csökkentse a karok szögét."
+    },
+    "select": {
+      "content": "Folytatja a [körméret mérést]?",
+      "item1": {
+        "content": "Folytatja a mérést?",
+        "remarks": "Lépjen be a körméret mérésébe"
+      },
+      "item2": {
+        "content": "Hagyja ki ezt az elemet",
+        "remarks": "Ha kihagyja, megtekintheti a testtartás mérés eredményeit."
+      }
+    }
+  },
+  "shoulder": {
+    "jian-bu-gong-neng-ce-liang": "@:item-select.jian-bu-gong-neng-ce-liang",
+    "jian-bu-gong-neng": "@:item-select.jian-bu-gong-neng",
+    "countdown": {
+      "bottom-msg": "Maradjon mozdulatlan a mérés alatt.",
+      "bottom-msg1": "Álljon természetesen, és maradjon mozdulatlan 2 másodpercig."
+    },
+    "success": {
+      "title": "Mérés befejezve. A jelentés most elérhető.",
+      "item1": "Abdukciós emelés",
+      "item2": "Előrehajlításos emelés"
+    },
+    "bottom-tips1": "Nézzen a képernyő felé, és tartsa a természetes testtartását.",
+    "bottom-tips2": "Nyújtsa ki a bal karját egyenesen balra, és lassan emelje a legmagasabb pontra.",
+    "bottom-tips3": "Nyújtsa ki a jobb karját egyenesen jobbra, és lassan emelje a legmagasabb pontra.",
+    "bottom-tips4": "Nyújtsa ki a bal karját előre, tenyérrel befelé, és lassan emelje a legmagasabb pontra.",
+    "bottom-tips5": "Nyújtsa ki a jobb karját előre, tenyérrel befelé, és lassan emelje a legmagasabb pontra.",
+    "nav-container1": {
+      "first-title": "Abdukció - bal kar",
+      "second-title": "Abdukció - jobb kar"
+    },
+    "nav-container2": {
+      "first-title": "Flexió - bal kar",
+      "second-title": "Flexió - jobb kar"
+    }
+  },
+  "check-self": {
+    "she-bei-zi-jian-zhong": "Eszköz önellenőrzés folyamatban. Kérjük, ne álljon és ne helyezzen tárgyakat a forgóasztalra"
+  },
+  "recovery": {
+    "she-bei-xiao-zhun-zhong": "Eszköz kalibrálása, kérjük, várjon."
+  },
+  "shut-down": {
+    "que-ren-guan-ji": "Kikapcsolás megerősítése",
+    "guan-ji-ti-shi": "Kikapcsolási figyelmeztetés",
+    "guan-ji-ti-shi_desc1": "A kikapcsolás megszakítja a folyamatban lévő feladatokat",
+    "guan-ji-ti-shi_desc2": "Megerősíti a kikapcsolást?",
+    "que-ren-guan-ji_touch_desc": "Kattintson ide, vagy nyomja meg újra a kikapcsoló gombot.",
+    "que-ren-guan-ji_key_desc": "Erősítse meg a kikapcsolást, kérjük, nyomja meg újra a kikapcsoló gombot.",
+    "qu-xiao-guan-ji_touch": "Kikapcsolás megszakítása ({0}s)",
+    "qu-xiao-guan-ji_key": "Automatikus kikapcsolás {0} másodperc múlva",
+    "msg-box": "Az eszköz használatban van, kérjük, próbálja újra később.",
+    "msg-box-duration": "Kikapcsolás {num} másodperc múlva."
+  },
+  "welcome": {
+    "huan-ying-ti-yan": "Üdvözöljük a",
+    "product-name": "Visbody 3D Smart Body Analyzer – Elf Edition",
+    "product-name-va": "「 Visbody 3D testszkenner 」"
+  },
+  "print-list": {
+    "scan-tips":"Szkennelje be a kódot a riportért",
+    "xiang-mu-ti-shi": "Projekt figyelmeztető:",
+    "ti-wei-ce-liang": "@:common.ti-wei-ce-liang",
+    "ti-tai-ping-gu": "@:common.ti-tai-ping-gu",
+    "jian-bu-gong-neng": "@:common.jian-bu-gong-neng",
+    "ti-zhong-ce-liang":"@:common.ti-zhong-ce-liang",
+    "ti-cheng-fen-ce-liang":"@:common.shen-ti-cheng-fen",
+    "xin-yong-hu-zhu-ce": "Felhasználó regisztráció",
+    "status0": "Generálás folyamatban...",
+    "status1": "Nyomtatás folyamatban...",
+    "status2": "Nyomtatás sikeres",
+    "status3": "Nyomtatási kérelem sikertelen",
+    "status4": "Regisztrálás folyamatban...",
+    "status5": "排队中",
+    "status6": "Regisztráció időtúllépés",
+    "status7": "Nyomtatóhiba",
+    "status8": "Nyomtatási kérelem időtúllépés",
+    "status9": "Generálás sikertelen",
+    "status10": "Nincs nyomtatva",
+    "status11": "Nyomtatási sorban állás - {0}",
+    "shang-yi-ye": "Előző oldal",
+    "xia-yi-ye": "Következő oldal",
+    "mei-you-da-yin-bao-gao": "+ Nincsenek nyomtatott jelentések",
+    "msg-box": {
+      "title0": "Újranyomtatja a jelentést?",
+      "title1": "Az újranyomtatás jelenleg nem támogatott.",
+      "zhong-xin-da-yin": "Újranyomtatás",
+      "qu-xiao": "Mégse",
+      "hao-de": "OK ({0}s)"
+    }
+  },
+  "scan-result": {
+    "qrcode": {
+      "loading": "QR-kód betöltése",
+      "load-failed": "QR-kód betöltése sikertelen",
+      "title0": "请使用微信扫描二维码",
+      "title1": "Kérjük, olvassa be a QR-kódot",
+      "title2": "请刷手环",
+      "title3": "Kérjük, olvassa be a QR-kódot",
+      "title4": "扫码查看体重测量结果"
+    },
+    "or": "Vagy",
+    "card": {
+      "get-result": "刷手环获取结果"
+    },
+    "countdown": "@:common.error.count-down1",
+    "countdown1": "@:common.error.count-down5",
+    "load-down": "Betöltés visszaszámlálása {num} másodperc",
+    "error": {
+      "network": "Hálózati hiba, kérjük, ellenőrizze a kapcsolatot.",
+      "api": "接口请求地址错误"
+    },
+    "result": {
+      "card-title": "刷手环成功",
+      "qrcode-title": "Beolvasás sikeres",
+      "desc": "Tekintse meg az eredményeket a telefonján.",
+      "key-select": {
+        "da-yin-bao-gao": "Jelentés nyomtatása",
+        "da-yin-bao-gao_desc": "Papíralapú jelentés igénylése",
+        "qu-xiao-da-yin": "Nyomtatás megszakítása",
+        "qu-xiao-da-yin_desc": "A nyomtatás megszakítása visszavisz a kezdőlapra.",
+        "ji-xu-da-yin": "Nyomtatás folytatása",
+        "ji-xu-da-yin_desc": "Kérjük, ellenőrizze a nyomtató állapotát."
+      },
+      "msg-card": {
+        "new-user": "报告将在注册完成后生成，请尽快在微信端完成注册。",
+        "print-added": "Jelentés készítése, kérjük, várjon..."
+      }
+    },
+    "printer-error": {
+      "da-yin-ji-wei-jiu-xu": "A nyomtató nem áll készen",
+      "da-yin-ji-wei-jiu-xu_desc": "Nyomtatóhiba, kérjük, ellenőrizze, hogy a nyomtató csatlakoztatva van-e és be van-e kapcsolva.",
+      "print-added": "A feladat hozzáadva a jelentéslistához, a nyomtatás akkor történik, amikor a nyomtató készen áll."
+    }
+  },
+  "get-report": {
+    "sao-miao-shi-jian": "Beolvasás ideje:",
+    "xu-hao": "Sorszám:",
+    "desc0": "Kérjük, jegyezze meg a beolvasás idejét és sorszámát, és vegye fel a kapcsolatot a személyzettel a mérési jelentésért",
+    "desc1": "Hálózati hiba, információk betöltése..."
+  },
+  "update": {
+    "title": {
+      "updating": "Frissítés {0}%",
+      "complete": "Frissítés befejezve",
+      "success": "Eszközfrissítés sikeres",
+      "failed": "Frissítés sikertelen, helyreállítás folyamatban.",
+      "rolled-back": "Eszköz helyreállítva",
+      "roll-back-failed": "Eszköz helyreállítása sikertelen"
+    },
+    "sub-title": "(Várható idő 5-10 perc)",
+    "tips0": "Ne kapcsolja ki",
+    "tips1": "A kényszerített leállítás használhatatlanná teheti az eszközt.",
+    "tips2": "Az eszköz hamarosan újraindul, a mérés újraindítás után lesz elérhető",
+    "tips3": "Helyreállítás sikertelen, kérjük, vegye fel a kapcsolatot a műszaki támogatással",
+    "tips4": "Frissítés közben ne kapcsolja ki a készüléket, és ne áramtalanítsa."
+  },
+  "device-error": {
+    "title": "Eszközhiba",
+    "desc0": "Eszközhiba. Kérjük, indítsa újra az eszközt. Ha a probléma továbbra is fennáll, forduljon az ügyfélszolgálathoz.",
+    "desc1": "Kérjük, vegye fel a kapcsolatot a szervizzel."
+  },
+  "network-error": {
+    "title": "Hálózati hiba",
+    "desc0": "Kérjük, ellenőrizze a hálózati beállításokat és a kábelcsatlakozásokat, vagy indítsa újra az eszközt. {item} Ha a probléma továbbra is fennáll, forduljon az ügyfélszolgálathoz.",
+    "desc1": "Ha az újraindítás nem segít, kérjük, vegye fel a kapcsolatot a szervizzel."
+  },
+  "navigation-bar": {
+    "shou-ye": "Kezdőlap",
+    "zhi-zhang-gui-ge": "Papírméret",
+    "she-zhi": "Beállítások",
+    "dong-tai-shi-yan-shi": "Dinamikus laboratórium",
+    "sheng-yin-she-zhi": "Hangbeállítások",
+    "liang-du-she-zhi": "Fényerő beállítás",
+    "shou-shi-shi-bie": "Gesztusfelismerés",
+    "shou-shi-cao-zuo-yin-dao": "Gesztusvezérlési útmutató",
+    "da-yin-she-zhi": "Nyomtatási beállítások",
+    "wang-luo-zhen-duan": "@:setting.check.wang-luo-zhen-duan",
+    "wang-luo-fen-xi": "@:setting.check.wang-luo-fen-xi",
+    "she-bei-jian-ce": "Eszközészlelés",
+    "xiang-mu-xuan-ze": "Elem kiválasztása",
+    "xuan-ze-ce-liang-xiang-mu": "Mérési elem kiválasztása",
+    "qing-an-tu-shi-dong-zuo-jin-ru-ce-liang-xiang-mu": "Mérési elem kiválasztása",
+    "qing-zuo-hao-yi-xia-zhun-bei": "请做好以下准备",
+    "wu-dian-liu": "无电流营养分析测量",
+    "shi-fou-ji-xu-ce-liang": "Folytatja a mérést?",
+    "bao-gao-lie-biao": "Jelentéslista",
+    "huo-qu-ce-liang-bao-gao": "Mérési jelentés lekérése",
+    "shen-ti-cheng-fen-ce-liang": "Testösszetétel mérés",
+    "shen-ti-cheng-fen": "Testösszetétel",
+    "ti-zhong-ce-liang": "Súlymérés",
+    "shen-ti-cheng-fen-ce-liang-zhun-bei": "Testösszetétel mérés előkészítése",
+    "ti-tai-ce-liang": "Testtartás felmérés",
+    "ti-tai-ping-gu": "Testtartás felmérés",
+    "ti-wei-ce-liang": "Körméret mérés",
+    "jian-bu-gong-neng": "@:item-select.jian-bu-gong-neng",
+    "jian-bu-gong-neng-ce-liang": "Vállfunkció mérés",
+    "wang-luo-yi-chang-ye": "Hálózati hiba oldal",
+    "title1": "Abdukciós emelés - bemutató",
+    "title2": "Előrehajlító emelés - bemutató",
+    "title3": "Mérés indul…",
+    "title4": "Abdukciós emelés mérése",
+    "title5": "Előrehajlító emelés mérése",
+    "title6": "Vállfunkció mérés",
+    "wang-luo-she-zhi": "Hálózati beállítások"
+  },
+  "reset":{
+    "content-title": "Eszköz inicializálása folyamatban",
+    "content-tip": "Kérjük, ne álljon rá és ne helyezzen tárgyakat a forgóasztalra",
+    "title": "Eszköz visszaállítása",
+    "title-tips": "Az eszköz alaphelyzetbe áll. Kérjük, lépjen le a forgóasztalról."
+  },
+  "renewal":{
+    "wei-jihuo-title": "设备待激活",
+    "wei-jihuo-content": "亲爱的用户，您好！<br />您的设备尚未激活，请按照以下步骤完成激活:",
+    "wei-jihuo-content1": "打开【Visbody WellnessHub】网址：{0}",
+    "wei-jihuo-content2": "注册并激活",
+    "wei-jihuo-content3": "完成激活后，重启设备即可开始使用",
+    "wei-jihuo-content4": "如遇任何问题，随时联系我们的客服团队，我们将竭诚为您服务：",
+    "wei-jihuo-content5": "WhatsApp: +852 5704 0513",
+    "wei-jihuo-content6": "邮箱: hello@visbody.com",
+    "wei-jihuo-content7": "感谢您的支持与信任，祝您使用愉快！",
+    "wei-jihuo-content8": "具体操作流程",
+    "ting-ji-title": "Leállási értesítés",
+    "ting-ji-content": "Kedves felhasználó! Az Ön [Basic Version] eszközét {0}-án leállították, és nem használható. Kérjük, újítsa meg minél előbb a Visbody WellnessHub oldalon. A megújítás után indítsa újra az eszközt a használat folytatásához. Kérdéseivel forduljon a Visbody ügyfélszolgálatához a WhatsApp-on: +852 5704 0513, e-mail: hello@visbody.com."
+  },
+  "beauty":{
+    "device-mode": "Mérési mód",
+    "device-mode-beauty": "Szépségipari mód",
+    "device-mode-standard": "Standard mód",
+    "device-mode-beauty-desc": "A szépség- és wellnessipar számára testreszabott testértékelési megoldás.",
+    "device-mode-standard_des": "A szépség- és wellnessipar számára testreszabott testértékelési megoldás.",
+    "device-mode-beauty-desc1": "Kérjük, vegye fel a kapcsolatot az értékesítéssel a szépség- és wellnessipari megoldás aktiválásához."
+  },
+  "touch-disabled": "Érintőképernyő-hiba. Kérjük, használja a gombokat a működtetéshez.",
+  "wifi": {
+    "title": "Hálózati beállítások",
+    "items-title-1": "Wi-Fi",
+    "items-vice-1": "Csatlakozva, nincs internet",
+    "items-title-2": "Ethernet",
+    "items-vice-2": "Csatlakoztatva",
+    "items-vice-3": "Nincs csatlakoztatva",
+    "items-vice-4": "Csatlakozik…",
+    "wifi-off": "Wi-Fi kapcsoló",
+    "search": "Wi-Fi keresése...",
+    "error-connect": "Hálózati csatlakozási hiba, vagy nincs elérhető hálózat. Kérjük, próbáljon meg másik hálózatot.",
+    "loading": "Betöltés folyamatban…",
+    "box-title": "Lecsatlakozik a jelenlegi hálózatról?",
+    "box-button-1": "Szétkapcsolás",
+    "box-button-2": "Mégse {num} másodperc után",
+    "qr-title-1": "Wi-Fi konfiguráció:",
+    "qr-title-2": "1. Olvassa be a lenti QR-kódot a telefonjával, adja meg a Wi-Fi adatait, és generáljon egy Wi-Fi QR-kódot.",
+    "qr-title-3": "2. A beolvasáshoz tartsa a Wi-Fi QR-kódot a készülék képernyője alatti kamerához.",
+    "qr-tips-1": "Kérjük, olvassa be a QR-kódot a telefonjával.",
+    "qr-tips-2": "Sikeres beolvasás. Csatlakozik…",
+    "qr-tips-3": "Érvénytelen QR-kód",
+    "qr-tips-4": "Sikeres csatlakozás",
+    "connect-error-0": "Sikeres csatlakozás",
+    "connect-error-1": "Csatlakozási időtúllépés",
+    "connect-error-2": "Hibás jelszó",
+    "connect-error-3": "A Wi-Fi hálózat nincs hatótávolságon belül",
+    "connect-error-4": "Hitelesítési időtúllépés vagy protokoll-összeférhetetlenség",
+    "connect-error-5": "A Wi-Fi adapter le van tiltva",
+    "connect-error-6": "Hálózati paraméterhiba",
+    "connect-error-7": "Nem sikerült lekérni az IP-címet",
+    "connect-error-8": "A csatlakozási parancs végrehajtása sikertelen",
+    "connect-error-9": "Sikertelen csatlakozás",
+    "tip-waiting": "Verbinden…",
+    "tip-btn-ok": "Értem",
+    "tip-check": "Kérjük, adja meg a jelszót",
+    "tip-check-fail": "Hibás jelszó, a csatlakozás sikertelen",
+    "tip-btn-confirm": "Rendben",
+    "tip-btn-cancel": "Mégse",
+    "tip-btn-disconnected": "Kapcsolat bontása"
+  },
+  "click-skip": "Elem Kihagyása",
+  "Athlete":{
+    "tips": "Ez a mód kizárólag magas izomtömegű egyének számára készült.",
+    "title": "Célcsoport",
+    "title2":"Sportolók",
+    "desc1": "Testösszetétel-Elemző Program Profi Testépítők Számára"
+  }
+}

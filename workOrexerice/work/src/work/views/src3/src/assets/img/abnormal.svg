@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="96px" height="96px" viewBox="0 0 96 96" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>abnormal</title>
+    <g id="项目选择&amp;继续测量" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="项目选择-地垫触发-体成分&amp;体态异常" transform="translate(-108.000000, -1176.000000)">
+            <g id="编组-3" transform="translate(60.000000, 1152.000000)">
+                <g id="abnormal" transform="translate(48.000000, 24.000000)">
+                    <rect id="Rectangle" x="0" y="0" width="96" height="96"></rect>
+                    <polygon id="Path" fill="#F30C0C" points="64.5 19 81 47.5 64.5 76 31.5 76 15 47.5 31.5 19"></polygon>
+                    <polygon id="Path" fill="#FFFFFF" points="44 57 44 63 52 63 52 57"></polygon>
+                    <polygon id="Path" fill="#FFFFFF" points="44 33 44 51 52 51 52 33"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

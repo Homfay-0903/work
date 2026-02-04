@@ -1,0 +1,634 @@
+{
+  "common": {
+    "wu-dian-liu": "",
+    "wu-dian-liu-sub": "",
+    "btn": {
+      "switch": "Click to confirm<br />Double-click to return",
+      "switch1": "Double-click to return",
+      "add": "Switch up",
+      "sub":  "Switch down"
+    },
+    "dong-tai-shi-yan-shi": "Dynamic Labs",
+    "guide": {
+      "interfere1": "Please step on the turntable and keep clear of 1m radius"
+    },
+    "jian-bu-gong-neng": "Shoulder functions",
+    "shen-ti-cheng-fen": "Body composition",
+    "ti-tai-ping-gu": "Posture assessment",
+    "ti-wei-ce-liang": "Circumference Measurement",
+    "ti-zhong-ce-liang": "Weight Measurement",
+    "error-end": ";Please use the button to enter the list of measurement items",
+    "error": {
+      "start-failed-title": "Failed To Start",
+      "device-err-desc": [
+        "Device error. Please restart the device.",
+        "Device error. Please contact our after-sale service.",
+        "Device error. Ready to auto recover.",
+        "The turntable is not detected, please re-plug the connection cable and restart the device."
+      ],
+      "err-code": "Error code: {0}",
+      "scan-failed-title": "Measurement Failed",
+      "scan-err-desc": [
+        "Person leaves during the measurement",
+        "Start request timed-out",
+        "Measurement request timed-out",
+        "Measurement request timed-out",
+        "Start request timed-out"
+      ],
+      "re-scan": "{0}, Please remeasure!",
+      "count-down1": "Return to home page in {num}s",
+      "count-down2": "The measurement will be finished in {num}s",
+      "count-down3": "Countdown {num}s",
+      "count-down4": "Return in {num}s",
+      "count-down5": "Return to network error page in {num}s"
+    },
+    "gesture-select": {
+      "left": {
+        "content-title": "Raise the left hand",
+        "cha-kan-bao-gao": "View Report",
+        "zhong-xin-ce-liang": "Restart Measurement"
+      },
+      "right": {
+        "content-title": "Raise the right hand",
+        "jie-shu-ce-liang": "Completed"
+      }
+    },
+    "key-select": {
+      "cha-kan-bao-gao": "@:common.gesture-select.left.cha-kan-bao-gao",
+      "cha-kan-bao-gao_desc": "View {0} measurements",
+      "zhong-xin-ce-liang": "@:common.gesture-select.left.zhong-xin-ce-liang",
+      "zhong-xin-ce-liang_desc1": "Restart {0}",
+      "zhong-xin-ce-liang_desc3": "Please return to electrodes pads",
+      "jie-shu-ce-liang": "@:common.gesture-select.right.jie-shu-ce-liang",
+      "jie-shu-ce-liang_desc1": "Report is available after measurement completes",
+      "jie-shu-ce-liang_desc2": "View shoulder function measurements",
+      "jie-shu-ce-liang_desc3": "End the measurement and return to the home page",
+      "tiao-guo-ce-liang": "@:common.gesture-select.right.jie-shu-ce-liang",
+      "tiao-guo-ce-liang_desc": "skip {0}"
+    },
+    "device-usable": {
+      "error-tip0": "Please re-plug the power supply of the turntable. If problem still exists, please contact after-sale service",
+      "error-tip1": "Please re-plug the power supply of the turntable. If problem still exists, please contact after-sale service",
+      "error-tip2": "The rotary table is not detected, please re-plug the connection cable and restart the device; if it does not work, please contact the after-sales service",
+      "error-tip3": "@:common.error.device-err-desc.1"
+    }
+  },
+  "setting": {
+    "check": {
+      "network": {
+        "disconnected": "The Network Connection Was Lost",
+        "disconnected_desc": "Please check if the cable is plugged into the device or router is connected with Internet",
+        "disconnected_desc1": "Please check the wired or Wi-Fi network connection.",
+        "disconnected_desc2": "For a wired connection: Ensure the network cable is securely plugged in and the router is connected to the internet.",
+        "jian-ce-shi-jian": "Diagnostic time",
+        "shang-chuan-su-du": "Upload speed",
+        "testing": "Diagnosing network...",
+        "wang-luo-jiao-cha": "Poor Network Performance",
+        "wang-luo-jiao-cha_desc": "The current network configuration is poor and may lead to a long report generating time. Please contact Network provider to increase the network bandwidth.{0}",
+        "wang-luo-jiao-cha_desc_extend": "Please also check if the router limits the download speed.",
+        "wang-luo-liang-hao": "Good Network Performance",
+        "wang-luo-liang-hao_desc": "The current network configuration is good.{0}",
+        "wang-luo-liang-hao_desc_extend": "but the download speed is slow. Please check if the router limits the download speed.",
+        "wang-luo-you-xiu": "Perfect Network Performance",
+        "wang-luo-you-xiu_desc": "The current network configuration is perfect.{0}",
+        "wang-luo-you-xiu_desc_extend": "@:setting.check.network.wang-luo-liang-hao_desc_extend",
+        "wu-fa-lian-jie-fu-wu-qi": "Server Error",
+        "wu-fa-lian-jie-fu-wu-qi_desc": "The current network connection is normal but the device can't connect to Visbody server. Please try again later or contact after-sale service.",
+        "xia-zai-su-du": "Download speed"
+      },
+      "wang-luo-zhen-duan": "Network Diagnostic",
+      "wang-luo-fen-xi": "Network Problem Analysis",
+      "bao-gao-huo-qu-fang-shi": "Obtaining Reports",
+      "yu-yan": "Language",
+      "an-jian-zhi-yin": "Button Operation"
+    },
+    "detect": {
+      "guang-zhao-huan-jing-cha": "Inadequate Environment Light ",
+      "guang-zhao-huan-jing-cha_desc": [
+        "Inadequate environment light will disable speed start and hand gesture recognition.",
+        "Please turn on more lights or move the device to a brighter area."
+      ],
+      "guang-zhao-huan-jing-ruo": "Environment Light Too Low",
+      "guang-zhao-huan-jing-ruo_desc": [
+        "Low environment light detected. Speed start and hand gesture recognition will be affected.",
+        "@:setting.detect.guang-zhao-huan-jing-cha_desc.1"
+      ],
+      "guide": "Please raise your {0} hand as instructed",
+      "shi-bie-cheng-gong": "Recognition Success",
+      "shi-bie-cheng-gong_desc": "Please use the same gesture in the subsequent measurement process",
+      "shou-shi-cao-zuo-yin-dao": "Gesture Operation",
+      "shou-shi-cao-zuo-yin-dao_desc": "Follow the instruction to master the gesture recognition and the rules.",
+      "shou-shi-shi-bie": "Gesture Recognition",
+      "shou-shi-shi-bie_close_desc": "Gesture recognition will be suspended after the turned off. Touchscreen and buttons are valid for operations.",
+      "shou-shi-shi-bie_close_desc_key": "Once turned off, gesture recognition will suspend. Only button operations will be valid",
+      "shou-shi-shi-bie_open_desc": "Turn on to use gesture recognition in measurement process.",
+      "ying-jian-yi-chang": "Hardware Error",
+      "ying-jian-yi-chang_desc": "Restart the device. If problem remains, please contact after-sale team.",
+      "you-shou": "right",
+      "zuo-shou": "left"
+    },
+    "index": {
+      "da-yin-she-zhi": "Print",
+      "dong-tai-shi-yan-shi": "@:common.dong-tai-shi-yan-shi",
+      "she-bei-jian-ce": "Device Diagnostic",
+      "sheng-yin-she-zhi": "Sound",
+      "shou-shi-shi-bie": "@:setting.detect.shou-shi-shi-bie",
+      "yi-guan-bi": "Off",
+      "yi-kai-qi": "On",
+      "ping-mu-liang-du": "Screen brightness",
+      "an-jian-zhi-yin":"Button Operation",
+      "languageTitleOne": "English",
+      "languageTitleTwo": "中文",
+      "languageTitleThree": "日本語",
+      "languageTitleFour": "Español",
+      "languageTitleFive": "Deutsch",
+      "languageTitleSex": "Français",
+      "languageTitleSeven": "Türkçe",
+      "languageTitleEight": "Português",
+      "languageTitleNine": "Italiano",
+      "languageTitleTen": "Ελληνικά",
+      "languageTitleEleven": "Русский язык",
+      "languageTitleTwelve": "magyar",
+      "languageTitleThirteen":"繁體",
+      "languageTitleFourteen":"繁體(台灣)",
+      "language": "Language",
+      "set": "设置",
+      "check": "确认",
+      "return": "返回",
+      "wang-luo-she-zhi": "Network Settings"
+    },
+    "print": {
+      "da-yin-gong-neng": "Print",
+      "da-yin-gong-neng_desc": [
+        "Print Printing will stop once device is turned off.",
+        "PrintPrinting is available when device is turned on."
+      ],
+      "da-yin-ren-wu-she-zhi": "Print settings",
+      "shou-dong-da-yin_desc": "After measurement and scanned the QR code successfully, select to print the report.",
+      "zi-dong-da-yin_desc": "The report will be automatically added to the printing list for printing after the measurement is completed."
+    },
+    "bind": {
+      "guan-li-ping-tai": "Management platform",
+      "guan-li-ping-tai_desc": "After the measurement is completed, use the serial number to complete user information binding on the management platform to view the report.",
+      "er-wei-ma": "QR code",
+      "er-wei-ma_desc": "After the measurement is completed, scan the QR code with your mobile phone and bind user information on your mobile phone to view the report."
+    },
+    "shou-dong-da-yin": "Manual Print",
+    "zi-dong-da-yin": "Automatic Print",
+    "btn-guidance": {
+      "xia-yi-bu": "Next step",
+      "shang-yi-bu": "Previous step",
+      "tui-chu": "Exit",
+      "model1-text": {
+        "switch": "Short press once to confirm selection",
+        "add": "Short press once to select previous option",
+        "sub": "Short press once to select next option"
+      },
+      "model2-text": {
+        "btn-tip": {
+          "add": "hold {addImg} Report List {sub}",
+          "sub": ", hold {subImg} Settings"
+        },
+        "add": "Long press to view report list",
+        "sub": "Long press to access settings."
+      },
+      "model3-text": {
+        "switch": "Press twice continuously to go back one step",
+        "add": "Press and hold for 2 seconds for shutdown inquiry",
+        "sub": "Press and hold for 6 seconds for direct shutdown (not recommended)"
+      }
+    }
+  },
+  "home": {
+    "fa-xian-xin-ban-ben": "New Version Available",
+    "fa-xian-xin-ban-ben_subtitle": "New version {0} is available for your device.",
+    "fa-xian-xin-ban-ben_subtitle_tip_touch": "Update Now",
+    "fa-xian-xin-ban-ben_subtitle_tip_key": "Press {icon} to start quick update.",
+    "items_err": "{0} Projects Are Abnormal",
+    "ji-jiang-dao-qi": "Expiring Soon",
+    "she-bei-wang-luo-man": "Slow Connection Speed",
+    "she-bei-wang-luo-man_subtitle": "Waiting time may be longer. Please check the network",
+    "jian-cha-wang-luo": "Check Network",
+    "jian-cha-wang-luo_subtitle": "Run Network Diagnostics",
+    "cha_ru_wang_xian_or_wifi_subtitle": "Please insert an Ethernet cable, or click here to configure Wi-Fi.",
+    "shou-shi-shi-bie-yi-chang": "Gesture recognition error",
+    "shou-shi-shi-bie-yi-chang_subtitle": "Please try to restart the device, if restarting did not work, please contact the after-sales service team.",
+    "xu-fei-tong-zhi": "Renewal Notice",
+    "xu-fei-tong-zhi_subtitle": "",
+    "yi-dao-qi": "Expired",
+    "ai-xu-fei-tong-zhi_subtitle1": "Dear User: Your device 【Basic Edition】 will expire on {0}. Please renew your subscription on the 【Visbody WellnessHub】{1} before it expires, otherwise the device will not be usable. If you have any questions, please contact Visbody official customer service<br />WhatsApp: +852 5704 0513 <br />Email: hello@visbody.com",
+    "ai-xu-fei-tong-zhi_subtitle2": "Dear User: Your device 【Basic Edition】 has expired and will be officially shut down on {0}. Please renew your subscription on the 【Visbody WellnessHub】{1} before the shutdown, otherwise the device will not be usable. If you have any questions, please contact Visbody official customer service<br />WhatsApp: +852 5704 0513 <br />Email: hello@visbody.com", 
+    "zhou-bian-guang-xian-cha": "Inadequate Environment Light",
+    "zhou-bian-guang-xian-cha_subtitle": "@:setting.detect.guang-zhao-huan-jing-cha_desc.1",
+    "zhou-bian-guang-xian-ruo": "Environment Light Too Low",
+    "qing-chong-qi-she-bei": "Please Restart The Device",
+    "qing-chong-qi-she-bei_subtitle": "This device has been running continuously for too long, please restart as soon as possible to ensure the accuracy of measurement.",
+    "print-info": {
+      "msg0": "Printer error. Please check printer connection and make sure the power is on.",
+      "msg1": "Some reports couldn't be printed. Press {icon} to view details.",
+      "msg2": "Printing {num} reports. Press {icon} to view details.",
+      "msg3": "Press {icon} to view report list."
+    },
+    "btn-tip": {
+      "add": "hold {addImg} Report List {sub}",
+      "sub": ", hold {subImg} Settings"
+    },
+    "skip-tip": "Press & hold {subImg} button to skip",
+    "sys-error": {
+      "title": "System exception! The program has been restarted.",
+      "tips":"Please restart the measurement."
+    }
+  },
+  "item-select": {
+    "dong-tai-shi-yan-shi": "@:common.dong-tai-shi-yan-shi",
+    "dong-tai-shi-yan-shi_desc": "Go experience",
+    "dong-tai-shi-yan-shi_desc1": "Welcome to experience the new features of product.",
+    "items_err": "@:home.items_err",
+    "jian-bu-gong-neng": "Shoulder Functions",
+    "jian-bu-gong-neng-celiang": "Shoulder Functions",
+    "jian-bu-gong-neng-ce-liang": "Shoulder Function",
+    "jian-bu-gong-neng_desc": "Know about your shoulder flexibility.",
+    "jie-shu-ce-liang": "@:common.gesture-select.right.jie-shu-ce-liang",
+    "jie-shu-ce-liang_desc": "{0} report is ready to view after measurement.",
+    "result0-ce-liang": "{0}",
+    "shen-ti-cheng-fen": "Body Composition",
+    "shen-ti-cheng-fen-celiang": "Body Composition",
+    "shen-ti-cheng-fen-ce-liang": "Body Composition",
+    "shen-ti-cheng-fen-ce-liang-wei-du": "",
+    "shen-ti-cheng-fen-ce-liang_desc": "Step on the scale",
+    "shen-ti-cheng-fen_desc": "Know your weight, body fat rate and muscle mass, etc.",
+    "shi-fou-ji-xu-ce-liang": "Continue To Measure?",
+    "ti-tai-ping-gu": "Posture Assessment",
+    "ti-zhong-ce-liang":"@:common.ti-zhong-ce-liang",
+    "ti-zhong-ce-liang-desc":"Know your weight information",
+    "ti-tai-ping-gu_desc": [
+      "Stand naturally{item}Keep still for 2s",
+      "Know your body posture"
+    ],
+    "ti-wei-ce-liang": "@:common.ti-wei-ce-liang",
+    "ti-wei-ce-liang_desc": "Know your body circumference",
+    "ti-tai-ping-gu_desc_m30": "Please stand on the turntable",
+    "yi-ce-xiang-mu-de": "Body",
+    "jie-shu-ce-liang_touch": "Completed",
+    "jie-shu-ce-liang_touch_tip": "Click here to get your report"
+  },
+  "mass": {
+    "confirm": {
+      "tip-list1": {
+        "content": "Step on the electrodes pads",
+        "shortMsg": "Stand on the electrodes pads"
+      },
+      "tip-list2": {
+        "content": "Grab the handles on both sides",
+        "shortMsg": "Grab the handles on both sides"
+      },
+      "tip-list3": {
+        "content": "Open arms at a  45-degree angle",
+        "shortMsg": "Open arms at a  45-degree angle"
+      },
+      "tip-list4": {
+        "content": "Keep your body still while measuring",
+        "shortMsg": "Keep your body still while measuring"
+      }
+    },
+    "scan": {
+      "down": {
+        "guide1": "Keep the body still while measuring",
+        "successful": "Generating body composition report…"
+      },
+      "stand": {
+        "guide1": "Measuring Body Composition…",
+        "guide2": "Measurement Completed",
+        "guide3": "Body composition measurement failed "
+      },
+      "predict": "Ends in {num}s"
+    },
+    "success": "Measurement Completed",
+    "weight": {
+      "guide": "Please step on to the electrodes pads",
+      "guide1": "Step on the turntable",
+      "guide2":"Lower your hands to your sides and stand naturally. Keep your body still",
+      "scan": {
+        "down": {
+          "guide1": "Standing on the turntable,lower your hands to your sides and stand naturally.",
+          "guide2": "Keep still",
+          "successful": "Measurement Success Preparing for body composition measurement…"
+        },
+        "stand": {
+          "guide1": "Lower your hands to your sides.{item}Keep your body still",
+          "guide2": "Measuring Weight...",
+          "guide3": "Measurement Success",
+          "guide4": "Measurement error"
+        }
+      }
+    }
+  },
+  "shape": {
+    "ti-tai-ce-liang": "@.lower:shape.result.bottom-msg-item1",
+    "ti-wei-ce-liang": "@.lower:shape.result.bottom-msg-item2",
+    "guide": {
+      "bottom-msg1": "Step on the rotary table, with hands down and natural standing",
+      "bottom-msg2": "Keep still for 2s"
+    },
+    "result": {
+      "bottom-msg-item1": "Posture Measurement",
+      "bottom-msg-item2": "Circumference Measurement",
+      "bottom-msg-item4": "Body Composition",
+      "bottom-msg-title": "Measurements completed and the report is available"
+    },
+    "scan": {
+      "bottom-msg1": "Keep still",
+      "bottom-msg2": "Measuring... Please keep still",
+      "bottom-msg3": "Waiting for results…",
+      "leaveReset1": "Non-Compliant Operation",
+      "leaveReset2": "Person leaves during the measurement, the device is being reset."
+    }
+  },
+  "girth": {
+    "guide": {
+      "bottom-msg1": "Stay in this position for 2s",
+      "bottom-msg2": "Clench both fists. Open arms at a natural 30-degree angle",
+      "bottom-msg3": "Keep still",
+      "bottom-msg4": "Please push your elbows out slowly",
+      "bottom-msg5": "Please draw your elbows close slowly"
+    },
+    "select": {
+      "content": "Continue To Measure Circumference?",
+      "item1": {
+        "content": "Continue To Measure",
+        "remarks": "We're going to measure circumference"
+      },
+      "item2": {
+        "content": "Skip This Item",
+        "remarks": "Skip the item to view the posture result"
+      }
+    }
+  },
+  "shoulder": {
+    "jian-bu-gong-neng-ce-liang": "@.lower:item-select.jian-bu-gong-neng-ce-liang",
+    "jian-bu-gong-neng": "@.lower:item-select.jian-bu-gong-neng",
+    "countdown": {
+      "bottom-msg": "@:shape.scan.bottom-msg1",
+      "bottom-msg1": "Please stand naturally, and keep still for 2s"
+    },
+    "success": {
+      "title": "@:shape.result.bottom-msg-title",
+      "item1": "Abduction And Upthrow",
+      "item2": "Anteflexion And Upthrow"
+    },
+    "bottom-tips1": "Please face the screen and maintain the body naturally stand.",
+    "bottom-tips2": "Straighten the left hand leftwards and slowly unfold and raise it to the highest point",
+    "bottom-tips3": "Straighten the right hand rightwards and slowly unfold and raise it to the highest point",
+    "bottom-tips4": "Straighten the left hand forward, with the palm center inward. Then slowly unfold and raise it to the highest point",
+    "bottom-tips5": "Straighten the right hand forward, with the palm center inward. Then slowly unfold and raise it to the highest point",
+    "nav-container1": {
+      "first-title": "Abduction - Left",
+      "second-title": "Abduction - Right"
+    },
+    "nav-container2": {
+      "first-title": "Anteflexion - Left",
+      "second-title": "Anteflexion - Right"
+    }
+  },
+  "check-self": {
+    "she-bei-zi-jian-zhong": "Device self-inspecting. Please do not stand or place objects on the turntable"
+  },
+  "recovery": {
+    "she-bei-xiao-zhun-zhong": "Device calibrating. {item} Please wait…"
+  },
+  "shut-down": {
+    "que-ren-guan-ji": "Confirm Shutdown",
+    "guan-ji-ti-shi": "Shutting Off…",
+    "guan-ji-ti-shi_desc1": "All unsaved data will be lost. ",
+    "guan-ji-ti-shi_desc2": "Continue?",
+    "que-ren-guan-ji_touch_desc": "Click here, or press the power button again.",
+    "que-ren-guan-ji_key_desc": "To continue shut off, press 'Off' again",
+    "qu-xiao-guan-ji_touch": "Cancel({0}s)",
+    "qu-xiao-guan-ji_key": "Auto cancel shutting off in {0}s",
+    "msg-box-duration": "Shutting down in {num}s",
+    "msg-box": "Device is in use. Try again later."
+  },
+  "welcome": {
+    "huan-ying-ti-yan": "Welcome to Visbody",
+    "product-name": "「 VISBODY 3D body scanner 」",
+    "product-name-va": "「 Visbody 3D Body Scanner 」"
+  },
+  "print-list": {
+    "ti-wei-ce-liang": "Circumference",
+    "ti-tai-ping-gu": "Posture",
+    "jian-bu-gong-neng": "Shoulder",
+    "ti-zhong-ce-liang":"Weight",
+    "scan-tips":"Scan to view report",
+    "xiang-mu-ti-shi": "Tips:",
+    "xin-yong-hu-zhu-ce": "Registration",
+    "status0": "Loading",
+    "status1": "Printing",
+    "status2": "Printed",
+    "status3": "Print request failed",
+    "status4": "Registering",
+    "status5": "",
+    "status6": "Operation timeout",
+    "status7": "Print error",
+    "status8": "Print request timeout",
+    "status9": "Failed to generate report",
+    "status10": "Print now",
+    "status11": "{0} document{num} in queue",
+    "shang-yi-ye": "Previous",
+    "xia-yi-ye": "Next",
+    "mei-you-da-yin-bao-gao": "+ No Report",
+    "msg-box": {
+      "title0": "Do you want to print the report again?",
+      "title1": "Reprinting is not available at this moment.",
+      "zhong-xin-da-yin": "Yes",
+      "qu-xiao": "No",
+      "hao-de": "OK ({0}s)"
+    }
+  },
+  "scan-result": {
+    "qrcode": {
+      "loading": "QR Code Loading",
+      "load-failed": "QR Code Loading Failed",
+      "title0": "",
+      "title1": "Please Scan The QR Code",
+      "title2": "",
+      "title3": "@:scan-result.qrcode.title1",
+      "title4": "扫码查看体重测量结果"
+    },
+    "or": "or",
+    "card": {
+      "get-result": ""
+    },
+    "countdown": "@:common.error.count-down1",
+    "countdown1": "@:common.error.count-down5",
+    "load-down": "{num}s loading countdown",
+    "error": {
+      "network": "Network error, please check the network connection",
+      "api": ""
+    },
+    "result": {
+      "card-title": "",
+      "qrcode-title": "Code scanning succeeded",
+      "desc": "Please view the measurement report on your mobile phone",
+      "key-select": {
+        "da-yin-bao-gao": "Print",
+        "da-yin-bao-gao_desc": "Get your paper report",
+        "qu-xiao-da-yin": "Cancel Printing",
+        "qu-xiao-da-yin_desc": "Cancel printing and return to the homepage",
+        "ji-xu-da-yin": "Continue Printing",
+        "ji-xu-da-yin_desc": "Please check the printer status"
+      },
+      "msg-card": {
+        "new-user": "",
+        "print-added": "Printing, please wait..."
+      }
+    },
+    "printer-error": {
+      "da-yin-ji-wei-jiu-xu": "Printer is not ready",
+      "da-yin-ji-wei-jiu-xu_desc": "Printer error. Please check printer connection and make sure the power is on.",
+      "print-added": "The report is in the printing list and will be printed when the printer is ready."
+    }
+  },
+  "get-report": {
+    "sao-miao-shi-jian": "Scan Time: ",
+    "xu-hao": "Measure <br />No.",
+    "desc0": "Please remember your scan time and measure number to receive your professional measurement report from the staff.",
+    "desc1": "Network error. Loading…"
+  },
+  "update": {
+    "title": {
+      "updating": "Updating",
+      "complete": "Update Completed",
+      "success": "Update Successful",
+      "failed": "Update Failed. Restoring Data",
+      "rolled-back": "Device Ready",
+      "roll-back-failed": "Device Recovery Failed"
+    },
+    "sub-title": "The update takes about 5-10 minutes",
+    "tips0": "Do not turn off your device",
+    "tips1": "Forced shutdown may lead to the device disfunction",
+    "tips2": "About to restart. Measurement will be ready after restart",
+    "tips3": "Attempting to recover failed. Please contact post sale engineer",
+    "tips4": "Do not disconnect power or turn off the device during the update"
+  },
+  "device-error": {
+    "title": "Device error",
+    "desc0": "Error. Please restart the device. If restarting did not work, please contact the after-sales service team."
+  },
+  "network-error": {
+    "title": "Network Error",
+    "desc0": "Please check your internet for connection and router. You could also restart your device. If problem remains, contact your after-sales team"
+  },
+  "navigation-bar": {
+    "shou-ye": "Home page",
+    "she-zhi": "Settings",
+    "zhi-zhang-gui-ge": "Paper Size",
+    "dong-tai-shi-yan-shi": "@:common.dong-tai-shi-yan-shi",
+    "sheng-yin-she-zhi": "@:setting.index.sheng-yin-she-zhi",
+    "shou-shi-shi-bie": "@:setting.detect.shou-shi-shi-bie",
+    "liang-du-she-zhi": "Brightness Settings",
+    "shou-shi-cao-zuo-yin-dao": "@:setting.detect.shou-shi-cao-zuo-yin-dao",
+    "da-yin-she-zhi": "@:setting.index.da-yin-she-zhi",
+    "wang-luo-zhen-duan": "@:setting.check.wang-luo-zhen-duan",
+    "wang-luo-fen-xi": "@:setting.check.wang-luo-fen-xi",
+    "she-bei-jian-ce": "@:setting.index.she-bei-jian-ce",
+    "xiang-mu-xuan-ze": "Function selection",
+    "xuan-ze-ce-liang-xiang-mu": "Select Items",
+    "shi-fou-ji-xu-ce-liang": "@:item-select.shi-fou-ji-xu-ce-liang",
+    "bao-gao-lie-biao": "Report List",
+    "huo-qu-ce-liang-bao-gao": "Receive Your Report",
+    "shen-ti-cheng-fen-ce-liang": "@:item-select.shen-ti-cheng-fen-ce-liang",
+    "shen-ti-cheng-fen": "@:common.shen-ti-cheng-fen",
+    "ti-zhong-ce-liang": "Weight Measurement",
+    "shen-ti-cheng-fen-ce-liang-zhun-bei": "Follow The Instruction To Start",
+    "ti-tai-ce-liang": "@:shape.result.bottom-msg-item1",
+    "ti-tai-ping-gu": "Posture assessment",
+    "ti-wei-ce-liang": "@:shape.result.bottom-msg-item2",
+    "jian-bu-gong-neng": "@:item-select.jian-bu-gong-neng",
+    "jian-bu-gong-neng-ce-liang": "@:item-select.jian-bu-gong-neng-ce-liang",
+    "wang-luo-yi-chang-ye": " network error page",
+    "title1": "Abduction And Upthrow",
+    "title2": "Anteflexion And Upthrow",
+    "title4": "Abduction And Upthrow",
+    "title5": "Anteflexion And Upthrow",
+    "title6": "@:item-select.jian-bu-gong-neng-ce-liang",
+    "qing-an-tu-shi-dong-zuo-jin-ru-ce-liang-xiang-mu": "Select Items",
+    "qing-zuo-hao-yi-xia-zhun-bei": "",
+    "wang-luo-she-zhi": "Network Settings"
+  },
+  "reset":{
+    "content-title": "Device initializing",
+    "content-tip": "Please do not stand or place objects on the turntable",
+    "title": "Equipment reset",
+    "title-tips": "Device resetting, please come down from the turntable"
+  },
+  "renewal":{
+    "wei-jihuo-title": "Device Activation Steps",
+    "wei-jihuo-content": "Dear User,<br />To activate your device, please complete the following steps:",
+    "wei-jihuo-content1": "Open [Visbody WellnessHub] at: {0}",
+    "wei-jihuo-content2": "Complete the registration and activation process.",
+    "wei-jihuo-content3": "Once activated, please reboot your device to initialize the system.",
+    "wei-jihuo-content4": "For technical support, our customer service team is available via:",
+    "wei-jihuo-content5": "WhatsApp: +852 5704 0513",
+    "wei-jihuo-content6": "Email: hello@visbody.com",
+    "wei-jihuo-content7": "Thank you for choosing Visbody. We're committed to providing you with excellent service.",
+    "wei-jihuo-content8": "For comprehensive user guidelines",
+      "ting-ji-title": "Shutdown Notice",
+      "ting-ji-content": "Dear User:<br />Your device 【Basic Edition】 has been shut down as of {0}. Currently, the device is no longer usable. Please renew your subscription on the 【Visbody WellnessHub】（{1}）as soon as possible. Once the renewal is successful, the device will resume functioning. If it does not resume functioning after renewal, please try restarting the device!<br />If you have any questions, please contact Visbody official customer service<br />WhatsApp: +852 5704 0513 <br />Email: hello@visbody.com"
+  },
+  "beauty":{
+    "device-mode": "Scan Mode",
+    "device-mode-beauty": "Aesthetic Mode",
+    "device-mode-standard": "Standard Mode",
+    "device-mode-beauty-desc": "Body assessment solution tailored for the beauty and wellness industry",
+    "device-mode-standard_des": "Comprehensive body assessment solution suitable for diverse populations",
+    "device-mode-beauty-desc1": "Please contact sales to activate this solution tailored for the beauty and wellness industry."
+  },
+  "touch-disabled": "Touchscreen error. Please use the buttons to operate.",
+  "wifi": {
+    "title": "Network Settings",
+    "items-title-1": "Wi-Fi",
+    "items-vice-1": "Connected, no internet",
+    "items-title-2": "Wired Network",
+    "items-vice-2": "Connected",
+    "items-vice-3": "Disconnected",
+    "items-vice-4": "Connecting...",
+    "wifi-off": "WiFi Switch",
+    "search": "Searching for WiFi...",
+    "error-connect": "Network connection failed or no network available, please try a different network.",
+    "loading": "Loading...",
+    "box-title": "Disconnect from the current network?",
+    "box-button-1": "Confirm disconnection",
+    "box-button-2": "Cancel in {num} seconds",
+    "qr-title-1": "Wi-Fi Settings",
+    "qr-title-2": "1.Scan the QR code below with your phone to create a Wi-Fi QR code.",
+    "qr-title-3": "2.Align the Wi-Fi QR code with the camera located below the device's screen to scan",
+    "qr-tips-1": "Please scan the QR code with your phone.",
+    "qr-tips-2": "Success! Connecting...",
+    "qr-tips-3": "Invalid QR code",
+    "qr-tips-4": "Connection successful",
+    "connect-error-0": "Connection successful",
+    "connect-error-1": "Connection timeout",
+    "connect-error-2": "Incorrect password",
+    "connect-error-3": "WiFi network out of range",
+    "connect-error-4": "Authentication timeout or protocol incompatibility",
+    "connect-error-5": "WiFi adapter is disabled",
+    "connect-error-6": "Network configuration error",
+    "connect-error-7": "Failed to obtain IP address",
+    "connect-error-8": "Connection command failed to execute",
+    "connect-error-9": "Connection failed",
+    "tip-waiting": "Connecting",
+    "tip-btn-ok": "OK",
+    "tip-check": "Enter Password",
+    "tip-check-fail": "Incorrect password. Connection failed.",
+    "tip-btn-confirm": "Confirm",
+    "tip-btn-cancel": "Cancel",
+    "tip-btn-disconnected": "Disconnect"
+  },
+  "click-skip": "Skip This Item",
+  "Athlete":{
+    "tips": "This mode is for users with high muscle mass only.",
+    "title": "Target Users",
+    "title2":"Athletes",
+    "desc1": "Body Composition Analysis Program for Professional Bodybuilders"
+  }
+}

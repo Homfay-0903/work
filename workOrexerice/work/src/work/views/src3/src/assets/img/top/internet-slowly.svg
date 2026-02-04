@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="background: #000000;">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>internet-较慢</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M39,9.5 L39,12.5 C24.3644541,12.5 12.5,24.3644541 12.5,39 L12.5,39 L9.5,39 C9.5,22.7075999 22.7075999,9.5 39,9.5 L39,9.5 Z" id="path-1"></path>
+        <path d="M38.9998757,17.5055726 L38.9998392,20.5064553 C28.903809,20.7673492 20.7673492,28.903809 20.5064553,38.9998392 L17.5055726,38.9998757 C17.7677306,27.2468554 27.2468554,17.7677306 38.9998757,17.5055726 Z M39,25.5 L39,28.5 L39,28.5 C33.2010101,28.5 28.5,33.2010101 28.5,39 L25.5,39 L25.5,39 C25.5,31.5441559 31.5441559,25.5 39,25.5 Z M38.999668,33.0189701 L39,39 L33.0189701,38.999668 C33.2618721,35.808731 35.808731,33.2618721 38.999668,33.0189701 Z" id="path-3"></path>
+    </defs>
+    <g id="internet-较慢" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect fill="#000000" x="0" y="0" width="48" height="48"></rect>
+        <mask id="mask-2" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <use id="Combined-Shape" fill="#333333" xlink:href="#path-1"></use>
+        <mask id="mask-4" fill="white">
+            <use xlink:href="#path-3"></use>
+        </mask>
+        <use id="Combined-Shape" fill="#FFFFFF" xlink:href="#path-3"></use>
+    </g>
+</svg>

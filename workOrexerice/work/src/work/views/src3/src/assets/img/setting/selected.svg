@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64px" height="64px" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>choice</title>
+    <g id="设置" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="设置-打印设置-手动打印" transform="translate(-908.000000, -904.000000)">
+            <g id="list" transform="translate(60.000000, 816.000000)">
+                <g id="choice" transform="translate(848.000000, 88.000000)">
+                    <circle id="椭圆形" fill="#E7E9F0" cx="32" cy="32" r="32"></circle>
+                    <path d="M22.9497475,44.3223305 L22.9497475,39.3223305 L35.9497475,39.3223305 L35.9497475,12.3223305 L40.9497475,12.3223305 L40.9497475,44.3223305 L22.9497475,44.3223305 Z" id="形状结合" fill="#104EBB" transform="translate(31.949747, 28.322330) rotate(-315.000000) translate(-31.949747, -28.322330) "></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

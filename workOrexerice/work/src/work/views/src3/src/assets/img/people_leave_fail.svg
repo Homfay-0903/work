@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="792px" height="792px" viewBox="0 0 792 792" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>fail</title>
+    <defs>
+        <filter x="-45.2%" y="-45.2%" width="190.4%" height="190.4%" filterUnits="objectBoundingBox" id="filter-1">
+            <feGaussianBlur stdDeviation="62.6666667" in="SourceGraphic"></feGaussianBlur>
+        </filter>
+        <radialGradient cx="50%" cy="50%" fx="50%" fy="50%" r="44.5462633%" id="radialGradient-2">
+            <stop stop-color="#1D6CF5" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#1D6CF5" stop-opacity="0.145394581" offset="39.4602342%"></stop>
+            <stop stop-color="#1D6CF5" offset="100%"></stop>
+            <stop stop-color="#1D6CF5" offset="100%"></stop>
+        </radialGradient>
+        <radialGradient cx="50%" cy="50%" fx="50%" fy="50%" r="50%" id="radialGradient-3">
+            <stop stop-color="#2783FB" offset="0%"></stop>
+            <stop stop-color="#2256A9" stop-opacity="0.839992147" offset="67.3735932%"></stop>
+            <stop stop-color="#032B6F" offset="100%"></stop>
+        </radialGradient>
+        <circle id="path-4" cx="124" cy="124" r="124"></circle>
+        <filter x="-5.2%" y="-5.2%" width="110.5%" height="110.5%" filterUnits="objectBoundingBox" id="filter-5">
+            <feGaussianBlur stdDeviation="13" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="0" dy="0" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 0.223776224 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <filter color-interpolation-filters="auto" id="filter-6">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 1.000000 0 0 0 0 1.000000 0 0 0 0 1.000000 0 0 0 1.000000 0"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="PRO版本体态评估" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="体围测量-测量过程中人离开" transform="translate(-144.000000, -492.000000)">
+            <g id="fail" transform="translate(220.000000, 568.000000)">
+                <g id="背景">
+                    <circle id="背景描边" stroke-opacity="0.32" stroke="#D40F0F" stroke-width="5.33333333" cx="320" cy="320" r="317.333333"></circle>
+                    <circle id="椭圆形" fill="" cx="320" cy="320" r="242.666667"></circle>
+                </g>
+                <g id="旋转圆" transform="translate(112.000000, 112.000000)">
+                    <circle id="椭圆形" fill-opacity="0.8" fill="#1D6CF5" filter="url(#filter-1)" cx="208" cy="208" r="208"></circle>
+                    <circle id="椭圆形" stroke="#666666" stroke-width="10.6666667" fill="#000000" cx="208" cy="208" r="202.666667"></circle>
+                    <circle id="Oval" stroke="#1F2429" stroke-width="4" cx="208" cy="208" r="122"></circle>
+                    <g id="旋转面" fill="url(#radialGradient-2)" fill-opacity="0.7">
+                        <path d="M208,0 C322.875228,0 416,93.124772 416,208 C416,322.875228 322.875228,416 208,416 C93.124772,416 0,322.875228 0,208 C0,93.124772 93.124772,0 208,0 Z M208,83.7178423 C139.36086,83.7178423 83.7178423,139.36086 83.7178423,208 C83.7178423,276.63914 139.36086,332.282158 208,332.282158 C276.63914,332.282158 332.282158,276.63914 332.282158,208 C332.282158,139.36086 276.63914,83.7178423 208,83.7178423 Z" id="旋转圆"></path>
+                    </g>
+                </g>
+                <g id="蒙版" transform="translate(196.000000, 196.000000)">
+                    <use fill="url(#radialGradient-3)" fill-rule="evenodd" xlink:href="#path-4"></use>
+                    <use fill="black" fill-opacity="1" filter="url(#filter-5)" xlink:href="#path-4"></use>
+                </g>
+                <g filter="url(#filter-6)" id="编组">
+                    <g transform="translate(258.000000, 258.000000)">
+                        <polygon id="路径" points="0 0 124 0 124 124 0 124"></polygon>
+                        <path d="M72.3333333,73.6353333 L72.3333333,113.666667 L20.6666653,113.666667 C20.6634169,100.880931 26.577436,88.8134248 36.6844526,80.9825083 C46.7914693,73.1515918 59.953598,70.438899 72.3333333,73.6353333 L72.3333333,73.6353333 Z M62,67.1666667 C44.8725,67.1666667 31,53.2941667 31,36.1666667 C31,19.0391667 44.8725,5.16666667 62,5.16666667 C79.1275,5.16666667 93,19.0391667 93,36.1666667 C93,53.2941667 79.1275,67.1666667 62,67.1666667 Z M98.1666667,85.6943333 L109.125167,74.7306667 L116.436,82.0415 L105.472333,93 L116.436,103.9585 L109.125167,111.269333 L98.1666667,100.305667 L87.2081667,111.269333 L79.8973333,103.9585 L90.861,93 L79.8973333,82.0415 L87.2081667,74.7306667 L98.1666667,85.6943333 Z" id="形状" fill="#000000" fill-rule="nonzero"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

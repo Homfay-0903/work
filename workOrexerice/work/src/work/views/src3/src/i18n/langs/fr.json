@@ -1,0 +1,655 @@
+{
+    "common": {
+        "btn": {
+            "switch": "Cliquez pour confirmer.<br />Double-cliquez pour revenir en arrière.",
+            "switch1": "Double-cliquez pour revenir en arrière.",
+            "add": "Interrupteur haut.",
+            "sub":  "Interrupteur bas."
+          },
+          "prev": "Précédent",
+          "next": "Suivant",
+        "dong-tai-shi-yan-shi": "Laboratoire Dynamique",
+        "wu-dian-liu": "无电流营养分析测量",
+        "guide": {
+            "interfere1": "Veuillez vous tenir debout sur le plateau tournant, en vous assurant qu'il n'y a pas d'autre personne à moins de 1m."
+        },
+        "jian-bu-gong-neng": "Fonction épaules",
+        "shen-ti-cheng-fen": "Composition corporelle",
+        "ti-zhong-ce-liang": "Mesure  Poids",
+    "error-end": "; Veuillez utiliser l'opération de bouton pour entrer dans la mesure du projet.",
+        "ti-tai-ping-gu": "Evaluation posturale",
+        "ti-wei-ce-liang": "Circonférences",
+        "error": {
+            "start-failed-title": "Echec Du Démarrage",
+            "start-failed-timeout": "Expiration  De Démarrage",
+            "device-err-desc": [
+                "Erreur d'appareil, veuillez redémarrer l'appareil !",
+                "Erreur  d'appareil, Veuillez contacter notre SAV !",
+                "Erreur d'appareil, prêt à \\n récupérer automatiquement.",
+                "Si la plateforme rotative n'est pas détectée, veuillez débrancher et rebrancher la connexion de la plateforme rotative et redémarrer l'appareil ; si la tentative est inefficace, veuillez contacter le service après-vente."
+            ],
+            "err-code": "Code d'erreur: {0}",
+            "scan-failed-title": "Mesure Echouée",
+            "scan-err-desc": [
+                "La personne quitte pendant la mesure",
+                "Expiration de démarrage de mesure",
+                "Mesure trop longue",
+                "Erreur mesure",
+                "Expiration De Démarrage"
+            ],
+            "re-scan": "{0}, Veuillez remesurer！",
+            "count-down1": "Retour  à la page d'accueil dans {num}s",
+            "count-down2": "La mesure sera terminée dans {num}s",
+            "count-down3": "Compte à rebours {num}s",
+            "count-down4": "Retour dans {num}s",
+            "count-down5": "Retour à la page d'erreur réseau après {num} secondes."
+        },
+        "gesture-select": {
+            "left": {
+                "content-title": "Lever la main gauche",
+                "cha-kan-bao-gao": "Consulter Rapport",
+                "zhong-xin-ce-liang": "Remesurer"
+            },
+            "right": {
+                "content-title": "Lever la main droite",
+                "jie-shu-ce-liang": "Terminer La Mesure"
+            }
+        },
+        "key-select": {
+            "cha-kan-bao-gao": "@:common.gesture-select.left.cha-kan-bao-gao",
+            "cha-kan-bao-gao_desc": "Consulter les résultats des mesures {0}",
+            "zhong-xin-ce-liang": "@:common.gesture-select.left.zhong-xin-ce-liang",
+            "zhong-xin-ce-liang_desc1": "Recommencer {0}",
+            "zhong-xin-ce-liang_desc2": "请继续保持静止",
+            "tiao-guo-ce-liang": "Terminer  La Mesure",
+            "zhong-xin-ce-liang_desc3": "Veuillez retourner sur la plaque d'électrode métallique",
+            "jie-shu-ce-liang": "@:common.gesture-select.right.jie-shu-ce-liang",
+            "tiao-guo-ce-liang_desc": "Passez à l'élément {0}.",
+            "jie-shu-ce-liang_desc1": "Rapport disponible une fois que la mesure se termine",
+            "jie-shu-ce-liang_desc2": "Consulter les résultats de la mesure des fonctions épaules",
+            "jie-shu-ce-liang_desc3": "Retour à la page d'accueil une fois que la mesure se termine",
+            "jie-shu-ce-liang_desc4": "结束测量请离开金属电极片，即可查看报告",
+      "jie-shu-ce-liang_desc5": "结束测量请离开金属电极片"
+        },
+        "device-usable": {
+            "error-tip0": "Erreur d'appareil, veuillez redémarrer. Si le problème persiste, contactez notre SAV !",
+            "error-tip1": "Erreur d'appareil, veuillez éteindre et redémarrer l'appareil. Si le problème persiste, contactez notre SAV !",
+            "error-tip2": "Si la plateforme rotative n'est pas détectée, veuillez débrancher et rebrancher la connexion de la plateforme rotative et redémarrer l'appareil ; si la tentative est inefficace, veuillez contacter le service après-vente.",
+            "error-tip3": "@:common.error.device-err-desc.1"
+        }
+    },
+    "setting": {
+        "check": {
+            "network": {
+                "disconnected": "Connexion Internet Perdue",
+                "disconnected_desc": "Veuillez vérifier si le câble est branché sur l'appareil ou si le routeur est connecté à Internet",
+                "disconnected_desc1": "Veuillez vérifier la connexion au réseau filaire ou Wi-Fi.",
+                "disconnected_desc2": "Pour le réseau filaire : vérifiez que le câble est bien branché et que le routeur est connecté à Internet.",
+                "jian-ce-shi-jian": "Temps Diagnostic",
+                "shang-chuan-su-du": "Vitesse de téléchargement",
+                "testing": "Diagnostic réseau...",
+                "wang-luo-jiao-cha": "Mauvaises Performances Réseau",
+                "wang-luo-jiao-cha_desc": "La configuration actuelle du réseau est médiocre et peut entraîner une longue durée de génération des rapports. Veuillez contacter le fournisseur de réseau pour augmenter la bande passante du réseau.",
+                "wang-luo-jiao-cha_desc_extend": "et vérifier si le routeur limite la vitesse de téléchargement.",
+                "wang-luo-liang-hao": "Bonnes Performances Réseau",
+                "wang-luo-liang-hao_desc": "La configuration réseau actuelle est bonne.",
+                "wang-luo-liang-hao_desc_extend": "mais la vitesse de téléchargement est lente. Veuillez vérifier si le routeur limite la vitesse de téléchargement.",
+                "wang-luo-you-xiu": "Performances Réseau Parfaites",
+                "wang-luo-you-xiu_desc": "La configuration réseau actuelle est parfaite.",
+                "wang-luo-you-xiu_desc_extend": "@:setting.check.network.wang-luo-liang-hao_desc_extend",
+                "wu-fa-lian-jie-fu-wu-qi": "Erreur Serveur",
+                "wu-fa-lian-jie-fu-wu-qi_desc": "Connexion Internet normale mais l'appareil ne peut pas se connecter au serveur Visbody. Veuillez réessayer plus tare ou contacter notre SAV !",
+                "xia-zai-su-du": "Vitesse de téléchargement"
+            },
+            "wang-luo-zhen-duan": "Diagnostic Réseau",
+            "bao-gao-huo-qu-fang-shi": "Obtenir des rapports",
+            "wang-luo-fen-xi": "Analyse Réseau",
+            "yu-yan": "Langue",
+            "an-jian-zhi-yin": "Guide clé."
+        },
+        "detect": {
+            "guang-zhao-huan-jing-cha": "Lumière Ambiante Inadéquate",
+            "guang-zhao-huan-jing-cha_desc": [
+                "Lumière Ambiante Inadéquate, le démarrage rapide et la reconnaissance des gestes mains seront désactivés.",
+                "Veuillez allumer les lumières/déplacer l'appareil dans une zone plus lumineuse."
+            ],
+            "guang-zhao-huan-jing-ruo": "Lumière Ambiante Faible",
+            "guang-zhao-huan-jing-ruo_desc": [
+                "Lumière ambiante faible, le démarrage rapide et la reconnaissance des gestes mains seront affectés.",
+                "@:setting.detect.guang-zhao-huan-jing-cha_desc.1"
+            ],
+            "guide": "Levez votre main {0} comme indiqué",
+            "shi-bie-cheng-gong": "Reconnaissance Réussie",
+            "shi-bie-cheng-gong_desc": "Veuillez utiliser le même geste dans le processus de mesure suivant",
+            "shou-shi-cao-zuo-yin-dao": "Guide Gestes Mains",
+            "shou-shi-cao-zuo-yin-dao_desc": "Suivez les instructions pour maîtriser la reconnaissance des gestes et les règles.",
+            "shou-shi-shi-bie": "Interaction gestuelle",
+            "shou-shi-shi-bie_close_desc": "La reconnaissance des gestes sera suspendue après la désactivation. L'écran tactile et les boutons sont valides pour les opérations.",
+            "shou-shi-shi-bie_close_desc_key": "Une fois désactivée, la reconnaissance des gestes sera suspendue. Seules les opérations sur les boutons seront valides.",
+            "shou-shi-shi-bie_open_desc": "Activez la reconnaissance gestuelle dans le processus de mesure.",
+            "ying-jian-yi-chang": "Erreur Matériel",
+            "ying-jian-yi-chang_desc": "Veuillez redémarrer l'appareil ! Si le problème persiste, contactez notre SAV !",
+            "you-shou": "droite",
+            "zuo-shou": "gauche"
+        },
+        "index": {
+            "da-yin-she-zhi": "Impression",
+            "dong-tai-shi-yan-shi": "@:common.dong-tai-shi-yan-shi",
+            "she-bei-jian-ce": "Diagnostic Appareil",
+            "sheng-yin-she-zhi": "Son",
+            "ping-mu-liang-du": "Luminosité",
+            "an-jian-zhi-yin": "Guide clé.",
+            "shou-shi-shi-bie": "@:setting.detect.shou-shi-shi-bie",
+            "yi-guan-bi": "Eteint",
+            "yi-kai-qi": "Activé",
+            "languageTitleOne": "English",
+            "languageTitleTwo": "中文",
+            "languageTitleThree": "日本語",
+            "languageTitleFour": "Español",
+            "languageTitleFive": "Deutsch",
+            "languageTitleSex": "Français",
+            "languageTitleSeven": "Türkçe",
+            "languageTitleEight": "Português",
+            "languageTitleNine": "Italiano",
+            "languageTitleTen": "Ελληνικά",
+            "languageTitleEleven": "Русский язык",
+            "languageTitleTwelve": "magyar",
+            "languageTitleThirteen":"繁體",
+            "languageTitleFourteen":"繁體(台灣)",
+            "language": "Langue",
+      "set": "Paramètres",
+      "check": "Confirmer",
+      "return": "Retour",
+      "device-mode": "测量模式",
+      "device-mode-chankang": "产康模式",
+      "device-mode-standard": "标准模式",
+      "wang-luo-she-zhi": "Paramètres réseau"
+        },
+        "print": {
+            "da-yin-gong-neng": "Impression",
+            "da-yin-gong-neng_desc": [
+                "L'impression s'arrêtera une fois l'appareil éteint.",
+                "L'impression est disponible lorsque l'appareil est allumé."
+            ],
+            "da-yin-ren-wu-she-zhi": "Paramètres impression",
+            "shou-dong-da-yin_desc": "Après avoir mesuré et scanné le code QR avec succès, sélectionnez pour imprimer le rapport.",
+            "zi-dong-da-yin_desc": "Le rapport sera automatiquement ajouté à la liste d'impression une fois la mesure terminée."
+        },
+        "shou-dong-da-yin": "Impression Manuelle",
+        "zi-dong-da-yin": "Impression Automatique",
+        "bind": {
+            "guan-li-ping-tai": "Plateforme de gestion",
+            "guan-li-ping-tai_desc": "Une fois la mesure terminée, utilisez le N°de mesure pour compléter la liaison des informations utilisateur sur la plateforme de gestion pour consulter le rapport.",
+            "er-wei-ma": "Code QR",
+            "er-wei-ma_desc": "Une fois la mesure terminée, scannez le code QR et liez les informations utilisateur sur votre portable pour consulter le rapport."
+        },
+        "btn-guidance": {
+            "xia-yi-bu": "Étape suivante",
+            "shang-yi-bu": "Étape précédente",
+            "tui-chu": "Sortie.",
+            "model1-text": {
+              "switch": "Appuyez une fois brièvement pour confirmer la sélection. ",
+              "add": "Appuyez une fois brièvement pour sélectionner l'option précédente.",
+              "sub": "Appuyez une fois brièvement pour sélectionner l'option suivante."
+            },
+            "model2-text": {
+                "btn-tip": {
+                  "add": "maintenez {addImg} Liste des rapports {sub}",
+                  "sub": ", maintenez {subImg} Paramètres"
+                },
+                "add": "Maintenez enfoncé longtemps pour afficher la liste des rapports.",
+                "sub": "Maintenez enfoncé longtemps pour accéder à la fonction paramètres."
+              },
+              "model3-text": {
+                "switch": "Appuyez deux fois consécutivement pour revenir d'un cran en arrière.",
+                "add": "Maintenez enfoncé pendant 2 secondes pour demander confirmation d'arrêt",
+                "sub": "Maintenez enfoncé pendant 6 secondes pour un arrêt direct (non recommandé)."
+              }
+            },
+            "measure-mode": {
+                "device-mode-chankang_des": "针对孕期和产后康复的人群提供更加专业的健康测量和定制化营养建议。",
+                "device-mode-standard_des": "适合各种人群的全面身体评估方案。"
+              }
+    },
+    "home": {
+        "fa-xian-xin-ban-ben": "Nouvelle Version Disponible",
+        "fa-xian-xin-ban-ben_subtitle": "La nouvelle version {0} est disponible pour votre appareil.",
+        "fa-xian-xin-ban-ben_subtitle_tip_touch": "Mettre à Jour Maintenant",
+        "fa-xian-xin-ban-ben_subtitle_tip_key": "Appuyez sur {icon} pour démarrer la mise à jour rapide",
+        "items_err": "{0} Anormales",
+        "jian-cha-wang-luo": "Vérifier le réseau",
+        "jian-cha-wang-luo_subtitle": "Lancer le Diagnostic Réseau",
+        "cha_ru_wang_xian_or_wifi_subtitle": "Branchez le câble ou cliquez ici pour configurer le Wi-Fi.",
+        "ji-jiang-dao-qi": "Expire bientôt",
+        "she-bei-wang-luo-man": "Vitesse de Connexion Lente",
+        "she-bei-wang-luo-man_subtitle": "Le temps d'attente peut être plus long. Veuillez vérifier le réseau.",
+        "shou-shi-shi-bie-yi-chang": "Erreur reconnaissance de geste",
+        "shou-shi-shi-bie-yi-chang_subtitle": "Veuillez essayer de redémarrer l'appareil, si le redémarrage n'a pas fonctionné, veuillez contacter notre SAV.",
+        "xu-fei-tong-zhi": "Avis de renouvellement",
+        "xu-fei-tong-zhi_subtitle": "",
+        "yi-dao-qi": "Expiré",
+        "ai-xu-fei-tong-zhi_subtitle1": "Cher utilisateur: Votre appareil 【Édition de base】 expirera le {0}. Veuillez renouveler votre abonnement sur la 【Visbody Centre de Bien-être】{1} avant qu'il n'expire, sinon l'appareil ne sera pas utilisable. Si vous avez des questions, veuillez contacter le service client officiel de Visbody<br />WhatsApp: +852 5704 0513 <br />Email: hello@visbody.com",
+        "ai-xu-fei-tong-zhi_subtitle2": "Cher utilisateur: Votre appareil 【Édition de base】 a expiré et sera officiellement arrêté le {0}. Veuillez renouveler votre abonnement sur la 【Visbody Centre de Bien-être】{1} avant l'arrêt, sinon l'appareil ne sera pas utilisable. Si vous avez des questions, veuillez contacter le service client officiel de Visbody<br />WhatsApp: +852 5704 0513 <br />Email: hello@visbody.com", 
+        "zhou-bian-guang-xian-cha": "Lumière Ambiante Inadéquate",
+        "zhou-bian-guang-xian-cha_subtitle": "@:setting.detect.guang-zhao-huan-jing-cha_desc.1",
+        "zhou-bian-guang-xian-ruo": "Lumière Ambiante Faible",
+        "print-info": {
+            "msg0": "Erreur imprimante.Vérifiez la connexion et assurez-vous qu'elle est allumée.",
+            "msg1": "Certains rapports n'ont pas pu être imprimés. Appuyez sur {icon} pour afficher les détails.",
+            "msg2": "Impression de {num} rapports. Appuyez sur {icon} pour afficher les détails.",
+            "msg3": "Appuyez sur {icon} pour afficher la liste des rapports."
+        },
+        "btn-tip": {
+            "add": "maintenez {addImg} Liste des rapports,{sub}",
+            "sub": "maintenez {subImg} Paramètres"
+          },
+          "skip-tip": "Maintenez {subImg} pour passer",
+          "sys-error": {
+            "title": "Exception système ! Le programme a été redémarré.",
+            "tips":"Veuillez redémarrer la mesure."
+          },
+          "top-tip": "",
+        "qing-chong-qi-she-bei": "Veuillez redémarrer l'appareil",
+        "qing-chong-qi-she-bei_subtitle": "Cet appareil a fonctionné en continu pendant trop longtemps, veuillez redémarrer pour garantir la précision de la mesure."
+    },
+    "item-select": {
+        "dong-tai-shi-yan-shi": "@:common.dong-tai-shi-yan-shi",
+        "dong-tai-shi-yan-shi_desc": "Essayez l'évaluation",
+        "dong-tai-shi-yan-shi_desc1": "Bienvenue dans notre nouvelle fonctionnalité basée sur la mobilité",
+        "items_err": "@:home.items_err",
+        "jian-bu-gong-neng": "@:common.jian-bu-gong-neng",
+        "jian-bu-gong-neng-celiang": "Fonction  épaules",
+        "jian-bu-gong-neng-ce-liang": "Fonctions Epaules",
+        "jian-bu-gong-neng_desc": "Renseignez-vous sur la flexibilité de vos épaules",
+        "jie-shu-ce-liang": "@:common.gesture-select.right.jie-shu-ce-liang",
+        "jie-shu-ce-liang_desc": "Vous pouvez consulter le rapport {0} à la fin.",
+        "result0-ce-liang": "{0}",
+        "shen-ti-cheng-fen": "@:common.shen-ti-cheng-fen",
+        "shen-ti-cheng-fen-celiang": "Composition  corporelle",
+        "ti-tai-ping-gu_desc_m30": "Veuillez vous tenir sur la plateforme rotative.",
+        "dong-tai-shi-yan-shi_desc_m30": "Veuillez appuyer sur la touche {0} pour entrer.",
+        "ti-wei-ce-liang_desc": "Connaître votre tour de corps",
+        "ti-wei-wu-dian_desc": "为您提供专业的营养分析",
+        "shen-ti-cheng-fen-ce-liang": "Composition Corporelle",
+        "shen-ti-cheng-fen-ce-liang_desc": "Veuillez monter sur la plaque d'électrode",
+        "shen-ti-cheng-fen_desc": "Connaissez votre poids, BFP, masse musculaire, etc",
+        "shi-fou-ji-xu-ce-liang": "Continuez à mesurer ?",
+        "ti-tai-ping-gu": "@:common.ti-tai-ping-gu",
+        "ti-wei-ce-liang": "@:common.ti-wei-ce-liang",
+    "ti-zhong-ce-liang":"@:common.ti-zhong-ce-liang",
+        "ti-tai-ping-gu_desc": [
+            "Tenir debout pendant 2s",
+            "Connaître votre posture corporelle"
+        ],
+        "wu-dian-liu": "无电流营养分析",
+    "wu-dian-liu-sub": "无电流<br/>营养分析",
+        "ti-zhong-ce-liang-desc":"Connaître vos informations de poids",
+        "yi-ce-xiang-mu-de": "des éléments mesurés",
+        "jie-shu-ce-liang_touch": "Complété",
+        "jie-shu-ce-liang_touch_tip": "Cliquez ici pour obtenir votre rapport"
+    },
+    "mass": {
+        "confirm": {
+            "tip-list1": {
+                "content": "Touchez les empreintes de pas",
+                "shortMsg": "Posez vos pieds sur les empreintes de pas"
+            },
+            "tip-list2": {
+                "content": "Tenez fermement les poignées de deux côtés",
+                "shortMsg": "Tenez fermement les poignées"
+            },
+            "tip-list3": {
+                "content": "Ouvrez vos bras à un angle de 45 degrès",
+                "shortMsg": "Ouvrez vos bras à un angle de 45 degrès"
+            },
+            "tip-list4": {
+                "content": "Restez immobile pendant la mesure",
+                "shortMsg": "Restez immobile pendant la mesure"
+            }
+        },
+        "scan": {
+            "down": {
+                "guide1": "Mesure...Veuillez rester immobile",
+                "successful": "Génération du rapport composition corporelle..."
+            },
+            "stand": {
+                "guide1": "Mesure Composition Corporelle...",
+                "guide2": "Mesure Terminée",
+                "guide3": "Mesure échouée"
+            },
+            "predict": "Terminez dans {num}s"
+        },
+        "success": "Mesure Terminée",
+        "weight": {
+            "guide": "Tenez-vous sur la plateforme rotative, baissez vos mains et tenez-vous naturellement.",
+            "guide1": "Montez sur la plateforme rotative",
+            "guide2":"Abaissez vos mains et tenez-vous naturellement. Gardez votre corps immobile.",
+            "scan": {
+                "down": {
+                    "guide1": "Tenez-vous sur la plateforme rotative, baissez vos mains et tenez-vous naturellement.",
+                    "guide2": "Restez immobile",
+                    "successful": "Entrée imminente dans la mesure du corps."
+                },
+                "stand": {
+                    "guide1": "Placez les mains près de votre corps et restez immobile",
+                    "guide2": "Mesure Poids...",
+                    "guide3": "Mesure Terminée",
+                    "guide4": "Mesure échouée"
+                }
+            }
+        }
+    },
+    "shape": {
+        "ti-tai-ce-liang": "@.lower:shape.result.bottom-msg-item1",
+        "ti-wei-ce-liang": "@.lower:shape.result.bottom-msg-item2",
+        "guide": {
+            "bottom-msg1": "Montez sur la plateforme rotative",
+            "bottom-msg2": "Abaissez vos mains et tenez-vous naturellement. Gardez votre corps immobile."
+        },
+        "result": {
+            "bottom-msg-item1": "Evaluation Posturale",
+            "bottom-msg-item2": "Circonférences",
+            "bottom-msg-item3": "Mesure  Poids",
+      "bottom-msg-item4": "Composizione corporea",
+      "bottom-msg-title": "Mesure  terminée, le rapport est disponible"
+        },
+        "scan": {
+            "bottom-msg1": "Restez immobile",
+            "bottom-msg2": "Mesure...Veuillez rester immobile",
+            "bottom-msg3": "En attente des résultats...",
+            "leaveReset1": "Opération non conforme",
+            "leaveReset2": "La personne quitte pendant la mesure, l'appareil est en cours de réinitialisation"
+        }
+    },
+    "girth": {
+        "guide": {
+            "bottom-msg1": "Restez  dans cette position pendant 2s",
+            "bottom-msg2": "Veuillez serrer les poings et ouvrir les bras à un angle de 30°",
+            "bottom-msg3": "Restez immobile",
+            "bottom-msg4": "Veuillez réduire lentement l'angle de vos bras",
+            "bottom-msg5": "Veuillez augmenter lentement l'angle de vos bras"
+        },
+        "select": {
+            "content": "Continuez à mesurer les circonférences ?",
+            "item1": {
+                "content": "Continuez A Mesurer",
+                "remarks": "Nous allons mesurer les circonférences"
+            },
+            "item2": {
+                "content": "Igoner Cet Elément",
+                "remarks": "Ignorer cet élément pour conculter les résultats de la mesure des circonférences"
+            }
+        }
+    },
+    "shoulder": {
+        "jian-bu-gong-neng-ce-liang": "@.lower:item-select.jian-bu-gong-neng-ce-liang",
+        "jian-bu-gong-neng": "@.lower:item-select.jian-bu-gong-neng",
+        "countdown": {
+            "bottom-msg": "@:shape.scan.bottom-msg1",
+            "bottom-msg1": "Veuillez vous tenir debout naturellement, et restez immobile pendant 2s"
+        },
+        "success": {
+            "title": "@:shape.result.bottom-msg-title",
+            "item1": "Abduction Et Levée Mains",
+            "item2": "Antéflexion Et Levée Mains"
+        },
+        "bottom-tips1": "Veuillez faire face à l'écran et vous tenir debout naturellement",
+        "bottom-tips2": "Redressez la main gauche vers la gauche, dépliez-la lentement et élevez-la au point le plus haut",
+        "bottom-tips3": "Redressez la main droite vers la droite, dépliez-la lentement et élevez-la au point le plus haut",
+        "bottom-tips4": "Redressez la main gauche vers l'avant, avec le centre de la paume vers l'intérieur. Puis dépliez-le lentement et élevez-le au point le plus haut",
+        "bottom-tips5": "Redressez la main droite vers l'avant, avec le centre de la paume vers l'intérieur. Puis dépliez-le lentement et élevez-le au point le plus haut",
+        "nav-container1": {
+            "first-title": "Abduction-Gauche",
+            "second-title": "Abduction-Droite"
+        },
+        "nav-container2": {
+            "first-title": "Antéflexion-Gauche",
+            "second-title": "Antéflexion-Droite"
+        }
+    },
+    "check-self": {
+        "she-bei-zi-jian-zhong": "Autocontrôle de l'appareil..."
+    },
+    "recovery": {
+        "she-bei-xiao-zhun-zhong": "Étalonnage de l'appareil, {item} Veuillez patienter…"
+    },
+    "shut-down": {
+        "que-ren-guan-ji": "Confirmer l'arrêt de l'appareil",
+        "guan-ji-ti-shi": "Arrêt...",
+        "guan-ji-ti-shi_desc1": "L'arrêt de l'appareil perdra les tâches en cours，",
+        "guan-ji-ti-shi_desc2": "confirmez-vous l'arrêt ?",
+        "que-ren-guan-ji_touch_desc": "Cliquez ici ou appuyez à nouveau sur le bouton d'alimentation.",
+        "que-ren-guan-ji_key_desc": "Pour continuer l'arrêt, appuyez sur Off",
+        "qu-xiao-guan-ji_touch": "Annuler({0}s)",
+        "qu-xiao-guan-ji_key": "Annulation de l'arrêt dans {0}s",
+        "msg-box-duration": "Fermeture dans {num}s",
+        "msg-box": "L'appareil est en cours d'utilisation. Réessayez plus tard."
+    },
+    "welcome": {
+        "huan-ying-ti-yan": "Bienvenue sur Visbody",
+        "product-name": "Visbody 3D scanner corporel",
+        "product-name-va": "「 Visbody Scanner corporel 3D 」"
+    },
+    "print-list": {
+        "scan-tips":"Numériser pour voir le rapport",
+        "xiang-mu-ti-shi": "Astuces",
+        "ti-wei-ce-liang": "@:common.ti-wei-ce-liang",
+    "ti-tai-ping-gu": "@:common.ti-tai-ping-gu",
+    "jian-bu-gong-neng": "@:common.jian-bu-gong-neng",
+    "ti-zhong-ce-liang":"@:common.ti-zhong-ce-liang",
+        "xin-yong-hu-zhu-ce": "Inscription",
+        "status0": "Chargement",
+        "status1": "Impression",
+        "status2": "Imprimé",
+        "status3": "Impression échouée",
+        "status4": "Inscription en cours",
+        "status5": "",
+        "status6": "Expiration d'inscription",
+        "status7": "Erreur imprimante",
+        "status8": "Expiration d'impression",
+        "status9": "Génération échouée",
+        "status10": "Non imprimé",
+        "status11": "Attente d'impression-{0}",
+        "shang-yi-ye": "Précédent",
+        "xia-yi-ye": "Suivant",
+        "mei-you-da-yin-bao-gao": "+ Aucun Rapport",
+        "msg-box": {
+            "title0": "Voulez-vous réimprimer le rapport ?",
+            "title1": "La réimpression n'est pas disponible pour le moment.",
+            "zhong-xin-da-yin": "Oui",
+            "qu-xiao": "Non",
+            "hao-de": "D'accord ({0}s)"
+        }
+    },
+    "scan-result": {
+        "qrcode": {
+            "loading": "Chargement du Code QR",
+            "load-failed": "Chargement du Code QR Échoué",
+            "title0": "",
+            "title1": "Veuillez Scanner le Code QR",
+            "title2": "",
+            "title3": "@:scan-result.qrcode.title1",
+            "title4": "扫码查看体重测量结果"
+        },
+        "or": "ou",
+        "card": {
+            "get-result": ""
+        },
+        "countdown": "@:common.error.count-down1",
+        "load-down": "Compte  à rebours de chargement de {num}s",
+        "countdown1": "@:common.error.count-down5",
+        "error": {
+            "network": "Erreur réseau, veuillez vérifier la connexion Internet",
+            "api": ""
+        },
+        "result": {
+            "card-title": "",
+            "qrcode-title": "Scanné Avec Succès",
+            "desc": "Veuillez consulter le rapport de mesure sur votre téléphone mobile",
+            "key-select": {
+                "da-yin-bao-gao": "Impression",
+                "da-yin-bao-gao_desc": "Obtenez votre rapport papier",
+                "qu-xiao-da-yin": "Annuler l'impression",
+                "qu-xiao-da-yin_desc": "Annuler l'impression et revenir à la page d'accueil",
+                "ji-xu-da-yin": "Continuer l'impression",
+                "ji-xu-da-yin_desc": "Veuillez vérifier l'état de l'imprimante"
+            },
+            "msg-card": {
+                "new-user": "",
+                "print-added": "Impression, veuillez patienter..."
+            }
+        },
+        "printer-error": {
+            "da-yin-ji-wei-jiu-xu": "L'imprimante n'est pas prête",
+            "da-yin-ji-wei-jiu-xu_desc": "Erreur imprimante.Vérifiez la connexion et assurez-vous qu'elle est allumée.",
+            "print-added": "Le rapport est dans la liste d'impression et sera imprimé lorsque l'imprimante sera prête."
+        }
+    },
+    "get-report": {
+        "sao-miao-shi-jian": "Temps du scan :",
+        "xu-hao": "Mesure <br />N°:",
+        "desc0": "N'oubliez pas votre temps du scan et votre N° de mesure pour recevoir votre rapport de mesure professionnel de la part du personnel.",
+        "desc1": "Erreur réseau. Chargement…"
+    },
+    "update": {
+        "title": {
+            "updating": "Mise à jour",
+            "complete": "Mise A Jour Terminée",
+            "success": "Mise A Jour Réussie",
+            "failed": "Mise A Jour Echouée, Restauration des données",
+            "rolled-back": "Appareil Prêt",
+            "roll-back-failed": "Récupération Appareil Echouée"
+        },
+        "sub-title": "La mise à jour prend environ 5 à 10 minutes",
+        "tips0": "N'éteignez pas votre appareil lors de la mise à jour",
+        "tips1": "L'arrêt forcé peut entraîner une panne de l'appareil",
+        "tips2": "Redémarrage bientôt. La mesure sera prête après le redémarrage",
+        "tips3": "Récupération échouée, veuillez contacter notre SAV !",
+        "tips4": "N'éteignez pas et ne débranchez pas l'appareil pendant la mise à jour."
+    },
+    "device-error": {
+        "title": "Erreur d'appareil",
+        "desc0": "Erreur. Veuillez redémarrer l'appareil. Si le redémarrage n'a pas fonctionné, veuillez contacter le SAV.",
+        "desc1": "Veuillez contacter le service après-vente."
+    },
+    "network-error": {
+        "title": "Erreur Réseau",
+        "desc0": "Veuillez  vérifier la connexion Internet et le routeur ou redémarrer l'appareil. Si le  problème persiste, contactez notre SAV !",
+    "desc1": "Si le redémarrage ne fonctionne pas, veuillez contacter le service après-vente."
+    },
+    "navigation-bar": {
+        "shou-ye": "page d'accueil",
+        "she-zhi": "Paramètres",
+        "zhi-zhang-gui-ge": "Taille du papier",
+        "dong-tai-shi-yan-shi": "@:common.dong-tai-shi-yan-shi",
+        "sheng-yin-she-zhi": "@:setting.index.sheng-yin-she-zhi",
+        "liang-du-she-zhi": "Paramètres de luminosité",
+        "shou-shi-shi-bie": "@:setting.detect.shou-shi-shi-bie",
+        "shou-shi-cao-zuo-yin-dao": "@:setting.detect.shou-shi-cao-zuo-yin-dao",
+        "da-yin-she-zhi": "@:setting.index.da-yin-she-zhi",
+        "wang-luo-zhen-duan": "@:setting.check.wang-luo-zhen-duan",
+        "wang-luo-fen-xi": "@:setting.check.wang-luo-fen-xi",
+        "she-bei-jian-ce": "@:setting.index.she-bei-jian-ce",
+        "xiang-mu-xuan-ze": "Sélection de fonction",
+        "xuan-ze-ce-liang-xiang-mu": "Choisir l'Element de Mesure",
+        "qing-an-tu-shi-dong-zuo-jin-ru-ce-liang-xiang-mu": "Sélectionner des éléments",
+        "qing-zuo-hao-yi-xia-zhun-bei": "",
+        "shi-fou-ji-xu-ce-liang": "@:item-select.shi-fou-ji-xu-ce-liang",
+        "bao-gao-lie-biao": "Liste Rapports",
+        "huo-qu-ce-liang-bao-gao": "Obtenir le Rapport de Mesure",
+        "shen-ti-cheng-fen-ce-liang": "@:item-select.shen-ti-cheng-fen-ce-liang",
+        "shen-ti-cheng-fen-ce-liang-wei-du": "",
+        "shen-ti-cheng-fen": "@:common.shen-ti-cheng-fen",
+        "ti-zhong-ce-liang": "Mesure Poids",
+        "shen-ti-cheng-fen-ce-liang-zhun-bei": "Prêt Composition Corporelle",
+        "ti-tai-ce-liang": "@:shape.result.bottom-msg-item1",
+        "ti-tai-ping-gu": "@:common.ti-tai-ping-gu",
+        "ti-wei-ce-liang": "@:shape.result.bottom-msg-item2",
+        "jian-bu-gong-neng": "@:item-select.jian-bu-gong-neng",
+        "jian-bu-gong-neng-ce-liang": "@:item-select.jian-bu-gong-neng-ce-liang",
+        "wang-luo-yi-chang-ye": "page erreur réseau",
+        "title1": "Abduction Et Levée Mains",
+        "title2": "Antéflexion Et Levée Mains",
+        "title3": "Démarrage de la mesure...",
+        "title4": "Abduction Et Levée",
+        "title5": "Antéflexion Levée",
+        "title6": "@:item-select.jian-bu-gong-neng-ce-liang",
+        "wang-luo-she-zhi": "Paramètres réseau"
+    },
+    "reset":{
+      "content-title": "Initialisation de l'appareil",
+      "content-tip": ". Veuillez ne pas vous tenir debout ou placer des objets sur la plateforme rotative",
+      "title": "Réinitialisation de l'équipement.",
+      "title-tips": "Réinitialisation du dispositif, veuillez quitter la plateforme tournante."
+    },
+    "renewal":{
+    "wei-jihuo-title": "Activation de l'appareil",
+    "wei-jihuo-content": "Cher utilisateur,<br />Pour activer votre appareil, veuillez suivre ces étapes :",
+    "wei-jihuo-content1": "Accédez à Visbody WellnessHub : {0}",
+    "wei-jihuo-content2": "Effectuez l'inscription et l'activation.",
+    "wei-jihuo-content3": "Redémarrez l’appareil après activation pour commencer.",
+    "wei-jihuo-content4": "Pour toute assistance technique, notre équipe est joignable via :",
+    "wei-jihuo-content5": "WhatsApp : +852 5704 0513",
+    "wei-jihuo-content6": "E-mail : hello@visbody.com",
+    "wei-jihuo-content7": "Merci d’avoir choisi Visbody. Nous vous souhaitons une excellente expérience !",
+    "wei-jihuo-content8": "Pour le guide complet",
+    "ting-ji-title": "Avis d'Arrêt",
+      "ting-ji-content": "Cher utilisateur:<br />Votre appareil 【Édition de base】 a été arrêté depuis le {0}. Actuellement, l'appareil n'est plus utilisable. Veuillez renouveler votre abonnement sur la 【Visbody Centre de Bien-être】（{1}）dès que possible. Une fois le renouvellement réussi, l'appareil recommencera à fonctionner. S'il ne fonctionne pas après le renouvellement, essayez de redémarrer l'appareil!<br />Si vous avez des questions, veuillez contacter le service client officiel de Visbody<br />WhatsApp: +852 5704 0513 <br />Email: hello@visbody.com"
+    },
+  "beauty":{
+    "device-mode": "Mode de mesure",
+    "device-mode-beauty": "Mode Esthétique",
+    "device-mode-standard": "Mode standard",
+    "device-mode-beauty-desc": "Évaluation corporelle pour esthétique et bien-être",
+    "device-mode-standard_des": "Solution d'évaluation corporelle complète adaptée à diverses populations",
+    "device-mode-beauty-desc1": "Veuillez contacter le service commercial pour activer la solution dédiée à l’esthétique et au bien-être."
+  },
+  "touch-disabled": "Erreur de l'écran tactile. Veuillez utiliser les boutons pour opérer.",
+  "wifi": {
+    "title": "Paramètres réseau",
+    "items-title-1": "Wi-Fi",
+    "items-vice-1": "Connecté, sans Internet",
+    "items-title-2": "Réseau filaire",
+    "items-vice-2": "Connecté",
+    "items-vice-3": "Déconnecté",
+    "items-vice-4": "Connexion en cours...",
+    "wifi-off": "Interrupteur Wi-Fi",
+    "search": "Recherche du Wi-Fi…",
+    "error-connect": "Échec de connexion ou réseau indisponible. Veuillez changer de réseau et réessayer.",
+    "loading": "Chargement...",
+    "box-title": "Déconnecter du réseau actuel ?",
+    "box-button-1": "Déconnecter",
+    "box-button-2": "Annulation dans {num} s",
+    "qr-title-1": "Configuration Wi-Fi :",
+    "qr-title-2": "1. Scannez le QR code ci-dessous avec votre mobile, saisissez les informations Wi-Fi, puis générez un QR code Wi-Fi.",
+    "qr-title-3": "2. Placez le QR code Wi-Fi devant la caméra située sous l'écran pour le scanner.2. Placez le QR code Wi-Fi devant la caméra située sous l'écran pour le scanner.",
+    "qr-tips-1": "Veuillez scanner le QR code avec votre mobile.",
+    "qr-tips-2": "Scan réussi. Connexion en cours…",
+    "qr-tips-3": "QR code invalide",
+    "qr-tips-4": "Connexion réussie",
+    "connect-error-0": "Connexion réussie",
+    "connect-error-1": "Délai de connexion dépassé",
+    "connect-error-2": "Mot de passe incorrect",
+    "connect-error-3": "Réseau Wi-Fi hors de portée",
+    "connect-error-4": "Délai d'authentification dépassé ou erreur de protocole",
+    "connect-error-5": "Adaptateur Wi-Fi désactivé",
+    "connect-error-6": "Erreur de configuration du réseau",
+    "connect-error-7": "Impossible d’obtenir l’adresse IP",
+    "connect-error-8": "Échec de l’exécution de la commande de connexion",
+    "connect-error-9": "Échec de la connexion",
+    "tip-waiting": "Verbinden…",
+    "tip-btn-ok": "Compris",
+    "tip-check": "Veuillez saisir le mot de passe",
+    "tip-check-fail": "Mot de passe incorrect, échec de la connexion",
+    "tip-btn-confirm": "Confirmer",
+    "tip-btn-cancel": "Annuler",
+    "tip-btn-disconnected": "Déconnecter"
+  },
+  "click-skip": "Passer Cet Élément",
+  "Athlete":{
+    "tips": "Mode actuel : Pour masse musculaire élevée",
+    "title": "Utilisateurs Ciblés",
+    "title2":"Athlètes",
+    "desc1": "Programme d’Analyse de la Composition Corporelle pour Culturistes Professionnels"
+  }
+}
