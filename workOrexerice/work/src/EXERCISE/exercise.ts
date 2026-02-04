@@ -236,5 +236,22 @@ const handleMuscleGroupChange = (newMuscleGroup: number[]) => {
     }
   }
 
-  
+  if (partsToRemove.length > 0) {
+    formdata.part = formdata.part.filter(muscleId => !partsToRemove.includes(muscleId))
+
+    previousPart.value = [...formdata.part]
+
+    if (formdata.part.length > 0) {
+      fetchMuscleGroupData(formdata.part)
+    } else {
+      muscleGroupList.value = []
+      partMuscleMap.value = new Map()
+    }
+  }
+
+
+}
+
+const fetchMuscleGroupData = (muscle: number[]) => {
+
 }
