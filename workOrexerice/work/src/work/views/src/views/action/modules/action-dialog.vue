@@ -277,6 +277,7 @@
                             multiple
                             clearable
                             :disabled="dialogType === 'view'"
+                            @change="handleMuscleGroupChange"
                         >
                             <ElOption
                                 v-for="muscle in muscleGroupList"
@@ -1064,6 +1065,53 @@
 
         // 更新之前选中的训练部位记录
         previousPart.value = [...newPart]
+    }
+
+    // 处理训练肌群选择变化
+    const handleMuscleGroupChange = (newMuscleGroup: number[]) => {
+        // 当训练肌群被清空时，同时清空训练部位
+        if (!newMuscleGroup || newMuscleGroup.length === 0) {
+            formData.part = []
+            muscleGroupList.value = []
+            partMuscleMap.value = new Map()
+            previousPart.value = []
+            return
+        }
+
+        // 检查每个训练部位对应的肌群是否都已被取消选择
+        const partsToRemove: any[] = []
+
+        for (const partId of formData.part) {
+            // 获取该训练部位对应的所有肌群ID
+            const muscleIds = partMuscleMap.value.get(partId)
+
+            if (muscleIds && muscleIds.length > 0) {
+                // 检查该部位对应的所有肌群是否都不在新的选择列表中
+                const hasAnyMuscleSelected = muscleIds.some(muscleId => newMuscleGroup.includes(muscleId))
+
+                // 如果该部位对应的所有肌群都已被取消选择，则标记该部位为待移除
+                if (!hasAnyMuscleSelected) {
+                    partsToRemove.push(partId)
+                }
+            }
+        }
+
+        // 移除所有对应的训练部位
+        if (partsToRemove.length > 0) {
+            formData.part = formData.part.filter(partId => !partsToRemove.includes(partId))
+
+            // 更新之前选中的训练部位记录
+            previousPart.value = [...formData.part]
+
+            // 如果还有剩余的训练部位，重新获取对应的肌群列表
+            if (formData.part.length > 0) {
+                fetchMuscleGroupData(formData.part)
+            } else {
+                // 如果没有剩余的训练部位，清空相关数据
+                muscleGroupList.value = []
+                partMuscleMap.value = new Map()
+            }
+        }
     }
 
     // 表单初始数据
