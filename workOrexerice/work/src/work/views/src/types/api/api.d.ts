@@ -255,6 +255,8 @@ declare namespace Api {
             username: string
             /** 密码 */
             password: string
+            /** 未加密密码 */
+            plainPassword: string | null
             /** 统一ID */
             unionId: string
             /** 手机号 */
