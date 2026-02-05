@@ -19,6 +19,7 @@
                         type="password"
                         readonly
                         show-password
+                        style="width: 250px"
                     />
                     <ElButton type="primary" link class="ml-4 shrink-0" @click="showPasswordDialog = true">
                         修改密码
