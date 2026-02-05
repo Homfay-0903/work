@@ -13,7 +13,13 @@
                     show-password
                 />
                 <div v-else class="flex items-center">
-                    <ElInput v-model="formData.password" placeholder="********" type="password" disabled />
+                    <ElInput
+                        v-model="formData.password"
+                        placeholder="该用户为钉钉登录，无密码"
+                        type="password"
+                        readonly
+                        show-password
+                    />
                     <ElButton type="primary" link class="ml-4 shrink-0" @click="showPasswordDialog = true">
                         修改密码
                     </ElButton>
@@ -204,7 +210,7 @@
 
         Object.assign(formData, {
             username: isEdit && row ? row.username || '' : '',
-            password: isEdit && row ? '' : '',
+            password: isEdit && row ? row.plainPassword || '' : '',
             confirmPassword: isEdit && row ? '' : '',
             //nickname: isEdit && row ? row.nickname || '' : '',
             //mobile: isEdit && row ? row.mobile || '' : '',
