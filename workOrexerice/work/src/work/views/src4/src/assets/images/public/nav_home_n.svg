@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="18px" viewBox="0 0 16 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch Beta 51 (57336) - http://www.bohemiancoding.com/sketch -->
+    <title>nav_home_n</title>
+    <desc>Created with Sketch Beta.</desc>
+    <defs></defs>
+    <g id="API对接" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="API对接解绑" transform="translate(-29.000000, -154.000000)">
+            <rect fill="#F5F6FA" x="0" y="0" width="1400" height="888"></rect>
+            <g id="首页导航1" fill="#000" fill-rule="nonzero">
+                <g id="导航">
+                    <g id="Polygon" transform="translate(29.000000, 154.000000)">
+                        <path d="M2,7.34640649 L2,15.2819857 L4.5866255,15.2819857 L4.5866255,10.8781114 L10.8798882,10.8781114 L10.8798882,15.2819857 L13.3147912,15.2819857 L13.3147912,7.34640649 L7.65739561,3.23606798 L2,7.34640649 Z M6.5866255,17.2819857 L0,17.2819857 L0,6.32735559 L7.65739561,0.763932023 L15.3147912,6.32735559 L15.3147912,17.2819857 L8.87988816,17.2819857 L8.87988816,12.8781114 L6.5866255,12.8781114 L6.5866255,17.2819857 Z" id="nav_home_n"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

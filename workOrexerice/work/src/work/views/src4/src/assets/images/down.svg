@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="10px" height="6px" viewBox="0 0 10 6" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>xia</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="98.6308195%" x2="50%" y2="-1.91686944e-14%" id="linearGradient-1">
+            <stop stop-color="#FACE5A" offset="0%"></stop>
+            <stop stop-color="#F76E1E" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="第一页-copy" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-440.000000, -475.000000)">
+        <g id="围度信息" transform="translate(71.000000, 213.000000)" fill="url(#linearGradient-1)" fill-rule="nonzero">
+            <g id="Repeat-Group" transform="translate(369.000000, 193.000000)">
+                <polygon id="xia" transform="translate(5.000000, 72.000000) scale(1, -1) translate(-5.000000, -72.000000) " points="10 75 0 75 5 69"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

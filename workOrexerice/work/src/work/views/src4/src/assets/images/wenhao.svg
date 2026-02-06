@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="10px" height="10px" viewBox="0 0 10 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>question-fill备份</title>
+    <g id="帐号设置" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="体成分修改设置" transform="translate(-1026, -480)" fill="#AEAEB2" fill-rule="nonzero">
+            <g id="编组-3" transform="translate(777, 364)">
+                <g id="question-fill备份" transform="translate(249, 116)">
+                    <path d="M5,10 C2.238575,10 0,7.7614 0,5 C0,2.238575 2.238575,0 5,0 C7.7614,0 10,2.238575 10,5 C10,7.7614 7.7614,10 5,10 Z M4.5,6.5 L4.5,7.5 L5.5,7.5 L5.5,6.5 L4.5,6.5 Z M5.5,5.67755 C6.22285,5.4624 6.75,4.79275 6.75,4 C6.75,3.0335 5.9665,2.25 5,2.25 C4.151,2.25 3.443185,2.854595 3.283655,3.65673 L4.2644,3.852885 C4.3328,3.509115 4.63615,3.25 5,3.25 C5.4142,3.25 5.75,3.585785 5.75,4 C5.75,4.4142 5.4142,4.75 5,4.75 C4.72385,4.75 4.5,4.97385 4.5,5.25 L4.5,6 L5.5,6 L5.5,5.67755 Z" id="形状"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
