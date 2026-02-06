@@ -135,11 +135,23 @@
                             </td>
                             <!-- 低 | 标准 | 高 -->
                             <td>
-                                <div class="progress-container" v-if="girth.rangeStatus">
-                                    <div class="progress-bar">
-                                        <div class="progress-segment low" :style="{ width: girth.rangeStatus.low + '%' }"></div>
-                                        <div class="progress-segment standard" :style="{ width: girth.rangeStatus.standard + '%' }"></div>
-                                        <div class="progress-segment high" :style="{ width: girth.rangeStatus.high + '%' }"></div>
+                                <div v-if="girth.rangeStatus" class="range-container">
+                                    <div class="segment-bar-with-values">
+                                        <div class="segment-wrapper">
+                                            <div class="segment" :class="{ 'filled': girth.currentLevel >= 1, 'yellow': true }"></div>
+                                        </div>
+                                        <div class="segment-gap">
+                                            <span class="gap-value">{{ girth.rangeValues.low }}</span>
+                                        </div>
+                                        <div class="segment-wrapper">
+                                            <div class="segment" :class="{ 'filled': girth.currentLevel >= 2, 'blue': true }"></div>
+                                        </div>
+                                        <div class="segment-gap">
+                                            <span class="gap-value">{{ girth.rangeValues.high }}</span>
+                                        </div>
+                                        <div class="segment-wrapper">
+                                            <div class="segment" :class="{ 'filled': girth.currentLevel >= 3, 'red': true }"></div>
+                                        </div>
                                     </div>
                                 </div>
                                 <span v-else class="val noval">--</span>
@@ -182,7 +194,7 @@ export default {
             default: false
         },
         // 麦兰德模式
-        healthPackageEnable: Number,
+        healthPackageEnable: Number
     },
     data() {
         return {
@@ -205,7 +217,7 @@ export default {
                 isScanFailed: false,
                 imgNum: 0,
                 // 是否是首次测量
-                isFirstScan: 1,
+                isFirstScan: 1
             },
             girthTpl: [
                 {
@@ -288,7 +300,7 @@ export default {
         // this.unit = window.localStorage.getItem('unit')
         // BDA成功 获取围度信息
         if (this.reportInfo.bdaStatus === 1) {
-            this.getGirthSideViewImg(this.reportInfo.scanId).then((data) => {
+            this.getGirthSideViewImg(this.reportInfo.scanId).then(data => {
                 // 正視圖
                 const file = data.find((model, index, arr) => {
                     return model.fileType.id === 18
@@ -323,7 +335,7 @@ export default {
             this.bmGirthContrastInfo()
         } else {
             this.girthImgs.isScanFailed = true
-            this.girthTpl.forEach((girth) => {
+            this.girthTpl.forEach(girth => {
                 const item = {
                     ...girth,
                     val: '',
@@ -331,18 +343,18 @@ export default {
                     diff: '',
                     abovePopulation: '',
                     abovePopulationRate: '',
-                    rangeStatus: null
+                    rangeStatus: null,
+                    currentLevel: 0,
+                    rangeValues: {
+                        low: '',
+                        high: ''
+                    }
                 }
                 this.girthData.push(item)
             })
             if (this.healthPackageEnable === 2) {
-                const keysToRemove = [
-                    'neckGirth',
-                    'waistGirth',
-                    'midWaistGirth',
-                    'lowWaistGirth',
-                ]
-                this.girthTpl = this.girthTpl.filter((item) => !keysToRemove.includes(item))
+                const keysToRemove = ['neckGirth', 'waistGirth', 'midWaistGirth', 'lowWaistGirth']
+                this.girthTpl = this.girthTpl.filter(item => !keysToRemove.includes(item))
             }
         }
     },
@@ -358,14 +370,14 @@ export default {
         async getGirthSideViewImg(scanId) {
             return new Promise((ok, no) => {
                 const userinfo = {
-                    scanId,
+                    scanId
                 }
                 this.$apollo
                     .query({
                         query: bmScanFileInfos,
-                        variables: userinfo,
+                        variables: userinfo
                     })
-                    .then((res) => {
+                    .then(res => {
                         const data = res.data.bmScanFileInfos
                         if (data && data.code === 200) {
                             // const file = data.data.find((model, index, arr) => {
@@ -380,7 +392,7 @@ export default {
                             }
                         }
                     })
-                    .catch((err) => {
+                    .catch(err => {
                         console.log(err)
                         no(err)
                         return
@@ -448,8 +460,7 @@ export default {
                             delete this.bodypoints.dataStatus
                         }
                         // console.log(this.bodypoints , '>>>>???')
-                    }
-                    else {
+                    } else {
                         this.bodypoints1 = JSON.parse(JSON.stringify(info.data))
                         // console.log(this.bodypoints , '>>>>???')
                         let keysToRemove = [
@@ -508,14 +519,14 @@ export default {
             const userInfo = {
                 memberId: this.reportInfo.memberId,
                 scanId: this.reportInfo.scanId,
-                scanTime: this.reportInfo.scanTime,
+                scanTime: this.reportInfo.scanTime
             }
             await this.$apollo
                 .query({
                     query: bmGirthContrastInfo,
-                    variables: userInfo,
+                    variables: userInfo
                 })
-                .then((res) => {
+                .then(res => {
                     const info = res.data.bmGirthContrastInfo
                     const girthData = info.data
                     if (info.code === 200 && girthData.length !== 0) {
@@ -524,7 +535,7 @@ export default {
                         this.girthImgs.isGetData = true
                         // 获取上一次围度图片
                         if (girthData[1] && girthData[1]['scanId']) {
-                            this.getGirthSideViewImg(girthData[1]['scanId']).then((data) => {
+                            this.getGirthSideViewImg(girthData[1]['scanId']).then(data => {
                                 this.girthImgs.isGetLastImg = true
                                 // 正视图
                                 const file = data.find((model, index, arr) => {
@@ -533,7 +544,12 @@ export default {
                                 if (file) {
                                     this.girthImgs.isGetNowImg = true
                                     this.girthImgs.last = file.filePath
-                                    if (this.healthPackageEnable === 2 || this.isVAPro7() || this.deviceVApro6 || this.deviceVALit6) {
+                                    if (
+                                        this.healthPackageEnable === 2 ||
+                                        this.isVAPro7() ||
+                                        this.deviceVApro6 ||
+                                        this.deviceVALit6
+                                    ) {
                                         this.bmBdaPointInfos(girthData[1]['scanId'], 2)
                                         setTimeout(() => {
                                             this.drawImage(this.girthImgs.last, 'lastcanvas')
@@ -560,7 +576,7 @@ export default {
                         } else {
                             this.getTxt = '无历史数据'
                         }
-                        this.girthTpl.forEach((girth) => {
+                        this.girthTpl.forEach(girth => {
                             const item = { ...girth }
                             // 测量值
                             item.val = this.toDecimal(girthData[0][girth.key], 1)
@@ -568,16 +584,10 @@ export default {
                             if (girthData[1] && girthData[1][girth.key]) {
                                 item.last = this.toDecimal(girthData[1][girth.key], 1)
                                 if (this.unit === 'metric') {
-                                    const diff = _contrastVal(
-                                        girthData[0][girth.key],
-                                        girthData[1][girth.key]
-                                    )
+                                    const diff = _contrastVal(girthData[0][girth.key], girthData[1][girth.key])
                                     item.diff = diff
                                 } else {
-                                    const diff = _contrastVal(
-                                        girthData[0][girth.key],
-                                        girthData[1][girth.key]
-                                    )
+                                    const diff = _contrastVal(girthData[0][girth.key], girthData[1][girth.key])
                                     item.diff = diff
                                 }
                                 if (girthData[0][girth.key] <= 0 || girthData[1][girth.key] <= 0) {
@@ -591,15 +601,23 @@ export default {
                             // 添加mock数据
                             item.abovePopulation = '+' + (Math.random() * 2).toFixed(1)
                             item.abovePopulationRate = Math.floor(Math.random() * 100) + '%'
-                            // 随机生成三段式进度条数据
-                            const total = 100
-                            const standard = Math.floor(Math.random() * 40) + 30 // 标准范围30-70%
-                            const low = Math.floor(Math.random() * (total - standard))
-                            const high = total - standard - low
+
+                            // 随机生成当前等级 (1-低, 2-标准, 3-高)
+                            item.currentLevel = Math.floor(Math.random() * 3) + 1
+
+                            // 随机生成范围值
+                            const lowValue = (Math.random() * 30 + 20).toFixed(1)
+                            const highValue = (Math.random() * 30 + 70).toFixed(1)
+                            item.rangeValues = {
+                                low: lowValue,
+                                high: highValue
+                            }
+
+                            // 保留rangeStatus用于兼容性
                             item.rangeStatus = {
-                                low,
-                                standard,
-                                high
+                                low: 33,
+                                standard: 34,
+                                high: 33
                             }
                             if (item.key === 'lowWaistGirth' && item.val === '0.0') {
                                 return
@@ -610,18 +628,12 @@ export default {
                     console.log(this.healthPackageEnable, 'this.healthPackageEnable')
                     if (this.healthPackageEnable === 2) {
                         console.log('this.healthPackageEnable === 2')
-                        const keysToRemove = [
-                            'neckGirth',
-                            'waistGirth',
-                            'midWaistGirth',
-                            'lowWaistGirth',
-                        ]
-                        this.girthData = this.girthData.filter((item) => !keysToRemove.includes(item.key))
+                        const keysToRemove = ['neckGirth', 'waistGirth', 'midWaistGirth', 'lowWaistGirth']
+                        this.girthData = this.girthData.filter(item => !keysToRemove.includes(item.key))
                         console.log(this.girthData, 'this.girthData')
                     }
-
                 })
-                .catch((err) => {
+                .catch(err => {
                     console.log(err)
                 })
         },
@@ -630,17 +642,11 @@ export default {
             console.log(this.girthImgs)
             this.girthImgs.imgNum++
             // 本次已失败 或 只有首次测量
-            if (
-                this.girthImgs.imgNum === 1 &&
-                (this.girthImgs.isScanFailed || this.girthImgs.isFirstScan)
-            ) {
+            if (this.girthImgs.imgNum === 1 && (this.girthImgs.isScanFailed || this.girthImgs.isFirstScan)) {
                 console.log('GIRTH_IMG_OVER')
                 this.loadModuleOver()
                 // 已获取到上次图片 或 非首次
-            } else if (
-                this.girthImgs.imgNum === 2 &&
-                (this.girthImgs.isGetLastImg || !this.girthImgs.isFirstScan)
-            ) {
+            } else if (this.girthImgs.imgNum === 2 && (this.girthImgs.isGetLastImg || !this.girthImgs.isFirstScan)) {
                 console.log('GIRTH_IMG_OVER')
                 this.loadModuleOver()
             }
@@ -677,7 +683,13 @@ export default {
             // const scaleFactor = 0.38;
             img.onload = () => {
                 // 将图片绘制到canvas上
-                console.log('>>>>>图片《《《《《', img.width, canvas.width, canvas.width / img.width, img.width * (canvas.width / img.width))
+                console.log(
+                    '>>>>>图片《《《《《',
+                    img.width,
+                    canvas.width,
+                    canvas.width / img.width,
+                    img.width * (canvas.width / img.width)
+                )
                 const scaleFactor = parseFloat((canvas.width / img.width).toFixed(2))
                 ctx.drawImage(img, 0, 0, 154, img.height * scaleFactor)
                 const bodypoints = name === 'nowcanvas' ? this.bodypoints : this.bodypoints1
@@ -725,7 +737,10 @@ export default {
                         console.log(`部位: ${part}`)
                         const { start, end } = bodypoints[part]
                         // 定义点的坐标和颜色
-                        const points = [{ x: start.x * scaleFactor, y: start.y * scaleFactor }, { x: end.x * scaleFactor, y: end.y * scaleFactor }]
+                        const points = [
+                            { x: start.x * scaleFactor, y: start.y * scaleFactor },
+                            { x: end.x * scaleFactor, y: end.y * scaleFactor }
+                        ]
 
                         // 在图片上打点
                         points.forEach(point => {
@@ -751,10 +766,9 @@ export default {
                         ctx.closePath()
                     }
                 }
-
             }
         }
-    },
+    }
 }
 </script>
 <style lang="less">
@@ -823,7 +837,7 @@ export default {
                 height: 24px;
                 line-height: 35px;
                 font-size: 12px;
-                font-family: "OPPOSans M", "Noto Kufi Arabic SemiBold";
+                font-family: 'OPPOSans M', 'Noto Kufi Arabic SemiBold';
                 font-weight: normal;
                 color: #666666;
                 border: none;
@@ -834,7 +848,7 @@ export default {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: url("../../assets/images/girth.svg") no-repeat;
+            background: url('../../assets/images/girth.svg') no-repeat;
             background-size: 100% 100%;
             width: 100%;
             height: 315px;
@@ -974,8 +988,7 @@ export default {
 
                         text-align: left;
                         font-size: 15px;
-                        font-family: OPPOSans M,
-                        OPPOSans;
+                        font-family: OPPOSans M, OPPOSans;
                         font-weight: 500;
                         color: #333333;
                         line-height: 20px;
@@ -998,64 +1011,94 @@ export default {
         }
     }
 }
-.noval{
+.noval {
     margin-left: 24px;
 }
 
 /* 三段式进度条样式 */
-.progress-container {
+.range-container {
     width: 100%;
-    padding: 0 10px;
-}
-
-.progress-bar {
+    padding: 0 8px;
+    box-sizing: border-box;
     display: flex;
-    height: 8px;
-    background-color: #e0e0e0;
-    border-radius: 4px;
-    overflow: hidden;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-.progress-segment {
-    height: 100%;
+.segment-bar-with-values {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
     position: relative;
 }
 
-.progress-segment.low {
-    background-color: #ffc107;
+.segment-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.progress-segment.standard {
-    background-color: #009fe8;
+.segment-gap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2px;
+    margin: 0 1px;
 }
 
-.progress-segment.high {
-    background-color: #dc3545;
+.gap-value {
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 2px;
+    position: relative;
+    top: -20px;
+    white-space: nowrap;
 }
 
-/* 添加段与段之间的间隔 */
-.progress-segment:not(:last-child) {
-    margin-right: 2px;
+.segment {
+    width: 100%;
+    height: 8px;
+    background: #e5e6eb;
+    border-radius: 1px;
+
+    &.filled {
+        &.red {
+            background: #dc3545;
+        }
+
+        &.yellow {
+            background: #ffc107;
+        }
+
+        &.blue {
+            background: #009fe8;
+        }
+    }
 }
 
 /* 调整表格列宽以适应新字段 */
-table th:nth-child(5),
-table th:nth-child(6) {
+.girth-part table th:nth-child(5),
+.girth-part table th:nth-child(6) {
     width: 100px;
+    //text-align: center !important;
 }
 
-table th:nth-child(7) {
-    width: 150px;
+.girth-part table th:nth-child(7) {
+    width: 180px;
+    text-align: center !important;
 }
 
 /* 调整表格内容对齐 */
-table td:nth-child(5),
-table td:nth-child(6) {
+.girth-part table td:nth-child(5),
+.girth-part table td:nth-child(6),
+.girth-part table td:nth-child(7) {
     text-align: center;
 }
 
 /* 调整表格行高以适应进度条 */
 table tbody tr {
-    height: 80px !important;
+    height: 90px !important;
 }
 </style>
