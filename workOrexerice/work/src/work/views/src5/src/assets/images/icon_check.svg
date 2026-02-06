@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Normal</title>
+    <g id="打印报告" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="身体成分报告" transform="translate(-755.000000, -2681.000000)">
+            <g id="调节建议" transform="translate(112.000000, 2592.000000)">
+                <g id="Normal" transform="translate(643.000000, 89.000000)">
+                    <polygon id="Path" points="0 0 30 0 30 30 0 30"></polygon>
+                    <path d="M5,3.75 L25,3.75 C25.6903559,3.75 26.25,4.30964406 26.25,5 L26.25,25 C26.25,25.6903559 25.6903559,26.25 25,26.25 L5,26.25 C4.30964406,26.25 3.75,25.6903559 3.75,25 L3.75,5 C3.75,4.30964406 4.30964406,3.75 5,3.75 Z M13.75375,20 L22.59125,11.16125 L20.82375,9.39375 L13.75375,16.465 L10.2175,12.92875 L8.45,14.69625 L13.75375,20 Z" id="Shape" fill="#009FE8" fill-rule="nonzero"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

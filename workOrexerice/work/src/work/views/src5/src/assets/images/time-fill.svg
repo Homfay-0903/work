@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="13.3333333px" height="13.3333333px" viewBox="0 0 13.3333333 13.3333333" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>time-fill</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="解读报告-3" transform="translate(-491.333333, -67.333333)">
+            <g id="编组-3" transform="translate(490.000000, 63.000000)">
+                <g id="time-fill" transform="translate(0.000000, 3.000000)">
+                    <polygon id="路径" points="0 0 16 0 16 16 0 16"></polygon>
+                    <path d="M8,14.6666667 C4.318,14.6666667 1.33333333,11.682 1.33333333,8 C1.33333333,4.318 4.318,1.33333333 8,1.33333333 C11.682,1.33333333 14.6666667,4.318 14.6666667,8 C14.6666667,11.682 11.682,14.6666667 8,14.6666667 Z M8.66666667,8 L8.66666667,4.66666667 L7.33333333,4.66666667 L7.33333333,9.33333333 L11.3333333,9.33333333 L11.3333333,8 L8.66666667,8 Z" id="形状" fill="#666666" fill-rule="nonzero"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
