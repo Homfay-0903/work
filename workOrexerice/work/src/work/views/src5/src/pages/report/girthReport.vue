@@ -135,23 +135,29 @@
                             </td>
                             <!-- 低 | 标准 | 高 -->
                             <td>
-                                <div v-if="girth.rangeStatus" class="range-container">
-                                    <div class="segment-bar-with-values">
-                                        <div class="segment-wrapper">
-                                            <div class="segment" :class="{ 'filled': girth.currentLevel >= 1, 'yellow': true }"></div>
-                                        </div>
-                                        <div class="segment-gap">
-                                            <span class="gap-value">{{ girth.rangeValues.low }}</span>
-                                        </div>
-                                        <div class="segment-wrapper">
-                                            <div class="segment" :class="{ 'filled': girth.currentLevel >= 2, 'blue': true }"></div>
-                                        </div>
-                                        <div class="segment-gap">
-                                            <span class="gap-value">{{ girth.rangeValues.high }}</span>
-                                        </div>
-                                        <div class="segment-wrapper">
-                                            <div class="segment" :class="{ 'filled': girth.currentLevel >= 3, 'red': true }"></div>
-                                        </div>
+                                <div v-if="girth.rangeStatus" class="range-slider-container">
+                                    <!-- 刻度数值 (上浮) -->
+                                    <div class="tick-labels">
+                                      <div class="tick-label" style="left: 33%">{{ girth.rangeValues.low }}</div>
+                                      <div class="tick-label" style="left: 66%">{{ girth.rangeValues.high }}</div>
+                                    </div>
+
+                                    <!-- 进度条主体 -->
+                                    <div class="range-track">
+                                      <!-- 背景分段层 (3段) -->
+                                      <div class="track-bg-layer">
+                                        <div class="bg-segment"></div>
+                                        <div class="bg-gap"></div>
+                                        <div class="bg-segment"></div>
+                                        <div class="bg-gap"></div>
+                                        <div class="bg-segment"></div>
+                                      </div>
+
+                                      <!-- 实际值进度条 (悬浮在背景层之上) -->
+                                      <div class="active-track" :class="girth.statusColor" :style="{ width: girth.percentage + '%' }"></div>
+
+                                      <!-- 指示圆圈 -->
+                                      <div class="indicator-dot" :class="girth.statusColor" :style="{ left: girth.percentage + '%' }"></div>
                                     </div>
                                 </div>
                                 <span v-else class="val noval">--</span>
@@ -605,6 +611,24 @@ export default {
                             // 随机生成当前等级 (1-低, 2-标准, 3-高)
                             item.currentLevel = Math.floor(Math.random() * 3) + 1
 
+                            // 根据当前等级生成statusColor
+                            switch (item.currentLevel) {
+                                case 1:
+                                    item.statusColor = 'yellow'
+                                    break
+                                case 2:
+                                    item.statusColor = 'blue'
+                                    break
+                                case 3:
+                                    item.statusColor = 'red'
+                                    break
+                                default:
+                                    item.statusColor = 'blue'
+                            }
+
+                            // 计算percentage (根据当前等级生成对应的百分比)
+                            item.percentage = item.currentLevel * 33
+
                             // 随机生成范围值
                             const lowValue = (Math.random() * 30 + 20).toFixed(1)
                             const highValue = (Math.random() * 30 + 70).toFixed(1)
@@ -1015,65 +1039,105 @@ export default {
     margin-left: 24px;
 }
 
-/* 三段式进度条样式 */
-.range-container {
-    width: 100%;
-    padding: 0 8px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.segment-bar-with-values {
-    display: flex;
-    align-items: flex-start;
-    width: 100%;
-    position: relative;
-}
-
-.segment-wrapper {
+.range-slider-container {
     flex: 1;
+    position: relative;
     display: flex;
     flex-direction: column;
-    align-items: center;
-}
-
-.segment-gap {
-    display: flex;
-    align-items: center;
     justify-content: center;
-    width: 2px;
-    margin: 0 1px;
-}
+    padding: 0 10px; // 防止圆圈在0%或100%时被截断
 
-.gap-value {
-    font-size: 12px;
-    color: #999;
-    margin-bottom: 2px;
-    position: relative;
-    top: -20px;
-    white-space: nowrap;
-}
+    // 1. 顶部的数值
+    .tick-labels {
+        position: relative;
+        height: 20px;
+        margin-bottom: 4px;
 
-.segment {
-    width: 100%;
-    height: 8px;
-    background: #e5e6eb;
-    border-radius: 1px;
+        .tick-label {
+            position: absolute;
+            top: 0;
+            transform: translateX(-50%);
+            font-size: 10px;
+            color: #86909c; // @text-sub
+            font-family: 'Inter';
+        }
+    }
 
-    &.filled {
-        &.red {
-            background: #dc3545;
+    // 2. 进度条轨道区
+    .range-track {
+        position: relative;
+        height: 3px; // 加粗轨道
+        width: 100%;
+        margin-bottom: 8px;
+
+        // 背景分段层
+        .track-bg-layer {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            //gap: 6px; // 关键：控制断点间隙大小
+
+            .bg-segment {
+                flex: 1;
+                background-color: #dedede; // 浅灰背景
+                border-radius: 2px; // 轻微圆角
+            }
+            .bg-gap {
+                flex: 0 0 3px; // 关键：控制断点间隙大小
+                background-color: #ffffff; // 白色间隙
+                z-index: 2;
+            }
         }
 
-        &.yellow {
-            background: #ffc107;
+        // 有色进度条
+        .active-track {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            border-radius: 2px;
+            z-index: 1; // 位于背景之上
+
+            &.red {
+                background: #dc3545;
+            }
+            &.yellow {
+                background: #ffc107;
+            }
+            &.blue {
+                background: #009fe8;
+            }
+            &.green {
+                background: #28a745;
+            }
         }
 
-        &.blue {
-            background: #009fe8;
+        // 指示圆圈
+        .indicator-dot {
+            width: 6px; // 稍微加大
+            height: 6px;
+            background: #fff;
+            border: 3px solid; // 加粗边框
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.1); // 增加一点立体感
+
+            &.red {
+                border-color: #dc3545;
+            }
+            &.yellow {
+                border-color: #ffc107;
+            }
+            &.blue {
+                border-color: #009fe8;
+            }
+
+            &.green {
+                border-color: #28a745;
+            }
         }
     }
 }
