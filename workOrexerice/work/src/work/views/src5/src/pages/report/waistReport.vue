@@ -1,7 +1,11 @@
 <template>
     <div class="waist-main">
-        <p class="score">腰部 | {{ waistroundness[0].value }}分<span v-if="!isNewUser" class="duibi">与上次得分对比 <span
-                    class="duinum">{{ scorecha }}</span></span></p>
+        <div class="score-container">
+            <div class="score-left">腰部 | {{ waistroundness[0].value }}分<span v-if="!isNewUser" class="duibi">与上次得分对比 <span
+                        class="duinum">{{ scorecha }}</span></span></div>
+            <div class="score-right">超越人群比例 | {{ waistPercentile }}%<span v-if="!isNewUser" class="duibi">与上次比例对比 <span
+                        class="duinum">{{ percentileDiff }}</span></span></div>
+        </div>
         <div v-if="dataStatus === 1" class="waist-item1">
             <div style="display: flex;flex-direction: row;">
                 <div class="waist-left" style="width: 426px;height: 524px;">
@@ -498,11 +502,17 @@ export default {
             bodypoints: {},
             bodypoints1: {},
             dataStatus: 0,   // 0 mld旧算法  1 mld4.5期新算法
+            waistPercentile: 0, // 超越人群比例
+            lastWaistPercentile: 0 // 上次超越人群比例
         }
     },
     computed: {
         scorecha() {
             const diff = this.waistroundness[0].value - this.waistroundness[0].lastvalue
+            return diff > 0 ? '+' + diff : diff
+        },
+        percentileDiff() {
+            const diff = this.waistPercentile - this.lastWaistPercentile
             return diff > 0 ? '+' + diff : diff
         }
     },
@@ -597,6 +607,9 @@ export default {
                 console.log('==================111')
                 const arr1 = [{ 'lastvalue': '', 'value': data.latestBmWaist.waistScore, unit: '分' }]
                 this.waistroundness = arr1
+                // 超越人群比例 - 新用户
+                this.waistPercentile = data.latestBmWaist.waistPercentile || 0
+                this.lastWaistPercentile = 0
                 this.waistarr1 = Array.from({ length: 7 }, (_, index) => ({
                     title: `腰围${index + 1}`,
                     lastvalue: '',
@@ -631,6 +644,9 @@ export default {
                 console.log('==================111===111')
                 console.log('>>>abc', data)
                 this.waistroundness = [{ 'lastvalue': data.contrastBmWaist.waistScore, 'value': data.latestBmWaist.waistScore, unit: '分' }]
+                // 超越人群比例 - 老用户
+                this.waistPercentile = data.latestBmWaist.waistPercentile || 0
+                this.lastWaistPercentile = data.contrastBmWaist.waistPercentile || 0
                 this.waistarr1 = Array.from({ length: 7 }, (_, index) => ({
                     title: `腰围${index + 1}`,
                     lastvalue: data.contrastBmWaist[`waistGirth${index + 1}`],
@@ -731,6 +747,9 @@ export default {
                 this.isNewUser = true
                 // 腰部
                 this.waistroundness = [{ 'lastvalue': '', 'value': latestBmWaist.waistScore, unit: '分' }]
+                // 超越人群比例 - 新用户
+                this.waistPercentile = latestBmWaist.waistPercentile || 0
+                this.lastWaistPercentile = 0
 
                 // 围度取值 [1, 3, 5, 7, 9, 11]
                 this.waistarr1 = []
@@ -788,6 +807,9 @@ export default {
                 this.waistarr1 = []
                 this.waistcanvas = []
                 this.waistroundness = [{ 'lastvalue': data.contrastBmWaist.waistScore, 'value': data.latestBmWaist.waistScore, unit: '分' }]
+                // 超越人群比例 - 老用户
+                this.waistPercentile = data.latestBmWaist.waistPercentile || 0
+                this.lastWaistPercentile = data.contrastBmWaist.waistPercentile || 0
                 // 前六组 difference字段排序（从大到小）取前三
                 const firstSix = this.roundness.slice(0, 5)
                     .map((item, index) => ({ index, difference: item.difference }))
@@ -1094,6 +1116,31 @@ export default {
         text-align: left;
         font-style: normal;
         margin: 10px 0;
+    }
+
+    .score-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: OPPOSans M;
+        font-weight: 500;
+        font-size: 24px;
+        color: #333333;
+        line-height: 32px;
+        font-style: normal;
+        margin: 10px 0;
+        border-bottom: 1px solid rgba(151, 151, 151, 0.3);
+        padding-bottom: 10px;
+
+        .score-left {
+            flex: 1;
+            text-align: left;
+        }
+
+        .score-right {
+            flex: 1;
+            text-align: right;
+        }
     }
 
     .score {
@@ -1759,4 +1806,19 @@ export default {
         font-style: normal;
     }
 }
+@media screen and (max-width: 768px) {
+    .waist-main {
+        .score-container {
+            flex-direction: column;
+            align-items: flex-start;
+            line-height: 30px;
+
+            .score-right {
+                text-align: left;
+                margin-top: 5px;
+            }
+        }
+    }
+}
+
 </style>
