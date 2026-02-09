@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="96px" height="96px" viewBox="0 0 96 96" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Report</title>
+    <g id="Report" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <polygon id="Path" points="0 0 96 0 96 96 0 96"></polygon>
+        <g id="article-line备份">
+            <polygon id="路径" points="0 0 96 0 96 96 0 96"></polygon>
+            <path d="M71,22 L71,67 L78,67 L78,15 L32,15 L31.9993333,22 L71,22 Z M64,29 L18,29 L18,81 L64,81 L64,29 Z M57,67 L57,74 L25,74 L25,67 L57,67 Z M57,53 L57,60 L25,60 L25,53 L57,53 Z M35,36 L35,46 L25,46 L25,36 L35,36 Z M57,38 L57,45 L42,45 L42,38 L57,38 Z M25,8 L85,8 L85,74 L71,74 L71,88 L11,88 L11,22 L24.9993333,22 L25,8 Z" id="形状结合" fill="#E7E9F0"></path>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>编组 5</title>
+    <g id="查看报告" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="综合报告页-点击批注-画笔" transform="translate(-890, -144)">
+            <g id="编组-5" transform="translate(890, 144)">
+                <rect id="矩形" x="0" y="0" width="48" height="48"></rect>
+                <path d="M28.627417,6 L41.3553391,18.7279221 L20.082,40 L17.372,40 L6,28.627417 L28.627417,6 Z M19.4350288,19.4350288 L10.2426407,28.627417 L18.7279221,37.1126984 L27.9203102,27.9203102 L19.4350288,19.4350288 Z" id="形状结合" fill="#75A6FC"></path>
+                <rect id="矩形" fill="#75A6FC" x="19" y="37" width="21" height="3"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

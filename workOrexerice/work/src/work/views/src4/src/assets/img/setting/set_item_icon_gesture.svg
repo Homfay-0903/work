@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="72px" height="72px" viewBox="0 0 72 72" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Set-Gesture</title>
+    <g id="设置" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Set-Gesture">
+            <rect id="矩形" x="0" y="0" width="72" height="72"></rect>
+            <path d="M50,66 L50,60 L60,60 L60,50 L66,50 L66,66 L50,66 Z M22,6 L22,12 L12,11.999 L12,22 L6,22 L6,6 L22,6 Z" id="形状结合" fill="#104EBB"></path>
+            <path d="M12,50 L12,60 L22,60 L22,66 L6,66 L6,50 L12,50 Z M66,22 L60,22 L60,12 L50,12 L50,6 L66,6 L66,22 Z" id="形状结合" fill="#CEDBF5" fill-rule="nonzero"></path>
+            <circle id="椭圆形" fill="#CEDBF5" fill-rule="nonzero" cx="36" cy="24.5" r="7.5"></circle>
+            <path d="M23,23 C23,30.1797017 28.8202983,36 36,36 C43.1797017,36 49,30.1797017 49,23 L55,23 C55,30.0033965 51.4026923,36.1444863 46.0010153,39.5831484 L46,55 L26,55 L25.9999814,39.5837828 C20.5977502,36.1452417 17,30.0038272 17,23 L23,23 Z" id="形状结合" fill="#CEDBF5" fill-rule="nonzero"></path>
+        </g>
+    </g>
+</svg>

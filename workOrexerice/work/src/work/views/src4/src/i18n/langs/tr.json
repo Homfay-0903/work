@@ -1,0 +1,655 @@
+{
+    "common": {
+        "btn": {
+            "switch": "Onaylamak için tıklayınız.<br />Geri gitmek için çift tıklayınız.",
+            "switch1": "Geri gitmek için çift tıklayınız.",
+            "add": "Anahtar yukarıda",
+            "sub":  "Anahtar aşağıda"
+          },
+          "prev": "Önceki Sayfa",
+          "next": "Sonraki Sayfa",
+        "dong-tai-shi-yan-shi": "Dinamik laboratuvar",
+        "guide": {
+            "interfere1": "Lütfen döner tablanın üzerinde durun ve 1m’lik alanda başka kimsenin bulunmadığından emin olun"
+        },
+        "jian-bu-gong-neng": "Omuz Fonksiyonu",
+        "shen-ti-cheng-fen": "Vücut Kompozisyonu",
+        "ti-zhong-ce-liang": "Ağırlık Ölçümü",
+        "error-end": "; Lütfen proje ölçümüne girmek için düğme işlemini kullanın.",
+        "ti-tai-ping-gu": "Postür Analizi",
+        "ti-wei-ce-liang": "Vücut Çevresi Ölçümü",
+        "wu-dian-liu": "无电流营养分析测量",
+        "error": {
+            "start-failed-title": "Başlatma Başarısız",
+            "start-failed-timeout": "Başlatma Isteği Zaman Aşımı",
+            "device-err-desc": [
+                "Cihaz hatası, lütfen cihazı yeniden başlatmayı deneyin.",
+                "Cihaz hatası, lütfen teknik servis ile iletişime geçin.",
+                "Cihaz hatası. Kısa süre sonra otomatik olarak geri yüklenecek.",
+                "Eğer döner tabla algılanmazsa, lütfen döner tabla bağlantısını çıkarıp tekrar takın ve cihazı yeniden başlatın; eğer deneme işe yaramazsa, lütfen satış sonrası hizmetlerle iletişime geçin."
+            ],
+            "err-code": "Hata kodu: {0}",
+            "scan-failed-title": "Ölçüm Başarısız",
+            "scan-err-desc": [
+                "Ölçüm esnasında kişi ayrıldı",
+                "Ölçüm zaman aşımını",
+                "Ölçüm zaman aşımı",
+                "Ölçüm hatası",
+                "Başlatma Isteği Zaman Aşımı"
+            ],
+            "re-scan": "{0}, lütfen tekrar ölçüm.",
+            "count-down1": "{num} saniye içinde ana sayfa dön",
+            "count-down2": "Ölçüm {num} saniye içerisinde tamamlanacak.",
+            "count-down3": "{num} saniye içinde geri sayım",
+            "count-down4": "{num} saniye içerisinde geri dönecek.",
+            "count-down5": "{num} saniye sonra ağ hatası sayfasına geri dönün."
+        },
+        "gesture-select": {
+            "left": {
+                "content-title": "Sol Elinizi Kaldırın",
+                "cha-kan-bao-gao": "Rapor görüntüleme",
+                "zhong-xin-ce-liang": "Ölçümü yeniden başlat"
+            },
+            "right": {
+                "content-title": "Sağ Elinizi Kaldırın",
+                "jie-shu-ce-liang": "Ölçüm tamamlandı"
+            }
+        },
+        "key-select": {
+            "cha-kan-bao-gao": "@:common.gesture-select.left.cha-kan-bao-gao",
+            "cha-kan-bao-gao_desc": "{0} Ölçümler görüntüleniyor",
+            "zhong-xin-ce-liang": "@:common.gesture-select.left.zhong-xin-ce-liang",
+            "zhong-xin-ce-liang_desc1": "{0} ölçümünü tekrar yapın",
+            "zhong-xin-ce-liang_desc2": "请继续保持静止",
+            "zhong-xin-ce-liang_desc3": "Lütfen cihazın önündeki metal elektrotlara tekrar çıkın",
+            "tiao-guo-ce-liang": "Ölçüm tamamlandı",
+            "tiao-guo-ce-liang_desc": "{0} öğesini atla.",
+            "jie-shu-ce-liang": "@:common.gesture-select.right.jie-shu-ce-liang",
+            "jie-shu-ce-liang_desc1": "Ölçümü sonlandırın ve ölçüm raporunu görüntüleyin",
+            "jie-shu-ce-liang_desc2": "Omuz fonksiyonu ölçüm sonuçlarını görüntüle",
+            "jie-shu-ce-liang_desc3": "Ölçümü sonlandırın ve ana sayfaya geri dönün",
+            "jie-shu-ce-liang_desc4": "结束测量请离开金属电极片，即可查看报告",
+            "jie-shu-ce-liang_desc5": "结束测量请离开金属电极片"
+        },
+        "device-usable": {
+            "error-tip0": "Cihaz hatası, lütfen cihazı yeniden başlatın. Eğer yeniden başlatma sonrasında sorun devam ederse, lütfen teknik servis ile iletişime geçin.",
+            "error-tip1": "Cihaz hatası. Lütfen cihazın gücünü keserek yeniden başlatın. Problem devam ederse, teknik servis ile iletişime geçin.",
+            "error-tip2": "Eğer döner tabla algılanmazsa, lütfen döner tabla bağlantısını çıkarıp tekrar takın ve cihazı yeniden başlatın; eğer deneme işe yaramazsa, lütfen satış sonrası hizmetlerle iletişime geçin.",
+            "error-tip3": "@:common.error.device-err-desc.1"
+        }
+    },
+    "setting": {
+        "check": {
+            "network": {
+                "disconnected": "Ağ bağlantısı kesildi",
+                "disconnected_desc": "Lütfen ağ kablosunun cihaza takılı olup olmadığını veya yönlendiricinin ağa bağlı olup olmadığını kontrol edin",
+                "disconnected_desc1": "Lütfen kablolu ağ veya Wi-Fi bağlantısını kontrol edin.",
+                "disconnected_desc2": "Kablolu bağlantıda ağ kablosunun takılı ve yönlendiricinin internete bağlı olduğundan emin olun.",
+                "jian-ce-shi-jian": "Test süresi",
+                "shang-chuan-su-du": "Yükleme hızı",
+                "testing": "Ağ tanılama yapılıyor...",
+                "wang-luo-jiao-cha": "Zayıf ağ",
+                "wang-luo-jiao-cha_desc": "Geçerli ağ bağlantısı zayıf, bu da rapor hazırlanma süresinin uzun olmasına neden olabilir. Ağ bağlantısını artırmak için ağ sağlayıcısı ile iletişime geçmeniz önerilir.",
+                "wang-luo-jiao-cha_desc_extend": "ve yönlendirici ayarlarının indirme hızını sınırlayıp sınırlamadığını kontrol etmeniz önerilir.",
+                "wang-luo-liang-hao": "İyi ağ bağlantısı",
+                "wang-luo-liang-hao_desc": "Geçerli cihaz ağ bağlantısı iyi.",
+                "wang-luo-liang-hao_desc_extend": "ancak indirme hızı yavaş. Lütfen yönlendirici ayarlarının indirme hızını sınırlayıp sınırlamadığını kontrol edin.",
+                "wang-luo-you-xiu": "Mükemmel ağ bağlantısı",
+                "wang-luo-you-xiu_desc": "Mevcut ağ bağlantı durumu mükemmel.",
+                "wang-luo-you-xiu_desc_extend": "@:setting.check.network.wang-luo-liang-hao_desc_extend",
+                "wu-fa-lian-jie-fu-wu-qi": "Sunucu hatası",
+                "wu-fa-lian-jie-fu-wu-qi_desc": "Geçerli ağ bağlantısı normal, ancak Visbody sunucusuna bağlanılamadı. Lütfen daha sonra tekrar deneyin veya Visbody teknik servisi ile iletişime geçin",
+                "xia-zai-su-du": "İndirme hızı"
+            },
+            "wang-luo-zhen-duan": "Ağ Tanılama",
+            "bao-gao-huo-qu-fang-shi": "Rapor Alma Yöntemi",
+            "wang-luo-fen-xi": "Ağ Sorun Analizi",
+            "yu-yan": "Dil",
+            "an-jian-zhi-yin": "Guide clé."
+        },
+        "detect": {
+            "guang-zhao-huan-jing-cha": "Ortam lşlğl Kötü",
+            "guang-zhao-huan-jing-cha_desc": [
+                "Ortam ışığının kullanım koşullarına uygun olmadığı tespit edildi. Mat üzerindeki kişinin başlangıç ölçümü ve hareket etkileşimi mevcut durumda kullanılamıyor.",
+                "Lütfen daha fazla ışık açın veya cihazı daha aydınlık bir ortama taşıyın."
+            ],
+            "guang-zhao-huan-jing-ruo": "Ortam Işığı Zayıf",
+            "guang-zhao-huan-jing-ruo_desc": [
+                "Ortam ışığının mat üzerinde duran kişinin başlangıç ölçümünü ve hareket etkileşimini etkileyebilecek derecede zayıf olduğu algılandı.",
+                "@:setting.detect.guang-zhao-huan-jing-cha_desc.1"
+            ],
+            "guide": "Lütfen gösterilen şekile {0} elinizi kaldırın",
+            "shi-bie-cheng-gong": "Başarıyla tanındı",
+            "shi-bie-cheng-gong_desc": "Lütfen önceki ölçüm yöntemi ile aynı pozisyonda durun",
+            "shou-shi-cao-zuo-yin-dao": "El Mimik İşlem Kılavuzu",
+            "shou-shi-cao-zuo-yin-dao_desc": "Kılavuz aracılığıyla hareket tanımanın çalışma yöntemlerini ve özelliklerini hızla kavrayın.",
+            "shou-shi-shi-bie": "Mimik Tanıma",
+            "shou-shi-shi-bie_close_desc": "Kapandıktan sonra hareket tanımayı iptal olur. Sadece tuş ile işlemler kullanılır.",
+            "shou-shi-shi-bie_close_desc_key": "Kapandıktan sonra hareket tanımayı iptal olur. Sadece tuş ile işlemler kullanılır.",
+            "shou-shi-shi-bie_open_desc": "Başladıktan sonra ölçüm işlemini gerçekeştirmek için hareket tanımayı kullanın.",
+            "ying-jian-yi-chang": "Donanım Hatası",
+            "ying-jian-yi-chang_desc": "Cihazı yeniden başlatın. Sorun devam ederse teknik servis ile iletişime geçin.",
+            "you-shou": "Sağ",
+            "zuo-shou": "Sol"
+        },
+        "index": {
+            "da-yin-she-zhi": "Baskı Ayarları",
+            "dong-tai-shi-yan-shi": "@:common.dong-tai-shi-yan-shi",
+            "she-bei-jian-ce": "Cihaz Denetimi",
+            "sheng-yin-she-zhi": "Ses Ayarı",
+            "ping-mu-liang-du": "Ekran parlaklığı",
+            "an-jian-zhi-yin": "Tuş rehberi",
+            "shou-shi-shi-bie": "@:setting.detect.shou-shi-shi-bie",
+            "yi-guan-bi": "Kapalı",
+            "yi-kai-qi": "Açık",
+            "languageTitleOne": "English",
+            "languageTitleTwo": "中文",
+            "languageTitleThree": "日本語",
+            "languageTitleFour": "Español",
+            "languageTitleFive": "Deutsch",
+            "languageTitleSex": "Français",
+            "languageTitleSeven": "Türkçe",
+            "languageTitleEight": "Português",
+            "languageTitleNine": "Italiano",
+            "languageTitleTen": "Ελληνικά",
+            "languageTitleEleven": "Русский язык",
+            "languageTitleTwelve": "magyar",
+            "languageTitleThirteen":"繁體",
+            "languageTitleFourteen":"繁體(台灣)",
+            "language": "Dil",
+            "set": "Ayarlar",
+            "check": "Onayla",
+            "return": "Geri",
+            "device-mode": "测量模式",
+      "device-mode-chankang": "产康模式",
+      "device-mode-standard": "标准模式",
+      "wang-luo-she-zhi": "Ağ Ayarları"
+        },
+        "print": {
+            "da-yin-gong-neng": "Yazıcı",
+            "da-yin-gong-neng_desc": [
+                "Cihaz kapatıldıktan sonra yazıcı ölçüm raporunu yazdırmayacak.",
+                "Cihaz açıldıktan sonra ölçüm raporu yazdırılabilir."
+            ],
+            "da-yin-ren-wu-she-zhi": "Yazıcı ayarları",
+            "shou-dong-da-yin_desc": "Ölçümden ve kullanıcı bilgileri başarılı bir şekilde ilişkilendirildikten sonra rapor, Rapor Listesi sayfasından yazdırılmak üzere seçilebilir.",
+            "zi-dong-da-yin_desc": "Ölçümden ve kullanıcı bilgileri başarılı bir şekilde ilişkilendirildikten sonra rapor otomatik olarak yazdırılacak."
+        },
+        "shou-dong-da-yin": "Manuel Yazdırma",
+        "zi-dong-da-yin": "Otomatik Yazdırma",
+        "bind": {
+            "guan-li-ping-tai": "Yönetim platformu",
+            "guan-li-ping-tai_desc": "Ölçümün sonunda, ölçüm seri numarasını kullanarak kullanıcı bilgilerini yönetim platformu ile ilişkilendirin ve ölçüm raporunu görüntüleyin.",
+            "er-wei-ma": "QR kodu",
+            "er-wei-ma_desc": "Ölçümün sonunda, cep telefonunu kullanarak QR kodu tarayın ve ölçüm raporunu görüntülemek için kullanıcı bilgilerini cep telefonu ile ilişkilendirin."
+        },
+        "btn-guidance": {
+        "xia-yi-bu": "Sonraki adım",
+        "shang-yi-bu": "Önceki adım",
+        "tui-chu": "Çıkış.",
+        "model1-text": {
+        "switch": "Seçimi onaylamak için bir kez kısaca basınız. ",
+        "add": "Önceki seçeneği seçmek için bir kez kısaca basınız.",
+        "sub": "Sonraki seçeneği seçmek için bir kez kısaca basınız."
+      },
+      "model2-text": {
+        "btn-tip": {
+          "add": "{addImg} Rapor Listesi tutun {sub}",
+          "sub": ", {subImg} Ayarları tutun"
+        },
+        "add": "Rapor listesini görüntülemek için uzun süre basılı tutunuz.",
+        "sub": "Ayarlar fonksiyonuna girmek için uzun süre basılı tutunuz."
+      },
+      "model3-text": {
+        "switch": "İki defa ardışık bastırarak bir adım geriye gidin.",
+        "add": "Kapatma sorusu sormak üzere 2 saniye boyunca basılı tutunuz.",
+        "sub": "Doğrudan kapanmak (önerilmez) üzere 6 saniye boyunca basılı tutunuz."
+      }
+    },
+    "measure-mode": {
+        "device-mode-chankang_des": "针对孕期和产后康复的人群提供更加专业的健康测量和定制化营养建议。",
+        "device-mode-standard_des": "适合各种人群的全面身体评估方案。"
+      }
+    },
+    "home": {
+        "fa-xian-xin-ban-ben": "Yeni versiyon bulundu",
+        "fa-xian-xin-ban-ben_subtitle": "Cihazın yeni versiyonu {0} güncellenmeye hazır",
+        "fa-xian-xin-ban-ben_subtitle_tip_touch": "Mettre à Jour Maintenant",
+        "fa-xian-xin-ban-ben_subtitle_tip_key": "Hızlı güncelleme için {icon} tuşuna basın",
+        "items_err": "{0} ile ilgili bir sorun var",
+        "ji-jiang-dao-qi": "Yakında Sona Eriyor",
+        "she-bei-wang-luo-man": "Yavaş Network Bağlantı Hızı",
+        "she-bei-wang-luo-man_subtitle": "Raporun çıkması uzun sürebilir. Lütfen ağ durumunu kontrol edin.",
+        "jian-cha-wang-luo": "Ağı kontrol edin",
+        "jian-cha-wang-luo_subtitle": "Lancer le Diagnostic Réseau",
+        "cha_ru_wang_xian_or_wifi_subtitle": "Ağ kablosunu takın veya Wi-Fi kurulumu için tıklayın.",
+        "shou-shi-shi-bie-yi-chang": "Hareket algılama arızası",
+        "shou-shi-shi-bie-yi-chang_subtitle": "Lütfen cihazı yeniden başlatmayı deneyin, yeniden başlatma işe yaramadıysa lütfen satış sonrası servis ekibiyle iletişime geçin.",
+        "xu-fei-tong-zhi": "Yenileme Bildirimi",
+        "xu-fei-tong-zhi_subtitle": "亲爱的用户：目前您的设备云端数据存储服务{0}，请您于 {1}前到设备B端管理平台 {2} 完成年费续缴，否则设备将无法使用。如有疑问可咨询维塑官方客服：400-161-7020",
+        "yi-dao-qi": "Günü geçmiş",
+        "ai-xu-fei-tong-zhi_subtitle1": "Sayın Kullanıcı: Cihazınız 【Temel Sürüm】 {0} tarihinde sona erecektir. Aboneliğinizi sona ermeden önce 【Visbody Sağlık Merkezi】{1} üzerinden yenileyin, aksi takdirde cihaz kullanılamaz hale gelecektir. Herhangi bir sorunuz varsa, lütfen Visbody resmi müşteri hizmetleri ile iletişime geçin<br />WhatsApp: +852 5704 0513 <br />Email: hello@visbody.com",
+        "ai-xu-fei-tong-zhi_subtitle2": "Sayın Kullanıcı: Cihazınız 【Temel Sürüm】 süresi dolmuş ve {0} tarihinde resmi olarak kapatılacaktır. Kapatmadan önce 【Visbody Sağlık Merkezi】{1} üzerinden aboneliğinizi yenileyin, aksi takdirde cihaz kullanılamaz hale gelecektir. Herhangi bir sorunuz varsa, lütfen Visbody resmi müşteri hizmetleri ile iletişime geçin<br />WhatsApp: +852 5704 0513 <br />Email: hello@visbody.com",    
+        "zhou-bian-guang-xian-cha": "Ortam Işığı Kötü",
+        "zhou-bian-guang-xian-cha_subtitle": "@:setting.detect.guang-zhao-huan-jing-cha_desc.1",
+        "zhou-bian-guang-xian-ruo": "Ortam Işığı Zayıf",
+        "print-info": {
+            "msg0": "Yazıcı hatası. Yazıcı bağlantısını kontrol ederek, gücün açık olduğundan emin olun.",
+            "msg1": "Rapor yazdırılamadı. Detayları görüntülemek için lütfen {icon} tuşuna basın.",
+            "msg2": "{num} rapor yazdırılıyor, detayları görüntülemek için lütfen {icon} tuşuna basın.",
+            "msg3": "Raporların listesini görüntülemek için {icon} tuşuna basın."
+        },
+        "btn-tip": {
+            "add": "{addImg} Rapor Listesi tutun {sub}",
+            "sub": ", {subImg} Ayarları tutun"
+          },
+          "skip-tip": "{subImg} basılı tutarak atla",
+    "sys-error": {
+      "title": "Sistem istisnası! Program yeniden başlatıldı.",
+      "tips":"Lütfen ölçümü yeniden başlatın."
+    },
+    "top-tip": "",
+        "qing-chong-qi-she-bei": "Cihazı Yeniden Başlatın",
+        "qing-chong-qi-she-bei_subtitle": "Cihaz uzun süredir sürekli çalışıyorsa, ölçümün doğruluğunu sağlamak için lütfen cihazı mümkün olan en kısa sürede yeniden başlatın."
+    },
+    "item-select": {
+        "dong-tai-shi-yan-shi": "@:common.dong-tai-shi-yan-shi",
+        "dong-tai-shi-yan-shi_desc": "Deneyimlemeye başla.",
+        "dong-tai-shi-yan-shi_desc1": "Ürünün yeni fonksiyonlarını deneyimlemeye davet ediyoruz",
+        "items_err": "@:home.items_err",
+        "jian-bu-gong-neng": "@:common.jian-bu-gong-neng",
+        "jian-bu-gong-neng-celiang": "@:common.jian-bu-gong-neng",
+        "jian-bu-gong-neng-ce-liang": "Omuz Fonksiyonu Ölçümü",
+        "jian-bu-gong-neng_desc": "Omuz eklemi esnekliğiniz hakkında bilgi sahibi olun",
+        "jie-shu-ce-liang": "@:common.gesture-select.right.jie-shu-ce-liang",
+        "jie-shu-ce-liang_desc": "Sonunda {0} raporunu görebilirsiniz.",
+        "result0-ce-liang": "{0}",
+        "shen-ti-cheng-fen": "@:common.shen-ti-cheng-fen",
+        "shen-ti-cheng-fen-celiang": "@:common.shen-ti-cheng-fen",
+        "shen-ti-cheng-fen-ce-liang": "Vücut Kompozisyonu",
+        "shen-ti-cheng-fen-ce-liang-wei-du": "",
+        "shen-ti-cheng-fen-ce-liang_desc": "Metal elektrotlar üzerinde durun",
+        "shen-ti-cheng-fen_desc": "Kilo, vücut yağ oranı ve kas kütlenizi öğrenin",
+        "shi-fou-ji-xu-ce-liang": "Ölçüme devam edilsin mi?",
+        "ti-tai-ping-gu_desc_m30": "Lütfen döner tablaya çıkın.",
+    "dong-tai-shi-yan-shi_desc_m30": "Lütfen girmek için {0} tuşuna basın.",
+    "ti-wei-ce-liang_desc": "Vücut çevrenizi bilin",
+    "ti-wei-wu-dian_desc": "为您提供专业的营养分析",
+        "ti-tai-ping-gu": "@:common.ti-tai-ping-gu",
+        "ti-wei-ce-liang": "@:common.ti-wei-ce-liang",
+    "ti-zhong-ce-liang":"@:common.ti-zhong-ce-liang",
+        "ti-tai-ping-gu_desc": [
+            "Lütfen iki saniye hareketsiz bir şekilde durun.",
+            "Vücut duruşunuzu bilin"
+        ],
+        "wu-dian-liu": "无电流营养分析",
+    "wu-dian-liu-sub": "无电流<br/>营养分析",
+        "ti-zhong-ce-liang-desc":"Ağırlık bilgilerinizi bilin",
+        "yi-ce-xiang-mu-de": "Ölçüm raporu",
+        "jie-shu-ce-liang_touch": "Tamamlandı.",
+        "jie-shu-ce-liang_touch_tip": "Rapor almak için buraya tıklayın."
+    },
+    "mass": {
+        "confirm": {
+            "tip-list1": {
+                "content": "Elektrot pedlerine basın",
+                "shortMsg": "Elektrot pedleri üzerinde durun"
+            },
+            "tip-list2": {
+                "content": "Her iki yandaki el elektrotlarını tutun.",
+                "shortMsg": "Her iki yandaki el elektrotlarını tutun."
+            },
+            "tip-list3": {
+                "content": "45 derecelik açıyla kollarınızı yanlara açın",
+                "shortMsg": "45 derecelik açıyla kollarınızı yanlara açın"
+            },
+            "tip-list4": {
+                "content": "Ölçüm sürecinde lütfen hareketsiz kalın",
+                "shortMsg": "Ölçüm sürecinde lütfen hareketsiz kalın"
+            }
+        },
+        "scan": {
+            "down": {
+                "guide1": "Ölçüm işleminde lütfen hareketsiz kalın",
+                "successful": "Vücut Kompozisyonu Raporu hazırlanıyor..."
+            },
+            "stand": {
+                "guide1": "Vücut Kompozisyonu Ölçülüyor",
+                "guide2": "Ölçüm tamamlandı",
+                "guide3": "Vücut Kompozisyonu Ölçümü başarısız"
+            },
+            "predict": "{num} saniye içinde bitiyor"
+        },
+        "success": "Ölçüm başarılı",
+        "weight": {
+            "guide": "Döner tablaya çıkın, ellerinizi aşağı indirin ve doğal bir şekilde durun.",
+            "guide1": "Döner tablaya çıkın",
+            "guide2":"Ellerinizi yanlara indirin ve doğal bir şekilde durun. Vücudunuzu hareketsiz tutun.",
+            "scan": {
+                "down": {
+                    "guide1": "Döner tablaya çıkın, ellerinizi aşağı indirin ve doğal bir şekilde durun.",
+                    "guide2": "Hareketsiz kalın",
+                    "successful": "Vücut ölçümüne girmek üzere."
+                },
+                "stand": {
+                    "guide1": "Ellerinizi yanda serbest bırakarak hareketsiz durun",
+                    "guide2": "Ağırlık ölçümü yapılıyor...",
+                    "guide3": "Ağırlık ölçümü başarılı",
+                    "guide4": "Ağırlık ölçümü başarısız"
+                }
+            }
+        }
+    },
+    "shape": {
+        "ti-tai-ce-liang": "@:shape.result.bottom-msg-item1",
+        "ti-wei-ce-liang": "@:shape.result.bottom-msg-item2",
+        "guide": {
+            "bottom-msg1": "Döner tablaya çıkın",
+            "bottom-msg2": "Ellerinizi yanlara indirin ve doğal bir şekilde durun. Vücudunuzu hareketsiz tutun."
+        },
+        "result": {
+            "bottom-msg-item1": "Postür Ölçümü",
+            "bottom-msg-item2": "Vücut Çevresi Ölçümü",
+            "bottom-msg-item3": "体重测量",
+      "bottom-msg-item4": "Vücut Kompozisyonu",
+            "bottom-msg-title": "Ölçüm tamamlandı, rapor indirilmeye hazır"
+        },
+        "scan": {
+            "bottom-msg1": "Lütfen hareketsiz kalın",
+            "bottom-msg2": "Ölçülüyor, lütfen hareketsiz kalın",
+            "bottom-msg3": "Lütfen ölçüm sonuçlarını bekleyin...",
+            "leaveReset1": "Yanlış uygulama",
+            "leaveReset2": "Ölçüm esnasında kişi ayrıldı, cihaz sıfırlanıyor"
+        }
+    },
+    "girth": {
+        "guide": {
+            "bottom-msg1": "Lütfen 2 saniye hareketsiz kalın",
+            "bottom-msg2": "İki yumruğunuzu da sıkın. Kolları doğal 30 derece açıyla açın",
+            "bottom-msg3": "Hareketsiz kalın",
+            "bottom-msg4": "Lütfen kollarınızın açısını yavaşça artırın",
+            "bottom-msg5": "Lütfen kollarınızın açısını yavaşça azaltın"
+        },
+        "select": {
+            "content": "[Vücut çevresi ölçümü] işlemine devam edilsin mi?",
+            "item1": {
+                "content": "Devam et",
+                "remarks": "Vücut çevresi ölçümü"
+            },
+            "item2": {
+                "content": "Atla",
+                "remarks": "Postür sonuçlarını görmek için atlayın"
+            }
+        }
+    },
+    "shoulder": {
+        "jian-bu-gong-neng-ce-liang": "@:item-select.jian-bu-gong-neng-ce-liang",
+        "jian-bu-gong-neng": "@:common.jian-bu-gong-neng",
+        "countdown": {
+            "bottom-msg": "@:shape.scan.bottom-msg1",
+            "bottom-msg1": "Lütfen normal bir şekilde durun ve 2 saniye hareketsiz kalın"
+        },
+        "success": {
+            "title": "@:shape.result.bottom-msg-title",
+            "item1": "Abduksiyon ve Yukarı Atma",
+            "item2": "Antefleksiyon ve Yukarı Atma"
+        },
+        "bottom-tips1": "Lütfen ekrana dönün ve normal bir şekilde durun",
+        "bottom-tips2": "Sol eli sola doğru doğrultun, yavaşça açın ve en yüksek noktaya kaldırın",
+        "bottom-tips3": "Sağ eli sağa doğru doğrultun, yavaşça açın ve en yüksek noktaya kaldırın",
+        "bottom-tips4": "Sol elinizi avuç içi içeriye doğru bakacak şekilde ileri doğru doğrultun, kolunuzu yavaşça açın ve en yüksek noktaya kaldırın",
+        "bottom-tips5": "Sağ elinizi avuç içi içeriye doğru bakacak şekilde ileri doğru doğrultun, kolunuzu yavaşça açın ve en yüksek noktaya kaldırın",
+        "nav-container1": {
+            "first-title": "Abduksiyon - Sol",
+            "second-title": "Abduksiyon - Sağ"
+        },
+        "nav-container2": {
+            "first-title": "Antefleksiyon - Sol",
+            "second-title": "Antefleksiyon - Sağ"
+        }
+    },
+    "check-self": {
+        "she-bei-zi-jian-zhong": "Cihaz kendini kontrol işlemi yapıyor..."
+    },
+    "recovery": {
+        "she-bei-xiao-zhun-zhong": "Cihaz kalibre ediliyor, {item} lütfen bekleyin"
+    },
+    "shut-down": {
+        "que-ren-guan-ji": "Kapatmak istediğinizden emin misiniz?",
+        "guan-ji-ti-shi": "Kapanıyor",
+        "guan-ji-ti-shi_desc1": "Kapatma işlemi mevcut görevi iptal edecek, ",
+        "guan-ji-ti-shi_desc2": "devam edilsin mi ?",
+        "que-ren-guan-ji_touch_desc": "Burayı tıklayın veya güç düğmesine tekrar basın.",
+        "que-ren-guan-ji_key_desc": "Kapatmak için \"Off\" tuşuna basın",
+        "qu-xiao-guan-ji_touch": "İptal et.({0}s)",
+        "qu-xiao-guan-ji_key": "Kapatma işlemi {0} saniyede iptal olacak",
+        "msg-box-duration": "{num} Dakika içinde kapatılıyor.",
+        "msg-box": "Cihaz kullanımda, lütfen daha sonra tekrar deneyin"
+    },
+    "welcome": {
+        "huan-ying-ti-yan": "Visbody'ye hoş geldiniz",
+        "product-name": "「 Visbody 3 Boyutlu Vücut Analiz Cihazına hoş geldiniz 」",
+        "product-name-va": "「 Visbody 3D Vücut Tarayıcı 」"
+    },
+    "print-list": {
+        "scan-tips":"Raporu görüntülemek için tara",
+        "xiang-mu-ti-shi": "İpuçları",
+        "ti-wei-ce-liang": "@:common.ti-wei-ce-liang",
+    "ti-tai-ping-gu": "@:common.ti-tai-ping-gu",
+    "jian-bu-gong-neng": "@:common.jian-bu-gong-neng",
+    "ti-zhong-ce-liang":"@:common.ti-zhong-ce-liang",
+        "xin-yong-hu-zhu-ce": "Kullanıcı kaydı",
+        "status0": "Yükleniyor",
+        "status1": "Yazdırılıyor",
+        "status2": "Başarıyla yazdırıldı",
+        "status3": "Yazdırma İsteği Başarısız",
+        "status4": "Kaydoluyor",
+        "status5": "",
+        "status6": "Kayıt Zaman Aşımı",
+        "status7": "Baskı Hatası",
+        "status8": "Baskı İsteği Zaman Aşımı",
+        "status9": "Oluşturulamadı",
+        "status10": "Yazdırılamadı",
+        "status11": "{0} belge{num} baskıda",
+        "shang-yi-ye": "Önceki Sayfa",
+        "xia-yi-ye": "Sonraki Sayfa",
+        "mei-you-da-yin-bao-gao": "+ Rapor yazdırılamadı",
+        "msg-box": {
+            "title0": "Raporu tekrar yazdırmak ister misiniz?",
+            "title1": "Tekrar yazdırma işlemi şu anda kullanılamıyor.",
+            "zhong-xin-da-yin": "Evet.",
+            "qu-xiao": "Hayır.",
+            "hao-de": "Tamam. ({0}s)"
+        }
+    },
+    "scan-result": {
+        "qrcode": {
+            "loading": "QR Kodu Yükleniyor",
+            "load-failed": "QR Kodu Yükleme Başarısız",
+            "title0": "请使用微信扫描二维码",
+            "title1": "Lütfen QR Kodu Tarayın",
+            "title2": "请刷手环",
+            "title3": "@:scan-result.qrcode.title1",
+            "title4": "扫码查看体重测量结果"
+        },
+        "or": "veya",
+        "card": {
+            "get-result": "刷手环获取结果"
+        },
+        "countdown": "@:common.error.count-down1",
+        "countdown1": "@:common.error.count-down5",
+        "load-down": "{num} saniye yükleme geri sayımı",
+        "error": {
+            "network": "Ağ bağlantı hatası, lütfen ağ bağlantısını kontrol edin",
+            "api": ""
+        },
+        "result": {
+            "card-title": "",
+            "qrcode-title": "Kod Taraması Başarılı",
+            "desc": "Lütfen ölçüm sonuçlarını cep telefonunuzdan kontrol edin",
+            "key-select": {
+                "da-yin-bao-gao": "Yazdır.",
+                "da-yin-bao-gao_desc": "Kağıt olarak rapor alın.",
+                "qu-xiao-da-yin": "Yadırma işlemini iptal et.",
+                "qu-xiao-da-yin_desc": "Yazdırma işlemini iptal et ve anasayfaya dön.",
+                "ji-xu-da-yin": "Yazdırma işlemine devam et.",
+                "ji-xu-da-yin_desc": "Lütfen yazıcının durumunu kontrol edin."
+            },
+            "msg-card": {
+                "new-user": "",
+                "print-added": "Yazdırılıyor, lütfen bekleyin."
+            }
+        },
+        "printer-error": {
+            "da-yin-ji-wei-jiu-xu": "Yazıcı hazır değil.",
+            "da-yin-ji-wei-jiu-xu_desc": "Yazıcı hatası. Yazıcı bağlantısını kontrol ederek, gücün açık olduğundan emin olun.",
+            "print-added": "Rapor yazdırma listesindedir ve yazıcı hazır olduğunda yazdırılacaktır."
+        }
+    },
+    "get-report": {
+        "sao-miao-shi-jian": "Tarama Saati:",
+        "xu-hao": "Ölçüm <br/> No:",
+        "desc0": "Lütfen ölçüm zamanınızı ve numaranızı unutmayın, ve profesyonel ölçüm raporunuzu almak için uzmanınız ile iletişime geçin",
+        "desc1": "Ağ bağlantı hatası. Yükleniyor…"
+    },
+    "update": {
+        "title": {
+            "updating": "Güncelleniyor",
+            "complete": "Güncelleme tamamlandı",
+            "success": "Cihaz başarıyla güncellendi",
+            "failed": "Güncelleme başarısız, geri yükleniyor",
+            "rolled-back": "Cihaz geri yüklendi",
+            "roll-back-failed": "Cihaz kurtarma başarısız oldu"
+        },
+        "sub-title": "Tahmini süre 5-10 dakikadır",
+        "tips0": "Lütfen cihazı kapatmayın",
+        "tips1": "Zorla kapatma cihazın kullanılamamasına neden olabilir",
+        "tips2": "Cihaz yeniden başlatılacak. Yeniden başlamadan sonra ölçüm yapılabilir.",
+        "tips3": "Kurtarma başarısız oldu, lütfen tteknik servis ile iletişime geçin",
+        "tips4": "Güncelleme sırasında cihazı kapatmayın veya elektriği kesmeyin."
+    },
+    "device-error": {
+        "title": "Cihaz hatası",
+        "desc0": "Hata oluştu. Lütfen cihazı yeniden başlatın. Yeniden başlatma işe yaramadıysa, lütfen satış sonrası servis ekibiyle iletişime geçin.",
+        "desc1": "Lütfen satış sonrası hizmetlerle iletişime geçin."
+    },
+    "network-error": {
+        "title": "Ağ bağlantı hatası",
+        "desc0": "Lütfen ağ ayarlarını ve ağ kablosu bağlantı durumunu kontrol edin veya cihazı yeniden başlatın. Eğer yeniden başlattıktan sonra sorun devam ediyorsa, lütfen teknik servis ile iletişime geçin",
+        "desc1": "Eğer yeniden başlatma işe yaramazsa, lütfen satış sonrası hizmetlerle iletişime geçin."
+    },
+    "navigation-bar": {
+        "shou-ye": "Ana Sayfa",
+        "she-zhi": "Ayarlar",
+        "zhi-zhang-gui-ge": "Kağıt boyutu",
+        "dong-tai-shi-yan-shi": "@:common.dong-tai-shi-yan-shi",
+        "sheng-yin-she-zhi": "@:setting.index.sheng-yin-she-zhi",
+        "liang-du-she-zhi": "Parlaklık Ayarları",
+        "shou-shi-shi-bie": "@:setting.detect.shou-shi-shi-bie",
+        "shou-shi-cao-zuo-yin-dao": "@:setting.detect.shou-shi-cao-zuo-yin-dao",
+        "da-yin-she-zhi": "@:setting.index.da-yin-she-zhi",
+        "wang-luo-zhen-duan": "@:setting.check.wang-luo-zhen-duan",
+        "wang-luo-fen-xi": "@:setting.check.wang-luo-fen-xi",
+        "she-bei-jian-ce": "@:setting.index.she-bei-jian-ce",
+        "xiang-mu-xuan-ze": "Fonksiyon seçimi",
+        "xuan-ze-ce-liang-xiang-mu": "Ölçüm öğesini girin",
+        "qing-an-tu-shi-dong-zuo-jin-ru-ce-liang-xiang-mu": "Öğeleri Seçin",
+        "qing-zuo-hao-yi-xia-zhun-bei": "",
+        "shi-fou-ji-xu-ce-liang": "@:item-select.shi-fou-ji-xu-ce-liang",
+        "bao-gao-lie-biao": "Rapor Listesi",
+        "huo-qu-ce-liang-bao-gao": "Ölçüm Raporunuzu Alın",
+        "shen-ti-cheng-fen-ce-liang": "@:item-select.shen-ti-cheng-fen-ce-liang",
+        "shen-ti-cheng-fen": "@:common.shen-ti-cheng-fen",
+        "ti-zhong-ce-liang": "Ağırlık Ölçümü",
+        "shen-ti-cheng-fen-ce-liang-zhun-bei": "Başlama Talimatını Takip Edin",
+        "ti-tai-ce-liang": "@:shape.result.bottom-msg-item1",
+        "ti-tai-ping-gu": "@:common.ti-tai-ping-gu",
+        "ti-wei-ce-liang": "@:shape.result.bottom-msg-item2",
+        "jian-bu-gong-neng": "@:item-select.jian-bu-gong-neng",
+        "jian-bu-gong-neng-ce-liang": "@:item-select.jian-bu-gong-neng-ce-liang",
+        "wang-luo-yi-chang-ye": "Ağ bağlantı hatası",
+        "title1": "Abduksiyon ve Yukarı Atma",
+        "title2": "Antefleksiyon ve Yukarı Atma",
+        "title3": "Ölçüm başlıyor...",
+        "title4": "Abduksiyon ve Yukarı Atma",
+        "title5": "Antefleksiyon ve Yukarı Atma",
+        "title6": "@:item-select.jian-bu-gong-neng-ce-liang",
+        "wang-luo-she-zhi": "Ağ Ayarları"
+    },
+    "reset":{
+        "content-title": "Cihaz başlatılıyor",
+        "content-tip": ". Lütfen döner tabla üzerinde durmayın veya nesneler koymayın",
+        "title": "Cihaz sıfırlanıyor.",
+        "title-tips": "Cihaz sıfırlanırken, lütfen dönme tablasından ayrılın."
+      },
+      "renewal":{
+        "wei-jihuo-title": "Cihaz Aktivasyon Adımları",
+        "wei-jihuo-content": "Değerli Kullanıcımız,<br />Cihazınızı aktifleştirmek için lütfen şu adımları izleyin:",
+        "wei-jihuo-content1": "Visbody WellnessHub'ı açın: {0}",
+        "wei-jihuo-content2": "Kayıt ve aktivasyon işlemlerini tamamlayın.",
+        "wei-jihuo-content3": "Aktivasyon tamamlandıktan sonra, cihazınızı yeniden başlatın.",
+        "wei-jihuo-content4": "Teknik destek için müşteri hizmetleri ekibimize ulaşabilirsiniz:",
+        "wei-jihuo-content5": "WhatsApp: +852 5704 0513",
+        "wei-jihuo-content6": "E-posta: hello@visbody.com",
+        "wei-jihuo-content7": "Visbody'yi tercih ettiğiniz için teşekkür ederiz. Size en iyi hizmeti sunmaya hazırız.",
+        "wei-jihuo-content8": "Detaylı kullanım kılavuzu için",
+        "ting-ji-title": "Kapatma Bildirimi",
+      "ting-ji-content": "Sayın Kullanıcı:<br />Cihazınız 【Temel Sürüm】 {0} itibarıyla kapatılmıştır. Şu anda cihaz artık kullanılamaz durumda. Lütfen 【Visbody Sağlık Merkezi】（{1}）üzerinden aboneliğinizi en kısa sürede yenileyin. Yenileme başarılı olduğunda, cihaz yeniden çalışmaya başlayacaktır. Yenilemeden sonra çalışmazsa, lütfen cihazı yeniden başlatmayı deneyin!<br />Herhangi bir sorunuz varsa, lütfen Visbody resmi müşteri hizmetleri ile iletişime geçin<br />WhatsApp: +852 5704 0513 <br />Email: hello@visbody.com"
+    },
+  "beauty":{
+    "device-mode": "Ölçüm Modu",
+    "device-mode-beauty": "Estetik Modu",
+    "device-mode-standard": "Standart Mod",
+    "device-mode-beauty-desc": "Güzellik ve sağlık sektörüne özel vücut değerlendirme programı",
+    "device-mode-standard_des": "Farklı kullanıcılar için kapsamlı vücut değerlendirmesi",
+    "device-mode-beauty-desc1": "Güzellik ve sağlık sektörüne özel vücut değerlendirme programı, etkinleştirmek için satış departmanıyla iletişime geçiniz"
+  },
+  "touch-disabled": "Dokunmatik ekran hatası. Lütfen çalıştırmak için düğmeleri kullanın.",
+  "wifi": {
+    "title": "Ağ Ayarları",
+    "items-title-1": "Wi-Fi",
+    "items-vice-1": "Bağlı, internet yok",
+    "items-title-2": "Kablolu Ağ",
+    "items-vice-2": "Bağlı",
+    "items-vice-3": "Bağlı Değil",
+    "items-vice-4": "Bağlanıyor...",
+    "wifi-off": "Wi-Fi Anahtarı",
+    "search": "Wi-Fi Aranıyor…",
+    "error-connect": "Ağ bağlantısı başarısız veya kullanılabilir ağ yok. Lütfen başka bir ağ deneyin.",
+    "loading": "Yükleniyor...",
+    "box-title": "Mevcut ağ bağlantısı kesilsin mi?",
+    "box-button-1": "Bağlantıyı Kes",
+    "box-button-2": "{num} sn sonra iptal",
+    "qr-title-1": "Wi-Fi Yapılandırması:",
+    "qr-title-2": "1. Aşağıdaki QR kodunu telefonunuzla tarayın, Wi-Fi bilgilerini girin ve Wi-Fi QR kodu oluşturun.",
+    "qr-title-3": "2. Lütfen Wi-Fi QR kodunu cihaz ekranının altındaki kameraya tutun.",
+    "qr-tips-1": "Lütfen telefonunuzla QR kodu tarayın.",
+    "qr-tips-2": "Tarama başarılı. Bağlanıyor…",
+    "qr-tips-3": "Geçersiz QR kodu",
+    "qr-tips-4": "Bağlantı başarılı",
+    "connect-error-0": "Bağlantı başarılı",
+    "connect-error-1": "Bağlantı zaman aşımı",
+    "connect-error-2": "Hatalı şifre",
+    "connect-error-3": "Wi-Fi ağı kapsama alanı dışında",
+    "connect-error-4": "Kimlik doğrulama zaman aşımı veya protokol hatası",
+    "connect-error-5": "Wi-Fi adaptörü devre dışı",
+    "connect-error-6": "Ağ yapılandırma hatası",
+    "connect-error-7": "IP adresi alınamadı",
+    "connect-error-8": "Bağlantı komutu yürütülemedi",
+    "connect-error-9": "Bağlantı başarısız",
+    "tip-waiting": "Bağlanıyor...",
+    "tip-btn-ok": "Tamam",
+    "tip-check": "Lütfen şifreyi girin",
+    "tip-check-fail": "Hatalı şifre, bağlantı başarısız",
+    "tip-btn-confirm": "Tamam",
+    "tip-btn-cancel": "İptal",
+    "tip-btn-disconnected": "Bağlantıyı Kes"
+  },
+  "click-skip": "Bu Öğeyi Atla",
+  "Athlete":{
+    "tips": "Bu mod yalnızca yüksek kas kütlesine sahip bireyler içindir.",
+    "title": "Hedef Kullanıcılar",
+    "title2":"Sporcular",
+    "desc1": "Profesyonel Vücut Geliştiriciler İçin Vücut Kompozisyonu Analiz Programı"
+  }
+}

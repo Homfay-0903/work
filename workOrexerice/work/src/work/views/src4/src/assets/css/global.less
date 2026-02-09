@@ -1,0 +1,72 @@
+// 字体
+@import 'fonts';
+// 图标
+@import '../fonts/iconfont/iconfont.css';
+* {
+    font-size: 48px;
+    font-family: 'OPPOSansM', '微软雅黑', 'noto sans cjk sc', 'ubuntu', 'STXihei';
+}
+/*滚动条样式*/
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+html,
+body {
+    position: relative;
+    overflow: hidden;
+    padding: 0px;
+    margin: 0px;
+    -webkit-user-select:none;
+    -moz-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none;
+    /*background-color: #000;*/
+}
+#app {
+    transform-origin: top left;
+    /* transform: scale(0.5, 0.5); */
+    width: 1080px;
+    height: 1920px;
+    overflow: hidden;
+    background-color: #000000;
+    color: #ffffff;
+    /*margin-left: 100px;*/
+    position: relative;
+}
+/* transition 动画 */
+.fade-move-enter-active,
+.fade-move-leave-active {
+    transition: transform 0.5s, opacity 0.3s;
+}
+.fade-move-enter,
+.fade-move-leave-to {
+    opacity: 0;
+    transform: translateY(100%);
+}
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.3s;
+}
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
+}
+
+.fade-in-up-enter,
+.fade-in-up-leave-to {
+    opacity: 0;
+}
+
+.fade-in-up-enter-active {
+    animation: fadeInUp 0.8s;
+}

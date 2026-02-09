@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="72px" height="72px" viewBox="0 0 72 72" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>open-arm-fill</title>
+    <g id="设置" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="设置-打印设置" transform="translate(-60.000000, -1357.000000)">
+            <g id="list备份" transform="translate(12.000000, 1297.000000)">
+                <g id="open-arm-fill" transform="translate(48.000000, 60.000000)">
+                    <polygon id="路径" points="0 0 72 0 72 72 0 72"></polygon>
+                    <path d="M54,51 L54,66 L48,66 L48,51 C48,37.647 55.932,26.145 67.341,20.952 L69.825,26.412 C60.1854208,30.7963889 53.9979229,40.4101771 54,51 Z M24,51 L24,66 L18,66 L18,51 C18.0009007,40.4112635 11.8135901,30.7989392 2.175,26.415 L4.659,20.952 C16.4393581,26.3100296 24.0014256,38.0583882 24,51 Z" id="形状" fill="#104EBB" fill-rule="nonzero"></path>
+                    <path d="M36,36 C27.7157288,36 21,29.2842712 21,21 C21,12.7157288 27.7157288,6 36,6 C44.2842712,6 51,12.7157288 51,21 C51,29.2842712 44.2842712,36 36,36 Z" id="路径" fill="#CEDBF5" fill-rule="nonzero"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

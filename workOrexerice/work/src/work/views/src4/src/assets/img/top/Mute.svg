@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Mute</title>
+    <defs>
+        <path d="M17.8420142,1.07302406 C17.9444083,1.20467372 18,1.36669762 18,1.53347952 L18,30.4665205 C18,30.880734 17.6642136,31.2165205 17.25,31.2165205 C17.0832181,31.2165205 16.9211942,31.1609288 16.7895445,31.0585346 L9,25 L1.5,25 C0.671572875,25 0,24.3284271 0,23.5 L0,8.5 C0,7.67157288 0.671572875,7 1.5,7 L9,7 L16.7895445,0.941465358 C17.1165049,0.687162829 17.5877116,0.746063667 17.8420142,1.07302406 Z M15,6.133 L10.0293233,10 L3,10 L3,22 L10.0293233,22 L15,25.866 L15,6.133 Z M33.804,8.575 L35.925,10.696 L30.621,16 L35.925,21.304 L33.804,23.425 L28.5,18.121 L23.196,23.425 L21.075,21.304 L26.379,16 L21.075,10.696 L23.196,8.575 L28.5,13.879 L33.804,8.575 Z" id="path-1"></path>
+    </defs>
+    <g id="Mute" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g>
+            <rect id="矩形" x="0" y="0" width="48" height="48"></rect>
+            <g id="白色" transform="translate(6.000000, 8.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use id="Mask" fill="#000000" fill-rule="nonzero" xlink:href="#path-1"></use>
+                <g id="Group" mask="url(#mask-2)">
+                    <g transform="translate(-41.000000, -8.000000)">
+                        <rect id="Rectangle" fill="#000000" x="0" y="0" width="118" height="48"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

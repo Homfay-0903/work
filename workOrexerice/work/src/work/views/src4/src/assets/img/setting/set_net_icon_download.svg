@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Set-download</title>
+    <g id="设置" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="设置-设备检测-网络诊断-网络差" transform="translate(-60.000000, -888.000000)">
+            <g id="编组-4" transform="translate(60.000000, 828.000000)">
+                <g id="Set-download" transform="translate(0.000000, 60.000000)">
+                    <polygon id="Rectangle" points="0 0 48 0 48 48 0 48"></polygon>
+                    <path d="M24,1.5 C30.2100005,1.5 35.8348814,4.02020093 39.9073403,8.09265985 C43.9797991,12.1651187 46.5,17.7899995 46.5,24 C46.5,30.2100004 43.9797991,35.8348813 39.9073402,39.9073402 C35.8348813,43.9797991 30.2100004,46.5 24,46.5 C17.7899999,46.5 12.165119,43.979799 8.09265994,39.9073399 C4.02020107,35.8348811 1.5,30.2100003 1.5,24 C1.5,17.79 4.02020118,12.1651192 8.09266018,8.09266018 C12.1651192,4.02020118 17.79,1.5 24,1.5 Z" id="Path" stroke="#367CF6" stroke-width="3"></path>
+                    <polygon id="Path" fill="#367CF6" points="27 24 34.5 24 24 36 13.5 24 21 24 21 13.5 27 13.5"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

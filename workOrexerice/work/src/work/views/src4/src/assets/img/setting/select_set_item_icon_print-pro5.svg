@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="72px" height="72px" viewBox="0 0 72 72" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Set-Print</title>
+    <g id="设置" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="设置-上一页" transform="translate(-60, -924)">
+            <g id="list" transform="translate(12, 864)">
+                <g id="Set-Print" transform="translate(48, 60)">
+                    <polygon id="路径" points="0 0 72 0 72 72 0 72"></polygon>
+                    <path d="M66,24 L66,56 L57,56 L57,44 L15,44 L15,56 L6,56 L6,24 L66,24 Z M24,30 L15,30 L15,36 L24,36 L24,30 Z" id="形状结合" fill="#FFFFFF" fill-rule="nonzero"></path>
+                    <path d="M21,50 L51,50 L51,66 L21,66 Z M21,6 L51,6 L51,18 L21,18 Z" id="形状结合" fill="#FFFFFF" fill-rule="nonzero"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

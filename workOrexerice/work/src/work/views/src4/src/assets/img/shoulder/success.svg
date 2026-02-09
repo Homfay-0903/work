@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128px" height="128px" viewBox="0 0 128 128" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>success备份</title>
+    <g id="肩部功能测量" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="肩部功能-外展上举-右手测量中" transform="translate(-892.000000, -812.000000)">
+            <g id="success备份" transform="translate(892.000000, 812.000000)">
+                <polygon id="Path" points="0 0 128 0 128 128 0 128"></polygon>
+                <path d="M64.5,118 C34.95195,118 11,94.04805 11,64.5 C11,34.95195 34.95195,11 64.5,11 C94.04805,11 118,34.95195 118,64.5 C118,94.04805 94.04805,118 64.5,118 Z M58.87837,86 L97,48.4991161 L89.375674,41 L58.87837,71.0017678 L43.624326,55.9982322 L36,63.4973483 L58.87837,86 Z" id="Shape" fill="#2EB12F"></path>
+            </g>
+        </g>
+    </g>
+</svg>

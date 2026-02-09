@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="96px" height="96px" viewBox="0 0 96 96" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>success</title>
+    <g id="设置" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="设置-手势识别设置-手势操作引导-右手识别成功" transform="translate(-492.000000, -1432.000000)" fill-rule="nonzero">
+            <g id="提示信息" transform="translate(60.000000, 1352.000000)">
+                <g id="success" transform="translate(432.000000, 80.000000)">
+                    <circle id="Oval" fill="#FFFFFF" cx="48" cy="48" r="48"></circle>
+                    <polygon id="Path" fill="#367CF6" points="40 60.688 76.768 23.916 82.428 29.572 40 72 14.544 46.544 20.2 40.888"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

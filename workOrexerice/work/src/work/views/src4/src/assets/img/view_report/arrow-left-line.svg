@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>arrow-left-line</title>
+    <g id="查看报告" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="体态报告页" transform="translate(-54, -144)">
+            <g id="首页" transform="translate(0, 120)">
+                <g id="arrow-left-line" transform="translate(54, 24)">
+                    <polygon id="路径" points="0 0 48 0 48 48 0 48"></polygon>
+                    <polygon id="路径" fill="#75A6FC" points="15.656 22 40 22 40 26 15.656 26 26.384 36.728 23.556 39.556 8 24 23.556 8.444 26.384 11.272"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

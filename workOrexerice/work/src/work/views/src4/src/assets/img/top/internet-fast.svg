@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="background: #000000;">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>internet-快</title>
+    <desc>Created with Sketch.</desc>
+    <g id="internet-快" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect fill="#000000" x="0" y="0" width="48" height="48"></rect>
+        <polygon id="Path-Copy" points="48 0 0 0 0 48 48 48"></polygon>
+        <path d="M39,9.5 L39,12.5 L39,12.5 C24.3644541,12.5 12.5,24.3644541 12.5,39 L9.5,39 L9.5,39 C9.5,22.7075999 22.7075999,9.5 39,9.5 Z M39.0002509,17.5055642 L39.0003205,20.5064429 C28.9039071,20.7670948 20.7670948,28.9039071 20.5064429,39.0003205 L17.5055642,39.0002509 C17.7675317,27.2469321 27.2469321,17.7675317 39.0002509,17.5055642 Z M39,25.5 L39,28.5 L39,28.5 C33.2010101,28.5 28.5,33.2010101 28.5,39 L25.5,39 L25.5,39 C25.5,31.5441559 31.5441559,25.5 39,25.5 Z M39.0006709,33.0188938 L39,39 L33.0188938,39.0006709 C33.2613639,35.8089303 35.8089303,33.2613639 39.0006709,33.0188938 Z" id="Combined-Shape" fill="#FFFFFF"></path>
+    </g>
+</svg>

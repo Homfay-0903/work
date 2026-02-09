@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="72px" height="72px" viewBox="0 0 72 72" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>failure</title>
+    <g id="身体成分测量" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="体重测量/体重测量失败" transform="translate(-504.000000, -213.000000)">
+            <g id="体重测量-copy-4" transform="translate(28.000000, 144.000000)">
+                <g id="failure" transform="translate(476.000000, 69.000000)">
+                    <polygon id="Path" points="0 0 72 0 72 72 0 72"></polygon>
+                    <circle id="Oval" fill="#FFFFFF" cx="36" cy="36" r="36"></circle>
+                    <polygon id="Path" fill="#EB6C6C" fill-rule="nonzero" points="36 31.758 50.85 16.908 55.092 21.15 40.242 36 55.092 50.85 50.85 55.092 36 40.242 21.15 55.092 16.908 50.85 31.758 36 16.908 21.15 21.15 16.908"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
