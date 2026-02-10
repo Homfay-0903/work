@@ -8,6 +8,7 @@ import fsm3 from "./components/fsm/fsm3.vue";
 
 import cicrle from "./components/quesOrexe/cicrle.vue";
 import TodoItem from "./components/exercise/index.vue";
+import { ref } from 'vue'
 
 interface ListItem {
   id: number;
@@ -36,6 +37,7 @@ const handleTodoList = () => {
     id: aboutId.value++,
     title: aboutText.value,
   });
+  aboutText.value = ''
 };
 </script>
 
@@ -43,7 +45,7 @@ const handleTodoList = () => {
   <span
     >Add a todo:
     <input type="text" v-model="aboutText" placeholder="...." />
-    <button @click="handleTodoList"></button>
+    <button @click="handleTodoList">add</button>
   </span>
   <br />
   <todo-item
