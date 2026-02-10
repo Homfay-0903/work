@@ -28,24 +28,30 @@ const todoList = ref<ListItem[]>([
   },
 ]);
 
-const aboutText = ref('')
-const aboutId = ref(4)
+const aboutText = ref("");
+const aboutId = ref(4);
 
 const handleTodoList = () => {
-    todoList.value.push({
-        id: aboutId.value++,
-        title: aboutText.value
-    })
-}
+  todoList.value.push({
+    id: aboutId.value++,
+    title: aboutText.value,
+  });
+};
 </script>
 
 <template>
-    <span>Add a todo:
-    <input type="text" v-model="aboutText" placeholder="....">
+  <span
+    >Add a todo:
+    <input type="text" v-model="aboutText" placeholder="...." />
     <button @click="handleTodoList"></button>
-    </span>
-    <br>
-    
+  </span>
+  <br />
+  <todo-item
+    v-for="(todo, index) in todoList"
+    :index="todo.id"
+    :desc="todo.title"
+    @remove="todoList.splice(index, 1)"
+  ></todo-item>
 </template>
 
 <style scoped></style>
