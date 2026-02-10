@@ -28,12 +28,24 @@ const todoList = ref<ListItem[]>([
   },
 ]);
 
+const aboutText = ref('')
+const aboutId = ref(4)
 
+const handleTodoList = () => {
+    todoList.value.push({
+        id: aboutId.value++,
+        title: aboutText.value
+    })
+}
 </script>
 
 <template>
-    <span>Add a todo:</span>
+    <span>Add a todo:
     <input type="text" v-model="aboutText" placeholder="....">
+    <button @click="handleTodoList"></button>
+    </span>
+    <br>
+    
 </template>
 
 <style scoped></style>
