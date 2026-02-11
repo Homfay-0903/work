@@ -50,7 +50,9 @@
 
 <template>
   <select v-model="seleted">
-    <option v-for="option in options"></option>
+    <option v-for="option in options" :value="option.value">
+      {{ option.text }}
+    </option>
   </select>
 </template>
 
