@@ -49,6 +49,7 @@
 
 
 <template>
+  <span>text: {{ seleted }}</span>
   <select v-model="seleted">
     <option v-for="option in options" :value="option.value">
       {{ option.text }}
