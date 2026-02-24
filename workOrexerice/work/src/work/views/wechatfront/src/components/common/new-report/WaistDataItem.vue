@@ -7,6 +7,11 @@
             <div class="result-box" v-if="title !== null">
                 {{ title }}<span v-if="title == '腰臀比'">正常范围：{{ sex === 2 ? '0.75~0.8' : '0.85~0.9' }}</span>
             </div>
+            <div class="result-box" v-if="title == '腰部分数'">
+                超越人群比例：<span style="background: linear-gradient(90deg, #00e3c9 0%, #009fe8 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;">37.3% ↑3.9 36.9%</span>
+            </div>
             <div class="comparison-list-box1" v-for="(item, index) in arr" :key="index">
                 <div v-if="showGirthData(item)">
                     <p class="item-lang">{{ item.title }}</p>

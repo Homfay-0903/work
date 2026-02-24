@@ -148,7 +148,7 @@ export default {
         left: 0;
         width: 100%;
         height: 1px;
-        background: #ffffff;
+        background: #1D1F3C;
         opacity: 0.2;
     }
 }
@@ -244,16 +244,17 @@ export default {
         padding: 0 10px;
 
         .divider {
-            width: 80%;
+            width: 85%;
             height: 1px;
-            background-color: #8aa3be;
+            background-color: #b5c0ce;
             margin: 0 auto 12px;
             opacity: 0.2;
         }
 
         .girth-comparison {
             display: flex;
-            justify-content: space-between;
+            gap: 30px;
+            justify-content: center;
             margin-bottom: 12px;
 
             .girth-comparison-item {
@@ -261,13 +262,13 @@ export default {
                 align-items: center;
 
                 .girth-label {
-                    font-size: 12px;
+                    font-size: 13px;
                     color: #8aa3be;
                     margin-right: 8px;
                 }
 
                 .girth-value {
-                    font-size: 12px;
+                    font-size: 13px;
                     color: #ffffff;
                 }
             }
@@ -292,7 +293,7 @@ export default {
                 position: absolute;
                 top: 0;
                 transform: translateX(-50%);
-                font-size: 10px;
+                font-size: 12px;
                 color: #8aa3be;
                 font-family: PingFangSC-Regular, PingFang SC;
             }
@@ -303,7 +304,7 @@ export default {
             position: relative;
             height: 3px; // 加粗轨道
             width: 100%;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
 
             // 背景分段层
             .track-bg-layer {
@@ -314,12 +315,12 @@ export default {
 
                 .bg-segment {
                     flex: 1;
-                    background-color: #262543; // 背景
+                    background-color: #4B4C60; // 背景
                     border-radius: 2px; // 轻微圆角
                 }
                 .bg-gap {
                     flex: 0 0 3px; // 关键：控制断点间隙大小
-                    background-color: #4B4C60; // 间隙
+                    background-color: #262543; // 间隙
                     z-index: 2;
                 }
             }
@@ -384,11 +385,12 @@ export default {
             margin-top: 4px;
 
             .range-label {
-                font-size: 10px;
+                font-size: 12px;
                 color: #8aa3be;
                 font-family: PingFangSC-Regular, PingFang SC;
                 flex: 1;
                 text-align: center;
+                margin-bottom: 20px;
             }
         }
     }
