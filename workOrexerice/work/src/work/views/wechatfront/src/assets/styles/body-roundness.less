@@ -1,0 +1,73 @@
+/*围度信息图例*/
+.roundness-information {
+    // min-height: 520px !important;
+}
+.body-roundness {
+    > div {
+        // display: flex;
+        .right-roundness-slide {
+            min-width: 60px;
+            height: 216px;
+            margin-top: 30px;
+            margin-bottom: 45px;
+            opacity: 0.8;
+            color: #fff;
+            padding: 30px 0;
+            text-align: center;
+            margin-left: 65px;
+            background: #292b4a;
+            border-radius: 6px;
+            > p {
+                width: 29px;
+                height: 29px;
+                line-height: 29px;
+                border-radius: 50%;
+                text-align: center;
+                background-color: #40415b;
+                color: #fff;
+                display: inline-block;
+                img {
+                    width: 8px;
+                    height: 15px;
+                    margin-bottom: -3px;
+                }
+                &.top-arrow {
+                    img {
+                        pointer-events: none;
+                        transform: rotate(-90deg);
+                        -ms-transform: rotate(-90deg);
+                        -moz-transform: rotate(-90deg);
+                        -webkit-transform: rotate(-90deg);
+                        -o-transform: rotate(-90deg);
+                    }
+                }
+                &.lower-arrow {
+                    img {
+                        pointer-events: none;
+                        transform: rotate(90deg);
+                        -ms-transform: rotate(90deg);
+                        -moz-transform: rotate(90deg);
+                        -webkit-transform: rotate(90deg);
+                        -o-transform: rotate(90deg);
+                    }
+                }
+            }
+
+            .roundness-data {
+                padding: 32px 0;
+                p:first-child {
+                    font-size: 18px;
+                    display: flex;
+                    align-items: baseline;
+                    justify-content: center;
+                    span {
+                        font-size: 11px;
+                    }
+                }
+                p:last-child {
+                    font-size: 11px;
+                }
+            }
+        }
+    }
+}

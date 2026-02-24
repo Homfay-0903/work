@@ -1,0 +1,118 @@
+.composition-personal-data {
+    position: absolute;
+    width: 100%;
+    min-height: 100%;
+    top: 0;
+    left: 0;
+    color: #fff;
+    font-size: 16px;
+    background-image: linear-gradient(to bottom, #262849, #07090f);
+    padding-top: 16px;
+    padding-bottom: 50px;
+    .color-list {
+        padding: 0 15px;
+        .color-item {
+            padding-left: 10px;
+            padding-right: 15px;
+            margin-bottom: 10.5px;
+            height: 50px;
+            line-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 4px;
+            box-shadow: 0px 2px 8px 0 rgba(0, 0, 0, 0.25);
+            border: solid 1px transparent;
+            border-image: linear-gradient(to right, #1ae0c8, #117bd2) 0.5 0.5;
+            position: relative;
+            > p {
+                padding-left: 20px;
+            }
+            > div {
+                p {
+                    background: url(../../assets/images/comp_drag_icon.png) no-repeat center right;
+                    background-size: 14px 13px;
+                    height: 50px;
+                    line-height: 50px;
+                }
+                width: 54px;
+                text-align: right;
+
+            }
+            &:after {
+                position: absolute;
+                top: -4px;
+                bottom: -4px;
+                left: -4px;
+                right: -4px;
+                display: block;
+                content: '';
+                z-index: -1;
+                border-radius: 4px;
+                border-image: linear-gradient(to right, #1ae0c8, #117bd2) 0.5 0.5;
+            }
+            .input-check {
+                content: "\a0"; /*不换行空格*/
+                display: inline-block;
+                vertical-align: middle;
+                font-size: 18px;
+                width: 21px;
+                height: 21px;
+                border-radius: 50%;
+                border: 1px solid #096971;
+            }
+            .input-check-success {
+                background: url(../../assets/images/comp_rb.png) no-repeat -1px center;
+                background-size: 21px 21px ;
+            }
+        }
+    }
+    .bottom-check-all {
+        position: fixed;
+        bottom: 0;
+        padding: 0 16px;
+        width: 100%;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0px -0.5px 0 0 #000;
+        background-color: #1a1b30;
+        color: #fff;
+        font-size: 14px;
+        .check-all {
+            display: flex;
+            align-items: center;
+            .input-check-all {
+                content: "\a0"; /*不换行空格*/
+                display: inline-block;
+                vertical-align: middle;
+                font-size: 18px;
+                width: 21px;
+                height: 21px;
+                border-radius: 50%;
+                border: 1px solid #fff;
+                margin-right: 10px;
+            }
+            .input-check-all-success {
+                background: url(../../assets/images/comp_cb_all_s.png) no-repeat left center;
+                background-size: 21px 21px ;
+            }
+        }
+        .reset {
+            display: flex;
+            align-items: center;
+            img {
+                margin-right: 10px;
+                width: 21px;
+            }
+        }
+    }
+}
+
+.popup-composition-data {
+    background-color: inherit;
+}
+.popup-composition-data + .v-modal {
+    opacity: .1;
+}

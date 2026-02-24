@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>编组 2</title>
+    <defs>
+        <linearGradient x1="-1.11022302e-14%" y1="50%" x2="98.4933036%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#00E3C9" offset="0%"></stop>
+            <stop stop-color="#009FE8" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="-1.11022302e-14%" y1="50%" x2="98.4933036%" y2="50%" id="linearGradient-2">
+            <stop stop-color="#00E3C9" offset="0%"></stop>
+            <stop stop-color="#009FE8" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="详情页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="围度测量文案" transform="translate(-27.000000, -513.000000)">
+            <g id="编组-2" transform="translate(28.000000, 514.000000)">
+                <circle id="Oval-5" stroke="url(#linearGradient-1)" stroke-width="0.5" cx="9" cy="9" r="9"></circle>
+                <path d="M13,12 L13,14 L5,14 L5,12 L13,12 Z M13,8.5 L13,10.5 L5,10.5 L5,8.5 L13,8.5 Z M13,5 L13,7 L5,7 L5,5 L13,5 Z" id="Combined-Shape" fill="url(#linearGradient-2)"></path>
+            </g>
+        </g>
+    </g>
+</svg>

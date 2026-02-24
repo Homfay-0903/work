@@ -1,0 +1,409 @@
+.body-assess-model {
+    background-image: url(../../assets/images/report_ground_bg.png);
+    background-size: 100% 62px;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    padding-top: 36px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    height: 320px;
+    .person-img {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-bottom: 2px;
+        margin-top: 10px;
+        background-image: url(../../assets/images/report_moxing_bg.png);
+        background-size: 135px 57px;
+        background-repeat: no-repeat;
+        background-position: center bottom;
+        img {
+            display: block;
+            width: 121px;
+            height: 260px;
+            margin-bottom: 24px;
+        }
+    }
+    .model-failed {
+        .person-failed-img {
+            margin-top: 10px
+        }
+    }
+    .assessing-model-result {
+        display: flex;
+        height: 100%;
+        .no-bs-data {
+            width: 100% !important;
+        }
+        .person-img {
+            padding-left: 0 !important;
+            width: 56%;
+        }
+        .assessting-slide {
+            width: 145px;
+            margin-left: 20px;
+            position: relative;
+            .swipe-wrapper {
+                .swipe-items {
+                    height: 105px;
+                    margin-top: 90px;
+                    background-color: #272944;
+                    opacity: 0.8;
+                    color: #fff;
+                    padding: 0 9.5px;
+                    .title-nav {
+                        font-size: 14px;
+                        height: 32px;
+                        line-height: 32px;
+                    }
+                    .slide-list {
+                        font-size: 11px;
+                        text-align: left;
+                        > p {
+                            display: flex;
+                            justify-content: space-between;
+                            line-height: 1.64;
+                            .error-color {
+                                color: #ff1c1c;
+                            }
+                        }
+                    }
+                }
+                .mint-swipe-indicators {
+                    bottom: 66px;
+                    .mint-swipe-indicator {
+                        width: 4px;
+                        height: 4px;
+                        border-radius: 50%;
+                        background: rgba(225, 225, 225, .2);
+                        opacity: 1;
+                        &.is-active {
+                            background-color: #fff;
+                        }
+                    }
+                }
+            }
+            .button-wrapper {
+                width: 100%;
+                position: absolute;
+                top: 100px;
+                padding: 0 12px;
+                display: flex;
+                justify-content: space-between;
+            }
+        }
+    }
+}
+
+.neck-assess {
+    background-image: url(../../assets/images/report_ground_bg.png);
+    background-size: 100% 62px;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    padding-top: 36px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    height: 320px;
+    .person-img {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-bottom: 2px;
+        margin-top: 10px;
+        img {
+            display: block;
+            width: 96px;
+            height: 259px;
+            margin-bottom: 24px;
+        }
+    }
+}
+.shoulder-assess {
+    background-image: url(../../assets/images/report_ground_bg.png);
+    background-size: 100% 62px;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    padding-top: 36px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    height: 320px;
+    .person-img {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-bottom: 2px;
+        margin-top: 10px;
+        img {
+            display: block;
+            // width: 96px;
+            height: 259px;
+            margin-bottom: 24px;
+        }
+    }
+}
+/*颈部评估数据部分*/
+.neck-assess-data {
+    // min-height: 500px !important;
+    .result-failed-tip {
+        min-height: initial;
+        > div {
+            padding: 37px 0;
+        }
+    }
+    .detail-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .neck-assessment-list {
+            background-color: #10122d;
+            margin-bottom: 24px;
+            color: #fff;
+            text-align: left;
+            padding: 0 10px;
+            > div.data-list {
+                padding: 10px 0;
+                font-size: 12px;
+                .thermal-item {
+                    display: flex;
+                    line-height: 32px;
+                    .name {
+                        width: 28%;
+                        margin-left: 6px;
+                        display: flex;
+                        align-items: center;
+                        img {
+                            margin-left: 6px;
+                            width: 16px;
+                        }
+                    }
+                    .val {
+                        width: 40%;
+                    }
+                    .status {
+                        width: 10%;
+                    }
+                    .status-color {
+                        color: #ff2121;
+                    }
+                    .diff-val {
+                        width: 18%;
+                        text-align: center;
+                    }
+                }
+            }
+            > div.data-problem {
+                padding: 15px 0;
+                font-size: 14px;
+                border-top: 1px solid #2b2d40;
+                p {
+                    line-height: 1.29;
+                    padding-left: 28px;
+                }
+                .name {
+                    background: url(../../assets/images/svg/asse_msg_icon.svg) no-repeat left center;
+                    background-size: 19px 19px;
+                    line-height: 22px;
+                    margin-bottom: 4px;
+                }
+                .title {
+                    font-size: 12px;
+                    font-weight: 400;
+                    color: rgba(255,255,255,1);
+                    line-height: 17px;
+                }
+                .msg {
+                    display: flex;
+                    margin-top: 8px;
+                    margin-bottom: 16px;
+                    padding-left: 28px;
+                    font-weight: 400;
+                    font-size: 12px;
+                    font-weight: 300;
+                    color: rgba(137,143,153,1);
+                    line-height: 18px;
+                }
+                .advice {
+                    margin-top: 8px;
+                    margin-bottom: 16px;
+                    font-size: 12px;
+                    font-weight: 300;
+                    color: rgba(137,143,153,1);
+                    line-height: 18px;
+                }
+                .head {
+                    padding: 0;
+                    width: 36px;
+                }
+                .content {
+                    padding: 0;
+                }
+            }
+        }
+    }
+    .asse-btn-action {
+        text-align: center;
+        padding-top: 30px;
+        padding-bottom: 38px;
+        img {
+            width: 200px;
+            height: 40px;
+        }
+    }
+}
+
+/*体态评估数据部分*/
+.body-assess-data {
+    // min-height: 500px !important;
+    .result-failed-tip {
+        min-height: initial;
+        > div {
+            padding: 37px 0;
+        }
+    }
+    .detail-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .body-assessment-list {
+            background-color: #10122d;
+            margin-bottom: 24px;
+            color: #fff;
+            text-align: left;
+            padding: 0 10px;
+            > div.data-list {
+                padding: 10px 0;
+                font-size: 12px;
+                .thermal-item {
+                    display: flex;
+                    line-height: 32px;
+                    .name {
+                        width: 40%;
+                        margin-left: 6px;
+                        display: flex;
+                        align-items: center;
+                        img {
+                            margin-left: 6px;
+                            width: 16px;
+                        }
+                    }
+                    .val {
+                        width: 40%;
+                        &.leg {
+                            margin-top: -12px;
+                        }
+                    }
+                    .diff {
+                        width: 22%;
+                        &.leg {
+                            margin-top: -12px;
+                        }
+                    }
+                    .upper-span {
+                        width: 34.7%;
+                        i {
+                            font-style: normal;
+                            font-size: 11px;
+                        }
+                    }
+                    .status-color {
+                        color: #ff2121;
+                    }
+                }
+            }
+            > div.data-problem {
+                padding: 15px 0;
+                font-size: 14px;
+                border-top: 1px solid #2b2d40;
+                p {
+                    line-height: 1.29;
+                    padding-left: 28px;
+                }
+                .name {
+                    background: url(../../assets/images/svg/asse_msg_icon.svg) no-repeat left center;
+                    background-size: 19px 19px;
+                    line-height: 22px;
+                }
+            }
+        }
+        .weight-offset-data {
+            width: 100%;
+            background-color: #10122d;
+            margin-bottom: 40px;
+            color: #fff;
+            padding: 0 10px;
+            font-size: 14px;
+            .offset-info {
+                padding: 16px 0;
+                div {
+                    position: relative;
+                    img {
+                        width: 45%;
+                    }
+                    span {
+                        position: absolute;
+                        font-size: 12px;
+                        font-weight: normal;
+                        color: #fff;
+                        line-height: 19px;
+                        &:first-of-type {
+                            top: 28px;
+                            right: 180px;
+                            text-align: right;
+                        }
+                        &:nth-of-type(2) {
+                            top: 28px;
+                            left: 180px;
+                            text-align: left;
+                        }
+                        &:nth-of-type(3) {
+                            bottom: 30px;
+                            right: 180px;
+                            text-align: right;
+                        }
+                        &:nth-of-type(4) {
+                            bottom: 30px;
+                            left: 180px;
+                            text-align: left;
+                        }
+                    }
+                }
+                p {
+                    text-align: left;
+                    line-height: 1.29;
+                    padding-left: 28px;
+                }
+                .name {
+                    background: url(../../assets/images/svg/icon-foot.svg) no-repeat left center;
+                    background-size: 19px 19px;
+                    line-height: 22px;
+                }
+            }
+            .offset-result {
+                padding: 16px 0;
+                border-top: 1px solid #2b2d40;
+                p {
+                    text-align: left;
+                    line-height: 1.29;
+                    padding-left: 28px;
+                }
+                .name {
+                    background: url(../../assets/images/svg/asse_msg_icon.svg) no-repeat left center;
+                    background-size: 19px 19px;
+                    line-height: 22px;
+                }
+            }
+        }
+    }
+    .asse-btn-action {
+        text-align: center;
+        padding-top: 30px;
+        padding-bottom: 38px;
+        img {
+            width: 200px;
+            height: 40px;
+        }
+    }
+}

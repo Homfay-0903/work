@@ -1,0 +1,238 @@
+.body-composition-trend {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    top: 0;
+    left: 0;
+    color: #fff;
+    font-size: 16px;
+    background-image: linear-gradient(to bottom, #262849, #07090f);
+    .header-timer {
+        background-image: linear-gradient(to left, #1179d2 1%, #1ae1c8);
+        box-shadow: 0px 2px 6px 0 rgba(0, 0, 0, 0.2);
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: #fff;
+        font-size: 15px;
+        padding: 0 15px;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 10;
+        .time-icon {
+            width: 18px;
+            height: 18px;
+            margin-top: 4px;
+        }
+    }
+    .trend-defer-container {
+        padding: 55px 15px 40px;
+        text-align: left;
+        > p.no-trend-data {
+            text-align: center;
+            margin-top: 200px;
+            font-size: 14px;
+        }
+        > ul {
+            li {
+                list-style: none;
+                border-radius: 5px;
+                box-shadow: 0px 2px 14px 0 rgba(0, 0, 0, 0.2);
+                margin-bottom: 10px;
+                .top-title {
+                    height: 40px;
+                    line-height: 40px;
+                    box-shadow: 0px 0.5px 0 0 rgba(0, 0, 0, 0.2);
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 0 12px;
+                    border-top-left-radius: 5px;
+                    border-top-right-radius: 5px;
+                    background-color: #282B50;s
+                    span {
+                        &:first-child {
+                            font-size: 14px;
+                            display: flex;
+                            align-items: center;
+                            img {
+                                margin-right: 6px;
+                                margin-top: -2px;
+                            }
+                        }
+                        i {
+                            font-style: normal;
+                        }
+                        // &:last-child {
+                        //     font-size: 11px;
+                        //     position: relative;
+                        //     &:after {
+                        //         position: absolute
+                        //         display: block
+                        //         content: ''
+                        //         height: 1px
+                        //         width: 13px;
+                        //         background-color: #fff;
+                        //         top: 19px;
+                        //         left: -20px;
+                        //     }
+                        // }
+                    }
+                }
+                .bottom-chart {
+                    height: 134px;
+                    background: #191C30;
+                    > div {
+                        > div {
+                            canvas {
+                                // top: -35px !important;
+                                // height: 190px !important;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+// 时间弹出选择
+.composition-trend-popup {
+    width: 100%;
+    background-color: inherit;
+    color: #fff;
+    .top-header {
+        height: 45px;
+        line-height: 45px;
+        text-align: center;
+        font-size: 18px;
+        background-color: #292b55;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+        img {
+            float: right;
+            margin-top: 14px;
+            margin-right: 15px;
+            width: 14px;
+            height: 14px;
+        }
+    }
+    .bottom-content {
+        background-image: linear-gradient(to bottom, #282945, #232541);
+        text-align: left;
+        padding: 0 15px;
+        font-size: 14px;
+        .last-time-list {
+            .mint-checklist {
+                .el-radio:last-child {
+                    .el-radio__input.is-disabled+.el-radio__label{
+                        background-color: inherit;
+                        background-image: linear-gradient(165deg, #00e3c9, #00a4e6),
+                        linear-gradient(to left, #00a4e6, #00e3c9);
+                    }
+                }
+                .el-checkbox:last-child {
+                    .el-checkbox__input.is-disabled+.el-checkbox__label{
+                        background-color: inherit;
+                        background-image: linear-gradient(165deg, #00e3c9, #00a4e6),
+                        linear-gradient(to left, #00a4e6, #00e3c9);
+                    }
+                }
+            }
+        }
+        .time-list {
+            p.title {
+                line-height: 2.5;
+            }
+            .mint-checklist {
+                .el-checkbox,
+                .el-radio {
+                    display: inline-block;
+                    height: 35px;
+                    margin-bottom: 10px;
+                    // border: solid 1px transparent;
+                    // border-image: linear-gradient(to right, #1ae0c8, #117bd2) 0.5 0.5;
+                }
+                .el-checkbox__inner,
+                .el-radio__inner {
+                    display: none;
+                }
+                .el-radio__original,
+                .el-checkbox__original {
+                    display: none;
+                }
+                .el-checkbox+.el-checkbox,
+                .el-radio+.el-radio {
+                    margin-left: 10px;
+                }
+                .el-checkbox:nth-child(4n+1),
+                .el-radio:nth-child(4n+1) {
+                    margin-left: 0;
+                }
+                .el-checkbox__label,
+                .el-radio__label {
+                    display: inline-block;
+                    min-width: 77px;
+                    height: 35px;
+                    line-height: 35px;
+                    text-align: center;
+                    border: solid 1px #00c3d9;
+                    border-radius: 2px;
+                    // border: solid 1px transparent;
+                    // border-style: solid;
+                    // border-width: 1px;
+                    // border-image: linear-gradient(to right, #1ae0c8, #117bd2) 0.5 0.5;
+                    font-size: 14px;
+                }
+                .el-checkbox.active .el-checkbox__label,
+                .el-radio.active .el-radio__label {
+                    height: 35px;
+                    background-color: inherit;
+                    background-image: linear-gradient(165deg, #00e3c9, #00a4e6),
+                    linear-gradient(to left, #00a4e6, #00e3c9);
+                }
+            }
+        }
+        p.msg-tip {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            img {
+                width: 14px;
+                height: 14px;
+                margin-right: 6px;
+            }
+            font-size: 12px;
+        }
+        p.btn-action {
+            text-align: center;
+            padding-top: 10px;
+            padding-bottom: 25px;
+            span {
+                display: inline-block;
+                width: 140px;
+                height: 40px;
+                line-height: 40px;
+                text-align: center;
+                font-size: 16px;
+                color: #ababb6;
+                border: solid 1px #00c3d9;
+                border-radius: 6px;
+                // border-width: 1px;
+                // border-style: solid;
+                // border-color: transparent;
+                // border-image: linear-gradient(to right, #10586a, #134c73) 0.5 0.5;
+            }
+        }
+        p.btn-action-select {
+            span {
+                border: solid 1px #00c3d9;
+                border-radius: 6px;
+                // border: solid 1px transparent;
+                // border-image: linear-gradient(to right, #1ae0c8, #117bd2) 0.5 0.5;
+            }
+        }
+    }
+}

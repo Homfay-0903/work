@@ -1,0 +1,131 @@
+.mint-popup-left {
+    width: 70%;
+    height: 100%;
+}
+
+// 身高取消按钮
+.cancel-btn-height {
+    border: 1px solid #0eb3ce !important;
+}
+
+.popup-message-tip-box {
+    width: 275px;
+    padding: 24px 0;
+    background-color: #fff;
+    border-radius: 6px;
+    p.title {
+        padding-bottom: 8px;
+        font-size: 16px;
+    }
+}
+.popup-message-feedback-box {
+    color: #222;
+    p.title {
+        font-size: 18px;
+        font-weight: 500;
+    }
+}
+
+// 图片上传
+.upload-side-sheet {
+    width: 94.67%;
+    bottom: 25px;
+    background: none;
+    .mint-actionsheet-list {
+        .mint-actionsheet-listitem {
+            font-size: 17px;
+            color: #222;
+            &:first-child {
+                font-size: 14px;
+                border-top-left-radius: 6px;
+                border-top-right-radius: 6px;
+            }
+            &:last-child {
+                border-bottom-left-radius: 6px;
+                border-bottom-right-radius: 6px;
+            }
+        }
+    }
+    .mint-actionsheet-button {
+        border-radius: 6px;
+        font-size: 17px;
+        color: #222;
+    }
+}
+
+/*ios input兼容*/
+*:not(input, textarea) {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+}
+
+[contenteditable = "true"], input, textarea {
+    -webkit-user-select: auto!important;
+    -khtml-user-select: auto!important;
+    -moz-user-select: auto!important;
+    -ms-user-select: auto!important;
+    -o-user-select: auto!important;
+    user-select: auto!important;
+}
+
+/* 滚动回弹效果 */
+body {
+    -webkit-overflow-scrolling: touch;
+    over-flow: auto;
+    overflow-scrolling: touch;
+}
+
+/* iphone及ipad下输入框默认内阴影 */
+input, textarea {
+    -webkit-appearance:none;
+    border: 0;
+}
+
+/*消除 IE10 里面的那个叉号 */
+input:-ms-clear{display:none;}
+
+/*禁用长按页面时的弹出菜单(iOS下有效) ,img和a标签都要加*/
+// img, a {
+//     -webkit-touch-callout: none;
+// }
+
+/*去掉点击链接和文本框对象时默认的灰色半透明覆盖层(iOS)或者虚框(Android)*/
+a, button, input, textarea {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+
+/* 生成模型加载动态 */
+.model-generating {
+    .body-model {
+        .body-box {
+            .model-loader {
+                position: absolute;
+                left: 50%;
+                margin-left: -25px;
+            }
+        }
+    }
+}
+
+.loading-box {
+    text-align: center;
+    display: inline-block;
+    min-height: 200px;
+    padding-top: 68px;
+}
+
+.clearfix {
+    *zoom: 1;
+    &:after {
+        content: '';
+        display: block;
+        clear: both;
+        height: 0;
+    }
+}
+
+// 判断浏览器版本 （去掉模型底部网格）
+.no-container-background {
+    background-image: none !important;
+}

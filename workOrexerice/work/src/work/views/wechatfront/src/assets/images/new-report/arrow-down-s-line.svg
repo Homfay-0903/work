@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="10px" height="5.87926236px" viewBox="0 0 10 5.87926236" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>arrow-down-s-line</title>
+    <defs>
+        <linearGradient x1="-1.11022302e-14%" y1="50%" x2="98.4933036%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#00E3C9" offset="0%"></stop>
+            <stop stop-color="#009FE8" offset="100%"></stop>
+        </linearGradient>
+        <polygon id="path-2" points="6.81856964 8 10.9396312 12.16535 10.0603688 13 5.06036882 8 10.0603688 3 10.9393073 3.83465004"></polygon>
+    </defs>
+    <g id="详情页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="体围" transform="translate(-128, -657.0604)">
+            <g id="编组-3" transform="translate(52, 651)">
+                <g id="arrow-down-s-line" transform="translate(73, 1)">
+                    <rect id="矩形" x="0" y="0" width="16" height="16"></rect>
+                    <g fill-rule="nonzero" transform="translate(8, 8) rotate(-90) translate(-8, -8)">
+                        <use fill="#8AA3BE" xlink:href="#path-2"></use>
+                        <use fill="url(#linearGradient-1)" xlink:href="#path-2"></use>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

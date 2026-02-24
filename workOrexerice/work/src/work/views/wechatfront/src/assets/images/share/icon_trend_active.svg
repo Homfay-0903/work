@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="23px" height="20px" viewBox="0 0 23 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 55.2 (78181) - https://sketchapp.com -->
+    <title>Trend change-s</title>
+    <desc>Created with Sketch.</desc>
+    <g id="分享" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="趋势变化-分享选择" transform="translate(-294.000000, -590.000000)" fill-rule="nonzero" stroke="#FFFFFF" stroke-width="0.857142857">
+            <g id="趋势变化" transform="translate(250.000000, 573.000000)">
+                <g id="Trend-change-s" transform="translate(55.500000, 27.000000) scale(-1, 1) translate(-55.500000, -27.000000) translate(45.000000, 18.000000)">
+                    <path d="M1.16666667,16.875 C5.05555556,11.625 7,9 7,9 C11.6666667,9 14,9 14,9 L19.8333333,1.125" id="路径-2"></path>
+                    <ellipse id="椭圆形" fill="#16182C" cx="1.16666667" cy="16.875" rx="1.16666667" ry="1.125"></ellipse>
+                    <ellipse id="椭圆形备份" fill="#16182C" cx="7" cy="9" rx="1.16666667" ry="1.125"></ellipse>
+                    <ellipse id="椭圆形备份-2" fill="#16182C" cx="14" cy="9" rx="1.16666667" ry="1.125"></ellipse>
+                    <ellipse id="椭圆形备份-3" fill="#16182C" cx="19.8333333" cy="1.125" rx="1.16666667" ry="1.125"></ellipse>
+                    <polyline id="路径-3" transform="translate(15.166667, 13.500000) scale(-1, 1) translate(-15.166667, -13.500000) " points="9.33333333 9 9.33333333 18 21 18"></polyline>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

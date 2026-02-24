@@ -1,0 +1,342 @@
+.body-prediction {
+    background-image: url(../../assets/images/report_ground_bg.png);
+    background-size: 100% 62px;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    padding-top: 36px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    height: 320px;
+    .person-img {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2px;
+        // background-image: url(../../assets/images/report_moxing_bg.png);
+        background-size: 135px 57px;
+        width: 350px;
+        background-repeat: no-repeat;
+        background-position: center bottom;
+        margin-top: 12px;
+        text-align: center;
+        img {
+            display: block;
+            width: 121px;
+            height: 260px;
+            margin-bottom: 24px;
+        }
+        .prediction-text {
+            position: absolute;
+            color: #fff;
+            font-size: 12px;
+            width: 100%;
+            bottom: 0px;
+            left: 0;
+            span {
+                width: 30%;
+                display: inline-block;
+            }
+        }
+    }
+    .right-time-btn {
+        position: absolute;
+        bottom: 20px;
+        font-size: 10px;
+        color: #fff;
+        width: 100px;
+        right: 12px;
+        text-align: left;
+    }
+    /*.left-prediction-edit {
+        width: 73px;
+        height: 202px;
+        -background-color: #272944;
+        opacity: 0.8;
+        color: #fff;
+        margin-top: 47px;
+        > p {
+            font-size: 12px;
+            margin-bottom: 20px;
+            padding-top: 15px;
+        }
+        .input-edit {
+            & +.input-edit {
+                margin-top: 14px;
+            }
+            > p {
+                font-size: 11px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-top: -4px;
+                img {
+                    margin-left: 4px;
+                }
+            }
+            .input-edit-item {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                .mint-cell {
+                    background-image: none;
+                    background-color: inherit;
+                    min-height: 15px;
+                }
+                .mint-cell-wrapper {
+                    padding: 0;
+                    background-image: none;
+                    input {
+                        background-color: inherit;
+                        font-size: 18px;
+                        color: #fff;
+                        width: 38px;
+                        text-align: center;
+                    }
+                    .mint-field-clear {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+    .right-time-btn {
+        background-color: #272944;
+        opacity: 0.8;
+        color: #fff;
+        width: 68px;
+        height: 60px;
+        border-radius: 2px;
+        margin-top: 86px;
+        > ul {
+            padding-top: 16px;
+            padding-left: 12px;
+            li {
+                list-style: none;
+                position: relative;
+                color: #fff;
+                font-size: 10px;
+                &:last-child {
+                    margin-right: 0;
+                    margin-top: 10px;
+                    &:after {
+                        background-color: #bdceed;
+                    }
+                }
+                &:before {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    content: '';
+                    display: block;
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                    background-color: #393c4f;
+                }
+                &:after {
+                    position: absolute;
+                    left: 2px;
+                    top: 2px;
+                    content: '';
+                    display: block;
+                    width: 6px;
+                    height: 6px;
+                    border-radius: 50%;
+                    background-color: #0ffd9f;
+                }
+            }
+        }
+    }*/
+}
+
+/*预测趋势charts图例*/
+.prediction-trend {
+    position: inherit;
+    background-image: none;
+    // padding-bottom: 100px;
+    // min-height: 546px;
+    .trend-defer-container {
+        padding-top: 0;
+        .header-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            line-height: 40px;
+            height: 40px;
+            padding: 0 15px;
+            background-image: linear-gradient(180deg,#13142e,#0f122b);
+            border-bottom: 1px solid #2b2d40;
+            p:first-child {
+                background: url(../../assets/images/pred_bodyType_icon.png) no-repeat left center;
+                background-size: 14px 14px;
+                padding-left: 22px;
+                font-size: 12px;
+            }
+            p:last-child {
+                font-size: 11px;
+            }
+        }
+        > ul {
+            background-image: linear-gradient(180deg,#13142e,#0f122b);
+            li {
+                margin-bottom: 0;
+                box-shadow: none;
+                .top-title {
+                    background-image: none !important;
+                    box-shadow: none!important;
+                    background-color: inherit !important;
+                    span:last-child {
+                        width: 46px;
+                        height: 20px;
+                        line-height: 20px;
+                        text-align: center;
+                        border-radius: 50px;
+                        background: #3450bb;
+                        display: block;
+                        font-size: 12px;
+                        &:after {
+                            display: none;
+                        }
+                    }
+                }
+                &:nth-child(1) {
+                    .top-title {
+                        span:first-child {
+                            background: url(../../assets/images/svg/WT.svg) no-repeat left 9px;
+                            padding-left: 26px;
+                        }
+                    }
+                }
+                &:nth-child(2) {
+                    .top-title {
+                        span:first-child {
+                            background: url(../../assets/images/svg/BFM.svg) no-repeat left 9px;
+                            padding-left: 26px;
+                        }
+                    }
+                }
+                &:nth-child(3) {
+                    .top-title {
+                        span:first-child {
+                            background: url(../../assets/images/svg/LM.svg) no-repeat left 9px;
+                            padding-left: 26px;
+                        }
+                    }
+                }
+                .bottom-chart {
+                    > div {
+                        width: 320px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/*预测设置弹出框*/
+.body-prediction-popup {
+    background: #000;
+    color: #fff;
+    padding: 0 15px;
+    width: 100%;
+    .top-header {
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 16px;
+        border-bottom: 1px solid #1a171a;
+    }
+    .bottom-content {
+        > ul {
+            li {
+                list-style: none;
+                border-radius: 5px;
+                box-shadow: 0px 2px 14px 0 rgba(0, 0, 0, 0.2);
+                margin-bottom: 14px;
+                .top-title {
+                    height: 40px;
+                    line-height: 40px;
+                    box-shadow: 0px 0.5px 0 0 rgba(0, 0, 0, 0.2);
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    span {
+                        &:first-child {
+                            font-size: 14px;
+                        }
+                        &:last-child {
+                            font-size: 11px;
+                            position: relative;
+                            &:after {
+                                position: absolute;
+                                display: block;
+                                content: '';
+                                height: 1px;
+                                width: 13px;
+                                background-color: #fff;
+                                top: 19px;
+                                left: -20px;
+                            }
+                        }
+                    }
+                }
+                .slide-range {
+                    ul.scale-range {
+                        margin-top: -12px;
+                        padding-left: 10px;
+                        padding-right: 20px;
+                        *zoom: 1;
+                        &:after {
+                            content: '';
+                            display: block;
+                            clear: both;
+                            height: 0;
+                        }
+                        li {
+                            list-style: none;
+                            float: left;
+                            width: 1px;
+                            height: 6px;
+                            background-color: #363432;
+                            margin-right: 4.5px;
+                            &:last-child {
+                                margin-right: 0;
+                            }
+                            &:nth-child(5n-4) {
+                                height: 8px;
+                            }
+                        }
+                    }
+                    .mt-range {
+                        > div:nth-child(1),
+                        > div:nth-child(3) {
+                            margin-top: 17px;
+                        }
+                        .mt-range-content {
+                            margin-right: 15px;
+                        }
+                    }
+                    .mt-range-runway {
+                        border-top-width: 3px !important;
+                        border-top-color: #524f4e;
+                        border-radius: 1.5px;
+                    }
+                    .mt-range-progress {
+                        height: 3px !important;
+                        background-color: #00c8d7;
+                        border-radius: 1.5px;
+                    }
+                    .mt-range-thumb {
+                        width: 16px;
+                        height: 20px;
+                        border-radius: 4px;
+                        top: 5px;
+                        background: url(../../assets/images/pred_slider_bat.png) no-repeat;
+                        background-position: center;
+                    }
+                }
+            }
+        }
+    }
+}
