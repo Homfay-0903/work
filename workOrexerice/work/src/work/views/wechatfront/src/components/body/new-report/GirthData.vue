@@ -319,7 +319,7 @@ export default {
                     border-radius: 2px; // 轻微圆角
                 }
                 .bg-gap {
-                    flex: 0 0 3px; // 关键：控制断点间隙大小
+                    flex: 0 0 2px; // 关键：控制断点间隙大小
                     background-color: #262543; // 间隙
                     z-index: 2;
                 }
@@ -350,8 +350,8 @@ export default {
 
             // 指示圆圈
             .indicator-dot {
-                width: 6px; // 稍微加大
-                height: 6px;
+                width: 12px; // 稍微加大
+                height: 12px;
                 background: #fff;
                 border: 3px solid; // 加粗边框
                 border-radius: 50%;
@@ -359,7 +359,7 @@ export default {
                 top: 50%;
                 transform: translate(-50%, -50%);
                 z-index: 2;
-                box-shadow: 0 0 2px rgba(0, 0, 0, 0.1); // 增加一点立体感
+                //box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
 
                 &.red {
                     border-color: #dc3545;

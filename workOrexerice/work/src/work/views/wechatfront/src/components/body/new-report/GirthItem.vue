@@ -48,7 +48,9 @@
         </template>
         <!-- 数据对比 -->
         <div class="girth-box">
-            <girth-data v-if="roundStatus" :isRoundness="roundness"></girth-data>
+            <div class="girth-data">
+                <girth-data v-if="roundStatus" :isRoundness="roundness"></girth-data>
+            </div>
             <div v-if="isVAPro7 && !roundness[0].lastWidth > 0 && roundness[0].width > 0 && roundness[1].lastWidth > 0" class="girth-tip">由于对比当次的围度设置为9项，未设置的围度显示"--"</div>
         </div>
     </div>
@@ -69,10 +71,10 @@ export default {
         MeasureModel,
         VersionTip,
         DateSelect,
-        GirthData,
+        GirthData
     },
     props: {
-        isCreateTime: String,
+        isCreateTime: String
     },
     data() {
         return {
@@ -84,7 +86,7 @@ export default {
                     key: 'neckGirth',
                     girth: {
                         delta: 0,
-                        curveName: 'neck_girth',
+                        curveName: 'neck_girth'
                     },
                     beyondPeople: 0,
                     beyondPeopleRatio: 0,
@@ -101,7 +103,7 @@ export default {
                     key: 'leftUpperArmGirth',
                     girth: {
                         delta: 1,
-                        curveName: 'left_upper_arm_girth',
+                        curveName: 'left_upper_arm_girth'
                     },
                     beyondPeople: 0,
                     beyondPeopleRatio: 0,
@@ -118,7 +120,7 @@ export default {
                     key: 'rightUpperArmGirth',
                     girth: {
                         delta: 2,
-                        curveName: 'right_upper_arm_girth',
+                        curveName: 'right_upper_arm_girth'
                     },
                     beyondPeople: 0,
                     beyondPeopleRatio: 0,
@@ -135,7 +137,7 @@ export default {
                     key: 'bustGirth',
                     girth: {
                         delta: 3,
-                        curveName: 'bust_girth',
+                        curveName: 'bust_girth'
                     },
                     beyondPeople: 0,
                     beyondPeopleRatio: 0,
@@ -152,7 +154,7 @@ export default {
                     key: 'waistGirth',
                     girth: {
                         delta: 4,
-                        curveName: 'waist_girth',
+                        curveName: 'waist_girth'
                     },
                     beyondPeople: 0,
                     beyondPeopleRatio: 0,
@@ -169,7 +171,7 @@ export default {
                     key: 'midWaistGirth',
                     girth: {
                         delta: 5,
-                        curveName: 'mid_waist_girth',
+                        curveName: 'mid_waist_girth'
                     },
                     beyondPeople: 0,
                     beyondPeopleRatio: 0,
@@ -186,7 +188,7 @@ export default {
                     key: 'lowWaistGirth',
                     girth: {
                         delta: 13,
-                        curveName: 'low_waist_girth',
+                        curveName: 'low_waist_girth'
                     },
                     beyondPeople: 0,
                     beyondPeopleRatio: 0,
@@ -203,7 +205,7 @@ export default {
                     key: 'hipGirth',
                     girth: {
                         delta: 6,
-                        curveName: 'hip_girth',
+                        curveName: 'hip_girth'
                     },
                     beyondPeople: 0,
                     beyondPeopleRatio: 0,
@@ -220,7 +222,7 @@ export default {
                     key: 'leftThighGirth',
                     girth: {
                         delta: 7,
-                        curveName: 'left_thigh_girth',
+                        curveName: 'left_thigh_girth'
                     },
                     beyondPeople: 0,
                     beyondPeopleRatio: 0,
@@ -237,7 +239,7 @@ export default {
                     key: 'leftMinThighGirth',
                     girth: {
                         delta: 8,
-                        curveName: 'left_min_thigh_girth',
+                        curveName: 'left_min_thigh_girth'
                     },
                     beyondPeople: 0,
                     beyondPeopleRatio: 0,
@@ -254,7 +256,7 @@ export default {
                     key: 'rightThighGirth',
                     girth: {
                         delta: 9,
-                        curveName: 'right_thigh_girth',
+                        curveName: 'right_thigh_girth'
                     },
                     beyondPeople: 0,
                     beyondPeopleRatio: 0,
@@ -271,7 +273,7 @@ export default {
                     key: 'rightMinThighGirth',
                     girth: {
                         delta: 10,
-                        curveName: 'right_min_thigh_girth',
+                        curveName: 'right_min_thigh_girth'
                     },
                     beyondPeople: 0,
                     beyondPeopleRatio: 0,
@@ -288,7 +290,7 @@ export default {
                     key: 'leftCalfGirth',
                     girth: {
                         delta: 11,
-                        curveName: 'left_calf_girth',
+                        curveName: 'left_calf_girth'
                     },
                     beyondPeople: 0,
                     beyondPeopleRatio: 0,
@@ -305,7 +307,7 @@ export default {
                     key: 'rightCalfGirth',
                     girth: {
                         delta: 12,
-                        curveName: 'right_calf_girth',
+                        curveName: 'right_calf_girth'
                     },
                     beyondPeople: 0,
                     beyondPeopleRatio: 0,
@@ -316,7 +318,7 @@ export default {
                     },
                     statusColor: 'blue',
                     percentage: 50
-                },
+                }
             ],
             slideIndex: 0,
             createTime: '.',
@@ -332,7 +334,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['historyScanId', 'historyData']),
+        ...mapState(['historyScanId', 'historyData'])
     },
     created() {
         if (this.historyScanId) {
@@ -343,7 +345,7 @@ export default {
     },
     mounted() {
         window.sessionStorage.removeItem('girthShowNumber')
-         if (!this.historyScanId) {
+        if (!this.historyScanId) {
             // this.onGirthContrasInfo()
         }
         // if (this.historyScanId) {
@@ -371,10 +373,10 @@ export default {
                 .query({
                     query: findUserInfoByScanId,
                     variables: {
-                        scanId: this.scanId,
-                    },
+                        scanId: this.scanId
+                    }
                 })
-                .then((res) => {
+                .then(res => {
                     const data = res.data.findUserInfoByScanId
                     if (data && data.code === 200) {
                         this.girthshownum = data.data.girthShowNumber
@@ -389,15 +391,15 @@ export default {
                 .query({
                     query: bmGirthInfo,
                     variables: {
-                        scanId: this.scanId,
+                        scanId: this.scanId
                     },
-                    fetchPolicy: 'network-only',
+                    fetchPolicy: 'network-only'
                 })
-                .then((res) => {
+                .then(res => {
                     const data = res.data.bmGirthInfo
                     if (data && data.code === 200) {
                         this.$lodash.each(this.roundness, () => {
-                            this.roundness.forEach((element) => {
+                            this.roundness.forEach(element => {
                                 element.width = data.data[element.key]
                             })
                         })
@@ -425,23 +427,23 @@ export default {
                     variables: {
                         memberId: this.modelInfo.memberId,
                         scanId: this.scanId,
-                        tcScanId: tcScanId,
+                        tcScanId: tcScanId
                     },
-                    fetchPolicy: 'network-only',
+                    fetchPolicy: 'network-only'
                 })
-                .then((res) => {
+                .then(res => {
                     this.dispalyModel = true
                     const data = res.data.bmGirthContrasInfo.data.contrastBmGirth
                     this.historyDate = []
                     if (data) {
                         this.$lodash.each(this.roundness, () => {
-                            this.roundness.forEach((element) => {
+                            this.roundness.forEach(element => {
                                 element.lastWidth = data[element.key]
                             })
                         })
                     } else {
                         this.$lodash.each(this.roundness, () => {
-                            this.roundness.forEach((element) => {
+                            this.roundness.forEach(element => {
                                 element.lastWidth = 0
                             })
                         })
@@ -454,18 +456,13 @@ export default {
                             'lowWaistGirth',
                             'midWaistGirth',
                             'leftMinThighGirth',
-                            'rightMinThighGirth',
+                            'rightMinThighGirth'
                         ]
-                        this.roundness = this.roundness.filter((item) => !keysToRemove.includes(item.key))
+                        this.roundness = this.roundness.filter(item => !keysToRemove.includes(item.key))
                     }
                     if (window.localStorage.getItem('healthPackageEnable') === '2') {
-                        const keysToRemove = [
-                            'waistGirth',
-                            'lowWaistGirth',
-                            'midWaistGirth',
-                            'neckGirth'
-                        ]
-                        this.roundness = this.roundness.filter((item) => !keysToRemove.includes(item.key))
+                        const keysToRemove = ['waistGirth', 'lowWaistGirth', 'midWaistGirth', 'neckGirth']
+                        this.roundness = this.roundness.filter(item => !keysToRemove.includes(item.key))
                     }
                 })
         },
@@ -478,11 +475,11 @@ export default {
                         memberId: this.modelInfo.memberId,
                         scanTime: window.localStorage.getItem('createTime')
                             ? JSON.parse(window.localStorage.getItem('createTime'))
-                            : this.modelInfo.createTime,
+                            : this.modelInfo.createTime
                     },
-                    fetchPolicy: 'network-only',
+                    fetchPolicy: 'network-only'
                 })
-                .then((res) => {
+                .then(res => {
                     const data = res.data.findBsScanTrueHistory
                     this.historyDate = []
                     if (data && data.code === 200) {
@@ -515,8 +512,8 @@ export default {
         },
         toDecimal(num, digit) {
             return _toDecimal(num, digit)
-        },
-    },
+        }
+    }
 }
 </script>
 
@@ -543,16 +540,19 @@ export default {
     }
 
     .girth-box {
-        // margin-top: 74px
+        padding-bottom: 10px; /* 为 .girth-box 添加底部内边距 */
+        .girth-data {
+            margin-bottom: 10px; /* 保持 .girth-data 和 .girth-tip 之间的间距 */
+        }
     }
 
     .model-container {
         position: relative;
-        .model-container-box{
+        .model-container-box {
             min-height: 300px;
             position: absolute;
             width: 98%;
-            left: 1%!important;
+            left: 1% !important;
             top: -33px;
             left: 0;
         }
@@ -632,7 +632,7 @@ export default {
                     background: linear-gradient(90deg, #00e3c9 0%, #009fe8 100%);
                     -webkit-background-clip: text;
                     -webkit-text-fill-color: transparent;
-                    padding: 0 0.01px;  /* 防止文本裁剪异常 */
+                    padding: 0 0.01px; /* 防止文本裁剪异常 */
                 }
 
                 .girth-value {
@@ -692,7 +692,7 @@ export default {
         height: 300px;
     }
 }
-.girth-tip{
+.girth-tip {
     position: relative;
     text-align: center;
     font-size: 10px;
@@ -702,7 +702,7 @@ export default {
     height: 30px;
     line-height: 30px;
     &::before {
-        content: " ";
+        content: ' ';
         position: absolute;
         top: 0;
         left: 0;

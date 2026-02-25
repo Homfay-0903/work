@@ -64,6 +64,7 @@
             </div>
             <div class="waist-data-item">
                 <waist-data-item :name="'腰部'" :title="'腰部分数'" :arr="waistroundness" :unit="'分'"></waist-data-item>
+                <waist-data-item :title="'超越人群比例'" :arr="waistarr1" :unit="'%'"></waist-data-item>
                 <waist-data-item :title="'腰围'" :arr="waistarr1" :unit="'cm'"></waist-data-item>
                 <waist-data-item :title="'腰围间体积'" :arr="waistarr2" :unit="'cm³'"></waist-data-item>
                 <waist-data-item :title="'腰臀比'" :arr="waistarr3"></waist-data-item>
@@ -227,6 +228,7 @@ export default {
             waistarr4: [],
             waistarr5: [],
             waistarr6: {},
+            waistarr7: [],
             waistcanvas: [],
             slideIndex: 0,
             slideIndex2: -1,
@@ -359,6 +361,8 @@ export default {
                 this.waistarr3 = [{ 'lastvalue': '', 'value': data.latestBmWaist.waistHipRatio }]
                 this.waistarr4 = [{ title: '背部体积', 'lastvalue': '', 'value': (data.latestBmWaist.backVolume / 1000).toFixed(2) }]
                 this.waistarr5 = [{ title: '臀部', 'lastvalue': '', 'value': data.latestBmWaist.hipGirth }]
+                // 超越人群比例
+                this.waistarr7 = [{ 'lastvalue': '', 'value': 37.3 }]
                 this.waistarr6 = { value: data.latestBmWaist.waistHipRatio, gender: JSON.parse(window.localStorage.getItem('memberInfo')).sex }
                 this.waistcanvas = Array.from({ length: 7 }, (_, index) => ({
                     title: `腰围${index + 1}`,
@@ -390,6 +394,8 @@ export default {
                 this.waistarr3 = [{ 'lastvalue': data.contrastBmWaist.waistHipRatio, 'value': data.latestBmWaist.waistHipRatio }]
                 this.waistarr4 = [{ title: '背部体积', 'lastvalue': (data.contrastBmWaist.backVolume / 1000).toFixed(2), 'value': (data.latestBmWaist.backVolume / 1000).toFixed(2) }]
                 this.waistarr5 = [{ title: '臀部', 'lastvalue': data.contrastBmWaist.hipGirth, 'value': data.latestBmWaist.hipGirth }]
+                // 超越人群比例
+                this.waistarr7 = [{ 'lastvalue': 36.9, 'value': 37.3 }]
                 this.waistarr6 = { value: data.latestBmWaist.waistHipRatio, gender: JSON.parse(window.localStorage.getItem('memberInfo')).sex }
                 this.waistcanvas = this.waistarr1.map(item => ({
                     title: item.title,

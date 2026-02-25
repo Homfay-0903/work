@@ -87,6 +87,7 @@
         </div>
         <div class="waist-data-item">
             <waist-data-item :name="'腰部'" :title="'腰部分数'" :arr="waistroundness" :unit="'分'"></waist-data-item>
+            <waist-data-item :title="'超越人群比例'" :arr="waistarr7" :unit="'%'"></waist-data-item>
             <waist-data-item :title="'腰围'" :arr="waistarr1" :unit="'cm'"></waist-data-item>
             <waist-data-item :title="'腰围间体积'" :arr="waistarr2" :unit="'cm³'"></waist-data-item>
             <waist-data-item :title="'腰臀比'" :arr="waistarr3"></waist-data-item>
@@ -235,6 +236,7 @@ export default {
             waistarr4: [],
             waistarr5: [],
             waistarr6: {},
+            waistarr7: [],
             waistcanvas: [],
             slideIndex: 0,
             slideIndex2: -1,
@@ -437,6 +439,8 @@ export default {
                 ]
                 // 臀部
                 this.waistarr5 = [{ title: '臀部', lastvalue: '', value: latestBmWaist.hipGirth }]
+                // 超越人群比例
+                this.waistarr7 = [{ lastvalue: 36.9, value: 37.3 }]
 
                 this.waistarr6 = { value: latestBmWaist.waistHipRatio, gender: JSON.parse(window.localStorage.getItem('memberInfo')).sex }
 
@@ -517,6 +521,8 @@ export default {
                 ]
                 // 臀部
                 this.waistarr5 = [{ title: '臀部', lastvalue: contrastBmWaist.hipGirth, value: latestBmWaist.hipGirth }]
+                // 超越人群比例
+                this.waistarr7 = [{ lastvalue: 36.9, value: 37.3 }]
 
                 this.waistarr6 = { value: latestBmWaist.waistHipRatio, gender: JSON.parse(window.localStorage.getItem('memberInfo')).sex }
             }
