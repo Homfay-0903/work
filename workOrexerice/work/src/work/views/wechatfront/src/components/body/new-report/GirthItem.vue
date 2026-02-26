@@ -453,7 +453,17 @@ export default {
                                 }
                                 if (Object.prototype.hasOwnProperty.call(parsed, 'over')) item.beyondPeople = parsed.over
                                 if (Object.prototype.hasOwnProperty.call(parsed, 'over_ratio')) item.beyondPeopleRatio = parsed.over_ratio
-                                if (Object.prototype.hasOwnProperty.call(parsed, 'value')) item.percentage = parsed.value
+                                if (Object.prototype.hasOwnProperty.call(parsed, 'value')) {
+                                    item.percentage = parsed.value
+                                    // 根据percentage计算statusColor
+                                    if (item.percentage <= item.rangeValues.low) {
+                                        item.statusColor = 'yellow'
+                                    } else if (item.percentage < item.rangeValues.high) {
+                                        item.statusColor = 'blue'
+                                    } else if (item.percentage >= item.rangeValues.high) {
+                                        item.statusColor = 'red'
+                                    }
+                                }
                             }
                         } catch (e) {
                             // 解析失败则保留默认配置
