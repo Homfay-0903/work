@@ -100,7 +100,7 @@
 </template>
 
 <script>
-import { bmwaistContrasInfo, findBmWaistScanTrueHistory } from '@/assets/js/apolloGql.js'
+import { bmwaistContrasInfo, findBmWaistScanTrueHistory, bmGirthAnalysis } from '@/assets/js/apolloGql.js'
 import isSupportWebgl from '@/assets/js/webgl.js'
 import { _toDecimal } from '@/assets/js/util.js'
 import MeasureModelMld from '@/components/model/new-report/MeasureNewMLD'
@@ -248,7 +248,8 @@ export default {
             tcScanIdCopt: '',
             tcScanIdtu: '',
             isOldUser: false,
-            isDeviceReport: window.sessionStorage.getItem('isDeviceReport')
+            isDeviceReport: window.sessionStorage.getItem('isDeviceReport'),
+            waistAnalysisJson: null
         }
     },
     computed: {
@@ -261,6 +262,7 @@ export default {
             this.scanId = this.modelInfo.scanId
         }
         this.findBmWaistScanTrueHistory()
+        this.getBmGirthAnalysis()
     },
     methods: {
         OnIsDispaly(data) {
@@ -322,6 +324,33 @@ export default {
                         }
                     }
                     this.$store.commit('setwaistDataArray', this.historyDate)
+                })
+        },
+        // 获取腰腹围度分析数据，用于超越人群比例等
+        getBmGirthAnalysis() {
+            this.$apollo
+                .query({
+                    query: bmGirthAnalysis,
+                    variables: {
+                        scanId: this.scanId
+                    },
+                    fetchPolicy: 'network-only'
+                })
+                .then((res) => {
+                    const resp = res.data && res.data.bmGirthAnalysis
+                    // 这里按产品需求使用 mid_waist_analysis 对应的 midWaistAnalysis 字段
+                    if (!resp || resp.code !== 200 || !resp.data || !resp.data.midWaistAnalysis) {
+                        this.waistAnalysisJson = null
+                        return
+                    }
+                    try {
+                        this.waistAnalysisJson = JSON.parse(resp.data.midWaistAnalysis)
+                    } catch (e) {
+                        this.waistAnalysisJson = null
+                    }
+                })
+                .catch(err => {
+                    console.error('getBmGirthAnalysis error', err)
                 })
         },
         slideTop() {
@@ -440,7 +469,8 @@ export default {
                 // 臀部
                 this.waistarr5 = [{ title: '臀部', lastvalue: '', value: latestBmWaist.hipGirth }]
                 // 超越人群比例
-                this.waistarr7 = [{ lastvalue: 36.9, value: 37.3 }]
+                const overRatio = this.waistAnalysisJson && this.waistAnalysisJson.over_ratio
+                this.waistarr7 = [{ lastvalue: '', value: overRatio || 0 }]
 
                 this.waistarr6 = { value: latestBmWaist.waistHipRatio, gender: JSON.parse(window.localStorage.getItem('memberInfo')).sex }
 
@@ -522,7 +552,8 @@ export default {
                 // 臀部
                 this.waistarr5 = [{ title: '臀部', lastvalue: contrastBmWaist.hipGirth, value: latestBmWaist.hipGirth }]
                 // 超越人群比例
-                this.waistarr7 = [{ lastvalue: 36.9, value: 37.3 }]
+                const overRatioOld = this.waistAnalysisJson && this.waistAnalysisJson.over_ratio
+                this.waistarr7 = [{ lastvalue: '', value: overRatioOld || 0 }]
 
                 this.waistarr6 = { value: latestBmWaist.waistHipRatio, gender: JSON.parse(window.localStorage.getItem('memberInfo')).sex }
             }

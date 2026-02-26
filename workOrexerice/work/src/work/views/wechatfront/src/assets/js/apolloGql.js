@@ -1037,6 +1037,35 @@ export const findBmGirthTrend = gql`
     }
 `
 
+// 根据scanId获取围度分析数据（返回各围度项目的 JSON 分析结果）
+export const bmGirthAnalysis = gql`
+    query bmGirthAnalysis($scanId: String) {
+        bmGirthAnalysis(scanId: $scanId) {
+            code
+            message
+            data {
+                scanId
+                bustAnalysis
+                waistAnalysis
+                hipAnalysis
+                leftUpperArmAnalysis
+                rightUpperArmAnalysis
+                leftThighAnalysis
+                rightThighAnalysis
+                leftMidThighAnalysis
+                rightMidThighAnalysis
+                leftMinThighAnalysis
+                rightMinThighAnalysis
+                leftCalfAnalysis
+                rightCalfAnalysis
+                midWaistAnalysis
+                lowWaistAnalysis
+                neckAnalysis
+            }
+        }
+    }
+`
+
 // 获取个性化设置列表
 export const findAllQuotas = gql`
     query findAllQuotas($memberId: Int) {

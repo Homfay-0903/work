@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { bmGirthInfo, findBsScanTrueHistory, bmGirthContrasInfo, findUserInfoByScanId } from '@/assets/js/apolloGql.js'
+import { bmGirthInfo, findBsScanTrueHistory, bmGirthContrasInfo, findUserInfoByScanId, bmGirthAnalysis } from '@/assets/js/apolloGql.js'
 import isSupportWebgl from '@/assets/js/webgl.js'
 import { _toDecimal } from '@/assets/js/util.js'
 import MeasureModel from '@/components/model/new-report/Measure'
@@ -357,6 +357,7 @@ export default {
             this.getfindUserInfoByScanId()
         }
         this.getBmGirthInfo()
+        this.getBmGirthAnalysis()
         this.findBsScanTrueHistory()
     },
     methods: {
@@ -406,6 +407,59 @@ export default {
                         this.roundStatus = true
                         this.dispalyModel = true
                     }
+                })
+        },
+        // 获取围度分析数据（标准范围、超越人群等）
+        getBmGirthAnalysis() {
+            this.$apollo
+                .query({
+                    query: bmGirthAnalysis,
+                    variables: {
+                        scanId: this.scanId
+                    },
+                    fetchPolicy: 'network-only'
+                })
+                .then(res => {
+                    const resp = res.data && res.data.bmGirthAnalysis
+                    if (!resp || resp.code !== 200 || !resp.data) return
+                    const analysis = resp.data
+                    const mapping = {
+                        neckGirth: 'neckAnalysis',
+                        leftUpperArmGirth: 'leftUpperArmAnalysis',
+                        rightUpperArmGirth: 'rightUpperArmAnalysis',
+                        bustGirth: 'bustAnalysis',
+                        waistGirth: 'waistAnalysis',
+                        midWaistGirth: 'midWaistAnalysis',
+                        lowWaistGirth: 'lowWaistAnalysis',
+                        hipGirth: 'hipAnalysis',
+                        leftThighGirth: 'leftThighAnalysis',
+                        rightThighGirth: 'rightThighAnalysis',
+                        leftMidThighGirth: 'leftMidThighAnalysis',
+                        rightMidThighGirth: 'rightMidThighAnalysis',
+                        leftMinThighGirth: 'leftMinThighAnalysis',
+                        rightMinThighGirth: 'rightMinThighAnalysis',
+                        leftCalfGirth: 'leftCalfAnalysis',
+                        rightCalfGirth: 'rightCalfAnalysis'
+                    }
+                    this.roundness.forEach(item => {
+                        const field = mapping[item.key]
+                        if (!field || !analysis[field]) return
+                        try {
+                            const parsed = JSON.parse(analysis[field])
+                            if (parsed && typeof parsed === 'object') {
+                                if (item.rangeValues) {
+                                    if (Object.prototype.hasOwnProperty.call(parsed, 'l')) item.rangeValues.low = parsed.l
+                                    if (Object.prototype.hasOwnProperty.call(parsed, 'h')) item.rangeValues.high = parsed.h
+                                }
+                                if (Object.prototype.hasOwnProperty.call(parsed, 'over')) item.beyondPeople = parsed.over
+                                if (Object.prototype.hasOwnProperty.call(parsed, 'over_ratio')) item.beyondPeopleRatio = parsed.over_ratio
+                                if (Object.prototype.hasOwnProperty.call(parsed, 'value')) item.percentage = parsed.value
+                            }
+                        } catch (e) {
+                            // 解析失败则保留默认配置
+                        }
+                    })
+                    this.roundness = JSON.parse(JSON.stringify(this.roundness))
                 })
         },
         // 获取测量对比的数据
