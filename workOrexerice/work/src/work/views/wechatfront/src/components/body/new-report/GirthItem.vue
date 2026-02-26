@@ -456,11 +456,11 @@ export default {
                                 if (Object.prototype.hasOwnProperty.call(parsed, 'value')) {
                                     item.percentage = parsed.value
                                     // 根据percentage计算statusColor
-                                    if (item.percentage <= item.rangeValues.low) {
+                                    if (item.percentage < 33) {
                                         item.statusColor = 'yellow'
-                                    } else if (item.percentage < item.rangeValues.high) {
+                                    } else if (item.percentage < 66) {
                                         item.statusColor = 'blue'
-                                    } else if (item.percentage >= item.rangeValues.high) {
+                                    } else {
                                         item.statusColor = 'red'
                                     }
                                 }
