@@ -1,0 +1,42 @@
+@font-face {
+    font-family: OPPOSans L;
+    src: local('Helvetica Neue'), local('Helvetica'), local('PingFang SC'), local('Hiragino Sans GB'), local('Microsoft YaHei'), local('SimSun'), local('sans-serif');
+    font-weight: 300;
+}
+@font-face {
+    font-family: OPPOSans M;
+    src: local('Helvetica Neue'), local('Helvetica'), local('PingFang SC'), local('Hiragino Sans GB'), local('Microsoft YaHei'), local('SimSun'), local('sans-serif');
+    font-weight: 400;
+}
+@font-face {
+    font-family: OPPOSans R;
+    src: local('Helvetica Neue'), local('Helvetica'), local('PingFang SC'), local('Hiragino Sans GB'), local('Microsoft YaHei'), local('SimSun'), local('sans-serif');
+    font-weight: 500;
+}
+/* * {
+    font-family: 'OPPOSans M', '微软雅黑', 'noto sans cjk sc', 'ubuntu', 'STXihei';
+} */
+* {
+    font-family: 'Helvetica Neue', 'Helvetica', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'SimSun','sans-serif';
+}
+html,
+body {
+    position: relative;
+    padding: 0;
+    margin: 0;
+}
+body {
+    text-align: center;
+}
+#app {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* width: 949px;
+    margin: 0 auto; */
+    text-align: initial;
+    overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch;
+}
+[v-cloak] {
+    display: none;
+}

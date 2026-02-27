@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20.8px" height="6px" viewBox="0 0 20.8 6" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>绿色</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="解读报告-3" transform="translate(-574.000000, -731.000000)">
+            <g id="编组-5" transform="translate(574.000000, 728.000000)">
+                <g id="绿色" transform="translate(0.000000, 3.000000)">
+                    <ellipse id="椭圆形备份-25" stroke="#FFFFFF" fill="#79BD09" cx="2.97142857" cy="3" rx="2.47142857" ry="2.5"></ellipse>
+                    <ellipse id="椭圆形备份-30" stroke="#FFFFFF" fill="#79BD09" cx="17.8285714" cy="3" rx="2.47142857" ry="2.5"></ellipse>
+                    <line x1="2.97142857" y1="3" x2="17.8285714" y2="3" id="路径-4" stroke="#79BD09" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2,2"></line>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
