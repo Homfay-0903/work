@@ -454,13 +454,24 @@ export default {
                                 if (Object.prototype.hasOwnProperty.call(parsed, 'over')) item.beyondPeople = parsed.over
                                 if (Object.prototype.hasOwnProperty.call(parsed, 'over_ratio')) item.beyondPeopleRatio = parsed.over_ratio
                                 if (Object.prototype.hasOwnProperty.call(parsed, 'value')) {
-                                    item.percentage = parsed.value
-                                    // 根据percentage计算statusColor
-                                    if (item.percentage < 33) {
+                                    const actualValue = parsed.value
+                                    // 计算标准范围的宽度
+                                    const standardRange = item.rangeValues.high - item.rangeValues.low
+                                    // 推断总进度条的范围：左端点 = 标准下限 - 标准范围宽度，右端点 = 标准上限 + 标准范围宽度
+                                    const totalMin = item.rangeValues.low - standardRange
+                                    const totalMax = item.rangeValues.high + standardRange
+                                    const totalRange = totalMax - totalMin
+                                    // 计算实际值在总范围内的位置，确保在0-100之间
+                                    item.percentage = Math.max(0, Math.min(100, ((actualValue - totalMin) / totalRange) * 100))
+                                    // 根据实际值所在的范围段设置颜色
+                                    if (actualValue < item.rangeValues.low) {
+                                        // 第一段：低于标准下限
                                         item.statusColor = 'yellow'
-                                    } else if (item.percentage < 66) {
+                                    } else if (actualValue < item.rangeValues.high) {
+                                        // 第二段：在标准范围内
                                         item.statusColor = 'blue'
                                     } else {
+                                        // 第三段：高于标准上限
                                         item.statusColor = 'red'
                                     }
                                 }
