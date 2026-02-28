@@ -88,7 +88,6 @@
                             <!-- 测量项目 -->
                             <th>测量项目</th>
                             <th>本次测量</th>
-                            <th>上次测量</th>
                             <th class="tpl">与上次对比</th>
                             <th>超越人群</th>
                             <th>超越人群比例</th>
@@ -108,15 +107,6 @@
                                     class="val">{{
                                         girth.val
                                     }}</span>
-                                <span v-else class="val">--</span>
-                            </td>
-                            <td>
-                                <span v-if="girth.last !== '' && unit === 'imperial' && girth.last > 0" class="val">{{
-                                    girth.last
-                                }}</span>
-                                <span v-else-if="girth.last !== '' && unit === 'metric' && girth.last > 0" class="val">{{
-                                    girth.last
-                                }}</span>
                                 <span v-else class="val">--</span>
                             </td>
                             <td>
@@ -1043,12 +1033,25 @@ export default {
                         text-align: left;
                         color: #1f1e1e;
 
-                        &:first-of-type {
+                        &:nth-child(1) {
                             width: 150px;
-                        }
-
-                        &:first-child {
                             padding-left: 31px;
+                        }
+                        &:nth-child(2) {
+                            width: 100px;
+                        }
+                        &:nth-child(3) {
+                            width: 100px;
+                        }
+                        &:nth-child(4) {
+                            width: 100px;
+                        }
+                        &:nth-child(5) {
+                            width: 120px;
+                        }
+                        &:nth-child(6) {
+                            width: 180px;
+                            text-align: center;
                         }
                     }
                 }
@@ -1062,6 +1065,7 @@ export default {
                     td {
                         &:first-child {
                             padding-left: 31px;
+                            text-align: left;
                         }
 
                         text-align: left;
